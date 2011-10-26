@@ -23,42 +23,52 @@ header {
 	border-bottom: 2px solid black;
 	z-index: 20;
 }
-div#search-div {
+div.textbox-container {
 	border-radius: 50px;
 	border: 2px solid #333;
-	background: white url(../images/magnifier.png) no-repeat 10px center;
 	background-size: 1.8em;
-	width: 900px;
-	position: relative;
-	left: 50%;
-	margin-left: -450px;
 	text-align: right;
+}
+div#search-container {
+	position: absolute;
+	background: white url(../images/magnifier.png) no-repeat 10px center;
+	top: 20%;
+	left: 50%;
+	width: 900px;
+	margin-left: -450px;
+}
+div#tag-container {
+	width: 900px;
+	margin: 0 auto;
 	position: absolute;
 	top: 20%;
+	left: 50%;
+	margin-left: -450px;
+	background: white;
 }
-header input:focus {
-	outline: none;
-}
-header input {
+input {
 	border: none;
 	text-align: left;
-	width: 90%;
-	margin-right: 30px;
 	font-size: 30px;
 	padding: 10px;
+	width: 90%;
+	margin-right: 30px;
 }
 header input.search-start {
 	color: #AAA;
 }
+input:focus {
+	outline: none;
+}
 section {
 }
 section#trash {
-	background: green url(../images/trash-empty.png) no-repeat center center;
+	background: #111 url(../images/trash-empty.png) no-repeat center center;
 	width: 150px;
 	position: fixed;
 	left: 0;
 	top: 0;
-	bottom: 150px;
+	bottom: 100px;
 	z-index: 10;
 	border-right: 2px solid black;
 }
@@ -70,8 +80,8 @@ section#tag-div {
 	position: fixed;
 	width: 100%;
 	bottom: 0px;
-	height: 150px;
-	background: blue;
+	height: 100px;
+	background: #333;
 }
 footer {
 	background: red;

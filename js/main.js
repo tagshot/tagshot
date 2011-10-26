@@ -1,5 +1,5 @@
 var uiSettings = {
-	searchBoxText: 'Start searching…'
+	searchBoxText: 'Just start searching…'
 };
 
 $(function () {
