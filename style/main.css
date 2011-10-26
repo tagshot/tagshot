@@ -73,7 +73,7 @@ section#trash {
 	border-right: 2px solid black;
 }
 section#image-view {
-	background: khaki;
+	background: url(../images/white_texture.png);
 	margin-left: 150px;
 }
 section#tag-div {
@@ -93,6 +93,8 @@ footer {
 /***********************************/
 section img {
 	float: left;
-	padding: 15px 15px 30px 15px;
+	margin: 15px 15px 30px 15px;
+	border: 2px solid black;
+	box-shadow: 2px 2px 3px #666;
+	border-radius: 2px;
 }
-
