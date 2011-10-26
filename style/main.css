@@ -1,0 +1,32 @@
+* {
+	padding: 0;
+	margin: 0;
+	font-family: "Ubuntu";
+}
+header {
+	height: 200px;
+	background: #CCC;
+	text-align: center;
+	position: relative;
+	background: url(../images/45degreee_fabric.png);
+	border-bottom: 2px solid black;
+}
+div#search {
+	border-radius: 50px;
+	border: 2px solid #333;
+	background: white;
+	width: 900px;
+	position: relative;
+	left: 50%;
+	bottom: 0;
+	margin-left: -450px;
+	text-align: right;
+}
+header input {
+	border: none;
+	color: #AAA;
+	text-align: left;
+	width: 90%;
+	margin-right: 30px;
+	font-size: 30px;
+}
