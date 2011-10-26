@@ -9,7 +9,7 @@ $(function () {
 	searchBox.focus();
 	setCaretPosition(searchBox, 0);
 
-	$("#search-box").keydown(function() {
+	$("#search-box").keydown(function(event) {
 		var text  = this.value,
 		    input = $(this);
 		if (text === uiSettings.searchBoxText) {

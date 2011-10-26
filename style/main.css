@@ -42,3 +42,16 @@ header input {
 header input.search-start {
 	color: #AAA;
 }
+section {
+	min-height: 500px;
+}
+section#trash {
+	float: left;
+	background: #BBB url(../images/trash-empty.png) no-repeat center center;
+	border-right: 2px solid black;
+	width: 150px;
+}
+section#image-view {
+	background: khaki;
+	margin-left: 152px;
+}
