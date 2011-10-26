@@ -75,3 +75,15 @@ section img {
 	padding: 15px 15px 30px 15px;
 }
 
+.img-container p {
+	text-align: center;
+}
+
+.img-container img
+	:hover, 
+	:active
+	p {
+	display: none;
+}
+
+
