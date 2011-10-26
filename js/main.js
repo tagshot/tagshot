@@ -12,10 +12,10 @@ $(function () {
 	$("#search-box").keydown(function(event) {
 		var text  = this.value,
 		    input = $(this);
-		if (text === uiSettings.searchBoxText) {
+		if (text === uiSettings.searchBoxText && event.keyCode >= 48 && event.keyCode <= 90) {
 			input.removeClass('search-start').val('');
 		}
-	}).keyup(function() {
+	}).keyup(function(event) {
 		var text  = this.value,
 		    input = $(this);
 		if (text === '') {
