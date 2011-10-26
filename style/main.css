@@ -22,7 +22,8 @@ header {
 div#search-div {
 	border-radius: 50px;
 	border: 2px solid #333;
-	background: white;
+	background: white url(../images/magnifier.png) no-repeat 10px center;
+	background-size: 1.8em;
 	width: 900px;
 	position: relative;
 	left: 50%;
