@@ -3,36 +3,30 @@ var uiSettings = {
 };
 
 $(function () {
-	var searchBox = document.getElementById("search-box");
+	var searchBox = document.getElementById('search-box');
 	searchBox.value = uiSettings.searchBoxText;
 
 	searchBox.focus();
 	setCaretPosition(searchBox, 0);
 
 	$("#search-box").keydown(function() {
-		var text = this.value;
-		var input = $(this);
+		var text  = this.value,
+		    input = $(this);
 		if (text === uiSettings.searchBoxText) {
-			input.removeClass("search-start");
-			this.value = '';
+			input.removeClass('search-start').val('');
 		}
 	}).keyup(function() {
-		//alert(this.value);
+		var text  = this.value,
+		    input = $(this);
+		if (text === '') {
+			input.addClass('search-start').val(uiSettings.searchBoxText);
+			setCaretPosition(this, 0);
+		}
 	});
 
 });
 
-function setCaretPosition(ctrl, pos){
-	if(ctrl.setSelectionRange)
-	{
-		ctrl.focus();
-		ctrl.setSelectionRange(pos,pos);
-	}
-	else if (ctrl.createTextRange) {
-		var range = ctrl.createTextRange();
-		range.collapse(true);
-		range.moveEnd('character', pos);
-		range.moveStart('character', pos);
-		range.select();
-	}
+function setCaretPosition(ctrl, pos) {
+	ctrl.focus();
+	ctrl.setSelectionRange(pos,pos);
 }
