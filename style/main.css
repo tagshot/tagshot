@@ -3,6 +3,14 @@
 	margin: 0;
 	font-family: "Ubuntu";
 }
+h1 {
+	text-shadow: 1px 1px 2px #000;
+	text-shadow: -1px -1px 0px #101010, 1px 1px 0px #505050;
+	text-shadow: -1px -1px 0px #202020, 1px 1px 0px #fff;
+	text-shadow: 1px 1px 0px #eee, 2px 2px 0px #707070;
+	text-transform: uppercase;
+	font-size: 3.2em;
+}
 header {
 	height: 200px;
 	background: #CCC;
@@ -11,7 +19,7 @@ header {
 	background: url(../images/45degreee_fabric.png);
 	border-bottom: 2px solid black;
 }
-div#search {
+div#search-div {
 	border-radius: 50px;
 	border: 2px solid #333;
 	background: white;
@@ -24,9 +32,12 @@ div#search {
 }
 header input {
 	border: none;
-	color: #AAA;
 	text-align: left;
 	width: 90%;
 	margin-right: 30px;
 	font-size: 30px;
+	padding: 10px;
+}
+header input.search-start {
+	color: #AAA;
 }
