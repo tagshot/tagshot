@@ -1,7 +1,10 @@
 * {
 	padding: 0;
 	margin: 0;
-	font-family: "Ubuntu";
+	font-family: "Ubuntu", sans-serif;
+}
+body {
+	background: #BBB;
 }
 h1 {
 	text-shadow: 1px 1px 2px #000;
@@ -31,6 +34,9 @@ div#search-div {
 	margin-left: -450px;
 	text-align: right;
 }
+header input:focus {
+	outline: none;
+}
 header input {
 	border: none;
 	text-align: left;
@@ -47,22 +53,23 @@ section {
 }
 section#trash {
 	float: left;
-	background: #BBB url(../images/trash-empty.png) no-repeat center center;
-	border-right: 2px solid black;
+	background: green url(../images/trash-empty.png) no-repeat center center;
 	width: 150px;
+	position: fixed;
 }
 section#image-view {
 	background: khaki;
-	margin-left: 152px;
+	margin-left: 150px;
+	border-left: 2px solid black;
+}
+footer {
+	background: red;
 }
 
 
 /***********************************/
 /* Bilder */
 /***********************************/
-section {
-	margin: 0px 50px;
-}
 section img {
 	float: left;
 	padding: 15px 15px 30px 15px;
