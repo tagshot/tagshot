@@ -23,6 +23,11 @@ header {
 	border-bottom: 2px solid black;
 	z-index: 20;
 }
+header img#loading-image {
+	position: absolute;
+	top: 20%;
+	right: 20px;
+}
 div.textbox-container {
 	border-radius: 50px;
 	border: 2px solid #333;
