@@ -110,6 +110,10 @@ section#image-view button {
 	border: 2px solid black;
 	box-shadow: 2px 2px 3px #666;
 	border-radius: 2px;
+	padding: 0;
+	height: 250px;
+	position: relative;
+	-webkit-user-select: none;
 }
 section#image-view button:hover {
 	box-shadow: 6px 6px 5px #666;
@@ -117,17 +121,22 @@ section#image-view button:hover {
 }
 section#image-view button:focus,
 section#image-view button:active {
-	box-shadow: 0 0 5px 5px red;
-    outline: none;
+	box-shadow: 0 0 5px 5px black;
+	outline: none;
 }
-
-.img-container p {
+section#image-view button div.star-me {
 	text-align: center;
+	font-size: 1.8em;
+	background-color: rgba(0, 0, 0, 0.7);
+	color: white;
+	margin: 0;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	display: none;
 }
 
-.img-container img
-	:hover, 
-	:active
-	p {
-	display: none;
+section#image-view button:hover div.star-me {
+	display: block;
 }
