@@ -5,7 +5,7 @@
 	font-family: 'Delius Swash Caps', cursive;
 }
 body {
-	background: khaki;
+	background: #BBB;
 }
 h1 {
 	text-shadow: 1px 1px 0px #eee, 2px 2px 0px #707070;
@@ -103,10 +103,27 @@ footer {
 /***********************************/
 /* Bilder */
 /***********************************/
-section img {
+section#image-view button {
+	background: none;
 	float: left;
 	margin: 15px 15px 30px 15px;
 	border: 2px solid black;
 	box-shadow: 2px 2px 3px #666;
 	border-radius: 2px;
+}
+section#image-view button:hover,
+section#image-view button:focus,
+section#image-view button:active {
+	box-shadow: 6px 6px 5px #666;
+	outline: none;
+}
+.img-container p {
+	text-align: center;
+}
+
+.img-container img
+	:hover, 
+	:active
+	p {
+	display: none;
 }
