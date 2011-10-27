@@ -111,14 +111,23 @@ section#image-view button {
 	box-shadow: 2px 2px 3px #666;
 	border-radius: 2px;
 }
-section#image-view button:hover {
+section#image-view button:hover:not(.selected) {
 	box-shadow: 6px 6px 5px #666;
 	outline: none;
 }
-section#image-view button:focus,
+section#image-view .selected,
 section#image-view button:active {
 	box-shadow: 0 0 5px 5px red;
     outline: none;
+}
+
+section#image-view button:focus {
+    box-shadow: 0 0 5px 5px orange;
+}
+
+section#image-view img {
+    /*just for now*/
+    height: 190px;
 }
 
 .img-container p {
