@@ -15,3 +15,5 @@ function setCaretPosition(ctrl, pos) {
 	ctrl.focus();
 	ctrl.setSelectionRange(pos,pos);
 }
+
+

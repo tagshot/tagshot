@@ -115,15 +115,20 @@ section#image-view button {
 	position: relative;
 	-webkit-user-select: none;
 }
-section#image-view button:hover {
+section#image-view button:hover:not(.selected) {
 	box-shadow: 6px 6px 5px #666;
 	outline: none;
 }
-section#image-view button:focus,
+section#image-view .selected,
 section#image-view button:active {
 	box-shadow: 0 0 5px 5px black;
 	outline: none;
 }
+
+section#image-view button:focus {
+    box-shadow: 0 0 5px 5px orange;
+}
+
 section#image-view button div.star-me {
 	text-align: center;
 	font-size: 1.8em;
