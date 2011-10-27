@@ -140,3 +140,7 @@ section#image-view button div.star-me {
 section#image-view button:hover div.star-me {
 	display: block;
 }
+
+.star-me a{
+	text-decoration: none;
+}
