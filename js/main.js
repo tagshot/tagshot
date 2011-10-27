@@ -7,6 +7,8 @@ $(function () {
 		text: uiSettings.searchBoxText,
 		cssClassWhenEmpty: 'search-start'
 	});
+
+    $("star-me").star();
 });
 
 function setCaretPosition(ctrl, pos) {
