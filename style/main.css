@@ -51,11 +51,12 @@ div#tag-edit-container {
 }
 div#trash-container {
     width: 60px;
-    margin-top: 3px;
+    margin-top: 5px;
     height: 30px;
     float: right;
     color: white;
-	background: #111 url(../images/trash-empty.png) no-repeat center center;
+	background: transparent url(../images/trash-empty.png) no-repeat center center;
+    background-size: 45px;
 }
 
 input {
