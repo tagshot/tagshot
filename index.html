@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Tagshot</title>
+	<title>Tagshot your photos!</title>
 	<meta charset="utf-8" />
 	<link rel="stylesheet" type="text/css" href="style/main.css">
 	<!--
@@ -11,48 +11,44 @@
 <body>
 	<header>
 		<h1>Tagshot.</h1>
+		<!--
 		<h2>mouse-free photo management</h2>
-		<div id="search-div">
-			<input type="text" value="Start searching..." id="search-box" class='search-start' />
+		-->
+		<div id="search-container" class="textbox-container">
+			<input type="text" id="search-box" class='search-start' />
+			<img src="./images/loading.gif" id="loading-image" />
 		</div>
 	</header>
 	<section id="trash">
 	</section>
 	<section id="image-view">
 		<div class="img-container"> 
-			<img src="./images/img-placeholder.png">
+			<img src="./images/example-pics/photo1.jpg" />
 			<p> &#9733; &#9733; &#9733; &#9734; &#9734; </p>
 		</div>
-		<div class="img-container"> 
-			<img src="./images/img-placeholder.png">
-			<p> &#9733; &#9733; &#9733; &#9734; &#9734; </p>
-		</div>
-		<div class="img-container"> 
-			<img src="./images/img-placeholder.png">
-			<p> &#9733; &#9733; &#9733; &#9734; &#9734; </p>
-		</div>
-		<div class="img-container"> 
-			<img src="./images/img-placeholder.png">
-			<p> &#9733; &#9733; &#9733; &#9734; &#9734; </p>
-		</div>
-		<div class="img-container"> 
-			<img src="./images/img-placeholder.png">
-			<p> &#9733; &#9733; &#9733; &#9734; &#9734; </p>
-		</div>
-		<div class="img-container"> 
-			<img src="./images/img-placeholder.png">
-			<p> &#9733; &#9733; &#9733; &#9734; &#9734; </p>
-		</div>
+		<img src="./images/example-pics/photo2.jpg" />
+		<img src="./images/example-pics/photo3.jpg" />
+		<img src="./images/example-pics/photo4.jpg" />
+		<img src="./images/example-pics/photo5.jpg" />
+		<img src="./images/example-pics/photo6.jpg" />
+		<img src="./images/example-pics/photo7.jpg" />
+		<img src="./images/example-pics/photo8.jpg" />
+		<img src="./images/example-pics/photo9.jpg" />
 		<br style="clear: both;" />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 	</section>
-	<br style="clear: both;" />
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-	border: none;
+	<section id="tag-div">
+		<div id="tag-container" class="textbox-container">
+			<input type="text" value="Tag it!" id="search-box" class='search-start' />
+		</div>
+	</section>
 	<footer>
 		A footer.
 	</footer>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+	<script src="js/jquery.textbox-focus-on-start.js"></script>
 	<script src="js/main.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Delius+Swash+Caps' rel='stylesheet' type='text/css'>
 </body>
 </html>

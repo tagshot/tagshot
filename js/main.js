@@ -1,29 +1,12 @@
 var uiSettings = {
-	searchBoxText: 'Start searching…'
+	searchBoxText: 'Just start searching…'
 };
 
 $(function () {
-	var searchBox = document.getElementById('search-box');
-	searchBox.value = uiSettings.searchBoxText;
-
-	searchBox.focus();
-	setCaretPosition(searchBox, 0);
-
-	$("#search-box").keydown(function(event) {
-		var text  = this.value,
-		    input = $(this);
-		if (text === uiSettings.searchBoxText) {
-			input.removeClass('search-start').val('');
-		}
-	}).keyup(function() {
-		var text  = this.value,
-		    input = $(this);
-		if (text === '') {
-			input.addClass('search-start').val(uiSettings.searchBoxText);
-			setCaretPosition(this, 0);
-		}
+	$("#search-box").textboxFocusOnStart({
+		text: uiSettings.searchBoxText,
+		cssClassWhenEmpty: 'search-start'
 	});
-
 });
 
 function setCaretPosition(ctrl, pos) {

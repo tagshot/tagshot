@@ -2,65 +2,92 @@
 	padding: 0;
 	margin: 0;
 	font-family: "Ubuntu", sans-serif;
+	font-family: 'Delius Swash Caps', cursive;
 }
 body {
 	background: #BBB;
 }
 h1 {
-	text-shadow: 1px 1px 2px #000;
-	text-shadow: -1px -1px 0px #101010, 1px 1px 0px #505050;
-	text-shadow: -1px -1px 0px #202020, 1px 1px 0px #fff;
 	text-shadow: 1px 1px 0px #eee, 2px 2px 0px #707070;
-	text-transform: uppercase;
 	font-size: 3.2em;
+	position: absolute;
+	left: 50px;
+	top: 20%;
+	font-family: 'Delius Swash Caps', cursive;
 }
 header {
-	height: 200px;
+	height: 100px;
 	background: #CCC;
 	text-align: center;
 	position: relative;
 	background: url(../images/45degreee_fabric.png);
 	border-bottom: 2px solid black;
+	z-index: 20;
 }
-div#search-div {
+header img#loading-image {
+	position: absolute;
+	top: 20%;
+	right: 20px;
+}
+div.textbox-container {
 	border-radius: 50px;
 	border: 2px solid #333;
-	background: white url(../images/magnifier.png) no-repeat 10px center;
 	background-size: 1.8em;
-	width: 900px;
-	position: relative;
-	left: 50%;
-	bottom: 0;
-	margin-left: -450px;
 	text-align: right;
 }
-header input:focus {
-	outline: none;
+div#search-container {
+	position: absolute;
+	background: white url(../images/magnifier.png) no-repeat 10px center;
+	top: 20%;
+	left: 50%;
+	width: 900px;
+	margin-left: -450px;
 }
-header input {
+div#tag-container {
+	width: 900px;
+	margin: 0 auto;
+	position: absolute;
+	top: 20%;
+	left: 50%;
+	margin-left: -450px;
+	background: white;
+}
+input {
 	border: none;
 	text-align: left;
-	width: 90%;
-	margin-right: 30px;
 	font-size: 30px;
 	padding: 10px;
+	width: 90%;
+	margin-right: 30px;
 }
 header input.search-start {
 	color: #AAA;
 }
+input:focus {
+	outline: none;
+}
 section {
-	min-height: 500px;
 }
 section#trash {
-	float: left;
-	background: green url(../images/trash-empty.png) no-repeat center center;
+	background: #111 url(../images/trash-empty.png) no-repeat center center;
 	width: 150px;
 	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 100px;
+	z-index: 10;
+	border-right: 2px solid black;
 }
 section#image-view {
-	background: khaki;
+	background: url(../images/white_texture.png);
 	margin-left: 150px;
-	border-left: 2px solid black;
+}
+section#tag-div {
+	position: fixed;
+	width: 100%;
+	bottom: 0px;
+	height: 100px;
+	background: #333;
 }
 footer {
 	background: red;
@@ -72,7 +99,10 @@ footer {
 /***********************************/
 section img {
 	float: left;
-	padding: 15px 15px 30px 15px;
+	margin: 15px 15px 30px 15px;
+	border: 2px solid black;
+	box-shadow: 2px 2px 3px #666;
+	border-radius: 2px;
 }
 
 .img-container p {
@@ -85,5 +115,3 @@ section img {
 	p {
 	display: none;
 }
-
-
