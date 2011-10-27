@@ -8,7 +8,7 @@ $(function () {
 		cssClassWhenEmpty: 'search-start'
 	});
 
-    $("star-me").star();
+    $(".star-me").star();
 });
 
 function setCaretPosition(ctrl, pos) {
