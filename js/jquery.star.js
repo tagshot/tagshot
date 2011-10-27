@@ -1,11 +1,25 @@
 (function($) {
 	$.fn.star = function() {
 		this.each(function() {
-			// TODO
-			// x/y Sterne auslesen
-			// Sterne als Unicode einfügen, Sterne sind Text im Anchor, damit onClick abgefangen werden kann für irgendwelche Dinge
 			var stars = $(this).text().split("/");
-			console.log(stars);
+			var blacks = parseInt(stars[0]);
+			var whites = parseInt(stars[1]) - blacks;
+
+			var blackstar = "<a href='#'>&#9733;</a>";
+			var whitestar = "<a href='#'>&#9734;</a>";
+
+			var buildString = function(star, count) {
+				starString = "";
+				for(var i=0; i<count; i++) {
+					starString = starString + " " + star;
+				};
+				return starString;
+			};
+
+			var blackstars = buildString(blackstar, blacks);
+			var whitestars = buildString(whitestar, whites);
+
+			$(this).html(blackstars+whitestars);
 		})
 	}
 })(jQuery)
