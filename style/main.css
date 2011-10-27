@@ -9,14 +9,14 @@ body {
 }
 h1 {
 	text-shadow: 1px 1px 0px #eee, 2px 2px 0px #707070;
-	font-size: 3.2em;
+	font-size: 1.4em;
 	position: absolute;
 	left: 50px;
 	top: 20%;
 	font-family: 'Delius Swash Caps', cursive;
 }
 header {
-	height: 100px;
+	height: 60px;
 	background: #CCC;
 	text-align: center;
 	position: relative;
@@ -26,7 +26,7 @@ header {
 }
 header img#loading-image {
 	position: absolute;
-	top: 20%;
+	top: 10%;
 	right: 20px;
 }
 div.textbox-container {
@@ -43,19 +43,22 @@ div#search-container {
 	width: 900px;
 	margin-left: -450px;
 }
-div#tag-container {
-	width: 900px;
-	margin: 0 auto;
-	position: absolute;
-	top: 20%;
-	left: 50%;
-	margin-left: -450px;
-	background: white;
+div#tag-edit-container {
+    margin-top: 3px;
+    margin-right:50px;
+    background: white;
 }
+div#trash-container {
+    width: 30px;
+    height: 30px;
+    float: right;
+	background: #111 url(../images/trash-empty.png) no-repeat center center;
+}
+
 input {
 	border: none;
 	text-align: left;
-	font-size: 30px;
+	font-size: 1.1em;
 	padding: 10px;
 	width: 90%;
 	margin-right: 30px;
@@ -68,25 +71,14 @@ input:focus {
 }
 section {
 }
-section#trash {
-	background: #111 url(../images/trash-empty.png) no-repeat center center;
-	width: 150px;
-	position: fixed;
-	left: 0;
-	top: 0;
-	bottom: 100px;
-	z-index: 10;
-	border-right: 2px solid black;
-}
 section#image-view {
 	background: url(../images/white_texture.png);
-	margin-left: 150px;
 }
-section#tag-div {
+section#batch-div {
 	position: fixed;
 	width: 100%;
 	bottom: 0px;
-	height: 100px;
+	height: 40px;
 	background: #333;
 }
 footer {
