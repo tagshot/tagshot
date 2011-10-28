@@ -3,12 +3,22 @@ var uiSettings = {
 };
 
 $(function () {
-	$("#search-box").textboxFocusOnStart({
+	var list = [
+		"JavaScript",
+		"Haskell",
+		"Lisp",
+		"Scheme",
+		"Java"
+	];
+	$("#search-box").tagAutocomplete({
+		autocompleteList: list,
+		inputCssClass: 'textbox'
+	}).textboxFocusOnStart({
 		text: uiSettings.searchBoxText,
 		cssClassWhenEmpty: 'search-start'
 	});
-
-    $(".star-me").star();
+	
+	$(".star-me").star();
 });
 
 function setCaretPosition(ctrl, pos) {

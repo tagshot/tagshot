@@ -2,10 +2,10 @@
 <html>
 <head>
 	<title>Tagshot your photos!</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="style/reset.css">
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="style/reset.css">
 	<link rel="stylesheet" type="text/css" href="style/main.css">
-    <!--
+	<!--
 	<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	-->
 </head>
@@ -16,7 +16,7 @@
 		<h2>mouse-free photo management</h2>
 		-->
 		<div id="search-container" class="textbox-container">
-			<input type="text" id="search-box" class='search-start' /><img src="./images/loading.gif" id="loading-image" />
+			<input type="text" id="search-box" class='textbox search-start' /><img src="./images/loading.gif" id="loading-image" />
 		</div>
 	</header>
 	<section id="image-view">
@@ -63,20 +63,21 @@
 	<section id="batch-div">
 		<div id="trash-container"></div>
 		<div id="tag-edit-container" class="textbox-container">
-			<input type="text" value="Tag it!" id="search-box" class='search-start' />
+			<input type="text" value="Tag it!" id="search-box" class='search-start textbox' />
 		</div>
 	</section>
 	<footer>
 		A footer.
 	</footer>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
-    <script src="js/jquery.textbox-focus-on-start.js"></script>
-    <script src="js/jquery.star.js"></script>
-    <script src="js/underscore.js"></script>
-    <script src="js/json2.js"></script>
-    <script src="js/backbone-min.js"></script>
-    <script src="models/foto.js"></script>
-    <script src="js/main.js"></script>
+	<script src="js/jquery.textbox-focus-on-start.js"></script>
+	<script src="js/jquery.tab-autocomplete.js"></script>
+	<script src="js/jquery.star.js"></script>
+	<script src="js/underscore.js"></script>
+	<script src="js/json2.js"></script>
+	<script src="js/backbone-min.js"></script>
+	<script src="models/foto.js"></script>
+	<script src="js/main.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Delius+Swash+Caps' rel='stylesheet' type='text/css'>
 </body>
 </html>

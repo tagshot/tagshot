@@ -65,5 +65,6 @@
 				setCaretPosition(this, 0);
 			}
 		});
+		return this;
 	};
 }(jQuery));
