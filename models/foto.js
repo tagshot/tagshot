@@ -1,6 +1,27 @@
 $(function(){
-    var foto = Backbone.Model.extend({
+    ErrorHandlingModel = Backbone.Model.extend({
+        initialize: function(attributes, options) {
+            console.log("init");
+            options || (options = {});
+            this.bind("error", this.defaultErrorHandler);
+            this.init && this.init(attributes, options);
+        },
+        defaultErrorHandler: function(model, error) {
+            console.log(error);
+            if (error.status == 401 || error.status == 403) {
+                // trigger event or route to login here.
+            } else {
+                alert("Status code: " + error.status + "\n" + error.statusText);
+            }
+        }
+    });
+
+    var foto = ErrorHandlingModel.extend({
         //methoden der fotoistanz als json
+        initialize: function(options) {
+            console.log("initialisiere Objekt mit der Nummer: "+this.get("id"));
+            ErrorHandlingModel.prototype.initialize.call(this, options);
+        },
         star: function(nr,of){}
     });
 
@@ -12,19 +33,25 @@ $(function(){
     Fotos = new Fotosklasse();
 
     var debug = function(){
-        console.log("geladen");
+        //lesen
         console.log(Fotos.get(42).get("exif").date);
 
         //aendern
         var foto42 = Fotos.get(42);
         var exif = foto42.get("exif");
-        console.log(exif);
         exif.date = "tomorrow";
         foto42.set({"exif":exif});
 
         foto42.save();
+
+        //oder
+        //foto42.save({"exif":exif});
+
+        //ausgeben
+        console.log("JSONified:");
+        console.log(foto42.toJSON());
     }
 
     Fotos.bind("reset", debug, this);
     Fotos.fetch();
-});
+    });
