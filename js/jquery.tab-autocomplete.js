@@ -23,7 +23,7 @@
 		});
 
 		$("<ul />").addClass(settings.inputCssClass).append(this).prependTo(parent);
-		$("<ul class='" + settings.autocompleteCssClass + "' id='" + listId + "'><li>test</li></ul>")
+		$("<ul class='" + settings.autocompleteCssClass + "' id='" + listId + "'><li></li></ul>")
 			.appendTo("body")
 			.css("position", "absolute")
 			.css("top", offset.top + height + 5)

@@ -143,6 +143,7 @@ section#image-view button:hover div.star-me {
 	color: white;
 }
 
-.autocompletion-list {
-	background: red;
+.autocompletion-list li {
+	padding: 10px;
+	background: gray;
 }
