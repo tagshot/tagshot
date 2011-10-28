@@ -26,56 +26,48 @@ header {
 }
 header img#loading-image {
 	position: absolute;
-	top: 10%;
-	right: 5px;
-    width: 25px;
+	top: 50%;
+	right: 15px;
+	width: 26px;
+	margin-top: -13px;
+	visibility: hidden;
 }
 div.textbox-container {
-    border-radius: 50px;
-    border: 2px solid #333;
-    text-align: right;
+	border-radius: 50px;
+	border: 2px solid #333;
 }
 div#search-container {
-    position: absolute;
-    background: white url(../images/magnifier.png) no-repeat 10px center;
-    background-size: 1.1em;
-    top: 20%;
-    left: 180px;
-    width: 700px;
+	position: absolute;
+	background: white url(../images/magnifier.png) no-repeat 10px center;
+	background-size: 1.1em;
+	top: 20%;
+	left: 180px;
+	width: 700px;
 }
 div#tag-edit-container {
-    margin-top: 3px;
-    margin-right: 100px;
-    background: white;
-    padding: 0 22px 0 15px;
+	margin-top: 3px;
+	margin-right: 100px;
+	background: white;
+	padding: 0 22px 0 15px;
 }
 div#trash-container {
-    width: 60px;
-    margin-top: 5px;
-    height: 30px;
-    float: right;
-    color: white;
+	width: 60px;
+	margin-top: 5px;
+	height: 30px;
+	float: right;
+	color: white;
 	background: transparent url(../images/trash-empty.png) no-repeat center center;
-    background-size: 45px;
+	background-size: 45px;
 }
-
-input {
+.textbox {
 	border: none;
 	text-align: left;
 	padding: 4px;
 	margin-right: 30px;
+	margin-left: 20px;
+	font-size: 1.1em;
+	width: 90%;
 }
-
-#search-container input {
-    font-size: 1.1em;
-    width: 90%;
-}
-
-#tag-edit-container input {
-    font-size: 1.1em;
-    width: 100%;
-}
-
 
 header input.search-start {
 	color: #AAA;
@@ -125,7 +117,7 @@ section#image-view button:active {
 }
 
 section#image-view button:focus {
-    box-shadow: 0 0 5px 5px orange;
+	box-shadow: 0 0 5px 5px orange;
 }
 section#image-view img {
 }
@@ -145,7 +137,6 @@ section#image-view button div.star-me {
 section#image-view button:hover div.star-me {
 	display: block;
 }
-
 .star-me a{
 	text-decoration: none;
 	color: white;
