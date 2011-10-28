@@ -11,7 +11,8 @@ $(function(){
             if (error.status == 401 || error.status == 403) {
                 // trigger event or route to login here.
             } else {
-                alert("Status code: " + error.status + "\n" + error.statusText);
+                //TODO einkommentieren
+                //alert("Status code: " + error.status + "\n" + error.statusText);
             }
         }
     });
