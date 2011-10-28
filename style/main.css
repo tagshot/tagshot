@@ -67,6 +67,7 @@ div#trash-container {
 	margin-left: 20px;
 	font-size: 1.1em;
 	width: 90%;
+	height: 100%;
 }
 
 header input.search-start {
@@ -140,4 +141,8 @@ section#image-view button:hover div.star-me {
 .star-me a{
 	text-decoration: none;
 	color: white;
+}
+
+.autocompletion-list {
+	background: red;
 }
