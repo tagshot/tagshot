@@ -1,26 +1,62 @@
-/*
- * textboxFocusOnStart: a jquery-plugin
- * Given a <input type='text'>-Textbox, this plugin make the textbox autofocus on start,
- * along with displaying a certain 'Search me'-text as long as nothing is entered.
- */
 (function ($) {
+	var autoCompleteListId = 0;
 	$.fn.tagAutocomplete = function (options) {
 		// standard settings
 		var settings = {
 			autocompleteList: [],
+			autocompleteCssClass: 'autocompletion-list',
 			inputCssClass: 'textbox'
-		};
+		},
+		    that = this,
+		    parent = this.parent(),
+		    offset = this.offset(),
+		    height = this.outerHeight(),
+		    width = this.outerWidth(),
+		    listId = "autocompletion-list" + autoCompleteListId,
+		    lowercase;
+
 		// merge given options into standard-settings
 		$.extend(settings, options);
 
-		var parent = this.parent();
-		$("<ul />").addClass(settings.inputCssClass).append(this).prependTo(parent);
-
-		this.keypress(function (event) {
-			if (event.keyCode === 32) {
-			}
+		lowercase = settings.autocompleteList.map(function (el) {
+			return el.toLowerCase();
 		});
 
+		$("<ul />").addClass(settings.inputCssClass).append(this).prependTo(parent);
+		$("<ul class='" + settings.autocompleteCssClass + "' id='" + listId + "'><li>test</li></ul>")
+			.appendTo("body")
+			.css("position", "absolute")
+			.css("top", offset.top + height + 5)
+			.css("left", offset.left)
+			.css("z-index", "999")
+			.css("width", width + "px");
+
+		this.keydown(function (event) {
+			
+		}).keyup(function (event) {
+			var text = this.value.toLowerCase(),
+			    filteredList;
+			filteredList = lowercase.filter(function (el, index) {
+				var regex = new RegExp("^" + text);
+				return el.search(regex) >= 0;
+			});
+			// if nothing was filtered ..
+			if (filteredList.length === lowercase.length) {
+				// .. do not display autocompletion.
+				$("#" + listId).html("");
+			}
+			else {
+				filteredList = filteredList.map(function (el) {
+					return lowercase.indexOf(el);
+				});
+				$("#" + listId).html(filteredList.reduce(function (prev, current) {
+					return prev + "<li>" + settings.autocompleteList[current] + "</li>";
+				}, ""));
+			}
+			if (event.keyCode === 32) {
+				alert("test");
+			}
+		});
 		return this;
 	};
 }(jQuery));
