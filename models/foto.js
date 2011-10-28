@@ -16,42 +16,47 @@ $(function(){
         }
     });
 
-    var foto = ErrorHandlingModel.extend({
-        //methoden der fotoistanz als json
+    var photo = ErrorHandlingModel.extend({
+        //methoden der photoistanz als json
         initialize: function(options) {
             console.log("initialisiere Objekt mit der Nummer: "+this.get("id"));
             ErrorHandlingModel.prototype.initialize.call(this, options);
         },
+        defaults: function() {
+            return {
+                id: 0
+            };
+        },
         star: function(nr,of){}
     });
 
-    // array von fotos
-    var Fotosklasse = Backbone.Collection.extend({
-        model: foto,
+    // array von photos
+    var Photoclass = Backbone.Collection.extend({
+        model: photo,
         url: "http://localhost:80/fotos.js"
     });
-    Fotos = new Fotosklasse();
+    Photos = new Photoclass();
 
     var debug = function(){
         //lesen
-        console.log(Fotos.get(42).get("exif").date);
+        console.log(Photos.get(42).get("exif").date);
 
         //aendern
-        var foto42 = Fotos.get(42);
-        var exif = foto42.get("exif");
+        var photo42 = Photos.get(42);
+        var exif = photo42.get("exif");
         exif.date = "tomorrow";
-        foto42.set({"exif":exif});
+        photo42.set({"exif":exif});
 
-        foto42.save();
+        photo42.save();
 
         //oder
-        //foto42.save({"exif":exif});
+        //photo42.save({"exif":exif});
 
         //ausgeben
         console.log("JSONified:");
-        console.log(foto42.toJSON());
+        console.log(photo42.toJSON());
     }
 
-    //Fotos.bind("reset", debug, this);
-    Fotos.fetch();
+    //Photos.bind("reset", debug, this);
+    Photos.fetch();
     });
