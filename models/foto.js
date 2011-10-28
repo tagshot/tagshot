@@ -7,7 +7,7 @@ $(function(){
     // array von fotos
     var Fotosklasse = Backbone.Collection.extend({
         model: foto,
-        url: "http://localhost:8888/fotos.json"
+        url: "http://localhost:80/fotos.js"
     });
     Fotos = new Fotosklasse();
 

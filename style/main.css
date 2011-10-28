@@ -107,11 +107,10 @@ section#image-view button {
 	background: none;
 	float: left;
 	margin: 15px 15px 30px 15px;
-	border: 2px solid black;
+	/*border: 2px solid black;*/
 	box-shadow: 2px 2px 3px #666;
 	border-radius: 2px;
 	padding: 0;
-	height: 250px;
 	position: relative;
 	-webkit-user-select: none;
 }
@@ -128,7 +127,8 @@ section#image-view button:active {
 section#image-view button:focus {
     box-shadow: 0 0 5px 5px orange;
 }
-
+section#image-view img {
+}
 section#image-view button div.star-me {
 	text-align: center;
 	font-size: 1.8em;
