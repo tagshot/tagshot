@@ -9,6 +9,7 @@ w = """ trees trial trials triangle triangles trick tricks tries trigger trigger
 def rand_word():
 	return random.choice(words)
 
+# for pretty printing pipe it to python -mjson.tool
 
 if __name__=="__main__":
 	total = int(sys.argv[1])		# total number of tuples
@@ -16,12 +17,19 @@ if __name__=="__main__":
 
 	words = w.split(" ")
 
+	print '{"docs" :['				# for bulk document uploading/modifying
+
 	for i in xrange(total):
 		tags = tuple(map(lambda x: random.choice(words), list(xrange(max_same))))
 
-		print json.dumps({'exif' : {'date' : rand_word(), 'author' : rand_word(), 'model' : rand_word()},\
+		t = json.dumps({'exif' : {'date' : rand_word(), 'author' : rand_word(), 'model' : rand_word()},\
 				'iptc': {'stars': random.randint(0,5), 'tags' : tags},\
 				'url' : "http://" + rand_word(),\
 				'annotations' : [{'note' : rand_word(), 'x':random.randint(0, 10), 'y':random.randint(0, 10)},\
 				{'note' : rand_word(), 'x':random.randint(0, 10), 'y':random.randint(0, 10)}],\
-				'thumb' : rand_word()}) + ","
+				'thumb' : rand_word()}, sort_keys=True)	# sort_keys=True to prevent race conditions
+		if i != total-1:
+			print t + ','	# separate tuples with commata
+		else:
+			print t + ']}'	# close list of tuples and {"docs": []}
+
