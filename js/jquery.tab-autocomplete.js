@@ -35,18 +35,28 @@
 			
 		}).keyup(function (event) {
 			var text = this.value.toLowerCase(),
-			    filteredList = lowercase.filter(function (el, index) {
-			    	var regex = new RegExp("^" + text);
-			    	return el.search(regex) >= 0;
-			    });
-			    $("#" + listId).html(filteredList.reduce(function (prev, current) {
-			    	return prev + "<li>" + current + "</li>";
-			    }, ""));
+			    filteredList;
+			filteredList = lowercase.filter(function (el, index) {
+				var regex = new RegExp("^" + text);
+				return el.search(regex) >= 0;
+			});
+			// if nothing was filtered ..
+			if (filteredList.length === lowercase.length) {
+				// .. do not display autocompletion.
+				$("#" + listId).html("");
+			}
+			else {
+				filteredList = filteredList.map(function (el) {
+					return lowercase.indexOf(el);
+				});
+				$("#" + listId).html(filteredList.reduce(function (prev, current) {
+					return prev + "<li>" + settings.autocompleteList[current] + "</li>";
+				}, ""));
+			}
 			if (event.keyCode === 32) {
 				alert("test");
 			}
 		});
-
 		return this;
 	};
 }(jQuery));
