@@ -1,13 +1,12 @@
 $(function(){
     ErrorHandlingModel = Backbone.Model.extend({
         initialize: function(attributes, options) {
-            console.log("init");
             options || (options = {});
             this.bind("error", this.defaultErrorHandler);
             this.init && this.init(attributes, options);
         },
         defaultErrorHandler: function(model, error) {
-            console.log(error);
+            console.error(error.statusText,error);
             if (error.status == 401 || error.status == 403) {
                 // trigger event or route to login here.
             } else {
@@ -53,6 +52,6 @@ $(function(){
         console.log(foto42.toJSON());
     }
 
-    Fotos.bind("reset", debug, this);
+    //Fotos.bind("reset", debug, this);
     Fotos.fetch();
     });
