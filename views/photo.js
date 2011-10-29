@@ -1,4 +1,6 @@
 App.views.PhotoListView = Backbone.View.extend({
+		tagName:  "ul",
+		className: "image-list-view",
 		initialize: function(options) {
 				var self = this;
 
@@ -15,6 +17,8 @@ App.views.PhotoListView = Backbone.View.extend({
 });
 
 App.views.ArticleView = Backbone.View.extend({
+		tagName:  "li",
+		className: "image-view",
 		initialize : function() {
 				this.model.bind('change', this.render);
 				this.model.bind('destroy', this.remove);
@@ -33,6 +37,7 @@ App.views.ArticleView = Backbone.View.extend({
 			"click img" : "click"
 		},
 		open : function() {
+			// TODO enlarge image
 		},
 		remove: function() {
 			$(this.el).remove();
