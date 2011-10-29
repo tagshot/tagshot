@@ -19,7 +19,8 @@
 			<input type="text" id="search-box" class='textbox search-start' /><img src="./images/loading.gif" id="loading-image" />
 		</div>
 	</header>
-	<section id="image-view">
+    <section id="image-view">
+        <div id="backbone-image-list-anchor">
 		<button type="button"> 
 			<img src="images/example-pics/photo1.jpg" />
 			<div class="star-me">3/5</div>
@@ -55,7 +56,8 @@
 		<button type="button"> 
 			<img src="images/example-pics/photo9.jpg" />
 			<div class="star-me">4/5</div>
-		</button>
+        </button>
+        </div>
 		<br style="clear: both;" />
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
@@ -77,7 +79,8 @@
 	<script src="js/json2.js"></script>
     <script src="js/backbone-min.js"></script>
     <script src="js/mustache.js"></script>
-	<script src="models/foto.js"></script>
+    <script src="controller/foto.js"></script>
+    <script src="models/foto.js"></script>
     <script src="views/foto.js"></script>
     <script src="js/main.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Delius+Swash+Caps' rel='stylesheet' type='text/css'>
