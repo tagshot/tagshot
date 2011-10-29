@@ -111,7 +111,7 @@ section#image-view button:hover:not(.selected) {
 	box-shadow: 6px 6px 5px #666;
 	outline: none;
 }
-section#image-view .selected,
+section#image-view button.selected,
 section#image-view button:active {
 	box-shadow: 0 0 5px 5px red;
 	outline: none;

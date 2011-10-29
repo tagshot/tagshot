@@ -34,7 +34,7 @@
 	"thumb": "images/example-pics/photo1.jpg"
 },
 {
-	"id": 345,
+	"id": 11,
 	"exif": {
 		"date": "today",
 		"author": "",
@@ -78,7 +78,7 @@
 	},
 	"url": "",
 	"thumb": "images/example-pics/photo3.jpg"
-},{ "id": 345,
+},{ "id": 34,
 	"iptc": {
 		"stars": {
 			"nr": 2,

@@ -4,6 +4,7 @@ App.views.PhotoListView = Backbone.View.extend({
 
 		},
 		render: function() {
+				console.log("render whole gallery");
 				var renderedArticles = _.map(this.collection.models, function (article) {
 						return new App.views.ArticleView({model : article}).render().el;
 				})
@@ -15,28 +16,41 @@ App.views.PhotoListView = Backbone.View.extend({
 
 App.views.ArticleView = Backbone.View.extend({
 		initialize : function() {
-				this.model.bind('change:name', this.render);
+				this.model.bind('change', this.render);
 				this.model.bind('destroy', this.remove);
 		},
-		render : function () {
-				$(this.el).html(Mustache.to_html(template, this.model));
+		render: function () {
+				console.log("render");
+				// tmpl im index.html
+				$(this.el).html(Mustache.to_html($('#image_tmpl').html(), this.model));
 				return this;
 		},
+		isSelected: function() {
+        	return this.model.get("selected");
+    	},
+		events: {
+			"dblclick" : "remove",
+			"click img" : "click"
+		},
+		open : function() {
+		},
 		remove: function() {
-				$(this.el).remove();
+			$(this.el).remove();
 		},
-		select: function() {
-				$(this.el).addClass("selected");
+		click: function(e) {
+			// shift -> from..to select
+			if (e.shiftKey) {
+        		alert("shift+click")
+    		} else {
+				this.model.set({"selected": !this.model.get("selected")});
+			}
 		},
-		deselect: function() {
-				$(this.el).removeClass("selected");
-		}
 });
 
+/*
+http://liquidmedia.ca/blog/2011/01/an-intro-to-backbone-js-part-2-controllers-and-views/
 
-var template = '<button type="button"><img src="{{attributes.thumb}}" /><div class="star-me">{{#starHTML}}{{attributes.iptc.stars.nr}}/{{attributes.iptc.stars.of}}{{/starHTML}}</div><div class="tags">{{attributes.iptc.tags}}</div></button>';
-
-/*$(function(){
+   $(function(){
 
 	var view = {
 		title: "Joe",
