@@ -23,7 +23,7 @@ App.models.Photo = ErrorHandlingModel.extend({
     defaults: function() {
         return {
             id: 0,
-            selected: true
+            selected: false
         };
     },
     star: function(nr, of) {
