@@ -11,7 +11,7 @@ $(function () {
 		"Java"
 	];
 	$("#search-box").tagAutocomplete({
-		autocompleteList: list,
+		autocompleteList: proglag,
 		inputCssClass: 'textbox'
 	}).textboxFocusOnStart({
 		text: uiSettings.searchBoxText,
