@@ -19,7 +19,8 @@ $(function () {
 	});
 
 	$("#show-options").click(function() {
-		$("#options-container").slideToggle("slow");
+		$("#options-container").slideToggle("fast");
+		$(this).toggleClass("open");
 	});
 
 	var initial_height = $("#image-view img").height();
