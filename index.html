@@ -2,9 +2,11 @@
 <html>
 <head>
 	<title>Tagshot your photos!</title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/overcast/jquery-ui.css" type="text/css" media="all" />
 	<link rel="stylesheet" type="text/css" href="style/reset.css">
-	<link rel="stylesheet" type="text/css" href="style/main.css">
+    <link rel="stylesheet" type="text/css" href="style/main.css">
+    <link rel="stylesheet" type="text/css" href="style/datepicker.css" media="screen" />
 	<!--
 	<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
     -->
@@ -27,7 +29,11 @@
 		-->
 		<div id="search-container" class="textbox-container">
 			<input type="text" id="search-box" class='textbox search-start' /><img src="./images/loading.gif" id="loading-image" />
-		</div>
+        </div>
+        <div id="options-container">
+            <div id="date-picker"></div>
+            <div id="thumbnail-size-slider"></div>
+        </div>
 	</header>
     <section id="image-view">
         <div id="backbone-image-list-anchor">
@@ -82,10 +88,11 @@
 		A footer.
 	</footer>
 	<script src="proglag.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+    <script src="js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script src="js/datepicker.js"></script>
 	<script src="js/jquery.textbox-focus-on-start.js"></script>
 	<script src="js/jquery.tab-autocomplete.js"></script>
-	<script src="js/jquery.star.js"></script>
 	<script src="js/underscore.js"></script>
 	<script src="js/json2.js"></script>
     <script src="js/backbone-min.js"></script>
