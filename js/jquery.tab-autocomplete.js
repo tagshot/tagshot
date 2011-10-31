@@ -22,13 +22,35 @@
 (function ($) {
 	"use strict";
 	// id counter, to create unique id's when there is more than one <input>-element given.
-	var autoCompleteListId = 0;
+	var autoCompleteListId = 0,
+	// for information about which key belongs to which keyCode,
+	// see http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
+	    keyCodes = {
+		BACKSPACE: 8,
+		TAB: 9,
+		ENTER: 13,
+		SHIFT: 16,
+		CONTROL: 17,
+		ESCAPE: 27,
+		SPACE: 32,
+		LEFT: 37,
+		UP: 38,
+		RIGHT: 39,
+		DOWN: 40,
+		DELETE: 46
+	};
 	$.fn.tagAutocomplete = function (options) {
 		    // standard settings
 		var settings = {
+			// list of possible autocompletions
 			autocompleteList: [],
+			// css class for the autocompletion list
 			autocompleteCssClass: 'autocompletion-list',
-			inputCssClass: 'textbox'
+			// css class for the <input>-element,
+			// will be applied to the surrounding <ul> during the plugin-process (see above for explanation)
+			inputCssClass: 'textbox',
+			// the maximum number of entries to be displayed while autocompletion
+			maxEntries: 10
 		},
 		    // will hold a lowercased-version of settings.autocompleteList
 		    lowercase;
@@ -67,6 +89,7 @@
 			    // build a unique id for the current element
 			    autocompletionListId = 'autocompletion-list-' + autoCompleteListId;
 
+			// exit, if the current element is not a <input type="text" />
 			if (this.tagName.toLowerCase() !== 'input' && $this.attr('type').toLowerCase() !== 'text') {
 				console.error('Trying to use tagAutocomplete-Plugin for a non <input type="text" />-field');
 				return;
@@ -86,12 +109,46 @@
 				.css('z-index', '999')
 				.css('width', width + 'px');
 
+			/*
+			 * Keyboard-monitoring
+			 * This is a rather painful task in javascript.
+			 * There are three possible events:
+			 *  - keydown
+			 *  - keyup
+			 *  - keypress
+			 * Keypress does not reliably works in firefox, so it cannot be used.
+			 * Keydown is released before, the focused element processes to input,
+			 *   so there is now way to get the result of the keystroke (e.g. a text
+			 *   change in midword). The event-object does not hold no useful cross-
+			 *   browser information, so keydown cannot be used either.
+			 * Keyup, on the other hand, is released after processing the input, so 
+			 *   you can access the changed text, but thats the problem, when you don't
+			 *   want it to be processed - e.g. when the user pressed the left-arrow-key
+			 *   and you want a special routine for that without moving the cursor.
+			 *
+			 * So - as the following code needs both the changed text _and_ the possibily
+			 * prevent default behaviour - a workaround is needed:
+			 * The keyc
+			 *
+			 * Another way - which is used by jQuery-UI-autocomplete, - is to set a timeout
+			 * (using window.setTimeout) in the keyDown event with a delay of 300 ms.
+			 * But as we want this plugin to be really fast and reactive, this was no
+			 * choice for us.
+			 */
+
 			// now add keyboard monitoring for <input>-element
-			$this.keyup(function (event) {
+			$this.keydown(function (event) {
+				if (event.keyCode === 37) {
+					alert('left arrow');
+					event.preventDefault();
+				}
+			}).keyup(function (event) {
 				    // text refers to the <input>'s text _after_ the keystroke
 				var text = this.value.toLowerCase(),
 				    // filteredList will hold all those entries which match the current search criteria
 				    filteredList,
+				    // will save whether the autocompletion is displayed or not
+				    autocompletionDisplayed = false,
 				    // only keep those entries which start with the search string
 				    regex = new RegExp('^' + text);
 
@@ -103,27 +160,26 @@
 				}
 
 				// catch some special keystrokes
-				// for information about which key belongs to which keyCode,
-				// see http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
-				if (event.keyCode === 13) {
+				if (event.keyCode === keyCodes.ENTER) {
 					alert('enter');
 				}
-				else if (event.keyCode === 27) {
+				else if (event.keyCode === keyCodes.ESCAPE) {
 					alert('escape');
 				}
-				else if (event.keyCode === 32) {
+				else if (event.keyCode === keyCodes.SPACE) {
 					alert('space');
 				}
-				else if (event.keyCode === 37) {
+				else if (event.keyCode === keyCodes.LEFT) {
 					alert('left arrow');
+					event.preventDefault();
 				}
-				else if (event.keyCode === 38) {
+				else if (event.keyCode === keyCodes.UP) {
 					alert('up arrow');
 				}
-				else if (event.keyCode === 39) {
+				else if (event.keyCode === keyCodes.RIGHT) {
 					alert('right arrow');
 				}
-				else if (event.keyCode === 40) {
+				else if (event.keyCode === keyCodes.DOWN) {
 					alert('down arrow');
 				}
 
@@ -132,6 +188,11 @@
 					// true, when something was found (search returns index of first occurrence)
 					return el.search(regex) >= 0;
 				});
+
+				// limit to settings.maxEntries
+				if (filteredList.length > settings.maxEntries) {
+					filteredList = filteredList.slice(0, settings.maxEntries);
+				}
 
 				// as we want to entries in autocomplete list to be displayed in normal case
 				// (and not lowercased as the entries in filteredList)
