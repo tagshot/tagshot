@@ -18,33 +18,53 @@ $(function () {
 		cssClassWhenEmpty: 'search-start'
 	});
 
-	var initial_height = $("#image-view img").height();
+	$("#show-options").click(function() {
+		$("#options-container").slideToggle("slow");
+	});
 
+	var initial_height = $("#image-view img").height();
+	var steps = 200;
 	function resize() {
-		var value = $("#thumbnail-size-slider").slider("value")/100;
+		var value = $("#thumbnail-size-slider").slider("value")/steps;
 		$("#image-view img").css({height: initial_height*value});
 	}
 	
 	$("#thumbnail-size-slider").slider({
 		orientation: "horizontal",
 		range: "min",
-		min: 50, 
-		max: 300, 
-		value: 100, 
+		min: 0.5*steps, 
+		max: 2*steps, 
+		value: steps, 
 		slide: resize,
 		change: resize
 	});
 
-	$("#date-picker input").DatePicker({
+	function dateRangeChanged(){
+		// TODO filter backbone model
+	}
+
+	$("#date-picker").DatePicker({
 		flat: true,
-		date: ['20011-07-28','20011-07-31'],
-		current: '2011-07-31',
-		calendars: 3,
+		date: [new Date(),'2011-11-13'],
+		current: new Date(),
+		calendars: 5,
 		mode: 'range',
 		starts: 1,
-		onchange: function(){}
+		onchange: dateRangeChanged
 	});
+
+	// setze datumsrange mit einem array
+	//$('#date-picker').DatePickerSetDate([new Date(),'2011-11-13'])
+	
+
+	hideElements();
+
 });
+
+function hideElements() {
+	$("#options-container").hide();
+	
+}
 
 function setCaretPosition(ctrl, pos) {
 	ctrl.focus();

@@ -10,24 +10,29 @@ body {
 a {
    outline: 0;
 }
-h1 {
-	text-shadow: 1px 1px 0px #eee, 2px 2px 0px #707070;
-	font-size: 1.4em;
-	position: absolute;
-	left: 50px;
-	top: 20%;
-	font-family: 'Delius Swash Caps', cursive;
-}
 header {
-	height: 90px;
 	background: #CCC;
 	text-align: center;
 	position: relative;
 	background: url(../images/45degreee_fabric.png);
 	border-bottom: 2px solid black;
 	z-index: 20;
+	padding-top: 8px;
 }
-header img#loading-image {
+/* first box */
+div#h-and-search-container{
+	height: 50px;	
+}
+h1 {
+	text-shadow: 1px 1px 0px #eee, 2px 2px 0px #707070;
+	font-size: 1.4em;
+	position: relative;
+	margin:5px 20px 0 20px; 
+	float: left;
+	font-family: 'Delius Swash Caps', cursive;
+}
+
+img#loading-image {
 	position: absolute;
 	top: 50%;
 	right: 15px;
@@ -40,24 +45,37 @@ div.textbox-container {
 	border: 2px solid #333;
 }
 div#search-container {
-	position: absolute;
+	position: relative;
+	float: left;
 	background: white url(../images/magnifier.png) no-repeat 10px center;
 	background-size: 1.1em;
-	top: 4px;
-	left: 180px;
 	width: 700px;
 }
-div#options-container {
+span#show-options {
 	position: absolute;
-	top: 64px;
-	width: 100%;
+	top: 0;
+	right: 0;
+	background-color: purple;
+	color: white;
+}
+/* second box */
+div#options-container {
+	position: relative;
+}
+div#thumbnail-size-container {
+	font-size: 12px;
+	float: left;
 }
 div#thumbnail-size-slider {
-	position: absolute;
 	width: 300px;
-	font-size: 12px;
-	right: 20px;
 }
+
+div#date-picker{
+	float: left;
+	margin: 5px 20px;
+}
+
+/* bottom box*/
 div#tag-edit-container {
 	margin-top: 4px;
 	margin-right: 100px;

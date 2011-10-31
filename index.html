@@ -22,17 +22,23 @@
     
 </head>
 <body>
-	<header>
-		<h1>Tagshot.</h1>
-		<!--
-		<h2>mouse-free photo management</h2>
-		-->
-		<div id="search-container" class="textbox-container">
-			<input type="text" id="search-box" class='textbox search-start' /><img src="./images/loading.gif" id="loading-image" />
+    <header>
+        <div id="h-and-search-container">
+            <h1>Tagshot.</h1>
+            <!--
+            <h2>mouse-free photo management</h2>
+            -->
+            <div id="search-container" class="textbox-container">
+                <input type="text" id="search-box" class='textbox search-start' /><img src="./images/loading.gif" id="loading-image" />
+            </div>
+            <span id="show-options">show more...</span>
         </div>
-        <div id="options-container">
+        <div id="options-container" class="ui-helper-clearfix">
             <div id="date-picker"></div>
-            <div id="thumbnail-size-slider"></div>
+            <div id="thumbnail-size-container">
+                <span>Set tile size: </span>
+                <div id="thumbnail-size-slider"></div>
+            </div>
         </div>
 	</header>
     <section id="image-view">
