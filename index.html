@@ -2,84 +2,82 @@
 <html>
 <head>
 	<title>Tagshot your photos!</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/dot-luv/jquery-ui.css" type="text/css" media="all" />
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/dot-luv/jquery-ui.css" type="text/css" media="all" />
 	<link rel="stylesheet" type="text/css" href="style/reset.css">
-    <link rel="stylesheet" type="text/css" href="style/main.css">
-    <link rel="stylesheet" type="text/css" href="style/datepicker.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="style/main.css">
+	<link rel="stylesheet" type="text/css" href="style/datepicker.css" media="screen" />
 	<!--
 	<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    -->
-
-
-    <script id="image_tmpl" type="text/x-mustache">
-            <button type="button" {{#isSelected}} class="selected" {{/isSelected}} >
-                    <img src="{{attributes.thumb}}" />
-                    <div class="star-me">{{#starHTML}}{{/starHTML}}</div>
-                    <div class="tags">{{attributes.iptc.tags}}</div>
-            </button>
-    </script>
-    
+	-->
+	<script id="image_tmpl" type="text/x-mustache">
+			<button type="button" {{#isSelected}} class="selected" {{/isSelected}} >
+					<img src="{{attributes.thumb}}" />
+					<div class="star-me">{{#starHTML}}{{/starHTML}}</div>
+					<div class="tags">{{attributes.iptc.tags}}</div>
+			</button>
+	</script>
+	
 </head>
 <body>
-    <header>
-        <div id="h-and-search-container">
-            <h1>Tagshot.</h1>
-            <!--
-            <h2>mouse-free photo management</h2>
-            -->
-            <div id="search-container" class="textbox-container">
-                <input type="text" id="search-box" class='textbox search-start' /><img src="./images/loading.gif" id="loading-image" />
-            </div>
-            <span id="show-options"></span>
-        </div>
-        <div id="options-container" class="ui-helper-clearfix">
-            <div id="date-picker"></div>
-            <div id="thumbnail-size-container">
-                <span>Set tile size: </span>
-                <div id="thumbnail-size-slider"></div>
-            </div>
-        </div>
+	<header>
+		<div id="h-and-search-container">
+			<h1>Tagshot.</h1>
+			<!--
+			<h2>mouse-free photo management</h2>
+			-->
+			<div id="search-container" class="textbox-container">
+				<input type="text" id="search-box" class='textbox search-start' /><img src="./images/loading.gif" id="loading-image" />
+			</div>
+			<span id="show-options"></span>
+		</div>
+		<div id="options-container" class="ui-helper-clearfix">
+			<div id="date-picker"></div>
+			<div id="thumbnail-size-container">
+				<span>Set tile size: </span>
+				<div id="thumbnail-size-slider"></div>
+			</div>
+		</div>
 	</header>
-    <section id="image-view">
-        <div id="backbone-image-list-anchor">
-                <button type="button"> 
-                    <img src="images/example-pics/photo1.jpg" />
-                    <div class="star-me">3/5</div>
-                </button>
-                <button type="button"> 
-                    <img src="images/example-pics/photo2.jpg" />
-                    <div class="star-me">0/4</div>
-                </button>
-                <button type="button"> 
-                    <img src="images/example-pics/photo3.jpg" />
-                    <div class="star-me">2/5</div>
-                </button>
-                <button type="button"> 
-                    <img src="images/example-pics/photo4.jpg" />
-                    <div class="star-me">5/5</div>
-                </button>
-                <button type="button"> 
-                    <img src="images/example-pics/photo5.jpg" />
-                    <div class="star-me">4/5</div>
-                </button>
-                <button type="button"> 
-                    <img src="images/example-pics/photo6.jpg" />
-                    <div class="star-me">3/5</div>
-                </button>
-                <button type="button"> 
-                    <img src="images/example-pics/photo7.jpg" />
-                    <div class="star-me">3/5</div>
-                </button>
-                <button type="button"> 
-                    <img src="images/example-pics/photo8.jpg" />
-                    <div class="star-me">2/5</div>
-                </button>
-                <button type="button"> 
-                    <img src="images/example-pics/photo9.jpg" />
-                    <div class="star-me">4/5</div>
-                </button>
-        </div>
+	<section id="image-view">
+		<div id="backbone-image-list-anchor">
+			<button type="button"> 
+				<img src="images/example-pics/photo1.jpg" />
+				<div class="star-me">3/5</div>
+			</button>
+			<button type="button"> 
+				<img src="images/example-pics/photo2.jpg" />
+				<div class="star-me">0/4</div>
+			</button>
+			<button type="button"> 
+				<img src="images/example-pics/photo3.jpg" />
+				<div class="star-me">2/5</div>
+			</button>
+			<button type="button"> 
+				<img src="images/example-pics/photo4.jpg" />
+				<div class="star-me">5/5</div>
+			</button>
+			<button type="button"> 
+				<img src="images/example-pics/photo5.jpg" />
+				<div class="star-me">4/5</div>
+			</button>
+			<button type="button"> 
+				<img src="images/example-pics/photo6.jpg" />
+				<div class="star-me">3/5</div>
+			</button>
+			<button type="button"> 
+				<img src="images/example-pics/photo7.jpg" />
+				<div class="star-me">3/5</div>
+			</button>
+			<button type="button"> 
+				<img src="images/example-pics/photo8.jpg" />
+				<div class="star-me">2/5</div>
+			</button>
+			<button type="button"> 
+				<img src="images/example-pics/photo9.jpg" />
+				<div class="star-me">4/5</div>
+			</button>
+		</div>
 		<br style="clear: both;" />
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
@@ -93,20 +91,20 @@
 	<footer>
 		A footer.
 	</footer>
-	<script src="proglag.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
-    <script src="js/jquery-ui-1.8.16.custom.min.js"></script>
-    <script src="js/datepicker.js"></script>
+	<script src="proglag.js"></script> <!-- only for testing -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+	<script src="js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script src="js/datepicker.js"></script>
 	<script src="js/jquery.textbox-focus-on-start.js"></script>
 	<script src="js/jquery.tab-autocomplete.js"></script>
 	<script src="js/underscore.js"></script>
 	<script src="js/json2.js"></script>
-    <script src="js/backbone-min.js"></script>
-    <script src="js/mustache.js"></script>
-    <script src="controller/photo.js"></script>
-    <script src="models/photo.js"></script>
-    <script src="views/photo.js"></script>
-    <script src="js/main.js"></script>
+	<script src="js/backbone-min.js"></script>
+	<script src="js/mustache.js"></script>
+	<script src="controller/photo.js"></script>
+	<script src="models/photo.js"></script>
+	<script src="views/photo.js"></script>
+	<script src="js/main.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Delius+Swash+Caps' rel='stylesheet' type='text/css'>
 </body>
 </html>
