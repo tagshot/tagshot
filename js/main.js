@@ -19,7 +19,7 @@ $(function () {
 	});
 
 	$("#show-options").click(function() {
-		$("#options-container").slideToggle("fast");
+		$("#options-container").slideToggle(300);
 		$(this).toggleClass("open");
 	});
 

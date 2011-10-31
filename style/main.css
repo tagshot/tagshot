@@ -140,18 +140,18 @@ footer {
 /* Bilder */
 /***********************************/
 section#image-view button {
-	background: none;
+	background: white;
 	float: left;
 	margin: 15px 15px 30px 15px;
 	/*border: 2px solid black;*/
-	box-shadow: 2px 2px 3px #666;
-	border-radius: 2px;
+	box-shadow: 2px 2px 10px #333;
+	border: none;
 	padding: 0;
 	position: relative;
 	-webkit-user-select: none;
 }
 section#image-view button:hover:not(.selected) {
-	box-shadow: 6px 6px 5px #666;
+	box-shadow: 4px 4px 16px #222;
 	outline: none;
 }
 section#image-view button.selected,
@@ -164,6 +164,8 @@ section#image-view button:focus {
 	box-shadow: 0 0 5px 5px orange;
 }
 section#image-view img {
+	border: none;
+	margin: 2px;
 }
 section#image-view button div.star-me {
 	text-align: center;
