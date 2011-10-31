@@ -39,6 +39,7 @@
 		DOWN: 40,
 		DELETE: 46
 	};
+
 	$.fn.tagAutocomplete = function (options) {
 		    // standard settings
 		var settings = {
@@ -81,27 +82,42 @@
 
 			    // jqueryify dom-element
 			var $this = $(this),
+			    // save jqueryfied references to tag- and autocompletion-list
+			    $tagList,
+			    $autocompletionList,
+			    // save the entries currently displayed in autocompletion
+			    entriesList,
 			    // now save some element data needed for computation
 			    parent = $this.parent(),
 			    offset = $this.offset(),
 			    height = $this.outerHeight(),
 			    width = $this.outerWidth(),
 			    // build a unique id for the current element
-			    autocompletionListId = 'autocompletion-list-' + autoCompleteListId;
+			    autocompletionListId = 'autocompletion-list-' + autoCompleteListId,
+			    selectedEntry = null;
+
+			var displayAutocompletionList = function () {
+				// display all entries in autocompletion list
+				$autocompletionList.html(entriesList.reduce(function (prev, current) {
+					var selected = current === selectedEntry ? ' class="selected"' : '';
+					return prev + '<li' + selected + '>' + current + '</li>';
+				}, ''));
+			}
+
 
 			// exit, if the current element is not a <input type="text" />
 			if (this.tagName.toLowerCase() !== 'input' && $this.attr('type').toLowerCase() !== 'text') {
-				console.error('Trying to use tagAutocomplete-Plugin for a non <input type="text" />-field');
+				console.error('Trying to use tagAutocomplete-Plugin for a non <input type="text" />-field - Fail!');
 				return;
 			}
 			// increase id counter to create a really unique id next time
 			autoCompleteListId += 1;
 
 			// create tag list, add css class from input-field and put <input>-field right into it
-			$('<ul />').addClass(settings.inputCssClass).append($this).prependTo(parent);
+			$tagList = $('<ul />').addClass(settings.inputCssClass).append($this).prependTo(parent);
 
 			// create autocompletion list, add css class, and prepare for positioning later
-			$('<ul class="' + settings.autocompleteCssClass + '" id="' + autocompletionListId + '"></ul>')
+			$autocompletionList = $('<ul class="' + settings.autocompleteCssClass + '" id="' + autocompletionListId + '"></ul>')
 				.appendTo('body')
 				.css('position', 'absolute')
 				.css('top', offset.top + height + 5)
@@ -128,7 +144,7 @@
 			 *
 			 * So - as the following code needs both the changed text _and_ the possibily
 			 * prevent default behaviour - a workaround is needed:
-			 * The keyc
+			 * The keyc------------------------------------------------------------------------------------------------tobecommented
 			 *
 			 * Another way - which is used by jQuery-UI-autocomplete, - is to set a timeout
 			 * (using window.setTimeout) in the keyDown event with a delay of 300 ms.
@@ -138,9 +154,25 @@
 
 			// now add keyboard monitoring for <input>-element
 			$this.keydown(function (event) {
-				if (event.keyCode === 37) {
-					alert('left arrow');
-					event.preventDefault();
+				var doNothing = function () { };
+				switch (event.keyCode) {
+					case keyCodes.LEFT:
+						break;
+					case keyCodes.DOWN:
+						var index = entriesList.indexOf(selectedEntry);
+						selectedEntry = entriesList[Math.min(index + 1, entriesList.length - 1)];
+						$autocompletionList.children('li').removeClass('selected');
+						displayAutocompletionList(entriesList, $autocompletionList);
+						event.preventDefault();
+						break;
+					case keyCodes.UP:
+						var index = entriesList.indexOf(selectedEntry);
+						selectedEntry = entriesList[Math.max(index - 1, 0)];
+						$autocompletionList.children('li').removeClass('selected');
+						displayAutocompletionList(entriesList, $autocompletionList);
+						event.preventDefault();
+						break;
+						
 				}
 			}).keyup(function (event) {
 				    // text refers to the <input>'s text _after_ the keystroke
@@ -160,7 +192,10 @@
 				}
 
 				// catch some special keystrokes
-				if (event.keyCode === keyCodes.ENTER) {
+				if (event.keyCode === keyCodes.BACKSPACE) {
+					selectedEntry = null;
+				}
+				else if (event.keyCode === keyCodes.ENTER) {
 					alert('enter');
 				}
 				else if (event.keyCode === keyCodes.ESCAPE) {
@@ -174,13 +209,11 @@
 					event.preventDefault();
 				}
 				else if (event.keyCode === keyCodes.UP) {
-					alert('up arrow');
 				}
 				else if (event.keyCode === keyCodes.RIGHT) {
 					alert('right arrow');
 				}
 				else if (event.keyCode === keyCodes.DOWN) {
-					alert('down arrow');
 				}
 
 				// filter list
@@ -196,17 +229,26 @@
 
 				// as we want to entries in autocomplete list to be displayed in normal case
 				// (and not lowercased as the entries in filteredList)
-				// we have to find the correct indices for the correct list
-				// so we just map each entry to its original position in the array
+				// we have to find the correctly speed version of the word
+				// so we just map each entry to its original, un-lowercased equivalent
 				filteredList = filteredList.map(function (el) {
-					return lowercase.indexOf(el);
+					return settings.autocompleteList[lowercase.indexOf(el)];
 				});
-				// filteredList is now an array of indices to the entries in settings.autocompleteList
+
+				if (selectedEntry === null || filteredList.indexOf(selectedEntry) < 0) {
+					selectedEntry = filteredList[0];
+				}
+				else {
+				}
+
+				entriesList = filteredList;
 
 				// display all entries in autocompletion list
-				$('#' + autocompletionListId).html(filteredList.reduce(function (prev, current) {
-					return prev + '<li>' + settings.autocompleteList[current] + '</li>';
+				$autocompletionList.html(filteredList.reduce(function (prev, current) {
+					var selected = current === selectedEntry ? ' class="selected"' : '';
+					return prev + '<li' + selected + '>' + current + '</li>';
 				}, ''));
+
 			});
 		});
 

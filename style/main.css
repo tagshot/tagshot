@@ -192,3 +192,6 @@ section#image-view button:hover div.star-me {
 	padding: 10px;
 	background: gray;
 }
+.autocompletion-list li.selected {
+	background: red;
+}
