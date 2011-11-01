@@ -64,6 +64,18 @@
 				input.addClass(settings.cssClassWhenEmpty).val(settings.text);
 				setCaretPosition(this, 0);
 			}
+		}).click(function () {
+			// clear input on click
+			var input = $(this);
+			this.value = '';
+			input.removeClass(settings.cssClassWhenEmpty);
+		}).focusout(function () {
+			var text = this.value,
+			    input = $(this);
+			if (text === '') {
+				input.addClass(settings.cssClassWhenEmpty).val(settings.text);
+				setCaretPosition(this, 0);
+			}
 		});
 		return this;
 	};
