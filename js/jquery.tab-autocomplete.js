@@ -223,9 +223,11 @@
 				    filteredList,
 				    // will save whether the autocompletion is displayed or not
 				    autocompletionDisplayed = false,
-				    // only keep those entries which start with the search string
-				    regex = new RegExp('^' + text);
+				    // only keep those entries which start with the search string, (escape! text before, else there will be problems with e.g searching for 'C++')
+				    regex = new RegExp('^' + text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"));
 
+
+				console.log('Tagsuche nach: ' + text);
 				// at first check, whether there is something to filter ..
 				if (text.length === 0) {
 					// if not, do not display autocompletion.
