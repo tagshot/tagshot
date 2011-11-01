@@ -11,10 +11,10 @@
 	<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	-->
 	<script id="image_tmpl" type="text/x-mustache">
-		<button type="button" {{#isSelected}} class="selected" {{/isSelected}} >
-			<img src="{{attributes.thumb}}" />
+		<button type="button" {{#model.isSelected}} class="selected" {{/model.isSelected}} >
+			<img src="{{model.attributes.thumb}}" />
 			<div class="star-me">{{#starHTML}}{{/starHTML}}</div>
-			<div class="tags">{{attributes.iptc.tags}}</div>
+			<div class="tags">{{model.attributes.iptc.tags}}</div>
 		</button>
 	</script>
 	
