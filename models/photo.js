@@ -28,7 +28,7 @@ App.models.Photo = ErrorHandlingModel.extend({
     },
     star: function(nr, of) {
     },
-    isSelected: function() {
+	isSelected: function() {
         return this.get("selected");
     },
     select: function() {
@@ -36,7 +36,11 @@ App.models.Photo = ErrorHandlingModel.extend({
     },
     deselect: function() {
         this.set({"selected": false});
-    }
+    },
+	toggleSelect: function() {
+		self = this;
+		this.set({"selected": !self.get("selected")});
+	}
 
 });
 

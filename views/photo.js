@@ -1,3 +1,9 @@
+between = function(a,b,c) {
+	var max = _.max([a,b]);
+	var min = _.min([a,b]);
+	return (min <= c && c <= max && c!=a);
+}
+
 App.views.PhotoListView = Backbone.View.extend({
 		tagName:  "ul",
 		className: "image-list-view",
@@ -25,7 +31,7 @@ App.views.PhotoView = Backbone.View.extend({
 		},
 		render: function () {
 				console.log("render");
-				console.log(this.model);
+				console.log(this);
 				// tmpl im index.html
 				$(this.el).html(Mustache.to_html($('#image_tmpl').html(), this));
 				return this;
@@ -59,8 +65,7 @@ App.views.PhotoView = Backbone.View.extend({
         	return this.model.get("selected");
     	},
 		events: {
-			"dblclick" : "remove",
-			"click img" : "click"
+			"click" : "click"
 		},
 		open : function() {
 			// TODO enlarge image
@@ -71,8 +76,11 @@ App.views.PhotoView = Backbone.View.extend({
 		click: function(e) {
 			// shift -> from..to select
 			if (e.shiftKey) {
-        		alert("shift+click")
+				var self = this;
+				var selected = _.filter(this.model.collection.models, function(item){ return between(LastSelected.id,self.model.id,item.id)});
+				_.map(selected, function(item){item.toggleSelect()});
     		} else {
+				LastSelected = this.model;
 				this.model.set({"selected": !this.model.get("selected")});
 			}
 		},
