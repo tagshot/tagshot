@@ -17,10 +17,10 @@ if __name__=="__main__":
 
 	words = w.split(" ")
 
-	print '{"docs" :['				# for bulk document uploading/modifying
+	print '['				# for bulk document uploading/modifying
 
 	for i in xrange(total):
-		tags = tuple(map(lambda x: random.choice(words), list(xrange(max_same))))
+		tags = tuple(map(lambda x: random.choice(words), range(max_same)))
 
 		t = json.dumps({'exif' : {'date' : rand_word(), 'author' : rand_word(), 'model' : rand_word()},\
 				'iptc': {'stars': random.randint(0,5), 'tags' : tags},\
@@ -31,5 +31,4 @@ if __name__=="__main__":
 		if i != total-1:
 			print t + ','	# separate tuples with commata
 		else:
-			print t + ']}'	# close list of tuples and {"docs": []}
-
+			print t + ']'	# close list of tuples
