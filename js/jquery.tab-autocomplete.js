@@ -102,6 +102,17 @@
 					// save the entries currently displayed in autocompletion
 					this.entriesList = []
 				},
+				addTag: function () {
+					if (this.selectedEntry === null)
+						return;
+					settings.onTagAdded(this.selectedEntry);
+					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '</li>');
+					this.selectedEntry = null;
+					this.entriesList = [];
+					this.displayAutocompletionList();
+					this.updateAutocompletionListPosition();
+					this.input.focus();
+				},
 				displayAutocompletionList:  function () {
 					var that = this;
 					// display all entries in autocompletion list
@@ -109,6 +120,16 @@
 						var selected = current === that.selectedEntry ? ' class="autocomplete-selected"' : '';
 						return prev + '<li' + selected + '>' + current + '</li>';
 					}, ''));
+					this.$autocompletionList.children('li').click(function () {
+						var $this = $(this);
+						$this.removeClass('autocomplete-selected');
+						that.selectedEntry = this.textContent;
+						that.addTag();
+					}).mouseover(function (event) {
+						/* manually handle mouse-selection */
+						that.$autocompletionList.children('li').removeClass('autocomplete-selected');
+						$(event.target).addClass('autocomplete-selected');
+					});
 				},
 				updateAutocompletionListPosition: function() {
 					this.offset = this.$input.offset();
@@ -174,13 +195,7 @@
 						p.selectedEntry = null;
 						break;
 					case keyCodes.ENTER:
-						if (p.selectedEntry === null)
-							return;
-						settings.onTagAdded(p.selectedEntry);
-						p.$input.val('').parent().before('<li class="tag">' + p.selectedEntry + '</li>');
-						p.selectedEntry = null;
-						p.entriesList = [];
-						p.updateAutocompletionListPosition();
+						p.addTag();
 						break;
 					case keyCodes.LEFT:
 						break;

@@ -36,6 +36,15 @@
 		// merge given options into standard-settings
 		$.extend(settings, options);
 
+		var displayStandardTextWhenEmpty = function (input) {
+			var text  = input.value,
+			    $input = $(input);
+			/* when textbox is really empty, add css class and set standard text; set cursor */
+			if (text === '') {
+				$input.addClass(settings.cssClassWhenEmpty).val(settings.text);
+				setCaretPosition(input, 0);
+			}
+		};
 
 		// prepare textbox with given standard text and set focus with cursor at the first position
 		this.val(settings.text);
@@ -57,13 +66,9 @@
 				input.removeClass(settings.cssClassWhenEmpty).val('');
 			}
 		}).keyup(function () {
-			var text  = this.value,
-			    input = $(this);
-			/* when textbox is really empty, add css class and set standard text; set cursor */
-			if (text === '') {
-				input.addClass(settings.cssClassWhenEmpty).val(settings.text);
-				setCaretPosition(this, 0);
-			}
+			displayStandardTextWhenEmpty(this);
+		}).focus(function () {
+			displayStandardTextWhenEmpty(this);
 		}).click(function () {
 			// clear input on click
 			var input = $(this);
