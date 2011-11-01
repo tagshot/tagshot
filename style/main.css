@@ -1,8 +1,17 @@
 * {
 	padding: 0;
 	margin: 0;
+	/* fonts zum rumspielen, welche gefällt euch am besten? */
 	font-family: "Ubuntu", sans-serif;
 	font-family: 'Delius Swash Caps', cursive;
+	font-family: 'Coda', cursive;
+	font-family: Georgia;
+	font-family: 'Linden Hill', serif;
+	font-family: 'Lora', serif;
+	font-family: 'Gentium Basic', serif;
+	font-family: 'Cantarell', sans-serif;
+	font-family: 'Sorts Mill Goudy', serif;
+	font-family: 'Prociono', serif;
 }
 body {
 	background: #BBB;
@@ -21,11 +30,11 @@ header {
 }
 h1 {
 	text-shadow: 1px 1px 0px #eee, 2px 2px 0px #707070;
-	font-size: 1.4em;
+	font-size: 1.8em;
 	position: relative;
-	margin:5px 20px 0 20px; 
+	margin: 5px 20px 0 20px; 
 	float: left;
-	font-family: 'Delius Swash Caps', cursive;
+	text-transform: uppercase;
 }
 
 img#loading-image {
