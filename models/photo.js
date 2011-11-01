@@ -68,7 +68,7 @@ App.models.Photo = ErrorHandlingModel.extend({
 // array von photos
 App.models.PhotoList  = Backbone.Collection.extend({
     model: App.models.Photo,
-    url: "http://localhost:80/fotos.js",
+    url: "fotos.js",
     // return the current selection
     selection: function() {
         return this.filter(function(photo){ return photo.get('selected'); });

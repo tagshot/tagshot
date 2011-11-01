@@ -124,15 +124,15 @@
 			autoCompleteListId += 1;
 
 			// create tag list, add css class from input-field and put <input>-field right into it
-			p.$tagList = $('<ul></ul>').addClass(settings.inputCssClass).append(p.$input).prependTo(p.parent);
+			p.$tagList = $('<ul><li class="tag">Tag 1</li><li class="tag">Längerer Tag Bla</li><li></li><br style="clear: both;" /></ul>').addClass(settings.inputCssClass).prependTo(p.parent);
+			p.$tagList.children('li').last().append(p.$input);
+			p.$input.removeClass(settings.inputCssClass).addClass('tagautocomplete-clear-textbox');
 
 			// create autocompletion list, add css class, and prepare for positioning later
 			p.$autocompletionList = $('<ul class="' + settings.autocompleteCssClass + '" id="' + p.autocompletionListId + '"></ul>')
 				.appendTo('body')
-				.css('position', 'absolute')
 				.css('top', p.offset.top + p.height + 5)
 				.css('left', p.offset.left)
-				.css('z-index', '999')
 				.css('width', p.width + 'px');
 
 			/*

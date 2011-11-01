@@ -110,7 +110,6 @@ div#trash-container {
 	margin-left: 20px;
 	font-size: 1.0em;
 	width: 90%;
-	height: 100%;
 }
 
 header input.search-start {
@@ -194,4 +193,42 @@ section#image-view button:hover div.star-me {
 }
 .autocompletion-list li.selected {
 	background: red;
+}
+
+/*
+ * TagAutocomplete
+ */
+ .autocompletion-list {
+	position: absolute;
+	z-index: 999;
+}
+.textbox {
+}
+.textbox li {
+	float: left;
+	height: 30px;
+	line-height: 30px;
+	margin: 0 10px;
+	display: block;
+	/*height: 100%;
+	padding: 4px;*/
+}
+.textbox li:first-child {
+	margin-left: 10px;
+}
+.textbox li.tag:before {
+	content: '<';
+}
+.textbox li.tag:after {
+	content: '>';
+}
+.textbox input {
+}
+
+input.tagautocomplete-clear-textbox {
+	border: none;
+	height: 100%;
+	font-size: 1em;
+	padding: 0;
+	margin: 0;
 }
