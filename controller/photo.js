@@ -10,7 +10,7 @@ App = {
 			});
 			view.render();
 			// TODO remove, currently for debugging
-			App.view = view;
+			this.view = view;
 		}});
 	}
 };

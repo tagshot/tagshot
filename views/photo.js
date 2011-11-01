@@ -7,24 +7,25 @@ App.views.PhotoListView = Backbone.View.extend({
 		},
 		render: function() {
 				console.log("render whole gallery");
-				var renderedArticles = _.map(this.collection.models, function (article) {
-						return new App.views.ArticleView({model : article}).render().el;
+				var renderedPhotos = _.map(this.collection.models, function (photo) {
+						return new App.views.PhotoView({model : photo}).render().el;
 				})
-				$(this.el).html(renderedArticles);
+				$(this.el).html(renderedPhotos);
 				$('#backbone-image-list-anchor').html(this.el);
 				return this;
 		}
 });
 
-App.views.ArticleView = Backbone.View.extend({
+App.views.PhotoView = Backbone.View.extend({
 		tagName:  "li",
 		className: "image-view",
 		initialize : function() {
-				this.model.bind('change', this.render);
-				this.model.bind('destroy', this.remove);
+				this.model.bind('change', this.render, this);
+				this.model.bind('destroy', this.remove, this);
 		},
 		render: function () {
 				console.log("render");
+				console.log(this.model);
 				// tmpl im index.html
 				$(this.el).html(Mustache.to_html($('#image_tmpl').html(), this.model));
 				return this;

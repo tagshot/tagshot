@@ -11,11 +11,11 @@
 	<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	-->
 	<script id="image_tmpl" type="text/x-mustache">
-			<button type="button" {{#isSelected}} class="selected" {{/isSelected}} >
-					<img src="{{attributes.thumb}}" />
-					<div class="star-me">{{#starHTML}}{{/starHTML}}</div>
-					<div class="tags">{{attributes.iptc.tags}}</div>
-			</button>
+		<button type="button" {{#isSelected}} class="selected" {{/isSelected}} >
+			<img src="{{attributes.thumb}}" />
+			<div class="star-me">{{#starHTML}}{{/starHTML}}</div>
+			<div class="tags">{{attributes.iptc.tags}}</div>
+		</button>
 	</script>
 	
 </head>
@@ -99,7 +99,7 @@
 	<script src="js/jquery.tab-autocomplete.js"></script>
 	<script src="js/underscore.js"></script>
 	<script src="js/json2.js"></script>
-	<script src="js/backbone-min.js"></script>
+	<script src="js/backbone.js"></script>
 	<script src="js/mustache.js"></script>
 	<script src="controller/photo.js"></script>
 	<script src="models/photo.js"></script>
