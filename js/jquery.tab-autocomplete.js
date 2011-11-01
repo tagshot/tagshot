@@ -51,7 +51,10 @@
 			// will be applied to the surrounding <ul> during the plugin-process (see above for explanation)
 			inputCssClass: 'textbox',
 			// the maximum number of entries to be displayed while autocompletion
-			maxEntries: 10
+			maxEntries: 10,
+			onTagAdded: function (tagText) {
+				console.log('Tag "' + tagText + '" added.');
+			}
 		},
 		    // will hold a lowercased-version of settings.autocompleteList
 		    lowercase;
@@ -173,7 +176,9 @@
 					case keyCodes.ENTER:
 						if (p.selectedEntry === null)
 							return;
+						settings.onTagAdded(p.selectedEntry);
 						p.$input.val('').parent().before('<li class="tag">' + p.selectedEntry + '</li>');
+						p.selectedEntry = null;
 						p.entriesList = [];
 						p.updateAutocompletionListPosition();
 						break;
