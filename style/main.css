@@ -13,15 +13,11 @@ a {
 header {
 	background: #CCC;
 	text-align: center;
-	position: relative;
 	background: url(../images/45degreee_fabric.png);
 	border-bottom: 2px solid black;
 	z-index: 20;
-	padding-top: 8px;
-}
-/* first box */
-div#h-and-search-container{
-	height: 50px;	
+	padding: 8px 0;
+	position: relative;
 }
 h1 {
 	text-shadow: 1px 1px 0px #eee, 2px 2px 0px #707070;
@@ -49,24 +45,23 @@ div#search-container {
 	float: left;
 	background: white url(../images/magnifier.png) no-repeat 10px center;
 	background-size: 1.1em;
-	width: 700px;
+	width: 900px;
 }
-span#show-options {
+button#show-options {
 	position: absolute;
-	top: 26px;
+	bottom: 0;
 	right: 0;
 	width: 32px;
 	height: 32px;
+	border: none;
 	background: transparent url(../images/show_toggle.png) no-repeat;
 	cursor: pointer;
 }
-span#show-options.open {
+button#show-options.open {
 	background: transparent url(../images/show_toggle.png) -32px no-repeat;
 }
 
-/* second box */
-div#options-container {
-	position: relative;
+section#options-container {
 	background: darkgrey url(../images/45degreee_dark_fabric.png);
 	color: white;
 	padding: 10px 20px;
@@ -191,7 +186,7 @@ section#image-view button:hover div.star-me {
 	padding: 10px;
 	background: gray;
 }
-.autocompletion-list li.selected {
+.autocompletion-list li.autocomplete-selected {
 	background: red;
 }
 
@@ -208,13 +203,18 @@ section#image-view button:hover div.star-me {
 	float: left;
 	height: 30px;
 	line-height: 30px;
-	margin: 0 10px;
+	margin: 5px 10px;
 	display: block;
 	/*height: 100%;
 	padding: 4px;*/
 }
 .textbox li:first-child {
 	margin-left: 10px;
+}
+.textbox li.tag {
+	background: gray;
+	color: white;
+	border-radius: 100px;
 }
 .textbox li.tag:before {
 	content: '<';

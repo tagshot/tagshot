@@ -21,25 +21,25 @@
 </head>
 <body>
 	<header>
-		<div id="h-and-search-container">
-			<h1>Tagshot.</h1>
-			<!--
-			<h2>mouse-free photo management</h2>
-			-->
-			<div id="search-container" class="textbox-container">
-				<input type="text" id="search-box" class='textbox search-start' />
-				<img src="./images/loading.gif" id="loading-image" />
-			</div>
-			<span id="show-options"></span>
+		<h1>Tagshot.</h1>
+		<!--
+		<h2>mouse-free photo management</h2>
+		-->
+		<div id="search-container" class="textbox-container">
+			<input type="text" id="search-box" class='textbox search-start' />
+			<img src="./images/loading.gif" id="loading-image" />
 		</div>
-		<div id="options-container" class="ui-helper-clearfix">
-			<div id="date-picker"></div>
-			<div id="thumbnail-size-container">
-				<span>Set tile size: </span>
-				<div id="thumbnail-size-slider"></div>
-			</div>
-		</div>
+		<br style="clear: both;" />
+		<button id="show-options"></button>
 	</header>
+	<section id="options-container">
+		<div id="date-picker"></div>
+		<div id="thumbnail-size-container">
+			<span>Set tile size: </span>
+			<div id="thumbnail-size-slider"></div>
+		</div>
+		<br style="clear: both;" />
+	</section>
 	<section id="image-view">
 		<div id="backbone-image-list-anchor">
 			<button type="button"> 

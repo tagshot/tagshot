@@ -15,7 +15,7 @@
  * </ul>
  * This list is refered to as 'tag list' in the following.
  * In addition, a list for autocompletion is added to the body:
- * <ul id='autocompletion-list-0>
+ * <ul id='autocompletion-list-0'>
  * </ul>
  * This list is refered to as 'autocompletion list' in the following.
  */
@@ -91,11 +91,7 @@
 					// will save jqueryfied references to tag- and autocompletion-list
 					this.$tagList = null;
 					this.$autocompletionList = null;
-
 					this.parent = this.$input.parent();
-					this.offset = this.$input.offset();
-					this.height = this.$input.outerHeight();
-					this.width = this.$input.outerWidth();
 					// build a unique id for the current element
 					this.autocompletionListId = 'autocompletion-list-' + autoCompleteListId;
 					// now save some element data needed for computation
@@ -107,9 +103,18 @@
 					var that = this;
 					// display all entries in autocompletion list
 					this.$autocompletionList.html(this.entriesList.reduce(function (prev, current) {
-						var selected = current === that.selectedEntry ? ' class="selected"' : '';
+						var selected = current === that.selectedEntry ? ' class="autocomplete-selected"' : '';
 						return prev + '<li' + selected + '>' + current + '</li>';
 					}, ''));
+				},
+				updateAutocompletionListPosition: function() {
+					this.offset = this.$input.offset();
+					this.height = this.$input.outerHeight();
+					this.width = this.$input.outerWidth();
+					this.$autocompletionList
+						.css('top', this.offset.top + this.height + 5)
+						.css('left', this.offset.left)
+						.css('width', this.width + 'px');
 				}
 			};
 
@@ -124,16 +129,13 @@
 			autoCompleteListId += 1;
 
 			// create tag list, add css class from input-field and put <input>-field right into it
-			p.$tagList = $('<ul><li class="tag">Tag 1</li><li class="tag">Längerer Tag Bla</li><li></li><br style="clear: both;" /></ul>').addClass(settings.inputCssClass).prependTo(p.parent);
+			p.$tagList = $('<ul><li></li><br style="clear: both;" /></ul>').addClass(settings.inputCssClass).prependTo(p.parent);
 			p.$tagList.children('li').last().append(p.$input);
 			p.$input.removeClass(settings.inputCssClass).addClass('tagautocomplete-clear-textbox');
 
 			// create autocompletion list, add css class, and prepare for positioning later
-			p.$autocompletionList = $('<ul class="' + settings.autocompleteCssClass + '" id="' + p.autocompletionListId + '"></ul>')
-				.appendTo('body')
-				.css('top', p.offset.top + p.height + 5)
-				.css('left', p.offset.left)
-				.css('width', p.width + 'px');
+			p.$autocompletionList = $('<ul class="' + settings.autocompleteCssClass + '" id="' + p.autocompletionListId + '"></ul>').appendTo('body');
+			p.updateAutocompletionListPosition();
 
 			/*
 			 * Keyboard-monitoring
@@ -164,8 +166,17 @@
 
 			// now add keyboard monitoring for <input>-element
 			p.$input.keydown(function (event) {
-				var doNothing = function () { };
 				switch (event.keyCode) {
+					case keyCodes.BACKSPACE:
+						p.selectedEntry = null;
+						break;
+					case keyCodes.ENTER:
+						if (p.selectedEntry === null)
+							return;
+						p.$input.val('').parent().before('<li class="tag">' + p.selectedEntry + '</li>');
+						p.entriesList = [];
+						p.updateAutocompletionListPosition();
+						break;
 					case keyCodes.LEFT:
 						break;
 					case keyCodes.DOWN:
@@ -199,32 +210,8 @@
 				if (text.length === 0) {
 					// if not, do not display autocompletion.
 					$('#' + p.autocompletionListId).html('');
-					return;
-				}
-
-				// catch some special keystrokes
-				if (event.keyCode === keyCodes.BACKSPACE) {
 					p.selectedEntry = null;
-				}
-				else if (event.keyCode === keyCodes.ENTER) {
-					alert('enter');
-				}
-				else if (event.keyCode === keyCodes.ESCAPE) {
-					alert('escape');
-				}
-				else if (event.keyCode === keyCodes.SPACE) {
-					alert('space');
-				}
-				else if (event.keyCode === keyCodes.LEFT) {
-					alert('left arrow');
-					event.preventDefault();
-				}
-				else if (event.keyCode === keyCodes.UP) {
-				}
-				else if (event.keyCode === keyCodes.RIGHT) {
-					alert('right arrow');
-				}
-				else if (event.keyCode === keyCodes.DOWN) {
+					return;
 				}
 
 				// filter list
@@ -246,14 +233,17 @@
 					return settings.autocompleteList[lowercase.indexOf(el)];
 				});
 
+				p.entriesList = filteredList;
+
+				if (filteredList.length === 0) {
+					p.selectedEntry = null;
+					p.displayAutocompletionList();
+					return;
+				}
+				// if there is no previous entry or the previous entry is not in the list anymore, use first
 				if (p.selectedEntry === null || filteredList.indexOf(p.selectedEntry) < 0) {
 					p.selectedEntry = filteredList[0];
 				}
-				else {
-				}
-
-				p.entriesList = filteredList;
-
 				p.displayAutocompletionList();
 			});
 		});
