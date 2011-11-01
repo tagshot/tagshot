@@ -80,33 +80,43 @@
 		this.each(function () {
 			// javascript note: this now refers to the input dom element
 
-			    // jqueryify dom-element
-			var $this = $(this),
-			    // save jqueryfied references to tag- and autocompletion-list
-			    $tagList,
-			    $autocompletionList,
-			    // save the entries currently displayed in autocompletion
-			    entriesList,
-			    // now save some element data needed for computation
-			    parent = $this.parent(),
-			    offset = $this.offset(),
-			    height = $this.outerHeight(),
-			    width = $this.outerWidth(),
-			    // build a unique id for the current element
-			    autocompletionListId = 'autocompletion-list-' + autoCompleteListId,
-			    selectedEntry = null;
+			// at first, build an object containing all neccessary information for the current <input>-element processed
+			// this is one instance of the plugin
+			var p = {
+				// save reference to dom-node
+				input: this,
+				// jqueryify <input>-element
+				$input: $(this),
+				init: function () {
+					// will save jqueryfied references to tag- and autocompletion-list
+					this.$tagList = null;
+					this.$autocompletionList = null;
 
-			var displayAutocompletionList = function () {
-				// display all entries in autocompletion list
-				$autocompletionList.html(entriesList.reduce(function (prev, current) {
-					var selected = current === selectedEntry ? ' class="selected"' : '';
-					return prev + '<li' + selected + '>' + current + '</li>';
-				}, ''));
-			}
+					this.parent = this.$input.parent();
+					this.offset = this.$input.offset();
+					this.height = this.$input.outerHeight();
+					this.width = this.$input.outerWidth();
+					// build a unique id for the current element
+					this.autocompletionListId = 'autocompletion-list-' + autoCompleteListId;
+					// now save some element data needed for computation
+					this.selectedEntry = null;
+					// save the entries currently displayed in autocompletion
+					this.entriesList = []
+				},
+				displayAutocompletionList:  function () {
+					var that = this;
+					// display all entries in autocompletion list
+					this.$autocompletionList.html(this.entriesList.reduce(function (prev, current) {
+						var selected = current === that.selectedEntry ? ' class="selected"' : '';
+						return prev + '<li' + selected + '>' + current + '</li>';
+					}, ''));
+				}
+			};
 
+			p.init();
 
 			// exit, if the current element is not a <input type="text" />
-			if (this.tagName.toLowerCase() !== 'input' && $this.attr('type').toLowerCase() !== 'text') {
+			if (p.input.tagName.toLowerCase() !== 'input' && p.$input.attr('type').toLowerCase() !== 'text') {
 				console.error('Trying to use tagAutocomplete-Plugin for a non <input type="text" />-field - Fail!');
 				return;
 			}
@@ -114,16 +124,16 @@
 			autoCompleteListId += 1;
 
 			// create tag list, add css class from input-field and put <input>-field right into it
-			$tagList = $('<ul />').addClass(settings.inputCssClass).append($this).prependTo(parent);
+			p.$tagList = $('<ul></ul>').addClass(settings.inputCssClass).append(p.$input).prependTo(p.parent);
 
 			// create autocompletion list, add css class, and prepare for positioning later
-			$autocompletionList = $('<ul class="' + settings.autocompleteCssClass + '" id="' + autocompletionListId + '"></ul>')
+			p.$autocompletionList = $('<ul class="' + settings.autocompleteCssClass + '" id="' + p.autocompletionListId + '"></ul>')
 				.appendTo('body')
 				.css('position', 'absolute')
-				.css('top', offset.top + height + 5)
-				.css('left', offset.left)
+				.css('top', p.offset.top + p.height + 5)
+				.css('left', p.offset.left)
 				.css('z-index', '999')
-				.css('width', width + 'px');
+				.css('width', p.width + 'px');
 
 			/*
 			 * Keyboard-monitoring
@@ -153,26 +163,27 @@
 			 */
 
 			// now add keyboard monitoring for <input>-element
-			$this.keydown(function (event) {
+			p.$input.keydown(function (event) {
 				var doNothing = function () { };
 				switch (event.keyCode) {
 					case keyCodes.LEFT:
 						break;
 					case keyCodes.DOWN:
-						var index = entriesList.indexOf(selectedEntry);
-						selectedEntry = entriesList[Math.min(index + 1, entriesList.length - 1)];
-						$autocompletionList.children('li').removeClass('selected');
-						displayAutocompletionList(entriesList, $autocompletionList);
+						var index = p.entriesList.indexOf(p.selectedEntry);
+						p.selectedEntry = p.entriesList[Math.min(index + 1, p.entriesList.length - 1)];
+						p.$autocompletionList.children('li').removeClass('selected');
+						p.displayAutocompletionList();
 						event.preventDefault();
 						break;
 					case keyCodes.UP:
-						var index = entriesList.indexOf(selectedEntry);
-						selectedEntry = entriesList[Math.max(index - 1, 0)];
-						$autocompletionList.children('li').removeClass('selected');
-						displayAutocompletionList(entriesList, $autocompletionList);
+						var index = p.entriesList.indexOf(p.selectedEntry);
+						p.selectedEntry = p.entriesList[Math.max(index - 1, 0)];
+						p.$autocompletionList.children('li').removeClass('selected');
+						p.displayAutocompletionList();
 						event.preventDefault();
 						break;
-						
+					default:
+						break;
 				}
 			}).keyup(function (event) {
 				    // text refers to the <input>'s text _after_ the keystroke
@@ -187,13 +198,13 @@
 				// at first check, whether there is something to filter ..
 				if (text.length === 0) {
 					// if not, do not display autocompletion.
-					$('#' + autocompletionListId).html('');
+					$('#' + p.autocompletionListId).html('');
 					return;
 				}
 
 				// catch some special keystrokes
 				if (event.keyCode === keyCodes.BACKSPACE) {
-					selectedEntry = null;
+					p.selectedEntry = null;
 				}
 				else if (event.keyCode === keyCodes.ENTER) {
 					alert('enter');
@@ -235,20 +246,15 @@
 					return settings.autocompleteList[lowercase.indexOf(el)];
 				});
 
-				if (selectedEntry === null || filteredList.indexOf(selectedEntry) < 0) {
-					selectedEntry = filteredList[0];
+				if (p.selectedEntry === null || filteredList.indexOf(p.selectedEntry) < 0) {
+					p.selectedEntry = filteredList[0];
 				}
 				else {
 				}
 
-				entriesList = filteredList;
+				p.entriesList = filteredList;
 
-				// display all entries in autocompletion list
-				$autocompletionList.html(filteredList.reduce(function (prev, current) {
-					var selected = current === selectedEntry ? ' class="selected"' : '';
-					return prev + '<li' + selected + '>' + current + '</li>';
-				}, ''));
-
+				p.displayAutocompletionList();
 			});
 		});
 
