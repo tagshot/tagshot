@@ -282,6 +282,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', end
 .textbox li.tag:after {
 	content: '';
 }
+.textbox li.tagautocomplete-to-be-removed {
+	background: Crimson;
+}
 .textbox input {
 }
 

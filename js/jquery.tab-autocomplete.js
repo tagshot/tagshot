@@ -39,6 +39,17 @@
 		DOWN: 40,
 		DELETE: 46
 	};
+	/*
+	 * Helper-function to position cursor in a textbox.
+	 * Works in Chrome and Firefox only.
+	 */
+	var setCaretPosition = function (ctrl, pos) {
+		ctrl.focus();
+		ctrl.setSelectionRange(pos, pos);
+	};
+	var getCaretPosition = function (ctrl) {
+		return ctrl.selectionStart;
+	};
 
 	$.fn.tagAutocomplete = function (options) {
 		    // standard settings
@@ -90,6 +101,8 @@
 				input: this,
 				// jqueryify <input>-element
 				$input: $(this),
+				tags: [],
+				removeTagOnNextBackspace: false,
 				init: function () {
 					// will save jqueryfied references to tag- and autocompletion-list
 					this.$tagList = null;
@@ -107,6 +120,7 @@
 						return;
 					settings.onTagAdded(this.selectedEntry);
 					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '</li>');
+					this.tags.push(this.selectedEntry);
 					this.selectedEntry = null;
 					this.entriesList = [];
 					this.displayAutocompletionList();
@@ -128,7 +142,7 @@
 					}).mouseover(function (event) {
 						/* manually handle mouse-selection */
 						that.$autocompletionList.children('li').removeClass('autocomplete-selected');
-						$(event.target).addClass('autocomplete-selected');
+						that.selectedEntry = $(event.target).addClass('autocomplete-selected').text();
 					});
 				},
 				updateAutocompletionListPosition: function() {
@@ -155,6 +169,7 @@
 			// create tag list, add css class from input-field and put <input>-field right into it
 			p.$tagList = $('<ul><li></li><br style="clear: both;" /></ul>').addClass(settings.inputCssClass).prependTo(p.parent);
 			p.$tagList.children('li').last().append(p.$input);
+			// remove css class from input field and set clear style for input
 			p.$input.removeClass(settings.inputCssClass).addClass('tagautocomplete-clear-textbox');
 
 			// create autocompletion list, add css class, and prepare for positioning later
@@ -193,6 +208,17 @@
 				switch (event.keyCode) {
 					case keyCodes.BACKSPACE:
 						p.selectedEntry = null;
+						if (getCaretPosition(p.input) === 0 && p.$tagList.children('li').length >= 2) {
+							if (p.removeTagOnNextBackspace) {
+								p.$tagList.children('.tagautocomplete-to-be-removed').remove();
+								p.removeTagOnNextBackspace = false;
+								p.updateAutocompletionListPosition();
+							}
+							else {
+								p.$tagList.children('li').last().prev().addClass('tagautocomplete-to-be-removed');
+								p.removeTagOnNextBackspace = true;
+							}
+						}
 						break;
 					case keyCodes.ENTER:
 						p.addTag();
@@ -214,6 +240,8 @@
 						event.preventDefault();
 						break;
 					default:
+						p.$tagList.children('li').removeClass('tagautocomplete-to-be-removed');
+						p.removeTagOnNextBackspace = false;
 						break;
 				}
 			}).keyup(function (event) {
@@ -226,8 +254,6 @@
 				    // only keep those entries which start with the search string, (escape! text before, else there will be problems with e.g searching for 'C++')
 				    regex = new RegExp('^' + text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"));
 
-
-				console.log('Tagsuche nach: ' + text);
 				// at first check, whether there is something to filter ..
 				if (text.length === 0) {
 					// if not, do not display autocompletion.
@@ -255,8 +281,10 @@
 					return settings.autocompleteList[lowercase.indexOf(el)];
 				});
 
+				// save filtered list
 				p.entriesList = filteredList;
 
+				// if no entries are left, stop processing
 				if (filteredList.length === 0) {
 					p.selectedEntry = null;
 					p.displayAutocompletionList();
