@@ -65,6 +65,9 @@
 			maxEntries: 10,
 			onTagAdded: function (tagText) {
 				console.log('Tag "' + tagText + '" added.');
+			},
+			onTagRemoved: function (tagText) {
+				console.log('Tag removed.');
 			}
 		},
 		    // will hold a lowercased-version of settings.autocompleteList
@@ -116,16 +119,28 @@
 					this.entriesList = []
 				},
 				addTag: function () {
+					var that = this;
 					if (this.selectedEntry === null)
 						return;
 					settings.onTagAdded(this.selectedEntry);
-					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '</li>');
+					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button>x</button></li>');
+					this.$tagList.find('li button').last().click(function () {
+						$(this).parent().addClass('tagautocomplete-to-be-removed');
+						that.removeTag();
+					});
 					this.tags.push(this.selectedEntry);
 					this.selectedEntry = null;
 					this.entriesList = [];
 					this.displayAutocompletionList();
 					this.updateAutocompletionListPosition();
 					this.input.focus();
+				},
+				removeTag: function () {
+					settings.onTagRemoved();
+					p.$tagList.children('.tagautocomplete-to-be-removed').remove();
+					p.removeTagOnNextBackspace = false;
+					p.updateAutocompletionListPosition();
+					p.input.focus();
 				},
 				displayAutocompletionList:  function () {
 					var that = this;
@@ -210,9 +225,7 @@
 						p.selectedEntry = null;
 						if (getCaretPosition(p.input) === 0 && p.$tagList.children('li').length >= 2) {
 							if (p.removeTagOnNextBackspace) {
-								p.$tagList.children('.tagautocomplete-to-be-removed').remove();
-								p.removeTagOnNextBackspace = false;
-								p.updateAutocompletionListPosition();
+								p.removeTag();
 							}
 							else {
 								p.$tagList.children('li').last().prev().addClass('tagautocomplete-to-be-removed');
