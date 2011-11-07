@@ -21,14 +21,14 @@
 	
 </head>
 <body>
-	<header>
+	<header class="visible_header_footer">
 		<h1>Tagshot.</h1>
 		<div id="search-container" class="textbox-container">
 			<input type="text" id="search-box" class='textbox search-start' />
 			<img src="./images/loading.gif" id="loading-image" />
 		</div>
 		<br style="clear: both;" />
-		<button id="show-options"></button>
+		<button id="show-options">Show/hide more options</button>
 	</header>
 	<section id="options-container">
 		<div id="date-picker"></div>
@@ -81,7 +81,7 @@
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 	</section>
-	<section id="batch-div">
+	<section id="batch-div" class="visible_header_footer">
 		<div id="trash-container"></div>
 		<div id="tag-edit-container" class="textbox-container">
 			<input type="text" value="Tag it!" id="search-box" class='search-start textbox' />
@@ -100,10 +100,12 @@
 	<script src="js/json2.js"></script>
 	<script src="js/backbone.js"></script>
 	<script src="js/mustache.js"></script>
+
+	<script src="js/main.js"></script>
 	<script src="controller/photo.js"></script>
 	<script src="models/photo.js"></script>
 	<script src="views/photo.js"></script>
-	<script src="js/main.js"></script>
+
 	<!-- mehrere fonts, könnt mal bisschen rumspielen, welche euch am besten gefällt -->
 	<link href='http://fonts.googleapis.com/css?family=Delius+Swash+Caps' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Coda' rel='stylesheet' type='text/css'>
