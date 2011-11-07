@@ -178,7 +178,7 @@
 				console.error('Trying to use tagAutocomplete-Plugin for a non <input type="text" />-field - Fail!');
 				return;
 			}
-			// increase id counter to create a really unique id next time
+			// increase id counter to create a really unique id next time, as well
 			autoCompleteListId += 1;
 
 			// create tag list, add css class from input-field and put <input>-field right into it
@@ -262,8 +262,6 @@
 				var text = this.value.toLowerCase(),
 				    // filteredList will hold all those entries which match the current search criteria
 				    filteredList,
-				    // will save whether the autocompletion is displayed or not
-				    autocompletionDisplayed = false,
 				    // only keep those entries which start with the search string, (escape! text before, else there will be problems with e.g searching for 'C++')
 				    regex = new RegExp('^' + text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"));
 

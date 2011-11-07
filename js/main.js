@@ -3,16 +3,11 @@ var uiSettings = {
 };
 
 $(function () {
-	var list = [
-		"JavaScript",
-		"Haskell",
-		"Lisp",
-		"Scheme",
-		"Java"
-	];
+	/* apply autocompletion to <input> */
 	$("#search-box").tagAutocomplete({
 		autocompleteList: proglag,
 		inputCssClass: 'textbox'
+	/* and make it auto-focus on page-load */
 	}).textboxFocusOnStart({
 		text: uiSettings.searchBoxText,
 		cssClassWhenEmpty: 'search-start'
@@ -66,10 +61,3 @@ function hideElements() {
 	$("#options-container").hide();
 	
 }
-
-function setCaretPosition(ctrl, pos) {
-	ctrl.focus();
-	ctrl.setSelectionRange(pos,pos);
-}
-
-
