@@ -34,6 +34,9 @@ App.views.PhotoView = Backbone.View.extend({
 				console.log(this);
 				// tmpl im index.html
 				$(this.el).html(Mustache.to_html($('#image_tmpl').html(), this));
+
+				//make resize of images
+				resizeImages();
 				return this;
 		},
 		starHTML: function(){

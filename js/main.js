@@ -2,6 +2,11 @@ var uiSettings = {
 	searchBoxText: 'Just start searching…'
 };
 
+function resizeImages() {
+	var value = $("#thumbnail-size-slider").slider("value")/steps;
+	$("#image-view img").css({height: initial_height*value});
+}
+
 $(function () {
 	/* apply autocompletion to <input> */
 	$("#search-box").tagAutocomplete({
@@ -18,21 +23,17 @@ $(function () {
 		$(this).toggleClass("open");
 	});
 
-	var initial_height = $("#image-view img").height();
-	var steps = 200;
-	function resize() {
-		var value = $("#thumbnail-size-slider").slider("value")/steps;
-		$("#image-view img").css({height: initial_height*value});
-	}
-	
+	initial_height = $("#image-view img").height();
+	steps = 200;
+
 	$("#thumbnail-size-slider").slider({
 		orientation: "horizontal",
 		range: "min",
 		min: 0.5*steps, 
 		max: 2*steps, 
 		value: steps, 
-		slide: resize,
-		change: resize
+		slide: resizeImages,
+		change: resizeImages
 	});
 
 	function dateRangeChanged(){
