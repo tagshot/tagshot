@@ -14,8 +14,10 @@
 	<script id="image_tmpl" type="text/x-mustache">
 		<button type="button" {{#isSelected}} class="selected" {{/isSelected}} >
 			<img src="{{model.attributes.thumb}}" />
-			<div class="star-me">{{#starHTML}}{{/starHTML}}</div>
-			<div class="tags">{{model.attributes.iptc.tags}}</div>
+			<div class="more_infos">
+				<div class="star-me">{{#starHTML}}{{/starHTML}}</div>
+				<div class="tags">{{model.attributes.iptc.tags}}</div>
+			</div>
 		</button>
 	</script>
 	

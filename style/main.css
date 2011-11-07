@@ -26,9 +26,20 @@ header {
 	/*background: url(../images/45degreee_fabric.png);*/
 	padding: 8px 0;
 	position: relative;
+	border-top: 2px solid #444;
 }
 .visible_header_footer {
-	background-image: -moz-linear-gradient(center bottom , #aaa 0pt, #ccc 100%);
+	background: #cccccc; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2NjY2NjYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijk5JSIgc3RvcC1jb2xvcj0iI2FhYWFhYSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+	background: -moz-linear-gradient(top,  #cccccc 0%, #aaaaaa 99%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cccccc), color-stop(99%,#aaaaaa)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #cccccc 0%,#aaaaaa 99%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #cccccc 0%,#aaaaaa 99%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #cccccc 0%,#aaaaaa 99%); /* IE10+ */
+	background: linear-gradient(top,  #cccccc 0%,#aaaaaa 99%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cccccc', endColorstr='#aaaaaa',GradientType=0 ); /* IE6-8 */
+		
 	z-index: 20;
 	box-shadow: 0px 0px 10px #333;
 }
@@ -183,19 +194,17 @@ section#image-view button:focus {
 }
 section#image-view img {
 	border: none;
-	margin: 2px;
+	margin: 2px 2px;
+}
+section#image-view button div.more_infos {
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+	margin: -3px 2px 4px 2px;
+	padding-bottom: 2px; 
 }
 section#image-view button div.star-me {
 	text-align: center;
-	font-size: 1.8em;
-	background-color: rgba(0, 0, 0, 0.7);
-	color: white;
-	margin: 0;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	display: none;
+	font-size: 1.7em;
 }
 
 section#image-view button:hover div.star-me {
@@ -205,6 +214,7 @@ section#image-view button:hover div.star-me {
 	text-decoration: none;
 	color: white;
 }
+
 .autocompletion-list li {
 	padding: 10px;
 }
