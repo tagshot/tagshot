@@ -161,10 +161,6 @@ header input.search-start {
 input:focus {
 	outline: none;
 }
-section#gallery-view {
-	/*background: url(../images/whitey.png);*/
-	background: #ddd;
-}
 #batch-div {
 	position: fixed;
 	width: 100%;
@@ -176,6 +172,10 @@ section#gallery-view {
 /***********************************/
 /* Photos */
 /***********************************/
+section#gallery-view ul{
+	/*background: url(../images/whitey.png);*/
+	background: #ddd;
+}
 
 section#gallery-view button {
 	background: white;
