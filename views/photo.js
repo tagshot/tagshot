@@ -99,11 +99,16 @@ App.views.PhotoView = Backbone.View.extend({
 		},
 		click: function(e) {
 			e.stopPropagation();
-			// shift -> from..to select
 			if (e.shiftKey) {
+				// shift -> from..to select
 				var self = this;
 				var selected = _.filter(this.model.collection.models, function(item){ return between(LastSelected.id,self.model.id,item.id)});
 				_.map(selected, function(item){item.set({"selected": true})});
+			} else if (e.ctrlKey || e.metaKey){
+				// ctrl toggle this selection
+				var self = this;
+				LastSelected = this.model;
+				this.model.set({"selected": !self.model.get("selected")});
     		} else {
 				LastSelected = this.model;
 				_.map(this.model.collection.models, function(item){item.set({"selected": false})});
