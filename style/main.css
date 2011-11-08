@@ -31,7 +31,7 @@ a {
 
 
 /***********************************/
-/* Header */
+/* Header, Footer */
 /***********************************/
 
 header {
@@ -53,6 +53,7 @@ header, footer {
 	z-index: 20;
 	box-shadow: 0px 0px 10px #333;
 }
+
 h1.logo {
 	color: #333;
 	text-shadow: 1px 1px 0px #ddd, 2px 2px 0px #ddd, 3px 3px 0px #707070;
@@ -68,14 +69,29 @@ h1.logo:hover{
 	cursor: pointer;
 }
 
-img#loading-image {
-	position: absolute;
-	top: 50%;
-	right: 15px;
-	width: 26px;
-	margin-top: -13px;
-	visibility: hidden;
+footer{
+	position: fixed;
+	width: 100%;
+	bottom: 0px;
+	height: 40px;
+	/*background: darkgrey url(../images/45degreee_dark_fabric.png);*/
 }
+
+div#trash-container {
+	width: 60px;
+	margin-top: 5px;
+	height: 30px;
+	float: right;
+	color: white;
+	background: transparent url(../images/trash-empty.png) no-repeat center center;
+	background-size: 45px;
+}
+
+
+/***********************************/
+/* Search/Tag Input Fields*/
+/***********************************/
+
 div.textbox-container {
 	border-radius: 50px;
 	border: 3px solid Crimson; /* on error */
@@ -88,62 +104,13 @@ div#search-container {
 	background-size: 1.1em;
 	width: 900px;
 }
-button#show-options {
-	position: absolute;
-	text-indent: -9999px;
-	bottom: 0;
-	right: 0;
-	width: 32px;
-	height: 32px;
-	border: none;
-	background: transparent url(../images/show_toggle.png) no-repeat;
-	cursor: pointer;
-}
-button#show-options.open {
-	background: transparent url(../images/show_toggle.png) -32px no-repeat;
-}
-
-section#options-container {
-	/*background: darkgrey url(../images/45degreee_dark_fabric.png);*/
-	background: #444;
-	color: white;
-	padding: 10px 20px;
-	border-top: 3px solid #333;
-	border-bottom: 3px solid #333;
-}
-div#thumbnail-size-container {
-	font-size: 1.0em;
-	float: left;
-	margin-left: 20px;
-}
-div#thumbnail-size-slider {
-	font-size: 12px;
-	width: 300px;
-}
-div#date-picker{
-	float: left;
-}
-
-
-/***********************************/
-/* Search/Tag Input Fields*/
-/***********************************/
-
 div#tag-edit-container {
 	margin-top: 4px;
 	margin-right: 100px;
 	background: white;
 	padding: 0 22px 0 15px;
 }
-div#trash-container {
-	width: 60px;
-	margin-top: 5px;
-	height: 30px;
-	float: right;
-	color: white;
-	background: transparent url(../images/trash-empty.png) no-repeat center center;
-	background-size: 45px;
-}
+
 .textbox {
 	border: none;
 	text-align: left;
@@ -164,71 +131,14 @@ section#gallery-view {
 	/*background: url(../images/whitey.png);*/
 	background: #ddd;
 }
-#batch-div {
-	position: fixed;
-	width: 100%;
-	bottom: 0px;
-	height: 40px;
-	/*background: darkgrey url(../images/45degreee_dark_fabric.png);*/
-}
 
-/***********************************/
-/* Photos */
-/***********************************/
-
-section#gallery-view button {
-	background: white;
-	float: left;
-	margin: 15px 15px 30px 15px;
-	/*border: 2px solid black;*/
-	box-shadow: 2px 2px 10px #333;
-	border: none;
-	padding: 0;
-	position: relative;
-	-webkit-user-select: none;
-}
-section#gallery-view button:hover:not(.selected) {
-	box-shadow: 4px 4px 16px #222;
-	outline: none;
-}
-section#gallery-view button.selected,
-section#gallery-view button:active {
-	box-shadow: 0 0 5px 5px red;
-	outline: none;
-}
-
-section#gallery-view button:focus {
-	box-shadow: 0 0 5px 5px orange;
-}
-section#gallery-view img {
-	border: none;
-	margin: 2px 2px;
-}
-section#gallery-view button div.more_infos {
-	background-color: rgba(0, 0, 0, 0.8);
-	color: white;
-	margin: -3px 2px 4px 2px;
-	padding-bottom: 2px; 
-}
-section#gallery-view button div.star-me {
-	text-align: center;
-	font-size: 1.7em;
-}
-
-section#gallery-view button:hover div.star-me {
-	display: block;
-}
-.star-me a{
-	text-decoration: none;
-	color: white;
-}
-
-.autocompletion-list li {
-	padding: 10px;
-}
-.autocompletion-list li.autocomplete-selected {
-	background: #3F4C6B;
-	color: white;
+img#loading-image {
+	position: absolute;
+	top: 50%;
+	right: 15px;
+	width: 26px;
+	margin-top: -13px;
+	visibility: hidden;
 }
 
 
@@ -313,4 +223,105 @@ input.tagautocomplete-clear-textbox {
 	font-size: 1em;
 	padding: 0;
 	margin: 0;
+}
+
+
+/***********************************/
+/* Option/Date Picker */
+/***********************************/
+
+button#show-options {
+	position: absolute;
+	text-indent: -9999px;
+	bottom: 0;
+	right: 0;
+	width: 32px;
+	height: 32px;
+	border: none;
+	background: transparent url(../images/show_toggle.png) no-repeat;
+	cursor: pointer;
+}
+button#show-options.open {
+	background: transparent url(../images/show_toggle.png) -32px no-repeat;
+}
+
+section#options-container {
+	/*background: darkgrey url(../images/45degreee_dark_fabric.png);*/
+	background: #444;
+	color: white;
+	padding: 10px 20px;
+	border-top: 3px solid #333;
+	border-bottom: 3px solid #333;
+}
+div#thumbnail-size-container {
+	font-size: 1.0em;
+	float: left;
+	margin-left: 20px;
+}
+div#thumbnail-size-slider {
+	font-size: 12px;
+	width: 300px;
+}
+div#date-picker{
+	float: left;
+}
+
+
+/***********************************/
+/* Photos */
+/***********************************/
+
+section#gallery-view button {
+	background: white;
+	float: left;
+	margin: 15px 15px 30px 15px;
+	/*border: 2px solid black;*/
+	box-shadow: 2px 2px 10px #333;
+	border: none;
+	padding: 0;
+	position: relative;
+	-webkit-user-select: none;
+}
+section#gallery-view button:hover:not(.selected) {
+	box-shadow: 4px 4px 16px #222;
+	outline: none;
+}
+section#gallery-view button.selected,
+section#gallery-view button:active {
+	box-shadow: 0 0 5px 5px red;
+	outline: none;
+}
+
+section#gallery-view button:focus {
+	box-shadow: 0 0 5px 5px orange;
+}
+section#gallery-view img {
+	border: none;
+	margin: 2px 2px;
+}
+section#gallery-view button div.more_infos {
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+	margin: -3px 2px 4px 2px;
+	padding-bottom: 2px; 
+}
+section#gallery-view button div.star-me {
+	text-align: center;
+	font-size: 1.7em;
+}
+
+section#gallery-view button:hover div.star-me {
+	display: block;
+}
+.star-me a{
+	text-decoration: none;
+	color: white;
+}
+
+.autocompletion-list li {
+	padding: 10px;
+}
+.autocompletion-list li.autocomplete-selected {
+	background: #3F4C6B;
+	color: white;
 }
