@@ -127,7 +127,7 @@ header input.search-start {
 input:focus {
 	outline: none;
 }
-section#gallery-view {
+section#gallery-view ul {
 	/*background: url(../images/whitey.png);*/
 	background: #ddd;
 }
