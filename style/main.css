@@ -120,14 +120,13 @@ div#thumbnail-size-slider {
 	font-size: 12px;
 	width: 300px;
 }
-
 div#date-picker{
 	float: left;
 }
 
 
 /***********************************/
-/* Footer */
+/* Search/Tag Input Fields*/
 /***********************************/
 
 div#tag-edit-container {
@@ -152,7 +151,7 @@ div#trash-container {
 	margin-right: 30px;
 	margin-left: 20px;
 	font-size: 1.0em;
-	width: 90%;
+	width: 95%;		/* Fits perfectly if input size is fixed */
 }
 
 header input.search-start {
