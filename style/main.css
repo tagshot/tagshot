@@ -172,7 +172,7 @@ input:focus {
 /***********************************/
 /* Photos */
 /***********************************/
-section#gallery-view ul{
+section#gallery-view{
 	/*background: url(../images/whitey.png);*/
 	background: #ddd;
 }

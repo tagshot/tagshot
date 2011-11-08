@@ -1,25 +1,45 @@
+// depends on App.collections.photoList
+
 between = function(a,b,c) {
 	var max = _.max([a,b]);
 	var min = _.min([a,b]);
 	return (min <= c && c <= max && c!=a);
 }
 
-App.views.PhotoListView = Backbone.View.extend({
-		tagName:  "ul",
-		className: "image-list-view",
-		initialize: function(options) {
-				var self = this;
+$(function () {
+	var gallery = App.views.PhotoListView.prototype;
+	$(document).bind('keydown', 'ctrl+a', gallery.selectAll);
+	$(document).bind('keydown', 'meta+a', gallery.selectAll);
+});
 
-		},
-		render: function() {
-				console.log("render whole gallery");
-				var renderedPhotos = _.map(this.collection.models, function (photo) {
-						return new App.views.PhotoView({model : photo}).render().el;
-				})
-				$(this.el).html(renderedPhotos);
-				$('#backbone-image-list-anchor').html(this.el);
-				return this;
-		}
+App.views.PhotoListView = Backbone.View.extend({
+	tagName:  "ul",
+	className: "image-list-view",
+	initialize: function(options) {
+			var self = this;
+			$(document).bind('keydown', 'ctrl+a', function(){self.selectAll(self); return false;});
+			$(document).bind('keydown', 'cmd+a', function(){self.selectAll(self); return false;});
+	},
+	render: function() {
+			console.log("render whole gallery");
+			var renderedPhotos = _.map(this.collection.models, function (photo) {
+					return new App.views.PhotoView({model : photo}).render().el;
+			})
+			$(this.el).html(renderedPhotos);
+			$('#backbone-image-list-anchor').html(this.el).children("ul").append("<span class='ui-helper-clearfix'>");
+			return this;
+	},
+	events: {
+		"click" : "deselectAll"
+	},
+	selectAll: function(){
+		self = App.collections.photoList;
+		_.map(self.models, function(item){item.set({"selected": true})});
+	},
+	deselectAll: function(e){
+		console.log(this);
+		_.map(this.collection.models, function(item){item.set({"selected": false})});
+	}
 });
 
 App.views.PhotoView = Backbone.View.extend({
@@ -68,7 +88,8 @@ App.views.PhotoView = Backbone.View.extend({
         	return this.model.get("selected");
     	},
 		events: {
-			"click" : "click"
+			"click" : "click",
+			"dblclick" : "open"
 		},
 		open : function() {
 			// TODO enlarge image
@@ -77,14 +98,16 @@ App.views.PhotoView = Backbone.View.extend({
 			$(this.el).remove();
 		},
 		click: function(e) {
+			e.stopPropagation();
 			// shift -> from..to select
 			if (e.shiftKey) {
 				var self = this;
 				var selected = _.filter(this.model.collection.models, function(item){ return between(LastSelected.id,self.model.id,item.id)});
-				_.map(selected, function(item){item.toggleSelect()});
+				_.map(selected, function(item){item.set({"selected": true})});
     		} else {
 				LastSelected = this.model;
-				this.model.set({"selected": !this.model.get("selected")});
+				_.map(this.model.collection.models, function(item){item.set({"selected": false})});
+				this.model.set({"selected": true});
 			}
 		},
 });

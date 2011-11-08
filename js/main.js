@@ -4,7 +4,7 @@ var uiSettings = {
 
 function resizeImages() {
 	var value = $("#thumbnail-size-slider").slider("value")/steps;
-	$("#image-view img").css({height: initial_height*value});
+	$("#gallery-view img").css({height: initial_height*value});
 }
 
 $(function () {
@@ -23,7 +23,7 @@ $(function () {
 		$(this).toggleClass("open");
 	});
 
-	initial_height = $("#image-view img").height();
+	initial_height = $("#gallery-view img").height();
 	steps = 200;
 
 	$("#thumbnail-size-slider").slider({
@@ -55,7 +55,6 @@ $(function () {
 	
 
 	hideElements();
-
 });
 
 function hideElements() {
