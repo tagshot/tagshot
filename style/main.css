@@ -1,7 +1,13 @@
+/***********************************/
+/* General */
+/***********************************/
+
+
 * {
 	padding: 0;
 	margin: 0;
-	/* fonts zum rumspielen, welche gefällt euch am besten? */
+	/* fonts zum rumspielen, 
+	 * welche gefällt euch am besten? */
 	font-family: "Ubuntu", sans-serif;
 	font-family: 'Delius Swash Caps', cursive;
 	font-family: 'Coda', cursive;
@@ -23,7 +29,11 @@ a {
     color: #C60;
 }
 
+
+/***********************************/
 /* Header */
+/***********************************/
+
 header {
 	text-align: center;
 	/*background: url(../images/45degreee_fabric.png);*/
@@ -115,7 +125,11 @@ div#date-picker{
 	float: left;
 }
 
-/* bottom box*/
+
+/***********************************/
+/* Footer */
+/***********************************/
+
 div#tag-edit-container {
 	margin-top: 4px;
 	margin-right: 100px;
@@ -166,8 +180,9 @@ footer {
 
 
 /***********************************/
-/* Bilder */
+/* Photos */
 /***********************************/
+
 section#gallery-view button {
 	background: white;
 	float: left;
@@ -223,10 +238,12 @@ section#gallery-view button:hover div.star-me {
 	color: white;
 }
 
-/*
- * TagAutocomplete
- */
- .autocompletion-list {
+
+/***********************************/
+/* Tag Autocompletion */
+/***********************************/
+
+.autocompletion-list {
 	background: rgb(252,255,244); /* Old browsers */
 	background: -moz-linear-gradient(top, rgba(252,255,244,1) 0%, rgba(233,233,206,1) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,255,244,1)), color-stop(100%,rgba(233,233,206,1))); /* Chrome,Safari4+ */
