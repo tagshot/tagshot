@@ -31,7 +31,7 @@ header {
 	position: relative;
 	border-top: 2px solid #444;
 }
-.visible_header_footer {
+header, footer {
 	background: -moz-linear-gradient(top,  rgba(237,237,237,0.8) 0%, rgba(204,204,204,0.85) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(237,237,237,0.8)), color-stop(100%,rgba(204,204,204,0.85))); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top,  rgba(237,237,237,0.8) 0%,rgba(204,204,204,0.85) 100%); /* Chrome10+,Safari5.1+ */
@@ -147,23 +147,17 @@ header input.search-start {
 input:focus {
 	outline: none;
 }
-section {
-}
 section#gallery-view {
 	/*background: url(../images/whitey.png);*/
 	background: #ddd;
 }
-section#batch-div {
+#batch-div {
 	position: fixed;
 	width: 100%;
 	bottom: 0px;
 	height: 40px;
 	/*background: darkgrey url(../images/45degreee_dark_fabric.png);*/
 }
-footer {
-	background: red;
-}
-
 
 /***********************************/
 /* Bilder */
