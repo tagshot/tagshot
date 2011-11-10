@@ -6,6 +6,7 @@ gem 'sqlite3'
 
 gem 'jquery-rails'
 gem 'rails-backbone'
+gem 'exiv2', '~> 0.0.5', :git => 'https://github.com/jgraichen/exiv2.git'
 
 
 
@@ -28,3 +29,4 @@ group :test do
   gem 'accept_values_for'
   gem 'guard-rspec'
 end
+
