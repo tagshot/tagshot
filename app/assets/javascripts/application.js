@@ -51,7 +51,7 @@ $(function() {
 		$(this).toggleClass("open");
 	});
 
-	initial_height = $("#gallery-view img").height();
+	initial_height = 250;
 	steps = 200;
 
 	$("#thumbnail-size-slider").slider({
