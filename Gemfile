@@ -16,7 +16,7 @@ group :assets do
   gem 'sass-rails',   '~> 3.1.4'
   gem 'coffee-rails', '~> 3.1.1'
   gem 'uglifier', '>= 1.0.3'
-  gem 'therubyracer'
+  gem 'therubyracer' if RUBY_PLATFORM.downcase.include?("linux")
 end
 
 # development and testing gems
