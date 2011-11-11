@@ -51,7 +51,8 @@ $(function() {
 		$(this).toggleClass("open");
 	});
 
-	initial_height = $("#gallery-view img").height();
+	// TODO replace hard coded
+	initial_height = 250;
 	steps = 200;
 
 	$("#thumbnail-size-slider").slider({
@@ -72,7 +73,7 @@ $(function() {
 		flat: true,
 		date: [new Date(),'2011-11-13'],
 		current: new Date(),
-		calendars: 5,
+		calendars: 4,
 		mode: 'range',
 		starts: 1,
 		onchange: dateRangeChanged

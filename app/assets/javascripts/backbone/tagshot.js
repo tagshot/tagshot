@@ -20,16 +20,6 @@ window.Tagshot = {
 
 	init: function() {
 		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
-		Tagshot.collections.photoList.fetch({
-			success: function() {
-				view = new Tagshot.Views.PhotoListView({
-					collection: Tagshot.collections.photoList
-				});
-			  	view.render();
-			  	
-			  	// TODO remove, currently for debugging
-			  	this.view = view;
-			}
-		});
+		Tagshot.views.gallery = new Tagshot.Views.PhotoListView({collection: Tagshot.collections.photoList});
 	}
 };

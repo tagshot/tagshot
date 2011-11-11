@@ -2,23 +2,30 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "ul",
 	className: "image-list-view",
 	initialize: function(options) {
-		var self = this;
-		$(document).bind('keydown', 'ctrl+a', function() { self.selectAll(self); return false; });
-		$(document).bind('keydown', 'cmd+a', function() { self.selectAll(self); return false; });
+        _.bindAll(this, 'selectAll', 'deselectAll');
+
+        // make this available in render and append
+        _.bindAll(this, 'render', 'append');
+
+        this.collection.bind("reset", this.render, this);
+        this.collection.bind("add", this.append, this);
+
+        //hook into dom
+        $('#backbone-image-list-anchor').html(this.el).children("ul").append("<span id='fix-gallery' class='ui-helper-clearfix'>");
+
+        //initial fetch
+        this.collection.fetch();
 	},
 	render: function() {
-		console.log("render whole gallery");
-//		var renderedPhotos = _.map(this.collection.models, function (photo) {
-//			return new Tagshot.Views.PhotoView({model : photo}).render().el;
-//		})
-//		$(this.el).html(renderedPhotos);
-		this.collection.each(function() {
-			var view = new Tagshot.Views.PhotoView({model: photo});
-			$(this.el).append(view.render().el)
-		});
-		$('#backbone-image-list-anchor').html(this.el).children("ul").append("<span class='ui-helper-clearfix'>");
+        console.log("render whole gallery");
+		this.collection.each(this.append);
 		return this;
 	},
+    append: function(photo) {
+		var view = new Tagshot.Views.PhotoView({model: photo});
+        // insert images before the clearfix thingy
+		$(this.el).children("#fix-gallery").before(view.render().el);
+    },
 	events: {
 		"click" : "deselectAll"
 	},
