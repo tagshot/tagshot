@@ -73,7 +73,7 @@ $(function() {
 		flat: true,
 		date: [new Date(),'2011-11-13'],
 		current: new Date(),
-		calendars: 5,
+		calendars: 4,
 		mode: 'range',
 		starts: 1,
 		onchange: dateRangeChanged
