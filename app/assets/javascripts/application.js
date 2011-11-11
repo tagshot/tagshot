@@ -51,6 +51,7 @@ $(function() {
 		$(this).toggleClass("open");
 	});
 
+	// TODO replace hard coded
 	initial_height = 250;
 	steps = 200;
 

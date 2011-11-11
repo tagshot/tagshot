@@ -26,6 +26,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
     append: function(photo) {
 		var view = new Tagshot.Views.PhotoView({model: photo});
         console.log(view.render().el);
+        // insert images before the clearfix thingy
 		$(this.el).children("#fix-gallery").before(view.render().el);
     },
 	events: {
