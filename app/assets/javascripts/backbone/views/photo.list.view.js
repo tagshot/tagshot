@@ -2,8 +2,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "ul",
 	className: "image-list-view",
 	initialize: function(options) {
-        console.log("initialize gallery");
-
         _.bindAll(this, 'selectAll', 'deselectAll');
 
         // make this available in render and append
@@ -19,13 +17,12 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
         this.collection.fetch();
 	},
 	render: function() {
-		console.log("render whole gallery");
+        console.log("render whole gallery");
 		this.collection.each(this.append);
 		return this;
 	},
     append: function(photo) {
 		var view = new Tagshot.Views.PhotoView({model: photo});
-        console.log(view.render().el);
         // insert images before the clearfix thingy
 		$(this.el).children("#fix-gallery").before(view.render().el);
     },
