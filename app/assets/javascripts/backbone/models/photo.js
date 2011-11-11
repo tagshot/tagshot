@@ -9,8 +9,7 @@ Tagshot.Models.ErrorHandlingModel = Backbone.Model.extend({
 		if (error.status == 401 || error.status == 403) {
 			// trigger event or route to login here.
 		} else {
-			//TODO einkommentieren
-			//alert("Status code: " + error.status + "\n" + error.statusText);
+			alert("Status code: " + error.status + "\n" + error.statusText);
 		}
 	}
 });
@@ -27,6 +26,7 @@ Tagshot.Models.Photo = Tagshot.Models.ErrorHandlingModel.extend({
 		};
 	},
 	star: function(nr, of) {
+		// TODO
 	},
 	isSelected: function() {
 		return this.get("selected");
@@ -42,14 +42,4 @@ Tagshot.Models.Photo = Tagshot.Models.ErrorHandlingModel.extend({
 		this.set({"selected": !self.get("selected")});
 	}
 
-});
-
-// array von photos
-Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
-	model: Tagshot.Models.Photo,
-	url: "/photos",
-	// return the current selection
-	selection: function() {
-		return this.filter(function(photo){ return photo.get('selected'); });
-	}
 });

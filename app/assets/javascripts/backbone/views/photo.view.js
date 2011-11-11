@@ -6,10 +6,10 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		this.model.bind('destroy', this.remove, this);
 	},
 	render: function () {
-		console.log("render");
+		console.log("render", this.model.get('id'));
 		console.log(this);
 		// tmpl im index.html
-		$(this.el).html(Mustache.to_html($('#image_tmpl').html(), this));
+		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
 
 		//make resize of images
 		resizeImages();

@@ -2,23 +2,32 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "ul",
 	className: "image-list-view",
 	initialize: function(options) {
+        console.log("initialize gallery");
+
 		var self = this;
 		$(document).bind('keydown', 'ctrl+a', function() { self.selectAll(self); return false; });
 		$(document).bind('keydown', 'cmd+a', function() { self.selectAll(self); return false; });
+
+        _.bindAll(this, 'render', 'append');
+        this.collection.bind("reset", this.render, this);
+        this.collection.bind("add", this.append, this);
+
+        //hook into dom
+        $('#backbone-image-list-anchor').html(this.el).children("ul").append("<span class='ui-helper-clearfix'>");
+
+        //initial fetch
+        this.collection.fetch();
 	},
 	render: function() {
 		console.log("render whole gallery");
-//		var renderedPhotos = _.map(this.collection.models, function (photo) {
-//			return new Tagshot.Views.PhotoView({model : photo}).render().el;
-//		})
-//		$(this.el).html(renderedPhotos);
-		this.collection.each(function() {
-			var view = new Tagshot.Views.PhotoView({model: photo});
-			$(this.el).append(view.render().el)
-		});
-		$('#backbone-image-list-anchor').html(this.el).children("ul").append("<span class='ui-helper-clearfix'>");
+		this.collection.each(this.append);
 		return this;
 	},
+    append: function(photo) {
+		var view = new Tagshot.Views.PhotoView({model: photo});
+        console.log(view.render().el);
+		$(this.el).append(view.render().el);
+    },
 	events: {
 		"click" : "deselectAll"
 	},
