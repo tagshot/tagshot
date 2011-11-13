@@ -11,11 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111113184011) do
+ActiveRecord::Schema.define(:version => 20111113190129) do
+
+  create_table "keys", :force => true do |t|
+    t.string "name"
+  end
 
   create_table "photos", :force => true do |t|
     t.string "file"
     t.string "name"
+  end
+
+  create_table "properties", :force => true do |t|
+    t.string "value"
   end
 
   create_table "tags", :force => true do |t|
