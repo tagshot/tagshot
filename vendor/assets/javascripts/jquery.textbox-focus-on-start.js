@@ -10,7 +10,6 @@
 	 * Works in Chrome and Firefox only.
 	 */
 	var setCaretPosition = function (ctrl, pos) {
-		ctrl.focus();
 		ctrl.setSelectionRange(pos, pos);
 	};
 
@@ -47,7 +46,7 @@
 		};
 
 		// prepare textbox with given standard text and set focus with cursor at the first position
-		this.val(settings.text);
+		this.val(settings.text).addClass(settings.cssClassWhenEmpty);
 		domElement.focus();
 		setCaretPosition(domElement, 0);
 
@@ -68,19 +67,13 @@
 		}).keyup(function () {
 			displayStandardTextWhenEmpty(this);
 		}).focus(function () {
-			displayStandardTextWhenEmpty(this);
-		}).click(function () {
-			// clear input on click
 			var input = $(this);
-			this.value = '';
 			input.removeClass(settings.cssClassWhenEmpty);
-		}).focusout(function () {
-			var text = this.value,
-			    input = $(this);
-			if (text === '') {
-				input.addClass(settings.cssClassWhenEmpty).val(settings.text);
-				setCaretPosition(this, 0);
-			}
+			// clear input on focus
+			if (this.value === settings.text)
+				this.value = '';
+		}).blur(function () {
+			displayStandardTextWhenEmpty(this);
 		});
 		return this;
 	};
