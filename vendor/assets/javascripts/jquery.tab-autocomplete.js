@@ -182,7 +182,9 @@
 			autoCompleteListId += 1;
 
 			// create tag list, add css class from input-field and put <input>-field right into it
-			p.$tagList = $('<ul><li></li><br style="clear: both;" /></ul>').addClass(settings.inputCssClass).prependTo(p.parent);
+			p.$tagList = $('<ul><li></li><br style="clear: both;" /></ul>').addClass(settings.inputCssClass).prependTo(p.parent).click(function () {
+				p.$input.focus();
+			});
 			p.$tagList.children('li').last().append(p.$input);
 			// remove css class from input field and set clear style for input
 			p.$input.removeClass(settings.inputCssClass).addClass('tagautocomplete-clear-textbox');
@@ -220,6 +222,7 @@
 
 			// now add keyboard monitoring for <input>-element
 			p.$input.keydown(function (event) {
+				p.$autocompletionList.show(0);
 				switch (event.keyCode) {
 					case keyCodes.BACKSPACE:
 						p.selectedEntry = null;
@@ -306,6 +309,12 @@
 					p.selectedEntry = filteredList[0];
 				}
 				p.displayAutocompletionList();
+			}).focus(function () {
+				p.$autocompletionList.show(0);
+			}).blur(function () {
+				window.setTimeout(function () {
+					p.$autocompletionList.hide(0);
+				}, 200);
 			});
 		});
 
