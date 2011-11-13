@@ -158,7 +158,6 @@ img#loading-image {
 	min-width: 400px;
 	position: absolute;
 	z-index: 999;
-	outline: 2px outset #3F4C6B;
 }
 .textbox {
 }
@@ -180,6 +179,7 @@ img#loading-image {
 	border-radius: 15px;
 	color: white;
 	line-height: 100%;
+	vertical-align: center;
 	overflow: hidden;
 	position: relative;
 	background: rgb(63,76,107); /* Old browsers */
@@ -190,6 +190,7 @@ img#loading-image {
 	background: -ms-linear-gradient(top, rgba(63,76,107,1) 0%,rgba(63,76,107,1) 100%); /* IE10+ */
 	background: linear-gradient(top, rgba(63,76,107,1) 0%,rgba(63,76,107,1) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
+	min-width: 0;
 }
 .textbox li.tag:before {
 	content: '';
@@ -216,13 +217,15 @@ img#loading-image {
 }
 .textbox input {
 }
-
+.textbox li {
+}
 input.tagautocomplete-clear-textbox {
 	border: none;
 	height: 100%;
 	font-size: 1em;
 	padding: 0;
 	margin: 0;
+	width: 100%;
 }
 
 
