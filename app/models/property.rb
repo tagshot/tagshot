@@ -1,5 +1,5 @@
 class Property < ActiveRecord::Base
 
-  belongs_to_many :photos
-  has_many_and_belongs_to_many :keys  
+  belongs_to :photo
+  belongs_to :key
 end

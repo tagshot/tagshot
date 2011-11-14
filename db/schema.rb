@@ -11,23 +11,43 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111113190129) do
+ActiveRecord::Schema.define(:version => 20111114180758) do
 
   create_table "keys", :force => true do |t|
     t.string "name"
   end
 
+  add_index "keys", ["name"], :name => "index_keys_on_name", :unique => true
+
   create_table "photos", :force => true do |t|
-    t.string "file"
-    t.string "name"
+    t.string   "file"
+    t.string   "checksum"
+    t.integer  "size"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "properties", :force => true do |t|
-    t.string "value"
+  create_table "photos_tags", :force => true do |t|
+    t.integer "photo_id", :null => false
+    t.integer "tag_id",   :null => false
   end
+
+  add_index "photos_tags", ["photo_id", "tag_id"], :name => "index_photos_tags_on_photo_id_and_tag_id", :unique => true
+
+  create_table "properties", :force => true do |t|
+    t.integer  "photo_id"
+    t.integer  "key_id"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "properties", ["photo_id", "key_id"], :name => "index_properties_on_photo_id_and_key_id", :unique => true
 
   create_table "tags", :force => true do |t|
     t.string "name"
   end
+
+  add_index "tags", ["name"], :name => "index_tags_on_name", :unique => true
 
 end
