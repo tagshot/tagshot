@@ -5,3 +5,5 @@ tmp/
 .sass-cache/
 .DS_Store
 *.swp
+config/database.yml
+Gemfile.lock
