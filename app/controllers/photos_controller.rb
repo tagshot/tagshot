@@ -1,6 +1,12 @@
 class PhotosController < ApplicationController
   
   def index
+
+		@photos_dyn = Photo.first({
+			:url => "photo8.jpg"
+		})
+
+		# hardcoded answer for testing
     @photos = [{
       :id => 42,
 	    :exif => {
@@ -129,7 +135,7 @@ class PhotosController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.json { render :json => @photos }
+      format.json { render :json => @photos_dyn }
     end
   end
 end

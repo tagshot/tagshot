@@ -1,4 +1,8 @@
-class Photo < ActiveRecord::Base
-  
-  has_many_and_belongs_to_many :tags
+class Photo
+	include MongoMapper::Document
+
+	key :url, String
+	key :thumb, String
+	key :exif, Hash
+	key :iptc, Hash
 end
