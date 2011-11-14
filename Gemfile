@@ -9,8 +9,6 @@ gem 'rails-backbone'
 gem 'exiv2', '~> 0.0.6'
 
 
-gem 'mongo_mapper'
-gem 'bson_ext'	# better performance, MonogDB protocol in C
 
 # Gems used only for assets and not required
 # in production environments by default.
