@@ -19,8 +19,9 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			/*var stars = render(text).split("/");
 			var blacks = parseInt(stars[0]);
 			var whites = parseInt(stars[1]) - blacks;*/
-			var blacks = this.model.get("iptc").stars.nr;
-			var whites = this.model.get("iptc").stars.of - blacks;
+			var blacks = this.model.get("rating") || 0;
+			// var whites = this.model.get("stars").stars.of - blacks;
+			var whites = 5 - blacks;
 			var blackstar = "<a href='#'>&#9733;</a>";
 			var whitestar = "<a href='#'>&#9734;</a>";
 
