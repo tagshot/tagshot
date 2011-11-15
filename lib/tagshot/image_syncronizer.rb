@@ -39,8 +39,7 @@ module Tagshot
           end
         else
           puts "  Add property #{key} => #{value}"
-          key = Key.find_or_create_by_name key
-          @photo.properties.create :key_id => key.id, :value => value
+          @photo.properties.create :name => key, :value => value
         end
       end
       
