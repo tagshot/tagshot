@@ -22,6 +22,13 @@ module Tagshot
       raise "Unknown key: #{key}"
     end
     
+    def add(key, value)
+      return @image.exif_data.add key, value if key =~ /^exiv/i
+      return @image.iptc_data.add key, value if key =~ /^iptc/i
+      return @image.xmp_data.add  key, value if key =~ /^xmp/i
+      raise "Unknown key: #{key}"
+    end
+    
     def each(&block)
       @image.exif_data.each &block
       @image.iptc_data.each &block
