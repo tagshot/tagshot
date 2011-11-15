@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(:version => 20111114190319) do
     t.integer  "source_id"
   end
 
-  add_index "photos", ["file", "id"], :name => "index_photos_on_file_and_id", :unique => true
+  add_index "photos", ["file", "source_id"], :name => "index_photos_on_file_and_source_id", :unique => true
   add_index "photos", ["file"], :name => "index_photos_on_file"
 
   create_table "photos_tags", :force => true do |t|
