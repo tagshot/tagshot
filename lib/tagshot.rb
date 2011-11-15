@@ -3,6 +3,7 @@ require 'tagshot/image'
 require 'tagshot/syncronizer'
 require 'tagshot/image_syncronizer'
 require 'tagshot/tag_helper'
+require 'tagshot/meta_properties'
 require 'tagshot/version'
 
 module Tagshot
