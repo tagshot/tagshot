@@ -5,39 +5,37 @@ module Tagshot
       @image   = image
       @photo   = @source.photos.find_by_file image.file.path
       @photo ||= @source.photos.new :file => image.file.path, 
-                    :size => image.file.size,
-                    :file_mtime => image.file.mtime
+                    :size => image.file.size
     end
     
     def sync!
       # db photo not changed; file changed
       # or
       # db and file changed; override db
-      self.read!  if @photo.file_mtime < @image.file.mtime
+      puts "Check image #{File.basename(@image.file.path)} (#{@photo.last_sync_at} < #{@image.file.mtime})"
+      self.read! if @photo.last_sync_at < @image.file.mtime
                     
       # db photo changed; file not changed
-      self.write! if @photo.updated_at > @image.file.mtime and
-                    @photo.file_mtime == @image.file.mtime
+      self.write! if @photo.last_sync_at < (@photo.updated_at - 1.minute)
     end
     
     def read!
+      puts "Read image #{@image.file.path} (#{@photo.last_sync_at} < #{@image.file.mtime.utc})"
       # clean up
-      @photo.tags.clear
+      @photo.tags.delete_all
       @photo.properties.clear
       
       @image.each do |key,value|
         if key == 'Iptc.Application2.Keywords'
           value = [value] unless value.is_a?(Array)
-          value.each do |tag|
-            puts "  Add iptc tag #{tag}"
-            tag = Tag.find_or_create_by_name(tag)
-            @photo.tags << tag unless @photo.tags.include?(tag)
+          value.uniq.select(&:present?).each do |tag|
+            puts "  Add iptc tag #{tag.inspect}"
+            @photo.tags << tag
           end
         elsif key == 'Xmp.iptc.Keywords'
-          value.strip.split(/\s*,\s*/).each do |tag|
-            puts "  Add xmp tag #{tag}"
-            tag = Tag.find_or_create_by_name(tag)
-            @photo.tags << tag unless @photo.tags.include?(tag)
+          value.strip.split(/\s*,\s*/).uniq.select(&:present?).each do |tag|
+            puts "  Add xmp tag #{tag.inspect}"
+            @photo.tags << tag
           end
         else
           puts "  Add property #{key} => #{value}"
@@ -46,20 +44,25 @@ module Tagshot
         end
       end
       
-      @photo.file_mtime   = @image.file.mtime
-      @photo.last_sync_at = Time.zone.now
-      @photo.save!
+      @photo.update_attributes(:last_sync_at => Time.zone.now)
     end
     
     def write!
+      puts "Write image #{@image.file.path}"
       @image['Iptc.Application2.Keywords'] = ""
       
-      tags = @photo.tags.map(&:name)
-      puts "  Write tags #{tags.join ', '}"
-      @image['Xmp.iptc.Keywords'] = tags.join ', '
-      tags.each { |tag| @image.add 'Iptc.Application2.Keywords', tag }
-      
+      tags = @photo.tags.to_a
+      if tags.length > 0
+        puts "  Write tags #{tags.join(', ').inspect}"
+        @image['Xmp.iptc.Keywords'] = tags.join ', '
+        tags.each { |tag| @image.add 'Iptc.Application2.Keywords', tag }
+      else
+        @image['Xmp.iptc.Keywords'] = ''
+      end
       @image.save!
+      
+      @photo.last_sync_at = Time.zone.now
+      @photo.save!
     end
   end
 end
