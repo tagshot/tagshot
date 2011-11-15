@@ -3,9 +3,6 @@ require 'tagshot/image'
 require 'tagshot/syncronizer'
 require 'tagshot/version'
 
-require 'tagshot/photo/tag_helper'
-require 'tagshot/photo/property_helper'
-
 module Tagshot
   
   def self.sync_all!
