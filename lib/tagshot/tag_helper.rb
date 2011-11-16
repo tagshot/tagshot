@@ -31,10 +31,19 @@ module Tagshot
         false
       end
       
+      def +(tags)
+        to_a + tags
+      end
+      
+      def -(tags)
+        to_a - tags
+      end
+      
       def delete(tag)
         tag = Tag.find_by_name(tag.to_s)
         @photo.tags_without_helper.delete(tag) if tag
       end
+      alias_method :remove, :delete
       
       def delete_all
         @photo.tags_without_helper.delete_all

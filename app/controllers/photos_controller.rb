@@ -6,7 +6,7 @@ class PhotosController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        render :json => @photos.as_json
+        render :json => @photos
       end
     end
   end
@@ -14,8 +14,10 @@ class PhotosController < ApplicationController
   def show
     @photo = Photo.find(params[:id])
     
-    render :status => :not_found and return unless @photo.file =~ /\.#{params[:format]}$/
-    
-    send_file @photo.file
+    if @photo.file =~ /\.#{params[:format]}$/
+      send_file @photo.file
+    else
+      render :json => PhotoDecorator.decorate(@photo)
+    end
   end
 end

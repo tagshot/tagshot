@@ -31,9 +31,9 @@ describe PhotosController do
         response.status.should == 200
       end
       
-      it 'should return photo' do
+      it 'should return photo hash consutrcted by PhotoDecorator' do
         get :show, :format => :json, :id => @photo.id
-        JSON(response.body).should be_a(Hash)
+        response.body.should == PhotoDecorator.decorate(@photo).to_json
       end
     end
   end
