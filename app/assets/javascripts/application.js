@@ -27,7 +27,7 @@ var uiSettings = {
 
 function resizeImages() {
 	var value = $("#thumbnail-size-slider").slider("value")/steps;
-	$("#gallery-view img").css({height: initial_height*value});
+	$("#gallery-view div.img").css({height: initial_height*value, width: initial_height*value*1.6});
 }
 function hideElements() {
 	$("#options-container").hide();	
