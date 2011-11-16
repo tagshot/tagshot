@@ -303,12 +303,12 @@ section#gallery-view button:focus {
 }
 section#gallery-view div.img {
 	overflow: hidden;
-	margin: 2px 2px;
+	margin: 2px auto;
 	position: relative;
 	height: 200px;
 	width:  320px;
 	
-	min-height: 100px;
+	min-height: 40px;
 	max-height: 500px;
 }
 section#gallery-view img {
