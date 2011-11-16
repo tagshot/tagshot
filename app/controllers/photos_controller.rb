@@ -4,8 +4,9 @@ class PhotosController < ApplicationController
     @photos = PhotoDecorator.all
     
     respond_to do |format|
-      format.html
+      format.html 
       format.json do
+        sleep 2
         render :json => @photos
       end
     end

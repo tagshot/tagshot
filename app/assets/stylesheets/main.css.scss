@@ -301,10 +301,15 @@ section#gallery-view button:active {
 section#gallery-view button:focus {
 	box-shadow: 0 0 5px 5px orange;
 }
-section#gallery-view button div.img {
+section#gallery-view div.img {
 	overflow: hidden;
 	margin: 2px 2px;
 	position: relative;
+	height: 200px;
+	width:  320px;
+	
+	min-height: 100px;
+	max-height: 500px;
 }
 section#gallery-view img {
 	border: none;

@@ -26,8 +26,16 @@ var uiSettings = {
 };
 
 function resizeImages() {
-	var value = $("#thumbnail-size-slider").slider("value")/steps;
-	$("#gallery-view div.img").css({height: initial_height*value, width: initial_height*value*1.6});
+	var value  = $("#thumbnail-size-slider").slider("value") / 100;
+	var max    = parseInt($("#gallery-view div.img").css('max-height'));
+	var min    = parseInt($("#gallery-view div.img").css('min-height'));
+	var height = min + (max-min)*value;
+	console.log(value, max, min, height);
+	
+	$("#gallery-view div.img").css({
+		height: height, 
+		width: height*1.6
+	});
 }
 function hideElements() {
 	$("#options-container").hide();	
@@ -51,16 +59,12 @@ $(function() {
 		$(this).toggleClass("open");
 	});
 
-	// TODO replace hard coded
-	initial_height = 250;
-	steps = 200;
-
 	$("#thumbnail-size-slider").slider({
 		orientation: "horizontal",
-		range: "min",
-		min: 0.5*steps, 
-		max: 2*steps, 
-		value: steps, 
+		range: "min", 
+		min: 0,
+		max: 100,
+		value: 25,
 		slide: resizeImages,
 		change: resizeImages
 	});
