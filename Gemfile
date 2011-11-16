@@ -27,14 +27,15 @@ group :assets do
   gem 'therubyracer' if RUBY_PLATFORM.downcase.include?("linux")
 end
 
-# development and testing gems
-group :development, :test do
-  gem 'rspec-rails'
-end
+# testing gems
 group :test do
+  gem 'rspec-rails'
   gem 'turn', :require => false
   gem 'factory_girl_rails'
   gem 'accept_values_for'
   gem 'guard-rspec'
+  gem 'spork', '> 0.9.0.rc'
+  gem 'guard-spork'
+  gem 'database_cleaner'
 end
 
