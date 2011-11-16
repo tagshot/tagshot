@@ -26,10 +26,9 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'therubyracer' if RUBY_PLATFORM.downcase.include?("linux")
 end
-
+gem 'rspec-rails', :group => [:development, :test]
 # testing gems
 group :test do
-  gem 'rspec-rails'
   gem 'turn', :require => false
   gem 'factory_girl_rails'
   gem 'accept_values_for'
