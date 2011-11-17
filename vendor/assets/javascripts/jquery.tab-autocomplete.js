@@ -91,7 +91,7 @@
 		 * ]
 		 */
 		lowercase = settings.autocompleteList.map(function (el) {
-			return el.toLowerCase();
+			return [el[0].toLowerCase(), el[1]];
 		});
 
 		this.each(function () {
@@ -279,7 +279,14 @@
 				// filter list
 				filteredList = lowercase.filter(function (el) {
 					// true, when something was found (search returns index of first occurrence)
-					return el.search(regex) >= 0;
+					return el[0].search(regex) >= 0;
+				});
+
+				// sort by priority
+				filteredList = filteredList.sort(function (a, b) {
+					if (a[1] === b[1]) return 0;
+					else if (a[1] < b[1]) return +1;
+					else return -1;
 				});
 
 				// limit to settings.maxEntries
@@ -292,7 +299,7 @@
 				// we have to find the correctly speed version of the word
 				// so we just map each entry to its original, un-lowercased equivalent
 				filteredList = filteredList.map(function (el) {
-					return settings.autocompleteList[lowercase.indexOf(el)];
+					return settings.autocompleteList[lowercase.indexOf(el)][0];
 				});
 
 				// save filtered list
