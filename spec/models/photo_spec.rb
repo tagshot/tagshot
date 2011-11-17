@@ -17,6 +17,24 @@ describe Photo do
     end
   end
   
+  describe '#update_tags' do
+    let(:photo) { Factory(:photo_with_tags) }
+    it 'should do nothing if no array is given' do
+      photo.tags.names.count.should == 3
+      photo.update_tags(nil)
+      photo.tags.names.count.should == 3
+      photo.update_tags("abc")
+      photo.tags.names.count.should == 3
+    end
+    it 'should remove all tags if empty array is given' do
+      photo.tags.names.count.should == 3
+      photo.update_tags([])
+    end
+    it 'should replace all tags' do
+      
+    end
+  end
+  
   describe 'has tags assoization' do
     it 'should return string array' do
       photo = Factory(:photo_with_tags)

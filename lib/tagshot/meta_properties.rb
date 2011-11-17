@@ -28,7 +28,7 @@ module Tagshot
     module InstanceMethods
       def meta_property_get(attrs, opts)
         attrs.each do |key|
-          values = self.properties.where(:name => key).map(&:value)
+          values = self.properties.select{|p|p.name == key}.map(&:value)
           next if values.empty?
           
           values = values.map{|i| meta_convert_value(i, opts)}
