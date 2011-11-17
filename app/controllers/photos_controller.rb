@@ -27,9 +27,8 @@ class PhotosController < ApplicationController
   
   def update
     @photo = Photo.find(params[:id])
+    @photo.tags = params[:tags] unless params[:tags].nil?
     
-    @photo.update_tags(params[:tags])
-    @photo.update_properties(params[:properties])
     render_json @photo
   end
   
