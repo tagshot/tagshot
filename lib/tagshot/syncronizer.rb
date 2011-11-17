@@ -7,23 +7,37 @@ module Tagshot
     
     def sync!
       return if @source.nil?
-      Dir[File.join(@source.path, '**')].each do |file|
-        try_action file, :sync!
+      file_num = 0
+      files.each do |file|
+        file_num += 1
+        puts "Sync #{file_num} of #{files.length}: #{File.basename(file)} ... "
+        sync file
       end
     end
     
     def read!
       return if @source.nil?
-      Dir[File.join(@source.path, '**')].each do |file|
-        try_action file, :read!
+      Dir[File.join(@source.path, '**', '*')].each do |file|
+        try_action file, :read! if File.file?(file)
       end
     end
     
   private # -------------------------------------------------------------------
-    def try_action(file, action)
-      ImageSyncronizer.new(@source, Image.new(file)).send action
+    def files
+      @files ||= Dir[File.join(@source.path, '**', '*')].select{|f| File.file?(f)}
+      @files
+    end
+  
+    def sync(file)
+      ImageSyncronizer.new(@source, Image.new(file)).sync!
     rescue StandardError => e
-      puts "ERROR: #{e}"
+      puts "SYNC ERROR: #{e}"
+    end
+    
+    def read(file)
+      ImageSyncronizer.new(@source, Image.new(file)).read!
+    rescue StandardError => e
+      puts "READ ERROR: #{e}"
     end
   end
 end
