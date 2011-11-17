@@ -23,6 +23,18 @@ describe Photo do
       photo.tags.names.should == ['a', 'b', 'c']
     end
     
+    it 'should remove all tags if nil given' do
+      photo = Factory(:photo_with_tags)
+      photo.tags = nil
+      photo.tags.names.should == []
+    end
+    
+    it 'should remove all tags when empty array given' do
+      photo = Factory(:photo_with_tags)
+      photo.tags = []
+      photo.tags.names.should == []
+    end
+    
     it 'should add a new tag' do
       photo = Factory(:photo_with_tags)
       photo.tags << 'd'

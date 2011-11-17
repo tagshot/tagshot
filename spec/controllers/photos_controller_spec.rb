@@ -19,6 +19,14 @@ describe PhotosController do
         get :index, :format => :json
         JSON(response.body).should be_an(Array)
       end
+      
+      it 'should not return more than 100 photos' do
+        150.times { Factory(:photo) }
+        get :index, :format => :json
+        
+        Photo.all.count.should > 100 # ensure there are more than 100 photos
+        JSON(response.body).length.should == 100
+      end
     end
   end
   

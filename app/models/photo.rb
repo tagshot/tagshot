@@ -66,6 +66,6 @@ class Photo < ActiveRecord::Base
   def tags=(tags)
     tags = [tags] unless tags.respond_to? :each
     self.tags.delete_all
-    tags.each { |tag| self.tags << tag }
+    tags.each { |tag| self.tags << tag if tag.present? }
   end
 end
