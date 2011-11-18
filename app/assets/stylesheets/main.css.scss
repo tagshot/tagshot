@@ -1,3 +1,5 @@
+//=require reset
+
 /***********************************/
 /* General */
 /***********************************/
@@ -70,25 +72,6 @@ h1.logo:hover{
 	color: black;
 	cursor: pointer;
 }
-
-footer{
-	position: fixed;
-	width: 100%;
-	bottom: 0px;
-	height: 40px;
-	/*background: darkgrey url(../images/45degreee_dark_fabric.png);*/
-}
-
-div#trash-container {
-	width: 60px;
-	margin-top: 5px;
-	height: 30px;
-	float: right;
-	color: white;
-	background: transparent image-url("trash-empty.png") no-repeat center center;
-	background-size: 45px;
-}
-
 
 /***********************************/
 /* Search/Tag Input Fields*/
@@ -342,3 +325,31 @@ section#gallery-view button:hover div.star-me {
 	background: #3F4C6B;
 	color: white;
 }
+
+/***********************************/
+/* Tag it bar*/
+/***********************************/
+
+footer .textbox {
+    height: 60px;
+}
+
+footer{
+    display: none;
+	position: fixed;
+	width: 100%;
+	bottom: 0px;
+	height: 80px;
+	/*background: darkgrey url(../images/45degreee_dark_fabric.png);*/
+}
+
+div#trash-container {
+	width: 60px;
+	margin-top: 5px;
+	height: 30px;
+	float: right;
+	color: white;
+	background: transparent image-url("trash-empty.png") no-repeat center center;
+	background-size: 45px;
+}
+

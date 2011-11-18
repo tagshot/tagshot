@@ -18,27 +18,28 @@ Tagshot.Models.Photo = Tagshot.Models.ErrorHandlingModel.extend({
 	initialize: function(options) {
 		Tagshot.Models.ErrorHandlingModel.prototype.initialize.call(this, options);
 	},
+	selected: false,
 	defaults: function() {
 		return {
-			id: 0,
-			selected: false
+			id: 0
 		};
 	},
 	star: function(nr, of) {
 		// TODO
 	},
 	isSelected: function() {
-		return this.get("selected");
+		return this.selected;
 	},
 	select: function() {
-		this.set({"selected": true});
+		this.selected = true;
+		this.trigger("select");
 	},
 	deselect: function() {
-		this.set({"selected": false});
+		this.selected = false;
+		this.trigger("deselect");
 	},
 	toggleSelect: function() {
-		self = this;
-		this.set({"selected": !self.get("selected")});
+		this.selected? this.deselect() : this.select();	
 	}
 
 });

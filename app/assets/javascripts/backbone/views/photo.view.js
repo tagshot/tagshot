@@ -3,9 +3,16 @@
 Tagshot.Views.PhotoView = Backbone.View.extend({
 	tagName:  "li",
 	className: "image-view",
+	events: {
+		"click" : "click",
+		"dblclick" : "open"
+	},
 	initialize : function() {
 		this.model.bind('change', this.render, this);
+		this.model.bind('change', this.showFooterIfNeccessary, this);
 		this.model.bind('destroy', this.remove, this);
+		this.model.bind('select', this.select, this);
+		this.model.bind('deselect', this.deselect, this);
 	},
 	render: function () {
 		console.log("render", this.model.get('id'));
@@ -15,6 +22,12 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		//make resize of images
 		resizeImages();
 		return this;
+	},
+	select: function() {
+		$(this.el).children().first().addClass("selected");
+	},
+	deselect: function() {
+		$(this.el).children().first().removeClass("selected");
 	},
 	starHTML: function(){
 		return function(text, render) {
@@ -41,13 +54,14 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			return blackstars+whitestars;
 		}
 	},
-	isSelected: function() {
-        	return this.model.get("selected");
-    	},
-	events: {
-		"click" : "click",
-		"dblclick" : "open"
+	showFooterIfNeccessary: function() {
+		if(this.model.selection().length() > 0) {
+			//TODO show footer
+		}
 	},
+	isSelected: function() {
+        return this.model.selected;
+    },
 	open : function() {
 		// TODO enlarge image
 	},

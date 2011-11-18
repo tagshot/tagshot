@@ -8,15 +8,18 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 	},
 	// return the current selection
 	selection: function() {
-		return this.filter(function(photo){ return photo.get('selected'); });
+		return this.filter(function(photo){ return photo.selected });
 	},
 	selectAll: function() {
+		console.log("select all");
 		_.map(this.models, function(item) { item.select() });
 	},
 	deselectAll: function()	{
+		console.log("deselect all");
 		_.map(this.models, function(item) { item.deselect() });	
 	},
 	selectFromTo: function(from, to) {
+		console.log("select from "+from+" to "+to);
 		_.each(this.models, function(item) { 
 			if(between(from.id,to.id,item.id)){
 				item.select();
