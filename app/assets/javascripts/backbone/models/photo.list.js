@@ -14,9 +14,10 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 		console.log("select all");
 		_.map(this.models, function(item) { item.select() });
 	},
-	deselectAll: function()	{
+	deselectAll: function(args)	{
+		args || (args = {});
 		console.log("deselect all");
-		_.map(this.models, function(item) { item.deselect() });	
+		_.map(this.models, function(item) { if (item !== args.exclude) item.deselect() });	
 	},
 	selectFromTo: function(from, to) {
 		console.log("select from "+from+" to "+to);

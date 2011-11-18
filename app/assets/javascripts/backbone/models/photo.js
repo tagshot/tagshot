@@ -31,12 +31,16 @@ Tagshot.Models.Photo = Tagshot.Models.ErrorHandlingModel.extend({
 		return this.selected;
 	},
 	select: function() {
-		this.selected = true;
-		this.trigger("select");
+		if (!this.selected) {
+			this.selected = true;
+			this.trigger("select");
+		}
 	},
 	deselect: function() {
-		this.selected = false;
-		this.trigger("deselect");
+		if (this.selected) {
+			this.selected = false;
+			this.trigger("deselect");
+		}
 	},
 	toggleSelect: function() {
 		this.selected? this.deselect() : this.select();	

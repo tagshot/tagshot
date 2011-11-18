@@ -25,15 +25,21 @@ var uiSettings = {
 	searchBoxText: 'Just start searching…'
 };
 
+var maxHeight;
+var minHeight;
+
+function reestimateHeight() {
+	maxHeight = parseInt($("#gallery-view div.img").css('max-height'));
+	minHeight = parseInt($("#gallery-view div.img").css('min-height'));
+}
+
 function resizeImages() {
 	var value  = $("#thumbnail-size-slider").slider("value") / 100;
-	var max    = parseInt($("#gallery-view div.img").css('max-height'));
-	var min    = parseInt($("#gallery-view div.img").css('min-height'));
-	var height = min + (max-min)*value;
+	var height = minHeight + (maxHeight - minHeight)*value;
 	
 	$("#gallery-view div.img").css({
-		height: height, 
-		width: height*1.6
+		'height': height
+		//width: height*1.6
 	});
 }
 function hideElements() {
@@ -42,6 +48,12 @@ function hideElements() {
 
 $(function() {
 	Tagshot.init();
+
+	//TODO verbessern!!!!
+	reestimateHeight();
+	window.setTimeout(function(){
+		reestimateHeight();
+	},100);
 	
 	/* apply autocompletion to <input> */
 	$("#search-box").tagAutocomplete({

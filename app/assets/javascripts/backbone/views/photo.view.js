@@ -9,7 +9,6 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	},
 	initialize : function() {
 		this.model.bind('change', this.render, this);
-		this.model.bind('change', this.showFooterIfNeccessary, this);
 		this.model.bind('destroy', this.remove, this);
 		this.model.bind('select', this.select, this);
 		this.model.bind('deselect', this.deselect, this);
@@ -54,11 +53,6 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			return blackstars+whitestars;
 		}
 	},
-	showFooterIfNeccessary: function() {
-		if(this.model.selection().length() > 0) {
-			//TODO show footer
-		}
-	},
 	isSelected: function() {
         return this.model.selected;
     },
@@ -82,7 +76,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
     	} else {
 			// deselect all but current
 			LastSelected = this.model;
-			this.model.collection.deselectAll();
+			this.model.collection.deselectAll({'exclude':this.model});
 			this.model.select();
 		}
 	},
