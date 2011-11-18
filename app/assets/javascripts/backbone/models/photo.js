@@ -16,8 +16,7 @@ Tagshot.Models.ErrorHandlingModel = Backbone.Model.extend({
 
 Tagshot.Models.Photo = Tagshot.Models.ErrorHandlingModel.extend({
 	initialize: function(options) {
-		console.log("initialisiere Objekt mit der Nummer: "+this.get("id"));
-		ErrorHandlingModel.prototype.initialize.call(this, options);
+		Tagshot.Models.ErrorHandlingModel.prototype.initialize.call(this, options);
 	},
 	defaults: function() {
 		return {

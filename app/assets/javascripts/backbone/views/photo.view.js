@@ -1,3 +1,5 @@
+//= require backbone-eventdata
+
 Tagshot.Views.PhotoView = Backbone.View.extend({
 	tagName:  "li",
 	className: "image-view",
@@ -68,7 +70,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			var self = this;
 			LastSelected = this.model;
 			this.model.set({"selected": !self.model.get("selected")});
-    		} else {
+    	} else {
+			// deselect all but current
 			LastSelected = this.model;
 			_.map(this.model.collection.models, function(item) {
 				item.set({"selected": false})

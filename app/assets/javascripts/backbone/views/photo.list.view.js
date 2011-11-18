@@ -1,3 +1,5 @@
+//= require backbone-eventdata
+
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "ul",
 	className: "image-list-view",
@@ -27,7 +29,9 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		$(this.el).children("#fix-gallery").before(view.render().el);
     },
 	events: {
-		"click" : "deselectAll"
+		"click" : "deselectAll",
+        "keydown[ctrl+a]" : "selectAll",
+        "keydown[meta+a]" : "selectAll"
 	},
 	selectAll: function(){
 		self = Tagshot.collections.photoList;
