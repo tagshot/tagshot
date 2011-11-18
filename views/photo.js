@@ -17,8 +17,8 @@ App.views.PhotoListView = Backbone.View.extend({
 	className: "image-list-view",
 	initialize: function(options) {
 			var self = this;
-			$(document).bind('keydown', 'ctrl+a', function(){self.selectAll(self); return false;});
-			$(document).bind('keydown', 'cmd+a', function(){self.selectAll(self); return false;});
+			//$(document).bind('keydown', 'ctrl+a', function(){self.selectAll(self); return false;});
+			//$(document).bind('keydown', 'cmd+a', function(){self.selectAll(self); return false;});
 	},
 	render: function() {
 			console.log("render whole gallery");
@@ -30,7 +30,8 @@ App.views.PhotoListView = Backbone.View.extend({
 			return this;
 	},
 	events: {
-		"click" : "deselectAll"
+		"click" : "deselectAll",
+		"keydown[ctrl+a]": "selectAll"
 	},
 	selectAll: function(){
 		self = App.collections.photoList;
