@@ -59,24 +59,17 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		if (e.shiftKey) {
 			// shift -> from..to select
 			var self = this;
-			var selected = _.filter(this.model.collection.models, function(item) { 
-				return between(LastSelected.id,self.model.id,item.id)
-			});
-			_.map(selected, function(item) {
-				item.set({"selected": true})
-			});
+			this.model.collection.selectFromTo(LastSelected, this.model);
 		} else if (e.ctrlKey || e.metaKey) {
 			// ctrl toggle this selection
 			var self = this;
 			LastSelected = this.model;
-			this.model.set({"selected": !self.model.get("selected")});
+			this.model.toggleSelect();
     	} else {
 			// deselect all but current
 			LastSelected = this.model;
-			_.map(this.model.collection.models, function(item) {
-				item.set({"selected": false})
-			});
-			this.model.set({"selected": true});
+			this.model.collection.deselectAll();
+			this.model.select();
 		}
 	},
 });

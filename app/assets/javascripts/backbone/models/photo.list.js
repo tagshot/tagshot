@@ -11,9 +11,16 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 		return this.filter(function(photo){ return photo.get('selected'); });
 	},
 	selectAll: function() {
-		_.map(this.models, function(item) { item.set({"selected": true}) });
+		_.map(this.models, function(item) { item.select() });
 	},
 	deselectAll: function()	{
-		_.map(this.models, function(item) { item.set({"selected": false}) });	
+		_.map(this.models, function(item) { item.deselect() });	
+	},
+	selectFromTo: function(from, to) {
+		_.each(this.models, function(item) { 
+			if(between(from.id,to.id,item.id)){
+				item.select();
+			}
+		});
 	}
 });
