@@ -30,7 +30,6 @@ function resizeImages() {
 	var max    = parseInt($("#gallery-view div.img").css('max-height'));
 	var min    = parseInt($("#gallery-view div.img").css('min-height'));
 	var height = min + (max-min)*value;
-	console.log(value, max, min, height);
 	
 	$("#gallery-view div.img").css({
 		height: height, 
