@@ -35,11 +35,9 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
     },
 	selectAll: function(){
         console.log("select all");
-		self = Tagshot.collections.photoList;
-		_.map(self.models, function(item) { item.set({"selected": true}) });
+		this.collection.selectAll();
 	},
 	deselectAll: function(e){
-		console.log(this);
-		_.map(this.collection.models, function(item) { item.set({"selected": false}) });
+		this.collection.deselectAll();
 	}
 });
