@@ -8,7 +8,7 @@ class PhotosController < ApplicationController
     @photos = Photo.limit(limit).offset(offset).all(:include => [:tags, :properties])
     
     respond_to do |format|
-      format.html 
+      format.html
       format.json do
         render_json @photos
       end
