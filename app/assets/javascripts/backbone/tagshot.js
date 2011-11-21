@@ -21,5 +21,6 @@ window.Tagshot = {
 	init: function() {
 		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
 		Tagshot.views.gallery = new Tagshot.Views.PhotoListView({collection: Tagshot.collections.photoList});
+		Tagshot.views.main = new Tagshot.Views.MainView();
 	}
 };
