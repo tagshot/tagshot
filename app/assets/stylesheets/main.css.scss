@@ -10,6 +10,7 @@
 	margin: 0;
 	/* fonts zum rumspielen, 
 	 * welche gefällt euch am besten? */
+	font-family: 'Lato', sans-serif;
 	font-family: "Ubuntu", sans-serif;
 	font-family: 'Delius Swash Caps', cursive;
 	font-family: 'Coda', cursive;
@@ -85,15 +86,14 @@ div.textbox-container {
 div#search-container {
 	position: relative;
 	float: left;
-	background: white image-url("magnifier.png") no-repeat 10px center;
-	background-size: 1.1em;
+	background: white image-url("zoom_icon_16.png") no-repeat 10px center;
 	width: 900px;
 }
 div#tag-edit-container {
 	margin-top: 4px;
 	margin-right: 100px;
 	margin-left: 6px;
-	background: white;
+	background: white image-url("tag_icon_16.png") no-repeat 10px center;
 	padding: 0 22px 0 15px;
 }
 
@@ -331,11 +331,12 @@ section#gallery-view button:hover div.star-me {
 /***********************************/
 
 footer .textbox {
-    height: 60px;
+	height: 29px;
+	padding: 8px 0;
 }
 
 footer{
-    display: none;
+	display: none;
 	position: fixed;
 	width: 100%;
 	bottom: 0px;
