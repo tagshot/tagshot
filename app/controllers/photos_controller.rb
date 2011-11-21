@@ -9,7 +9,9 @@ class PhotosController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.json { render :json => @photos_dyn }
+      format.json do
+        render_json @photos
+      end
     end
   end
   
