@@ -35,4 +35,10 @@ FactoryGirl.define do
     sequence(:path) { |n| "path/nr/#{n}" }
     sequence(:name) { |n| "Photo Source ##{n}" }
   end
+  
+  factory :property do
+    association :photo
+    sequence(:name)  { |n| "Tgst.spec.prop#{n}" }
+    sequence(:value) { |n| "value#{n}" }
+  end
 end
