@@ -39,9 +39,38 @@ describe PhotosController do
         response.status.should == 200
       end
       
-      it 'should return photo hash consutrcted by PhotoDecorator' do
+      it 'should return photo hash constructed by PhotoDecorator' do
         get :show, :format => :json, :id => @photo.id
         response.body.should == PhotoDecorator.decorate(@photo).to_json
+      end
+    end
+  end
+  
+  describe 'PUT update' do
+    context 'as JSON' do
+      let(:photo) { Factory(:photo_with_tags) }
+      
+      it 'should respond with OK' do
+        put :update, :format => :json, :id => photo.id
+        response.status.should == 200
+      end
+      
+      it 'should return photo hash' do
+        put :update, :format => :json, :id => photo.id
+        response.body.should == PhotoDecorator.decorate(photo).to_json
+      end
+      
+      it 'should do not update photo tags if nil given' do
+        tags = photo.tag_names
+        put :update, :format => :json, :id => photo.id, :tags => nil
+        response.status.should == 200
+        photo.tag_names.should == tags
+      end
+      
+      it 'should do update photo tags' do
+        put :update, :format => :json, :id => photo.id, :tags => ['abc', 'cde', 'efg', 'hij']
+        response.status.should == 200
+        photo.tag_names.should == ['abc', 'cde', 'efg', 'hij']
       end
     end
   end

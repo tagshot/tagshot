@@ -29,7 +29,11 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
     @photo.tags = params[:tags] unless params[:tags].nil?
     
-    render_json @photo
+    if @photo.save
+      render_json @photo
+    else
+      render :json => @photo.errors, :status => :unprocessable_entity
+    end
   end
   
   def render_json(obj)

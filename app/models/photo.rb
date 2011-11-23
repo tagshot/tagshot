@@ -43,7 +43,7 @@ class Photo < ActiveRecord::Base
   has_and_belongs_to_many :tags, :uniq => true do
     def <<(tag)
       tag = Tag.find_or_create_by_name(tag.to_s) unless tag.is_a?(Tag)
-      super
+      super tag
     rescue
     end
     
@@ -68,4 +68,6 @@ class Photo < ActiveRecord::Base
     self.tags.delete_all
     tags.each { |tag| self.tags << tag if tag.present? }
   end
+  
+  def tag_names; tags.names end
 end
