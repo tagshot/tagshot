@@ -27,7 +27,10 @@ class PhotosController < ApplicationController
   
   def update
     @photo = Photo.find(params[:id])
-    @photo.tags = params[:tags] unless params[:tags].nil?
+    
+    if params[:photo].is_a?(Hash) and params[:photo][:tags].present?
+      @photo.tags = params[:photo][:tags]
+    end
     
     if @photo.save
       render_json @photo

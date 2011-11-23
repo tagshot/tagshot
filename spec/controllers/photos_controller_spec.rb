@@ -62,13 +62,13 @@ describe PhotosController do
       
       it 'should do not update photo tags if nil given' do
         tags = photo.tag_names
-        put :update, :format => :json, :id => photo.id, :tags => nil
+        put :update, :format => :json, :id => photo.id, :photo => {:tags => nil}
         response.status.should == 200
         photo.tag_names.should == tags
       end
       
       it 'should do update photo tags' do
-        put :update, :format => :json, :id => photo.id, :tags => ['abc', 'cde', 'efg', 'hij']
+        put :update, :format => :json, :id => photo.id, :photo => {:tags => ['abc', 'cde', 'efg', 'hij']}
         response.status.should == 200
         photo.tag_names.should == ['abc', 'cde', 'efg', 'hij']
       end
