@@ -21,7 +21,9 @@ class PhotosController < ApplicationController
     if @photo.file =~ /\.#{params[:format]}$/
       send_file @photo.file
     else
-      render_json @photo
+      respond_to do |format|
+        format.json { render_json @photo }
+      end
     end
   end
   
