@@ -2,7 +2,7 @@
 // array von photos
 Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 	model: Tagshot.Models.Photo,
-	url: "/photo",
+	url: "/photos",
 	intialize: function(){
 		_.bindAll(this, 'selectAll', 'deselectAll');
 	},
