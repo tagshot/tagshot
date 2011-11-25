@@ -38,5 +38,3 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		this.render();
 	}
 });
-_.extend(Tagshot.Views.MainView, Backbone.Events);
-_.extend(Tagshot.Views.PhotoView, Backbone.Events);
