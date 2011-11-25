@@ -9,8 +9,8 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		//this.collection.fetch();
 	},
 	render: function() {
-		console.log("render whole gallery");
-		$(this.el).append("<span id='fix-gallery' class='ui-helper-clearfix'>");
+		console.log("render detailed view");
+		$(this.el).html(Mustache.to_html($('#detail-list-template').html(), this));
 		this.collection.each(this.append);
 		return this;
 	},
