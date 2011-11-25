@@ -28,6 +28,6 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	},
 	render: function () {
 		console.log("render the main view");
-		$("#backbone-main-view").append(Tagshot.views.gallery.render().el);
+		$("#backbone-main-view").html(Tagshot.views.gallery.el);
 	}
 });
