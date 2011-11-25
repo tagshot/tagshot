@@ -2,7 +2,6 @@
 
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "ul",
-	className: "image-list-view",
 	events: {
 		"click" : "deselectAll",
 		"keydown[ctrl+a]" : "selectAll",
@@ -24,7 +23,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		$('#backbone-image-list-anchor').html(this.el).children("ul").append("<span id='fix-gallery' class='ui-helper-clearfix'>");
 
 		//initial fetch
-		this.collection.fetch();
+		//this.collection.fetch();
 	},
 	render: function() {
 		console.log("render whole gallery");

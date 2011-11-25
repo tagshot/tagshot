@@ -121,7 +121,7 @@ header input.search-start {
 input:focus {
 	outline: none;
 }
-section#gallery-view ul {
+section#backbone-main-view ul {
 	/*background: url(../images/whitey.png);*/
 }
 
@@ -267,7 +267,7 @@ div#date-picker{
 /* Photos */
 /***********************************/
 
-section#gallery-view button {
+section#backbone-main-view button {
 	background: white;
 	float: left;
 	margin: 15px 15px 30px 15px;
@@ -279,20 +279,20 @@ section#gallery-view button {
 	position: relative;
 	-webkit-user-select: none;
 }
-section#gallery-view button:hover:not(.selected) {
+section#backbone-main-view button:hover:not(.selected) {
 	box-shadow: 4px 4px 16px #222;
 	outline: none;
 }
-section#gallery-view button.selected,
-section#gallery-view button:active {
+section#backbone-main-view button.selected,
+section#backbone-main-view button:active {
 	box-shadow: 0 0 5px 5px red;
 	outline: none;
 }
 
-section#gallery-view button:focus {
+section#backbone-main-view button:focus {
 	box-shadow: 0 0 5px 5px orange;
 }
-section#gallery-view div.img {
+section#backbone-main-view div.img {
 	overflow: hidden;
 	margin: 2px auto;
 	position: relative;
@@ -302,23 +302,23 @@ section#gallery-view div.img {
 	min-height: 40px;
 	max-height: 500px;
 }
-section#gallery-view img {
+section#backbone-main-view img {
 	border: none;
 	max-width: 100%;
 	max-height: 100%;
 }
-section#gallery-view button div.more_infos {
+section#backbone-main-view button div.more_infos {
 	background-color: rgba(0, 0, 0, 0.8);
 	color: white;
 	margin: 0 2px 4px 2px;
 	padding-bottom: 2px; 
 }
-section#gallery-view button div.star-me {
+section#backbone-main-view button div.star-me {
 	text-align: center;
 	font-size: 1.7em;
 }
 
-section#gallery-view button:hover div.star-me {
+section#backbone-main-view button:hover div.star-me {
 	display: block;
 }
 .star-me a{
