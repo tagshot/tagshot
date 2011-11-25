@@ -13,6 +13,8 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
 		Tagshot.views.gallery = new Tagshot.Views.PhotoList({ collection: Tagshot.collections.photoList});
 		Tagshot.views.ajaxError = new Tagshot.Views.AjaxError();
+
+		Tagshot.collections.photoList.fetch();
 	},
 	render: function () {
 		$("#backbone-main-view").append(Tagshot.views.gallery.render().el);
