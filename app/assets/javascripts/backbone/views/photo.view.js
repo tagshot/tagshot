@@ -59,7 +59,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		return this.model.selected;
 	},
 	open : function() {
-		this.trigger("openDetails", this.model);
+		Tagshot.views.mainView.trigger("openDetails", this.model);
 	},
 	remove: function() {
 		$(this.el).remove();
