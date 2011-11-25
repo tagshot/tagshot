@@ -19,7 +19,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	},
 	initialize : function() {
 		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
-		Tagshot.views.gallery = new Tagshot.Views.PhotoList({ collection: Tagshot.collections.photoList});
+		Tagshot.views.gallery = new Tagshot.Views.PhotoListView({ collection: Tagshot.collections.photoList});
 		Tagshot.views.ajaxError = new Tagshot.Views.AjaxError();
 
 		Tagshot.collections.photoList.fetch();
