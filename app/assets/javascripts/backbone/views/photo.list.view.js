@@ -1,18 +1,6 @@
-//= require backbone-eventdata
-Tagshot.Views.MainView = Backbone.View.extend({
-	tagName: "body",
-	initialize: function(options) {
-		_.bindAll(this, 'selectAll');
-	},
-	events: {
-		"keydown[ctrl+a]": "selectAll"
-	},
-	selectAll: function() {
-		alert("strike");
-	}
-});
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "ul",
+	className: "gallery",
 	events: {
 		"click" : "deselectAll"
 	},
