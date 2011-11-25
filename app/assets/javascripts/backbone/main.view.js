@@ -13,7 +13,6 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	events: {
 		"keydown[ctrl+a]" : "selectAll",
 		"keydown[meta+a]" : "selectAll",
-		"openDetails": "showDetails"
 	},
 	selectAll: function() {
 		Tagshot.views.gallery.selectAll();
@@ -26,6 +25,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 
 		this.currentView = Tagshot.views.gallery;
 		this.render();
+		this.bind("openDetails", this.showDetails, this);
 
 		Tagshot.collections.photoList.fetch();
 	},
@@ -34,7 +34,9 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		$("#backbone-main-view").html(this.currentView.el);
 	},
 	showDetails: function(model) {
-		alert("sta");
-		alert(model);
+		this.currentView = Tagshot.views.detail;
+		this.render();
 	}
 });
+_.extend(Tagshot.Views.MainView, Backbone.Events);
+_.extend(Tagshot.Views.PhotoView, Backbone.Events);
