@@ -20,49 +20,49 @@ describe Photo do
   describe 'has tags assoization' do
     it 'should return string array' do
       photo = Factory(:photo_with_tags)
-      photo.tags.names.should == ['a', 'b', 'c']
+      photo.tag_names.should == ['a', 'b', 'c']
     end
     
     it 'should remove all tags if nil given' do
       photo = Factory(:photo_with_tags)
       photo.tags = nil
-      photo.tags.names.should == []
+      photo.tag_names.should == []
     end
     
     it 'should remove all tags when empty array given' do
       photo = Factory(:photo_with_tags)
       photo.tags = []
-      photo.tags.names.should == []
+      photo.tag_names.should == []
     end
     
     it 'should add a new tag' do
       photo = Factory(:photo_with_tags)
       photo.tags << 'd'
-      photo.tags.names.should == ['a', 'b', 'c', 'd']
+      photo.tag_names.should == ['a', 'b', 'c', 'd']
     end
     
     it 'should set new tags' do
       photo = Factory(:photo_with_tags)
       photo.tags = ['a', 'b']
-      photo.tags.names.should == ['a', 'b']
+      photo.tag_names.should == ['a', 'b']
     end
     
     it 'should add new tags' do
       photo = Factory(:photo_with_tags)
       photo.tags += ['d', 'e']
-      photo.tags.names.should == ['a', 'b', 'c', 'd', 'e']
+      photo.tag_names.should == ['a', 'b', 'c', 'd', 'e']
     end
     
     it 'should remove a tag' do
       photo = Factory(:photo_with_tags)
       photo.tags.delete 'b'
-      photo.tags.names.should == ['a', 'c']
+      photo.tag_names.should == ['a', 'c']
     end
     
     it 'should remove tags' do
       photo = Factory(:photo_with_tags)
       photo.tags -= ['a', 'c']
-      photo.tags.names.should == ['b']
+      photo.tag_names.should == ['b']
     end
   end
   

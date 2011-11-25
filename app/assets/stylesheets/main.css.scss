@@ -9,8 +9,11 @@
 	padding: 0;
 	margin: 0;
 	/* fonts zum rumspielen, 
-	 * welche gefällt euch am besten? */
-	font-family: "Ubuntu", sans-serif;
+	 * welche gefällt euch am besten? 
+	 * Lato: Willi*/
+	
+	font-family: 'Lato', sans-serif;	/* Willis Favorit */
+/*	font-family: "Ubuntu", sans-serif;
 	font-family: 'Delius Swash Caps', cursive;
 	font-family: 'Coda', cursive;
 	font-family: Georgia;
@@ -20,7 +23,7 @@
 	font-family: 'Cantarell', sans-serif;
 	font-family: 'Sorts Mill Goudy', serif;
 	font-family: 'Prociono', serif;
-	font-family: 'Droid Sans', serif;
+	font-family: 'Droid Sans', serif;*/
 }
 
 body {
@@ -40,7 +43,6 @@ a {
 
 header {
 	text-align: center;
-	/*background: url(../images/45degreee_fabric.png);*/
 	padding: 8px 0;
 	position: relative;
 	border-top: 2px solid #444;
@@ -56,11 +58,18 @@ header, footer {
 						
 	z-index: 20;
 	box-shadow: 0px 0px 10px #333;
+
+	text-align: center;
+	/*background: url(../images/45degreee_fabric.png);*/
+	padding: 8px 0;
+	position: relative;
+	border-top: 2px solid #444;
+
 }
 
 h1.logo {
 	color: #333;
-	text-shadow: 1px 1px 0px #ddd, 2px 2px 0px #ddd, 3px 3px 0px #707070;
+	//text-shadow: 1px 1px 0px #ddd, 2px 2px 0px #ddd, 3px 3px 0px #707070;
 	font-size: 1.8em;
 	position: relative;
 	margin: 5px 20px 0 20px; 
@@ -85,15 +94,14 @@ div.textbox-container {
 div#search-container {
 	position: relative;
 	float: left;
-	background: white image-url("magnifier.png") no-repeat 10px center;
-	background-size: 1.1em;
+	background: white image-url("zoom_icon_16.png") no-repeat 10px center;
 	width: 900px;
 }
 div#tag-edit-container {
 	margin-top: 4px;
 	margin-right: 100px;
 	margin-left: 6px;
-	background: white;
+	background: white image-url("tag_icon_16.png") no-repeat 10px center;
 	padding: 0 22px 0 15px;
 }
 
@@ -221,8 +229,8 @@ input.tagautocomplete-clear-textbox {
 button#show-options {
 	position: absolute;
 	text-indent: -9999px;
-	bottom: 0;
-	right: 0;
+	bottom: 12px;
+	right: 8px;
 	width: 32px;
 	height: 32px;
 	border: none;
@@ -327,29 +335,30 @@ section#gallery-view button:hover div.star-me {
 }
 
 /***********************************/
-/* Tag it bar*/
+/* Tag it bar + Footer specialization */
 /***********************************/
 
 footer .textbox {
-    height: 60px;
+	height: 29px;
+	padding: 4px 0;
 }
 
 footer{
-    display: none;
+	display: none;
+	border: none;			/* Override */
 	position: fixed;
+	padding: 4px 0px 8px 0px;			/* Override from header */
+	border-bottom: 2px solid #444;
 	width: 100%;
 	bottom: 0px;
-	height: 80px;
-	/*background: darkgrey url(../images/45degreee_dark_fabric.png);*/
 }
 
 div#trash-container {
-	width: 60px;
-	margin-top: 5px;
-	height: 30px;
+	width: 45px;
+	height: 33px;
 	float: right;
-	color: white;
+	margin-top: 8px;
+	margin-right: 8px;
 	background: transparent image-url("trash-empty.png") no-repeat center center;
-	background-size: 45px;
+	background-size: 2em;
 }
-

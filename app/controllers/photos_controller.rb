@@ -8,7 +8,7 @@ class PhotosController < ApplicationController
     @photos = Photo.limit(limit).offset(offset).all(:include => [:tags, :properties])
     
     respond_to do |format|
-      format.html 
+      format.html
       format.json do
         render_json @photos
       end
@@ -21,15 +21,24 @@ class PhotosController < ApplicationController
     if @photo.file =~ /\.#{params[:format]}$/
       send_file @photo.file
     else
-      render_json @photo
+      respond_to do |format|
+        format.json { render_json @photo }
+      end
     end
   end
   
   def update
     @photo = Photo.find(params[:id])
-    @photo.tags = params[:tags] unless params[:tags].nil?
     
-    render_json @photo
+    if params[:photo].is_a?(Hash) and params[:photo][:tags].present?
+      @photo.tags = params[:photo][:tags]
+    end
+    
+    if @photo.save
+      render_json @photo
+    else
+      render :json => @photo.errors, :status => :unprocessable_entity
+    end
   end
   
   def render_json(obj)

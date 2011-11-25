@@ -4,6 +4,7 @@ class Property < ActiveRecord::Base
   
   validates_presence_of :name
   validates_presence_of :value
+  validates_presence_of :photo
   
   def raw_value
     read_attribute :value
