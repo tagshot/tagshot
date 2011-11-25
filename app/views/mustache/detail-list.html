@@ -1,8 +1,8 @@
 <div>
 	<h1>Detailed view of ...</h1>
-	<img src="{{thumb}}" alt="{{properties.caption}}" />
+	<img src="{{model.attributes.thumb}}" alt="{{model.attributes.caption}}" />
+	<div class="star-me">{{#starHTML}}{{/starHTML}}</div>
 	<ul>
-		<li>{{properties.location}}</li>
+		<li>{{model.attributes.properties.location}}</li>
 	</ul>
-	{{model}}
 </div>

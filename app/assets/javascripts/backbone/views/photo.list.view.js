@@ -21,7 +21,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 	render: function() {
 		console.log("render whole gallery");
-		$(this.el).append("<span id='fix-gallery' class='ui-helper-clearfix'>");
+		$(this.el).html("<span id='fix-gallery' class='ui-helper-clearfix'>");
 		this.collection.each(this.append);
 		return this;
 	},

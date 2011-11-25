@@ -35,7 +35,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	},
 	showDetails: function(model) {
 		this.currentView = Tagshot.views.detail;
-		Tagshot.views.detail.trigger("change", this.model);
+		this.currentView.render(model);
 		this.render();
 	}
 });
