@@ -54,8 +54,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		}
 	},
 	isSelected: function() {
-        return this.model.selected;
-    },
+		return this.model.selected;
+	},
 	open : function() {
 		// TODO enlarge image
 	},
@@ -73,7 +73,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			var self = this;
 			LastSelected = this.model;
 			this.model.toggleSelect();
-    	} else {
+		} else {
 			// deselect all but current
 			LastSelected = this.model;
 			this.model.collection.deselectAll({'exclude':this.model});
