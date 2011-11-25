@@ -7,11 +7,11 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	initialize: function(options) {
 		_.bindAll(this, "render");
 
-		this.render();
+		_.bind("change", this.render, this);
 	},
-	render: function() {
-		console.log("render detailed view", this.collection.selection()[0]);
-		$(this.el).html(Mustache.to_html($('#detail-list-template').html(), this.collection.selection()[0]));
+	render: function(model) {
+		console.log("render detailed view", model);
+		$(this.el).html(Mustache.to_html($('#detail-list-template').html(), model));
 		return this;
 	},
 	click: function(){
