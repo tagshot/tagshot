@@ -32,7 +32,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	render: function () {
 		console.log("render the main view");
 		$("#backbone-main-view").html(this.currentView.el);
-	}
+	},
 	openDetails: function(model) {
 		alert(model);
 	}
