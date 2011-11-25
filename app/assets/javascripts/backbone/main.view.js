@@ -20,14 +20,16 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	initialize : function() {
 		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
 		Tagshot.views.gallery = new Tagshot.Views.PhotoListView({ collection: Tagshot.collections.photoList});
+		Tagshot.views.detail = new Tagshot.Views.DetailView({ collection: Tagshot.collections.photoList});
 		Tagshot.views.ajaxError = new Tagshot.Views.AjaxError();
 
+		this.currentView = Tagshot.views.gallery;
 		this.render();
 
 		Tagshot.collections.photoList.fetch();
 	},
 	render: function () {
 		console.log("render the main view");
-		$("#backbone-main-view").html(Tagshot.views.gallery.el);
+		$("#backbone-main-view").html(this.currentView.el);
 	}
 });
