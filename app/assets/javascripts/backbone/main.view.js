@@ -15,7 +15,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		"keydown[meta+a]" : "selectAll",
 	},
 	selectAll: function() {
-		alert("select all");
+		Tagshot.views.gallery.selectAll();
 	},
 	initialize : function() {
 		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
