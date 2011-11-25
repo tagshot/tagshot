@@ -13,7 +13,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	events: {
 		"keydown[ctrl+a]" : "selectAll",
 		"keydown[meta+a]" : "selectAll",
-		"openDetails": "openDetails"
+		"openDetails": "showDetails"
 	},
 	selectAll: function() {
 		Tagshot.views.gallery.selectAll();
@@ -33,7 +33,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		console.log("render the main view");
 		$("#backbone-main-view").html(this.currentView.el);
 	},
-	openDetails: function(model) {
+	showDetails: function(model) {
 		alert("sta");
 		alert(model);
 	}
