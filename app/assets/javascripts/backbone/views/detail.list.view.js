@@ -1,5 +1,5 @@
 Tagshot.Views.DetailListView = Backbone.View.extend({
-	tagName:  "ul",
+	tagName:  "div",
 	className: "detail",
 	events: {
 		"click" : "click"
