@@ -1,0 +1,7 @@
+<button type="button" {{#isSelected}} class="selected" {{/isSelected}} >
+	<div class="img"><img src="{{model.attributes.thumb}}" /></div>
+	<div class="more_infos">
+		<div class="star-me">{{#starHTML}}{{/starHTML}}</div>
+		<div class="tags">&nbsp;{{model.attributes.tags}}</div>
+	</div>
+</button>

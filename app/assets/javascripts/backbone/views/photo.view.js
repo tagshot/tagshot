@@ -8,6 +8,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		"dblclick" : "open"
 	},
 	initialize : function() {
+		_.bindAll(this, 'open');
+
 		this.model.bind('change', this.render, this);
 		this.model.bind('destroy', this.remove, this);
 		this.model.bind('select', this.select, this);
@@ -57,7 +59,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		return this.model.selected;
 	},
 	open : function() {
-		// TODO enlarge image
+		this.trigger("openDetails", this.model);
 	},
 	remove: function() {
 		$(this.el).remove();
