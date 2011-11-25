@@ -14,9 +14,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "ul",
 	events: {
-		"click" : "deselectAll",
-		"keydown[ctrl+a]" : "selectAll",
-		"keydown[meta+a]" : "selectAll"
+		"click" : "deselectAll"
 	},
 	initialize: function(options) {
 		_.bindAll(this, 'selectAll', 'deselectAll');
