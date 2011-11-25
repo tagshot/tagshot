@@ -19,8 +19,9 @@ window.Tagshot = {
 	views: {},
 
 	init: function() {
-		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
-		Tagshot.views.gallery = new Tagshot.Views.PhotoListView({collection: Tagshot.collections.photoList});
-		Tagshot.views.ajaxError = new Tagshot.Views.AjaxError();
+		Tagshot.views.mainView = new Tagshot.Views.MainView();
+		//Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
+		//Tagshot.views.gallery = new Tagshot.Views.PhotoListView({collection: Tagshot.collections.photoList});
+		//Tagshot.views.ajaxError = new Tagshot.Views.AjaxError();
 	}
 };
