@@ -21,7 +21,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			/*var stars = render(text).split("/");
 			var blacks = parseInt(stars[0]);
 			var whites = parseInt(stars[1]) - blacks;*/
-			var blacks = this.model.get("rating") || 0;
+			var blacks = this.model.get("properties")['rating'] || 0;
 			// var whites = this.model.get("stars").stars.of - blacks;
 			var whites = 5 - blacks;
 			var blackstar = "<a href='#'>&#9733;</a>";
