@@ -26,6 +26,7 @@
 	font-family: 'Droid Sans', serif;*/
 }
 
+html, body { height: 100%; }
 body {
 	color: #333;
 	background: #ddd;
@@ -303,7 +304,6 @@ section#backbone-main-view div.img {
 	max-height: 500px;
 }
 section#backbone-main-view img {
-	border: none;
 	max-width: 100%;
 	max-height: 100%;
 }
@@ -369,23 +369,62 @@ div#trash-container {
 
 .detail {
 	align: center;
-	/*margin:0 auto;*/
+	position: absolute;
+	top: 60px; bottom: 60px;
+	left: 0; right: 0;
+	padding: 10px 440px 10px 10px;
 }
 
 .detail h2 {
-	text-align: center;
-	font-size: 1.6em;
-	padding: 8px 0;
+	font-size: 1.1em;
+	padding: 9px 0 5px;
+	font-weight: normal;
 }
 
-.detail .img-wrapper {
-	box-shadow: 0px 0px 15px black;
-	border: 2px solid darkgrey;
-	width: 90%;
+.detail .imagebox {
 	height: 100%;
+	text-align: center;
 }
 
-.detail img {
-	width: 600px;
-	
+.detail .imagebox img {
+	max-width: 100%;
+	max-height: 100%;
+	margin: auto;
+	border: 2px solid #333;
+	background: #fff;
+	padding: 1px;
 }
+
+.detail .propbox {
+	padding: 0 14px;
+	position: absolute;
+	top: 0; bottom: 0;
+	right: 0;
+	width: 400px;
+	
+	background-color: rgba(0,0,0,0.7);
+	color: #fff;
+	overflow: auto;
+}
+
+.detail .propbox dl {
+	// padding-left: 90px;
+	margin-bottom: 10px;
+}
+
+.detail .propbox dt {
+	font-size: 0.55em;
+	color: #888;
+	// width: 85px;
+	// float: left;
+	// margin: 2px 0 0 -90px;
+}
+
+.detail .propbox dd {
+	// height: 22px;
+	margin: 0 0 2px 30px;
+	font-size: 0.85em;
+	color: #fff;
+}
+
+

@@ -1,8 +1,17 @@
-<h2>Image: {{model.properties.caption}}</h2>
-<div class="img-wrapper">
+<div class="imagebox">
 	<img src="{{model.attributes.thumb}}" alt="{{model.attributes.caption}}" />
 </div>
-<div class="star-me">{{#starHTML}}{{/starHTML}}</div>
-<ul>
-	<li>{{model.attributes.properties.location}}</li>
-</ul>
+<div class="propbox">
+    <h2>Image Properties</h2>
+    <dl>
+        <dt>Caption</dt>
+        <dd class="caption">Image Caption{{model.attributes.properties.caption}}</dd>
+        <dt>Rating</dt>
+        <dd><div class="star-me">{{#starHTML}}{{/starHTML}}</div></dd>
+        {{#propHTML}}{{/propHTML}}
+    </dl>
+    <h2>Image Metadata</h2>
+    <dl>
+        {{#metaHTML}}{{/metaHTML}}
+    </dl>
+</div>

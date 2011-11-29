@@ -5,7 +5,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		"click" : "click"
 	},
 	initialize: function(options) {
-		_.bindAll(this, "render");
+		_.bindAll(this, "render", "propHTML");
 	},
 	render: function(model) {
 		this.model = model;
@@ -41,5 +41,26 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			return blackstars+whitestars;
 		}
 	},
-
+	metaHTML: function() {
+		return function(text, render) {
+			var str = '';
+			
+			$.each(this.model.get("meta"), function(key, value) {
+				str += '<dt>' + key + '</dt><dd>' + value + '</dd>';
+			});
+			return str;
+		};
+	},
+	propHTML: function() {
+		return function(text, render) {
+			var str = '';
+			$.each(this.model.get("properties"), function(key, value) {
+				if(key != 'caption' && key != 'rating') {
+					if(!value) value = '&lt;not set&gt;'
+					str += '<dt class="'+key+'">' + key + '</dt><dd>' + value + '</dd>';
+				}
+			});
+			return str;
+		};
+	},
 });
