@@ -4,5 +4,7 @@
 </div>
 <div class="star-me">{{#starHTML}}{{/starHTML}}</div>
 <ul>
-	<li>{{model.attributes.properties.location}}</li>
+	{{#eachMeta}}
+		{{model.attributes.meta}}
+	{{/eachMeta}}
 </ul>

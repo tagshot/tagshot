@@ -5,7 +5,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		"click" : "click"
 	},
 	initialize: function(options) {
-		_.bindAll(this, "render");
+		_.bindAll(this, "render", "eachMeta");
 	},
 	render: function(model) {
 		this.model = model;
@@ -41,5 +41,18 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			return blackstars+whitestars;
 		}
 	},
+	eachMeta: function(dictionary){
+		//renders the meta dictionary
+		self = this;
+		metadata = "";
+		console.log("123",this.model.get('meta'));
+		_.each(
+			self.model.get('meta'),
+			function(value, key, list) {
+				metadata + "<li><strong>" + key + "</strong>" + value + "</li>"
+			}
+		);
+		return metadata;
+	}
 
 });
