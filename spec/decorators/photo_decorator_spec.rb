@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe PhotoDecorator do
-  before { ApplicationController.new.set_current_view_context }
+  before(:each) { ApplicationController.new.set_current_view_context }
   
   context 'as json' do
     before :all do
@@ -34,6 +34,12 @@ describe PhotoDecorator do
     end
     it 'should contain a hash with meta data' do
       @json[:meta].should == @photo.properties.to_hash
+    end
+    it 'should contain a thumb url' do
+      @json[:thumb].should == Rails.application.routes.url_helpers.thumb_url(@photo, :format => @photo.extname)
+    end
+    it 'should contain a image url' do
+      @json[:image].should == Rails.application.routes.url_helpers.photo_url(@photo, :format => @photo.extname)
     end
   end
 end
