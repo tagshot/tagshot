@@ -5,7 +5,7 @@ FactoryGirl.define do
   factory :photo do
     association :source
     
-    sequence(:file) { |n| "image#{n}.jpg" }
+    file Rails.root.join(*%w[spec resources image.jpg])
     last_sync_at { Time.zone.now }
     file_mtime   { Time.zone.now - 2.minutes }
     size 1024*1024*5

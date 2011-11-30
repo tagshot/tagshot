@@ -18,7 +18,7 @@ class PhotosController < ApplicationController
   def show
     @photo = Photo.find(params[:id])
     
-    if @photo.file =~ /\.#{params[:format]}$/
+    if @photo.extname == params[:format]
       send_file @photo.file
     else
       respond_to do |format|

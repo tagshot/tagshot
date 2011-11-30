@@ -44,6 +44,25 @@ describe PhotosController do
         response.body.should == PhotoDecorator.decorate(@photo).to_json
       end
     end
+    
+    context 'as file' do
+      before(:all) { @photo = Factory(:photo) }
+      
+      it 'should respond to correct file extension' do
+        get :show, :format => 'jpg', :id => @photo.id
+        response.status.should == 200
+      end
+      
+      it 'should not respond to incorrect file extension' do
+        get :show, :format => 'html', :id => @photo.id
+        response.status.should == 406
+      end
+      
+      it 'should respond with correct image file' do
+        get :show, :format => 'jpg', :id => @photo.id
+        response.body.length.should == File.size(@photo.file)
+      end
+    end
   end
   
   describe 'PUT update' do

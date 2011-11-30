@@ -63,11 +63,17 @@ class Photo < ActiveRecord::Base
     end
   end
   
+  def tag_names; tags.names end
   def tags=(tags)
     tags = [tags] unless tags.respond_to? :each
     self.tags.delete_all
     tags.each { |tag| self.tags << tag if tag.present? }
   end
   
-  def tag_names; tags.names end
+  def file=(file); write_attribute(:file, file.to_s.strip) end
+  def file; read_attribute(:file).strip end
+    
+  def extname
+    @extname ||= File.extname(file).gsub(/\./, '')
+  end
 end
