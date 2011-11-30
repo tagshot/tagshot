@@ -63,6 +63,8 @@
 			inputCssClass: 'textbox',
 			// the maximum number of entries to be displayed while autocompletion
 			maxEntries: 10,
+			// auto select
+			autoSelect: false,
 			onTagAdded: function (tagText) {
 				console.log('Tag "' + tagText + '" added.');
 			},
@@ -120,8 +122,10 @@
 				},
 				addTag: function () {
 					var that = this;
-					if (this.selectedEntry === null)
+					if (this.selectedEntry === null && this.autoSelect)
 						return;
+					if (this.autoSelect === false)
+						this.selectedEntry = this.$input.val();
 					settings.onTagAdded(this.selectedEntry);
 					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button>x</button></li>');
 					this.$tagList.find('li button').last().click(function () {
@@ -313,7 +317,8 @@
 				}
 				// if there is no previous entry or the previous entry is not in the list anymore, use first
 				if (p.selectedEntry === null || filteredList.indexOf(p.selectedEntry) < 0) {
-					p.selectedEntry = filteredList[0];
+					if (settings.autoSelect)
+						p.selectedEntry = filteredList[0];
 				}
 				p.displayAutocompletionList();
 			}).focus(function () {
