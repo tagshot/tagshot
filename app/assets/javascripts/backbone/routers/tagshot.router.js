@@ -6,7 +6,7 @@ Tagshot.Router = Backbone.Router.extend({
 		"p:page":					"page",
 		"search/:query/p:page":		"searchpage",
 		"details/:id":				"details",
-		"*foo":						"default"
+		"*foo":						"fallback"
 	},
 	home: function() {
 		console.log("home");
@@ -22,7 +22,7 @@ Tagshot.Router = Backbone.Router.extend({
 	details: function(id) {
 		console.log("details: ", id);
 	},
-	default: function(foo) {
+	fallback: function(foo) {
 		console.log("foo: ",foo);
 	}
 });
