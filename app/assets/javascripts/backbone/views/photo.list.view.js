@@ -13,11 +13,9 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.collection.bind('select', this.showFooterIfNeccessary, this);
 		this.collection.bind('deselect', this.showFooterIfNeccessary, this);
 
+		this.collection.bind('refresh', this.render, this);
 		this.collection.bind("reset", this.render, this);
 		this.collection.bind("add", this.append, this);
-
-		//initial fetch
-		//this.collection.fetch();
 	},
 	render: function() {
 		console.log("render whole gallery");
@@ -28,7 +26,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	showFooterIfNeccessary: function() {
 		var self = this;
 		var footer = $('footer');
-		console.log(this.collection.selection().length);
+		//console.log(this.collection.selection().length);
 		if (this.collection.selection().length > 0) {
 			footer.stop(true,true).slideDown(400);
 		} else {
