@@ -5,7 +5,11 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		"click" : "click"
 	},
 	initialize: function(options) {
-		_.bindAll(this, "render", "propHTML");
+		_.bindAll(this, "render", "propHTML", "metaHTML");
+
+		console.log(options);
+
+		//this.model.bind('change', this.render, this);
 	},
 	render: function(model) {
 		this.model = model;

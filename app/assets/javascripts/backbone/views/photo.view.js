@@ -5,10 +5,10 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	className: "image-view",
 	events: {
 		"click" : "click",
-		"dblclick" : "open"
+		"dblclick" : "openDetails"
 	},
 	initialize : function() {
-		_.bindAll(this, 'open');
+		_.bindAll(this, 'openDetails', 'click', 'select', 'deselect');
 
 		this.model.bind('change', this.render, this);
 		this.model.bind('destroy', this.remove, this);
@@ -58,8 +58,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	isSelected: function() {
 		return this.model.selected;
 	},
-	open : function() {
-		Tagshot.views.mainView.trigger("openDetails", this.model);
+	openDetails : function() {
+		Tagshot.router.navigate("details/" + this.model.get("id"), true);
 	},
 	remove: function() {
 		$(this.el).remove();

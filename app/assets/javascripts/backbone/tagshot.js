@@ -17,11 +17,9 @@ window.Tagshot = {
 	// "Instances"
 	collections: {},
 	views: {},
+	rounter: false,
 
 	init: function() {
 		Tagshot.views.mainView = new Tagshot.Views.MainView();
-		//Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
-		//Tagshot.views.gallery = new Tagshot.Views.PhotoListView({collection: Tagshot.collections.photoList});
-		//Tagshot.views.ajaxError = new Tagshot.Views.AjaxError();
 	}
 };
