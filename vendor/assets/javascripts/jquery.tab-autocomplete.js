@@ -64,7 +64,7 @@
 			// the maximum number of entries to be displayed while autocompletion
 			maxEntries: 10,
 			// auto select
-			autoSelect: false,
+			autoSelect: true,
 			onTagAdded: function (tagText) {
 				console.log('Tag "' + tagText + '" added.');
 			},
@@ -119,14 +119,16 @@
 					this.selectedEntry = null;
 					// save the entries currently displayed in autocompletion
 					this.entriesList = []
+					// if there is no autoselection, no entry can be selected (indicated by -1)
+					this.minIndex = this.autoSelect === true ? 0 : -1;
 				},
 				addTag: function () {
 					var that = this;
-					if (this.selectedEntry === null && this.autoSelect)
+					if (this.selectedEntry === null && settings.autoSelect)
 						return;
-					if (this.autoSelect === false)
+					if (settings.autoSelect === false)
 						this.selectedEntry = this.$input.val();
-					settings.onTagAdded(this.selectedEntry);
+					settings.onTagAdded(this.selectedEntry, this.entriesList);
 					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button>x</button></li>');
 					this.$tagList.find('li button').last().click(function () {
 						$(this).parent().addClass('tagautocomplete-to-be-removed');
@@ -254,7 +256,7 @@
 						break;
 					case keyCodes.UP:
 						var index = p.entriesList.indexOf(p.selectedEntry);
-						p.selectedEntry = p.entriesList[Math.max(index - 1, 0)];
+						p.selectedEntry = p.entriesList[Math.max(index - 1, p.minIndex)];
 						p.$autocompletionList.children('li').removeClass('selected');
 						p.displayAutocompletionList();
 						event.preventDefault();
