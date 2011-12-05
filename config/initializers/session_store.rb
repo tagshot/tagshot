@@ -1,8 +1,9 @@
 # Be sure to restart your server when you modify this file.
 
-Tagshot::Application.config.session_store :cookie_store, key: '_tagshot_session'
+Tagshot::Application.config.session_store :cookie_store, :key => '_tagshot_session'
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
 # (create the session table with "rails generate session_migration")
 # Tagshot::Application.config.session_store :active_record_store
+

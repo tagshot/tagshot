@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe PhotoDecorator do
-  before(:each) { ApplicationController.new.set_current_view_context }
-  
+  before(:all) { ApplicationController.new.set_current_view_context }
+
   context 'as json' do
     before :all do
       @photo = Factory(:photo)
@@ -10,11 +10,11 @@ describe PhotoDecorator do
       @photo.properties += {'Meta1' => 'Value1', 'Meta2' => 'Value2'}
       @json  = PhotoDecorator.decorate(@photo).as_json
     end
-    
-    it 'should contain valid id' do 
-      @json[:id].should == @photo.id 
+
+    it 'should contain valid id' do
+      @json[:id].should == @photo.id
     end
-    it 'should contain properties hash' do 
+    it 'should contain properties hash' do
       @json[:properties].should be_a(Hash)
     end
     it 'should contain photos caption' do
@@ -43,3 +43,4 @@ describe PhotoDecorator do
     end
   end
 end
+

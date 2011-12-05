@@ -39,12 +39,12 @@ Spork.prefork do
     # rspec-rails.
     config.infer_base_class_for_anonymous_controllers = false
   end
-  
-  Rails.application.routes.default_url_options[:host] = 'test.host'
 end
 
 Spork.each_run do
   # This code will be run each time you run your specs.
   FactoryGirl.reload
+  # need to be "test.host" (!)
+  Rails.application.routes.default_url_options[:host] = 'test.host'
 end
 
