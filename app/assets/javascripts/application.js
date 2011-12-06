@@ -8,7 +8,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui-1.8.16.custom.min
-//= require datepicker
 //= require jquery.textbox-focus-on-start
 //= require jquery.tab-autocomplete
 //= require jquery.hotkeys
@@ -25,23 +24,21 @@ var uiSettings = {
 	searchBoxText: 'Just start searching…'
 };
 
-var maxHeight;
-var minHeight;
-
-function reestimateHeight() {
-	maxHeight = parseInt($("#gallery-view div.img").css('max-height'));
-	minHeight = parseInt($("#gallery-view div.img").css('min-height'));
-}
-
 function resizeImages() {
-	var value  = $("#thumbnail-size-slider").slider("value") / 100;
-	var height = minHeight + (maxHeight - minHeight)*value;
-	
-	$("#gallery-view div.img").css({
-		'height': height
-		//width: height*1.6
-	});
+	var value  = $("#thumbnail-size-slider").slider("value");
+
+	$(".gallery div.img").css(
+		'height',function() {
+			return value;
+		}
+	).css(
+		'width',function(){
+			var tmp = $(this).find('img');
+			return value*tmp.width()/tmp.height();
+		}
+	);
 }
+
 function hideElements() {
 	$("#options-container").hide();	
 }
@@ -49,12 +46,6 @@ function hideElements() {
 $(function() {
 	Tagshot.init();
 
-	//TODO verbessern!!!!
-	reestimateHeight();
-	window.setTimeout(function(){
-		reestimateHeight();
-	},100);
-	
 	/* apply autocompletion to <input> */
 	$("#search-box").tagAutocomplete({
 		autocompleteList: proglag,
@@ -73,29 +64,12 @@ $(function() {
 	$("#thumbnail-size-slider").slider({
 		orientation: "horizontal",
 		range: "min", 
-		min: 0,
-		max: 100,
-		value: 25,
+		min: 50,
+		max: 500,
+		value: 200,
 		slide: resizeImages,
 		change: resizeImages
 	});
-
-	function dateRangeChanged(){
-		// TODO filter backbone model
-	}
-
-	$("#date-picker").DatePicker({
-		flat: true,
-		date: [new Date(),'2011-11-13'],
-		current: new Date(),
-		calendars: 4,
-		mode: 'range',
-		starts: 1,
-		onchange: dateRangeChanged
-	});
-
-	// setze datumsrange mit einem array
-	//$('#date-picker').DatePickerSetDate([new Date(),'2011-11-13'])
 	
 	hideElements();
 });
