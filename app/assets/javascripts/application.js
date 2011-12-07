@@ -28,10 +28,7 @@ function resizeImages() {
 	var value  = $("#thumbnail-size-slider").slider("value");
 
 	$(".gallery div.img").css(
-		'height',function() {
-			return value;
-		}
-	).css(
+		'height',value).css(
 		'width',function(){
 			var tmp = $(this).find('img');
 			return value*tmp.width()/tmp.height();

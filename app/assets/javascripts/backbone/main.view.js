@@ -46,7 +46,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	showGallery: function(query, page) {
 		this.currentView = Tagshot.views.gallery;
 		this.render();
-
+		resizeImages();
 	},
 	showDetails: function(id) {
 		var model = Tagshot.collections.photoList.get({"id":id});
