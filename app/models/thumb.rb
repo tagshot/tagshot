@@ -56,6 +56,10 @@ class Thumb
     image.write(path)
   end
 
+  def purge!
+    File.delete(path)
+  end
+
   def self.defaults
     defaults = {
       :width => 100,

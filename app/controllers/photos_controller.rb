@@ -85,9 +85,7 @@ class PhotosController < ApplicationController
     end
 
     respond_to do |format|
-      format.jpg { send_data image.to_blob,
-                     :disposition => 'inline',
-	                   :type => 'image/jpg' }
+      format.jpg { send_data image.to_blob, :disposition => 'inline', :type => 'image/jpg' }
     end
   end
 
