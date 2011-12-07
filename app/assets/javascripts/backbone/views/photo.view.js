@@ -22,6 +22,9 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 
 		//make resize of images
 		resizeImages();
+
+		//delegate events means rebinding the events
+		this.delegateEvents();
 		return this;
 	},
 	select: function() {
@@ -65,6 +68,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		$(this.el).remove();
 	},
 	click: function(e) {
+		//avoid propagation to underlying view(s)
 		e.stopPropagation();
 		if (e.shiftKey) {
 			// shift -> from..to select

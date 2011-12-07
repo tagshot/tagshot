@@ -21,7 +21,7 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 	},
 	selectFromTo: function(from, to) {
 		console.log("select from "+from+" to "+to);
-		_.each(this.models, function(item) { 
+		_.each(this.models, function(item) {
 			if(between(from.id,to.id,item.id)){
 				item.select();
 			}
