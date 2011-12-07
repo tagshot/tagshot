@@ -22,11 +22,11 @@ module ApplicationHelper
       :width => 100,
       :height => 100
     }
-    options[:name] => name.join('_')
-    options[:id]   => photo.id
-    options[:crop] => 'scale' if opts[:scale]
-    options[:crop] => 'crop'  if opts[:crop]
-    options[:format] => 'jpg'
+    options[:name] = name.join('_')
+    options[:id]   = photo.id
+    options[:crop] = 'scale' if opts[:scale]
+    options[:crop] = 'crop'  if opts[:crop]
+    options[:format] = 'jpg'
 
     download_photo_url options
   end
