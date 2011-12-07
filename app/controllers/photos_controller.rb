@@ -19,7 +19,7 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
 
     if @photo.extname == params[:format]
-      send_file @photo.file, :disposition => 'inline'
+      send_file @photo.file
     else
       respond_to do |format|
         format.json { render_json @photo }
@@ -44,38 +44,47 @@ class PhotosController < ApplicationController
   def thumb
     @photo = Photo.find(params[:id])
 
+    @photo.thumb.create! if params[:force] == 'true'
+
     respond_to do |format|
-      format.jpg { send_data @photo.thumb.image.to_blob,
-                     :disposition => 'inline',
-	                   :type => 'image/jpg' }
+      format.jpg { send_file @photo.thumb.file.path, :disposition => 'inline' }
     end
   end
 
   def download
     @photo = Photo.find(params[:id])
 
-    opts = {
-      :width => 320,
-      :height => 200,
-      :crop => false,
-      :scale => false
-    }
+    width = 0
+    height = 0
 
     if params[:width] and !params[:height]
-      opts[:width] = params[:width].to_i
-      opts[:height] = params[:width].to_i
+      width = params[:width].to_i
+      height = params[:width].to_i
     else
-      opts[:height] = params[:height].to_i if params[:height]
-      opts[:width] = params[:width].to_i if params[:width]
+      height = params[:height].to_i if params[:height]
+      width = params[:width].to_i if params[:width]
     end
-    opts[:crop] = true if params[:crop] == 'crop'
-    opts[:scale] = true if params[:crop] == 'scale'
 
-    thumb = @photo.thumb(opts)
-    thumb.image
+    if width.to_i == 0 and height.to_i == 0
+      head 406
+      return
+    end
+
+    image =  Magick::Image.read(@photo.file).first
+    if params[:crop] == 'crop'
+      image.crop_resized!(width, height, Magick::CenterGravity)
+    else
+      if params[:crop] == 'scale'
+        image.change_geometry!("#{width}x#{height}") do |cols, rows, img|
+          img.resize!(cols, rows)
+        end
+      else
+        image.resize!(width, height)
+      end
+    end
 
     respond_to do |format|
-      format.jpg { send_data thumb.image.to_blob,
+      format.jpg { send_data image.to_blob,
                      :disposition => 'inline',
 	                   :type => 'image/jpg' }
     end

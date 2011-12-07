@@ -1,85 +1,59 @@
+require "fileutils"
+require "RMagick"
+
 class Thumb
-  def initialize(photo, opts = {})
-    @photo = photo.is_a?(Photo) ? photo : Photo.find(photo)
-    @options = self.class.defaults.merge(opts)
+
+  def initialize(photo)
+    @photo_id = photo.is_a?(Photo) ? photo.id : photo.to_i
+    @photo    = photo if photo.is_a?(Photo)
   end
 
-  def height
-    @options[:height].to_i
-  end
-
-  def width
-    @options[:width].to_i
-  end
-
-  def crop?
-    @options[:crop] ? true : false
-  end
-
-  def scale?
-    @options[:scale] ? true : false
-  end
-
-  def cached?
-    File.exists?(path)
-  end
-
-  def cache?
-    @options[:cache] ? true : false
-  end
-
-  def path
-    options = {
-      :id => @photo.id,
-      :width => width,
-      :filename => name,
-      :format => 'jpg'
-    }
-    options[:height] = height if height != width
-    options[:crop] = 'crop' if crop?
-    options[:crop] = 'scale' if !crop? and scale?
-
-    Rails.application.routes.url_helpers.download_photo_path options
-  end
-
-  def filename
-    "#{name}.#{@photo.extname}"
-  end
-
-  def name
-    name = [@photo.id, "#{width}x#{height}"]
-    name << 'croped' if crop?
-    name << 'scaled' if scale? and !crop?
-
-      tags = @photo.tag_names.map{|tag| tag.gsub(/[^A-z0-9]+/, '')}.join('-').gsub(/\s+/, '_')
-    name << "#{tags}" if tags.length > 0
-
-    "#{name.join('_')}"
+  def photo
+    @photo ||= Photo.find(@photo_id)
   end
 
   def file
-    Rails.root.join(self.cache_path, @photo.id, filename)
+    create! unless cached?
+
+    File.new path
   end
 
-  def image
-    return @image if @image
+  def name
+    "#{@photo_id}_thumb.jpg"
+  end
 
-    require "RMagick"
+  def path
+    @path ||= Rails.root.join(self.class.cache_path, name).to_s
+  end
 
-    @image =  Magick::Image.read(@photo.file).first
-    if crop?
-      @image.crop_resized!(width, height, Magick::CenterGravity)
+  def cached?
+    self.class.cache_enabled? and File.exist?(path)
+  end
+
+  def updated_at
+    exist? ? File.new(path).mtime : Time.utc
+  end
+
+  def create!
+    Rails.logger.info "Create thumb for photo #{photo.id}..."
+
+    width  = self.class.defaults[:width]
+    height = self.class.defaults[:height]
+
+    image =  Magick::Image.read(photo.file).first
+    if self.class.defaults[:crop]
+      image.crop_resized!(width, height, Magick::CenterGravity)
     else
-      if scale?
-        @image.change_geometry!("#{width}x#{height}") do |cols, rows, img|
+      if self.class.defaults[:scale]
+        image.change_geometry!("#{width}x#{height}") do |cols, rows, img|
           img.resize!(cols, rows)
         end
       else
-        @image.resize!(width, height)
+        image.resize!(width, height)
       end
     end
-
-    @image
+    FileUtils.mkpath File.dirname(path)
+    image.write(path)
   end
 
   def self.defaults
@@ -87,8 +61,7 @@ class Thumb
       :width => 100,
       :height => 100,
       :crop => true,
-      :scale => true,
-      :cache => true
+      :scale => true
     }
     begin
       defaults.merge!(Tagshot::Application.config.thumb_options)
@@ -109,8 +82,10 @@ class Thumb
     true
   end
 
-  def self.create(photo, opts = {})
-    Thumb.new(photo, opts)
+  def purge!
+    Dir[Rails.root, self.cache_path, '*'].each do |dir|
+      FileUtils.remove_dir dir, true if File.directory?(dir)
+    end
   end
 end
 
