@@ -78,7 +78,7 @@ class Photo < ActiveRecord::Base
   end
 
   def thumb(opts = {})
-    file
+    Thumb.new(self, opts)
   end
 end
 
