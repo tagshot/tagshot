@@ -44,14 +44,8 @@ class PhotosController < ApplicationController
   def thumb
     @photo = Photo.find(params[:id])
 
-    opts = {
-      :width => 320,
-      :height => 200,
-      :crop => false
-    }
-
     respond_to do |format|
-      format.jpg { send_data @photo.thumb(opts).image.to_blob,
+      format.jpg { send_data @photo.thumb.image.to_blob,
                      :disposition => 'inline',
 	                   :type => 'image/jpg' }
     end
@@ -79,8 +73,6 @@ class PhotosController < ApplicationController
 
     thumb = @photo.thumb(opts)
     thumb.image
-
-    puts thumb.filename.inspect
 
     respond_to do |format|
       format.jpg { send_data thumb.image.to_blob,

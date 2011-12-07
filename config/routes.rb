@@ -2,12 +2,12 @@ Tagshot::Application.routes.draw do
 
   resources :photos, :only => [:index, :update, :show]
   get 'photos/thumb/:id(.:format)' => 'photos#thumb', :as => :thumb
-  get 'photos/:id/download/:width(/:height)(/:crop)/:filename.:format' => 'photos#download', :as => :download,
+  get 'photos/:id/download/:width(/:height)(/:crop)/:name.:format' => 'photos#download', :as => :download_photo,
         :constraints => {
           :width => /\d+/,
           :height => /\d+/,
           :crop => /crop|scale/,
-          :filename => /\d+(_\d+(x\d+)?)?(_croped|_scaled)?(_[A-z0-9-]+)?/
+          :name => /\d+(_\d+(x\d+)?)?(_croped|_scaled)?(_[A-z0-9-]+)?/
         }
   resources :tags, :only => [:index]
 
