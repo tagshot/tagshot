@@ -77,8 +77,8 @@ class Photo < ActiveRecord::Base
     @extname ||= File.extname(file).gsub(/\./, '')
   end
 
-  def thumb(opts = {})
-    file
+  def thumb
+    @thumb ||= Thumb.new(self)
   end
 end
 

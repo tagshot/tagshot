@@ -18,6 +18,7 @@ gem 'rails-backbone'
 gem 'exiv2', '~> 0.0.6'
 gem 'draper'
 gem 'delayed_job'
+gem 'rmagick'
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -12,3 +12,4 @@ class PhotoDecorator < ApplicationDecorator
     }
   end
 end
+
