@@ -4,8 +4,8 @@ class Thumb
     @options = {
       :width => 100,
       :height => 100,
-      :crop => false,
-      :strech => false
+      :crop => true,
+      :scale => false
     }.merge(opts)
   end
 
@@ -21,8 +21,8 @@ class Thumb
     @options[:crop] ? true : false
   end
 
-  def strech?
-    @options[:strech] ? true : false
+  def scale?
+    @options[:scale] ? true : false
   end
 
   def exist?
@@ -33,7 +33,7 @@ class Thumb
   def filename
     name = [@photo.id, "#{width}x#{height}"]
     name << 'croped' if crop?
-    name << 'streched' if strech? and !crop?
+    name << 'scaled' if scale? and !crop?
 
       tags = @photo.tag_names.map{|tag| tag.gsub(/[^A-z0-9]+/, '')}.join('-').gsub(/\s+/, '_')
     name << "#{tags}" if tags
@@ -51,15 +51,15 @@ class Thumb
     require "RMagick"
 
     @image =  Magick::Image.read(@photo.file).first
-    if @options[:crop]
+    if crop?
       @image.crop_resized!(width, height, Magick::CenterGravity)
     else
-      if @options[:stretch]
-        @image.resize!(width, height)
-      else
+      if scale?
         @image.change_geometry!("#{width}x#{height}") do |cols, rows, img|
           img.resize!(cols, rows)
         end
+      else
+        @image.resize!(width, height)
       end
     end
     @image

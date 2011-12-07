@@ -6,8 +6,8 @@ Tagshot::Application.routes.draw do
         :constraints => {
           :width => /\d+/,
           :height => /\d+/,
-          :crop => "crop",
-          :filename => /\d+(_\d+(x\d+)?)?(_croped|_streched)?(_[A-z0-9-]+)?/
+          :crop => /crop|scale/,
+          :filename => /\d+(_\d+(x\d+)?)?(_croped|_scaled)?(_[A-z0-9-]+)?/
         }
   resources :tags, :only => [:index]
 

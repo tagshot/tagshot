@@ -63,7 +63,8 @@ class PhotosController < ApplicationController
     opts = {
       :width => 320,
       :height => 200,
-      :strech => true
+      :crop => false,
+      :scale => false
     }
 
     if params[:width] and !params[:height]
@@ -74,6 +75,7 @@ class PhotosController < ApplicationController
       opts[:width] = params[:width].to_i if params[:width]
     end
     opts[:crop] = true if params[:crop] == 'crop'
+    opts[:scale] = true if params[:crop] == 'scale'
 
     thumb = @photo.thumb(opts)
     thumb.image
