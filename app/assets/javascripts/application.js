@@ -30,8 +30,7 @@ function resizeImages() {
 	$(".gallery div.img").css(
 		'height',value).css(
 		'width',function(){
-			var tmp = $(this).find('img');
-			return value*tmp.width()/tmp.height();
+			return value*1.6;
 		}
 	);
 }
