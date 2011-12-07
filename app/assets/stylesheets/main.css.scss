@@ -224,7 +224,7 @@ input.tagautocomplete-clear-textbox {
 
 
 /***********************************/
-/* Option/Date Picker */
+/* Option Picker */
 /***********************************/
 
 button#show-options {
@@ -257,12 +257,8 @@ div#thumbnail-size-container {
 }
 div#thumbnail-size-slider {
 	font-size: 12px;
-	width: 300px;
+	width: 500px;
 }
-div#date-picker{
-	float: left;
-}
-
 
 /***********************************/
 /* Photos */
@@ -298,7 +294,7 @@ section#backbone-main-view div.img {
 	margin: 2px auto;
 	position: relative;
 	height: 200px;
-	width:  320px;
+	width:  300px;
 	
 	min-height: 40px;
 	max-height: 500px;
@@ -334,9 +330,9 @@ section#backbone-main-view button:hover div.star-me {
 	color: white;
 }
 
-/***********************************/
-/* Tag it bar + Footer specialization */
-/***********************************/
+/**************************************/
+/* Tag it bar + Footer specialization
+/**************************************/
 
 footer .textbox {
 	height: 29px;

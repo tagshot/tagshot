@@ -38,7 +38,6 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		// Start Backbone history a neccesary step for bookmarkable URL's
 		var match = Backbone.history.start();
 		console.log("Match: ",match);
-
 	},
 	render: function () {
 		console.log("render the main view with", this.currentView.className);
@@ -47,6 +46,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	showGallery: function(query, page) {
 		this.currentView = Tagshot.views.gallery;
 		this.render();
+		resizeImages();
 	},
 	showDetails: function(id) {
 		var model = Tagshot.collections.photoList.get({"id":id});
