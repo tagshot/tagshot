@@ -7,7 +7,7 @@ Tagshot::Application.routes.draw do
           :width => /\d+/,
           :height => /\d+/,
           :crop => /crop|scale/,
-          :name => /\d+(_\d+(x\d+)?)?(_croped|_scaled)?(_[A-z0-9-]+)?/
+          :name => /\d+(_\d+(x\d+)?)?(_cropped|_scaled)?(_[A-z0-9-]+)?/
         }
   resources :tags, :only => [:index]
 

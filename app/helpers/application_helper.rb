@@ -8,10 +8,27 @@ module ApplicationHelper
     end.join("\n").html_safe
   end
 
-  def download_photo_url(photo, opts = {})
-    return url_for(photo.path) if photo.is_a?(Thumb)
-    return url_for(photo.thumb(opts).path) if photo.is_a?(Photo)
-    return nil
+  def download_url(photo, opts = {})
+    photo = Photo.find(photo.to_i) unless photo.is_a?(Photo)
+    tags  = photo.tags.names.map{|t| t.gsub(/[^A-z0-9]+/, '').gsub(/\s+/, '_')}.join('-')
+
+    name  = [photo.id]
+    name << "#{opts[:width]}x#{opts[:height]}"
+    name << "cropped" if opts[:crop]
+    name << "streched" if !opts[:crop] and !opts[:scale]
+    name << tags if tags.length > 0
+
+    options = {
+      :width => 100,
+      :height => 100
+    }
+    options[:name] => name.join('_')
+    options[:id]   => photo.id
+    options[:crop] => 'scale' if opts[:scale]
+    options[:crop] => 'crop'  if opts[:crop]
+    options[:format] => 'jpg'
+
+    download_photo_url options
   end
 end
 
