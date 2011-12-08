@@ -46,7 +46,8 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	showGallery: function(query, page) {
 		this.currentView = Tagshot.views.gallery;
 		this.render();
-		resizeImages();
+        //rebind events because bindings are lost beacuse of navigation
+		Tagshot.views.gallery.delegateEventsToSubViews();
 	},
 	showDetails: function(id) {
 		var model = Tagshot.collections.photoList.get({"id":id});
