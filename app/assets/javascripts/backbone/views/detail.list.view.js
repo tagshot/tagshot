@@ -2,7 +2,9 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "detail",
 	events: {
-		"click" : "click"
+		"click" : "click",
+		"click footer" : "stop",
+		"change footer #tag-box": "updateTags"
 	},
 	initialize: function(options) {
 		_.bindAll(this, "render", "propHTML", "metaHTML");
@@ -14,7 +16,12 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	render: function(model) {
 		this.model = model;
 		console.log("render detailed view", this.model);
-		$(this.el).html(Mustache.to_html($('#detail-list-template').html(), this));
+		var tags = {tags:this.model.get('tags')};
+		$(this.el).html(
+			Mustache.to_html($('#detail-list-template').html(), this)+
+			Mustache.to_html($('#footer-template').html(), tags)
+			);
+		$(this.el).find('footer').show();
 		return this;
 	},
 	click: function(){
@@ -67,4 +74,13 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			return str;
 		};
 	},
+	updateTags: function(e) {
+		console.log(e);
+		var tags = $(this.el).find("#tag-box").val().split(" ")
+		this.model.save({'tags': tags});
+	},
+	stop: function(e) {
+		//avoid event propagation
+		e.stopPropagation();
+	}
 });

@@ -61,7 +61,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	isSelected: function() {
 		return this.model.selected;
 	},
-	openDetails : function() {
+	openDetails : function(e) {
 		Tagshot.router.navigate("details/" + this.model.get("id"), true);
 	},
 	remove: function() {

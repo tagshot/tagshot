@@ -2,7 +2,8 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "ul",
 	className: "gallery",
 	events: {
-		"click" : "deselectAll"
+		"click" : "deselectAll",
+		"click footer" : "stop"
 	},
 	initialize: function(options) {
 		_.bindAll(this, 'selectAll', 'deselectAll');
@@ -28,7 +29,11 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 	render: function() {
 		console.log("render whole gallery");
-		$(this.el).html("<span id='fix-gallery' class='ui-helper-clearfix'>");
+		var tags = {tags:[]};
+		$(this.el).html(
+				"<span id='fix-gallery' class='ui-helper-clearfix'>"+
+				Mustache.to_html($('#footer-template').html(), tags)
+				);
 		this.collection.each(this.append);
 		return this;
 	},
@@ -58,5 +63,9 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 	deselectAll: function(e){
 		this.collection.deselectAll();
+	},
+	stop: function(e) {  
+		//avoid event propagation
+		e.stopPropagation();
 	}
 });

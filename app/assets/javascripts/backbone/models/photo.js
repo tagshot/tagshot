@@ -1,4 +1,5 @@
 Tagshot.Models.Photo = Backbone.Model.extend({
+	paramRoot: "photo",
 	initialize: function(options) {
 	},
 	selected: false,
