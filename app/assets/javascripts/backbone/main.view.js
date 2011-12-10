@@ -36,8 +36,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	},
 	startHistory: function() {
 		// Start Backbone history a neccesary step for bookmarkable URL's
-		var match = Backbone.history.start();
-		console.log("Match: ",match);
+		Backbone.history.start();
 	},
 	render: function () {
 		console.log("render the main view with", this.currentView.className);
