@@ -45,7 +45,7 @@ module Tagshot
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    config.thumb_options = { :width => 320, :height => 200, :crop => false }
+    config.thumb_options = { :width => 640, :height => 400, :crop => false }
   end
 end
 
