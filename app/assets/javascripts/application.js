@@ -44,6 +44,7 @@ $(function() {
 
 	/* apply autocompletion to <input> */
 	$("#search-box").tagAutocomplete({
+		//TODO pull from /tags
 		autocompleteList: proglag,
 		inputCssClass: 'textbox'
 	/* and make it auto-focus on page-load */
