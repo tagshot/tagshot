@@ -82,14 +82,14 @@
 		 * This is needed to be case-insensitive, so typing 'java'
 		 * will also find 'Java'.
 		 * Input:
-		 * [
-		 * 	'JavaScript',
-		 * 	'Java'
-		 * ]
+		 * {
+		 * 	'JavaScript': 100
+		 * 	'Java': 20
+		 * }
 		 * Output:
 		 * [
-		 * 	'javascript',
-		 * 	'java'
+		 * 	['javascript', 100, 'JavaScript'],
+		 * 	['java', 20, 'Java']
 		 * ]
 		 */
 		lowercase = [];
@@ -97,11 +97,6 @@
 			if (!settings.autocompleteList.hasOwnProperty(entry)) continue;
 			lowercase.push([entry.toLowerCase(), settings.autocompleteList[entry], entry]);
 		}
-		/*
-		lowercase = settings.autocompleteList.map(function (el) {
-			return [el[0].toLowerCase(), el[1]];
-		});
-		*/
 
 		this.each(function () {
 			// javascript note: this now refers to the input dom element
