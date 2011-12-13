@@ -20,8 +20,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		$(this.el).html(
 			Mustache.to_html($('#detail-list-template').html(), this)+
 			Mustache.to_html($('#footer-template').html(), tags)
-			);
-		$(this.el).find('footer').show();
+        ).find('footer').show();
 		return this;
 	},
 	click: function(){
