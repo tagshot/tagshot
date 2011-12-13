@@ -42,16 +42,20 @@ function hideElements() {
 $(function() {
 	Tagshot.init();
 
-	/* apply autocompletion to <input> */
-	$("#search-box").tagAutocomplete({
-		//TODO pull from /tags
-		autocompleteList: proglag,
-		inputCssClass: 'textbox'
-	/* and make it auto-focus on page-load */
-	}).textboxFocusOnStart({
-		text: uiSettings.searchBoxText,
-		cssClassWhenEmpty: 'search-start'
+	$.ajax("/tags", {
+		success: function (data) {
+			/* apply autocompletion to <input> */
+			$("#search-box").tagAutocomplete({
+				autocompleteList: data,
+				inputCssClass: 'textbox'
+			/* and make it auto-focus on page-load */
+			}).textboxFocusOnStart({
+				text: uiSettings.searchBoxText,
+				cssClassWhenEmpty: 'search-start'
+			});
+		},
 	});
+
 
 	$("#show-options").click(function() {
 		$("#options-container").slideToggle(300);
