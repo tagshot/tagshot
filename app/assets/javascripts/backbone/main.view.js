@@ -7,7 +7,6 @@
  *= require_tree ./routers
  */
 //= require backbone-eventdata
-//= require backbone-navigate
 
 Tagshot.Views.MainView = Backbone.View.extend({
 	el:  document,

@@ -92,9 +92,16 @@
 		 * 	'java'
 		 * ]
 		 */
+		lowercase = [];
+		for (var entry in settings.autocompleteList) {
+			if (!settings.autocompleteList.hasOwnProperty(entry)) continue;
+			lowercase.push([entry.toLowerCase(), settings.autocompleteList[entry], entry]);
+		}
+		/*
 		lowercase = settings.autocompleteList.map(function (el) {
 			return [el[0].toLowerCase(), el[1]];
 		});
+		*/
 
 		this.each(function () {
 			// javascript note: this now refers to the input dom element
@@ -302,10 +309,10 @@
 
 				// as we want to entries in autocomplete list to be displayed in normal case
 				// (and not lowercased as the entries in filteredList)
-				// we have to find the correctly speed version of the word
+				// we have to find the correctly spelled version of the word
 				// so we just map each entry to its original, un-lowercased equivalent
 				filteredList = filteredList.map(function (el) {
-					return settings.autocompleteList[lowercase.indexOf(el)][0];
+					return el[2];
 				});
 
 				// save filtered list
