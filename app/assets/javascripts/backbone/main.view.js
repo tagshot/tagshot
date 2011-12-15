@@ -7,6 +7,7 @@
  *= require_tree ./routers
  */
 //= require backbone-eventdata
+//= require backbone-navigate
 
 Tagshot.Views.MainView = Backbone.View.extend({
 	el:  document,
@@ -36,7 +37,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	},
 	startHistory: function() {
 		// Start Backbone history a neccesary step for bookmarkable URL's
-		Backbone.history.start({pushState: false});
+		Backbone.history.start({pushState: true, root: "/"});
 	},
 	render: function () {
 		console.log("render the main view with", this.currentView.className);
