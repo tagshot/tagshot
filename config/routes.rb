@@ -11,6 +11,7 @@ Tagshot::Application.routes.draw do
         }
   resources :tags, :only => [:index]
 
+  match '*pushState' => 'photos#index'
   root :to => 'photos#index'
 end
 
