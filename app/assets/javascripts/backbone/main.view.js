@@ -36,7 +36,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	},
 	startHistory: function() {
 		// Start Backbone history a neccesary step for bookmarkable URL's
-		Backbone.history.start();
+		Backbone.history.start({pushState: false});
 	},
 	render: function () {
 		console.log("render the main view with", this.currentView.className);
@@ -47,11 +47,15 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		this.render();
         //rebind events because bindings are lost beacuse of navigation
 		Tagshot.views.gallery.delegateEventsToSubViews();
+		Tagshot.views.gallery.delegateEvents();
 	},
 	showDetails: function(id) {
 		var model = Tagshot.collections.photoList.get({"id":id});
 		this.currentView = Tagshot.views.detail;
 		Tagshot.views.detail.render(model);
 		this.render();
+		//fix for crappy webkit that can't change 
+		//dispay of elements that are not in the dom
+		$('footer:first').show();
 	}
 });
