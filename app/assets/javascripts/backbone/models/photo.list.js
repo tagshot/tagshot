@@ -1,10 +1,17 @@
-
 // array von photos
 Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 	model: Tagshot.Models.Photo,
-	url: "/photos",
+	fetching: false,
+	reachedEnd: false,
+	url: function() {
+		return this.base_url;
+	},
+	currentOffset: 0,
+	base_url: "photos",
+	sort: null,
 	intialize: function(){
-		_.bindAll(this, 'selectAll', 'deselectAll');
+		_.bindAll(this, 'selectAll', 'deselectAll', 'url', 'appendingFetch', 'parse');
+		_.bind('fetch',console.log);
 	},
 	// return the current selection
 	selection: function() {
@@ -26,5 +33,35 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 				item.select();
 			}
 		});
-	}
+	},
+	appendingFetch: function(add, options){
+		// add: how many images to add
+		options || (options = {});
+		options.data || (options.data = {});
+		self  = this;
+
+		if (!this.fetching && !this.reachedEnd) {
+			this.fetching = true;
+
+			options.success = function(e) {
+				self.fetching = false;
+			}
+
+			options.add = true;
+			
+			this.currentOffset += add;
+			options.data.offset = this.currentOffset;
+			
+			options.data.limit = add;
+
+			this.fetch(options);
+		}
+	},
+	parse : function(resp, xhr) {
+		if (resp.length == 0) {
+			//no response, probably reached end
+			this.reachedEnd = true;
+		}
+		return resp;
+    },
 });

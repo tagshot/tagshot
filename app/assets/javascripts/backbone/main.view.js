@@ -14,6 +14,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	events: {
 		"keydown[ctrl+a]" : "selectAll",
 		"keydown[meta+a]" : "selectAll",
+		"scroll": "scrolling"
 	},
 	selectAll: function() {
 		Tagshot.views.gallery.selectAll();
@@ -32,7 +33,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		Tagshot.router.bind("route:details", this.showDetails, this);
 
 		// initial fetch of gallery model
-		Tagshot.collections.photoList.fetch({data: {needed: null}, success: this.startHistory});
+		Tagshot.collections.photoList.fetch({data: {limit: 10}, success: this.startHistory});
 
 	},
 	startHistory: function() {
@@ -49,6 +50,12 @@ Tagshot.Views.MainView = Backbone.View.extend({
         //rebind events because bindings are lost beacuse of navigation
 		Tagshot.views.gallery.delegateEventsToSubViews();
 		Tagshot.views.gallery.delegateEvents();
+
+		// fetch some more images if there is space left
+		var hasScrollbars = $(document).height() > $(window).height()+10;
+		if (!hasScrollbars) {
+			this.scrolling();
+		} 
 	},
 	showDetails: function(id) {
 		var model = Tagshot.collections.photoList.get({"id":id});
@@ -58,5 +65,11 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		//fix for crappy webkit that can't change 
 		//dispay of elements that are not in the dom
 		$('footer:first').show();
+	},
+	scrolling: function(){
+		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
+		if (pixelsFromWindowBottom < 500 && this.currentView == Tagshot.views.gallery) {
+			this.currentView.infiniteScroll();
+		} 
 	}
 });

@@ -6,7 +6,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		"click footer" : "stop"
 	},
 	initialize: function(options) {
-		_.bindAll(this, 'selectAll', 'deselectAll');
+		_.bindAll(this, 'selectAll', 'deselectAll', 'infiniteScroll');
 
 		// make this available in render and append
 		_.bindAll(this, 'render', 'append');
@@ -14,9 +14,9 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.collection.bind('select', this.showFooterIfNeccessary, this);
 		this.collection.bind('deselect', this.showFooterIfNeccessary, this);
 
-		this.collection.bind('refresh', this.render, this);
-		this.collection.bind("reset", this.render, this);
-		this.collection.bind("add", this.append, this);
+		//this.collection.bind('refresh', this.render, this);
+		this.collection.bind('reset', this.render, this);
+		this.collection.bind('add', this.append, this);
 
 		//subviews
 		this.subviews = {};
@@ -35,6 +35,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 				Mustache.to_html($('#footer-template').html(), tags)
 				);
 		this.collection.each(this.append);
+
 		return this;
 	},
 	showFooterIfNeccessary: function() {
@@ -67,5 +68,9 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	stop: function(e) {  
 		//avoid event propagation
 		e.stopPropagation();
+	},
+	infiniteScroll: function() {
+		// scrolling event by main view
+		this.collection.appendingFetch(8);	
 	}
 });
