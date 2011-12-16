@@ -27,7 +27,7 @@ var uiSettings = {
 function resizeImages() {
 	var value  = $("#thumbnail-size-slider").slider("value");
 
-	$(".gallery div.img").css(
+	$(".gallery div.image").css(
 		'height',value).css(
 		'width',function(){
 			return value*1.6;
