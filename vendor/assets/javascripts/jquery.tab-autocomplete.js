@@ -230,6 +230,7 @@
 
 			// now add keyboard monitoring for <input>-element
 			p.$input.keydown(function (event) {
+				p.updateAutocompletionListPosition();
 				p.$autocompletionList.show(0);
 				switch (event.keyCode) {
 					case keyCodes.BACKSPACE:

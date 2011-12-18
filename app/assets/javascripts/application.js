@@ -53,6 +53,10 @@ $(function() {
 				text: uiSettings.searchBoxText,
 				cssClassWhenEmpty: 'search-start'
 			});
+			$("#tag-box").tagAutocomplete({
+				autocompleteList: data,
+				inputCssClass: 'textbox'
+			});
 		},
 	});
 
