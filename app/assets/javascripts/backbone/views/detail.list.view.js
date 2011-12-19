@@ -74,8 +74,8 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		};
 	},
 	updateTags: function(e) {
-		console.log(e);
-		var tags = $(this.el).find("#tag-box").val().split(" ")
+		console.log("Update tags and send it to backend");
+		var tags = $("#tag-box").val().split(" ")
 		this.model.save({'tags': tags});
 	},
 	stop: function(e) {

@@ -32,6 +32,12 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		Tagshot.router.bind("route:home", this.showGallery, this);
 		Tagshot.router.bind("route:details", this.showDetails, this);
 
+		//navigation with title
+		$('#title').click(function(){
+			Tagshot.router.navigate('',true);
+			return false;
+		});
+
 		// initial fetch of gallery model
 		Tagshot.collections.photoList.fetch({data: {limit: 10}, success: this.startHistory});
 
@@ -61,6 +67,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		var model = Tagshot.collections.photoList.get({"id":id});
 		this.currentView = Tagshot.views.detail;
 		Tagshot.views.detail.render(model);
+		Tagshot.views.detail.delegateEvents();
 		this.render();
 		//fix for crappy webkit that can't change 
 		//dispay of elements that are not in the dom
