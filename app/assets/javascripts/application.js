@@ -57,18 +57,29 @@ $(function() {
 				autocompleteList: data,
 				inputCssClass: 'textbox',
 				autocompleteListPosition: 'above',
-				autoSelect: true,
+				autoSelect: false,
 				postProcessors: [
 					{
 						matches: function (text) {
-							alert(text);
-							return false;
+							return text.match(/^\*[0-5]$/) !== null;
+						},
+						transform: function (text) {
+							match = text.match(/^\*([0-5])$/);
+							starNumber = match[1];
+							starString = '';
+							for (var i = 0; i < starNumber; i++)
+								starString += '★';
+							for (var i = 0; i < 5 - starNumber; i++)
+								starString += '☆';
+							return starString;
 						}
 					},
 					{
 						matches: function (text) {
-							alert("bla");
 							return false;
+						},
+						transform: function(text) {
+							return text;
 						}
 					}
 				]

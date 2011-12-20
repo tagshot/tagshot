@@ -132,15 +132,12 @@
 						return;
 					if (settings.autoSelect === false)
 						this.selectedEntry = this.$input.val();
+					this.doPostProcessing(this.selectedEntry);
 					settings.onTagAdded(this.selectedEntry, this.entriesList);
 					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button>x</button></li>');
 					this.$tagList.find('li button').last().click(function () {
 						$(this).parent().addClass('tagautocomplete-to-be-removed');
 						that.removeTag();
-					});
-					settings.postProcessors.forEach(function (el) {
-						alert(el.matches(that.selectedEntry));
-						return false;
 					});
 					this.tags.push(this.selectedEntry);
 					this.selectedEntry = null;
@@ -155,6 +152,15 @@
 					p.removeTagOnNextBackspace = false;
 					p.updateAutocompletionListPosition();
 					p.input.focus();
+				},
+				doPostProcessing: function (entry) {
+					for (var i = 0; i < settings.postProcessors.length; i++) {
+						var postprocessor = settings.postProcessors[i];
+						if (postprocessor.matches(this.selectedEntry)) {
+							this.selectedEntry = postprocessor.transform(this.selectedEntry);
+							break;
+						}
+					}
 				},
 				displayAutocompletionList:  function () {
 					var that = this;
