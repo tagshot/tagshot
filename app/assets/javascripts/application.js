@@ -55,7 +55,23 @@ $(function() {
 			});
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
-				inputCssClass: 'textbox'
+				inputCssClass: 'textbox',
+				autocompleteListPosition: 'above',
+				autoSelect: true,
+				postProcessors: [
+					{
+						matches: function (text) {
+							alert(text);
+							return false;
+						}
+					},
+					{
+						matches: function (text) {
+							alert("bla");
+							return false;
+						}
+					}
+				]
 			});
 		},
 	});

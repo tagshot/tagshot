@@ -65,12 +65,14 @@
 			maxEntries: 10,
 			// auto select
 			autoSelect: true,
+			autocompleteListPosition: 'below',
 			onTagAdded: function (tagText) {
 				console.log('Tag "' + tagText + '" added.');
 			},
 			onTagRemoved: function (tagText) {
 				console.log('Tag removed.');
-			}
+			},
+			postProcessors: []
 		},
 		    // will hold a lowercased-version of settings.autocompleteList
 		    lowercase;
@@ -136,6 +138,10 @@
 						$(this).parent().addClass('tagautocomplete-to-be-removed');
 						that.removeTag();
 					});
+					settings.postProcessors.forEach(function (el) {
+						alert(el.matches(that.selectedEntry));
+						return false;
+					});
 					this.tags.push(this.selectedEntry);
 					this.selectedEntry = null;
 					this.entriesList = [];
@@ -172,10 +178,19 @@
 					this.offset = this.$input.offset();
 					this.height = this.$input.outerHeight();
 					this.width = this.$input.outerWidth();
-					this.$autocompletionList
-						.css('top', this.offset.top + this.height + 5)
-						.css('left', this.offset.left)
-						.css('width', this.width + 'px');
+					if (settings.autocompleteListPosition === 'below') {
+						this.$autocompletionList
+							.css('top', this.offset.top + this.height + 5)
+							.css('left', this.offset.left)
+							.css('width', this.width + 'px');
+					}
+					else if (settings.autocompleteListPosition === 'above') {
+						var listHeight = this.$autocompletionList.outerHeight();
+						this.$autocompletionList
+							.css('top', this.offset.top - listHeight - 5)
+							.css('left', this.offset.left)
+							.css('width', this.width + 'px');
+					}
 				}
 			};
 
@@ -230,7 +245,6 @@
 
 			// now add keyboard monitoring for <input>-element
 			p.$input.keydown(function (event) {
-				p.updateAutocompletionListPosition();
 				p.$autocompletionList.show(0);
 				switch (event.keyCode) {
 					case keyCodes.BACKSPACE:
@@ -326,6 +340,7 @@
 						p.selectedEntry = filteredList[0];
 				}
 				p.displayAutocompletionList();
+				p.updateAutocompletionListPosition();
 			}).focus(function () {
 				p.$autocompletionList.show(0);
 			}).blur(function () {
