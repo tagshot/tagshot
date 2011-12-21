@@ -7,7 +7,7 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 		return this.base_url;
 	},
 	currentOffset: 0,
-	base_url: "photos",
+	base_url: "/photos",
 	sort: null,
 	intialize: function(){
 		_.bindAll(this, 'selectAll', 'deselectAll', 'url', 'appendingFetch', 'parse');
