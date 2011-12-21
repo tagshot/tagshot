@@ -31,7 +31,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		console.log("render whole gallery");
 		var tags = {tags:[]};
 		$(this.el).html(
-				"<span id='fix-gallery' class='ui-helper-clearfix'>"+
+				"<span id='fix-gallery' class='ui-helper-clearfix'></span>"+
 				Mustache.to_html($('#footer-template').html(), tags)
 				);
 		this.collection.each(this.append);
