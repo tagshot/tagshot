@@ -1,6 +1,10 @@
 Tagshot.Models.Photo = Backbone.Model.extend({
 	paramRoot: "photo",
 	initialize: function() {
+		//_.bindAll(this, 'order', 'isSelected');
+	},
+	order: function() {
+		return this.id;
 	},
 	selected: false,
 	defaults: function() {

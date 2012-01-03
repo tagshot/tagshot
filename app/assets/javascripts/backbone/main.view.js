@@ -57,11 +57,15 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		Tagshot.views.gallery.delegateEventsToSubViews();
 		Tagshot.views.gallery.delegateEvents();
 
+		// set focus to search bar
+		$(':focus').focus();
+		$('#search-box').focus();
+
 		// fetch some more images if there is space left
 		var hasScrollbars = $(document).height() > $(window).height()+10;
 		if (!hasScrollbars) {
 			this.scrolling();
-		} 
+		}
 	},
 	showDetails: function(id) {
 		var model = Tagshot.collections.photoList.get({"id":id});
@@ -78,5 +82,8 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		if (pixelsFromWindowBottom < 500 && this.currentView == Tagshot.views.gallery) {
 			this.currentView.infiniteScroll();
 		} 
+	},
+	openDetails: function() {
+		console.log(234);
 	}
 });

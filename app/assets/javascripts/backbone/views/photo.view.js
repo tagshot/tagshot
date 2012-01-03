@@ -5,10 +5,14 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	className: "image-view",
 	events: {
 		"click" : "click",
-		"dblclick" : "openDetails"
+		"dblclick" : "openDetails",
+		"keydown[return]" : "openDetails",
+		"keydown[left]" : "gotoPrevious",
+		"keydown[right]" : "gotoNext",
+		"keydown[tab]" : "gotoNext"
 	},
 	initialize : function() {
-		_.bindAll(this, 'openDetails', 'click', 'select', 'deselect');
+		_.bindAll(this, 'openDetails', 'click', 'select', 'deselect', 'gotoNext', 'gotoPrevious');
 
 		this.model.bind('change', this.render, this);
 		this.model.bind('destroy', this.remove, this);
@@ -41,8 +45,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			var blacks = this.model.get("properties")['rating'] || 0;
 			// var whites = this.model.get("stars").stars.of - blacks;
 			var whites = 5 - blacks;
-			var blackstar = "<a href='#'>&#9733;</a>";
-			var whitestar = "<a href='#'>&#9734;</a>";
+			var blackstar = "<span>&#9733;</span>";
+			var whitestar = "<span>&#9734;</span>";
 
 			var buildString = function(star, count) {
 				starString = "";
@@ -68,8 +72,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		$(this.el).remove();
 	},
 	click: function(e) {
-		//avoid propagation to underlying view(s)
-		e.stopPropagation();
+		this.stop(e);
+		$(this.el).find('.image-frame').focus();
 		if (e.shiftKey) {
 			// shift -> from..to select
 			var self = this;
@@ -85,5 +89,16 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			this.model.collection.deselectAll({'exclude':this.model});
 			this.model.select();
 		}
+	},
+	stop: function(e) {  
+		//avoid propagation to underlying view(s)
+		e.stopPropagation();
+	},
+	gotoNext: function(e) {
+		this.stop(e);
+		$(this.el).next().find('.image-frame').focus();
+	},
+	gotoPrevious: function() {
+		$(this.el).prev().find('.image-frame').focus();
 	},
 });
