@@ -73,12 +73,16 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 	loadMoreImages: function(e) {
 		// scrolling event by main view
-		this.collection.appendingFetch(10);
+
+		var imagesToFetch = 10;
+		this.collection.appendingFetch(imagesToFetch);
 
 		if (this.collection.reachedEnd) {
 			$('#more').attr('disabled','disabled');
 		}
 
-		this.stop(e);
+		if(e) {
+			this.stop(e);
+		}
 	}
 });
