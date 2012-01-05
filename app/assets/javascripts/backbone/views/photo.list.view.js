@@ -3,10 +3,11 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	className: "gallery",
 	events: {
 		"click" : "deselectAll",
+		"click #more" : "loadMoreImages",
 		"click footer" : "stop"
 	},
 	initialize: function(options) {
-		_.bindAll(this, 'selectAll', 'deselectAll', 'infiniteScroll');
+		_.bindAll(this, 'selectAll', 'deselectAll', 'loadMoreImages');
 
 		// make this available in render and append
 		_.bindAll(this, 'render', 'append');
@@ -32,6 +33,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var tags = {tags:[]};
 		$(this.el).html(
 				"<span id='fix-gallery' class='ui-helper-clearfix'></span>"+
+				"<button id='more'>load more...</button>"+
 				Mustache.to_html($('#footer-template').html(), tags)
 				);
 		this.collection.each(this.append);
@@ -69,8 +71,14 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		//avoid event propagation
 		e.stopPropagation();
 	},
-	infiniteScroll: function() {
+	loadMoreImages: function(e) {
 		// scrolling event by main view
-		this.collection.appendingFetch(8);	
+		this.collection.appendingFetch(10);
+
+		if (this.collection.reachedEnd) {
+			$('#more').attr('disabled','disabled');
+		}
+
+		this.stop(e);
 	}
 });

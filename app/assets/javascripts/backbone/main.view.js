@@ -79,8 +79,10 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	},
 	scrolling: function(){
 		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
-		if (pixelsFromWindowBottom < 500 && this.currentView == Tagshot.views.gallery) {
-			this.currentView.infiniteScroll();
+		if (pixelsFromWindowBottom < 200 && this.currentView == Tagshot.views.gallery) {
+			if (this.currentView.collection.length < 20){
+				this.currentView.loadMoreImages();
+			}
 		} 
 	},
 	openDetails: function() {
