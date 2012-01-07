@@ -19,6 +19,14 @@ FactoryGirl.define do
     end
   end
   
+  factory :photo_with_more_tags, :parent => :photo do
+    after_create do |p|
+      [:a, :b, :c, :d, :e].map(&:to_s).each do |t|
+        Tag.find_or_create_by_name(t).photos << p
+      end
+    end
+  end
+  
   factory :photo_with_properties, :parent => :photo do
     after_create do |p|
       {'Meta1' => 'Value1', 'Meta2' => 'Value2'}.each do |key, value|

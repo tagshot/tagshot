@@ -5,7 +5,17 @@ class PhotosController < ApplicationController
     limit = limit > 100 ? 100 : limit
     offset = params[:offset].try(:to_i) || 0
 
-    @photos = Photo.limit(limit).offset(offset).all(:include => [:tags, :properties])
+    @photos = Photo.limit(limit).offset(offset)
+    
+    if params[:query]
+      params[:query].split(' ').each do |tag|
+        @photos = @photos.where('photos.id IN (SELECT photo_id FROM photos_tags 
+          WHERE photos_tags.tag_id IN (SELECT id FROM tags WHERE tags.name = ?))', tag)
+      end
+    end
+    
+    # force fetch
+    @photos.all(:include => [:tags, :properties])
 
     respond_to do |format|
       format.html

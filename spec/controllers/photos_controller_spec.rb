@@ -27,6 +27,20 @@ describe PhotosController do
         Photo.all.count.should > 100 # ensure there are more than 100 photos
         JSON(response.body).length.should == 100
       end
+      
+      context 'with query' do
+        it 'should search for photos with all given tags' do
+          Factory(:photo_with_tags)
+          Factory(:photo_with_more_tags)
+          get :index, :format => :json, :query => 'a b'
+          
+          json = JSON(response.body)
+          json.each do |photo|
+            photo['tags'].include?('a').should == true
+            photo['tags'].include?('b').should == true
+          end
+        end
+      end
     end
   end
   
