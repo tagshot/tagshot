@@ -1,4 +1,5 @@
 class PhotosController < ApplicationController
+  before_filter :require_authentication
 
   def index
     limit = params[:limit].try(:to_i) || 100

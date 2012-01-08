@@ -1,0 +1,12 @@
+<h1>Login</h1>
+<% if flash[:error] %>
+  <p><%= flash[:error] %>
+<% end %>
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %>
+<% end %>
+<form action="<%= session_path %>" method="POST">
+  <input type="text" value="<%= params[:login] %>" name="login" />
+  <input type="password" value="" name="password" />
+  <input type="submit" value="Login" />
+</form>

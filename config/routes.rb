@@ -10,8 +10,10 @@ Tagshot::Application.routes.draw do
           :name => /\d+(_\d+(x\d+)?)?(_cropped|_scaled)?(_[A-z0-9-]+)?/
         }
   resources :tags, :only => [:index]
+  resource :session, :only => [:new, :create, :destroy]
+  get 'session/destroy' => 'sessions#destroy'
 
-  match '*pushState' => 'photos#index'
-  root :to => 'photos#index'
+  match 'photos/*pushState' => 'photos#index'
+  root :to => 'sessions#new'
 end
 

@@ -8,4 +8,7 @@
 
 Source.create!(:path => Rails.root.join(*%w{public images}).to_s, :name => "Public Images")
 
+require 'auth_source'
 
+as = PasswordAuthSource.create!
+User.create!(:login => 'admin', :password => 'admin', :admin => true, :auth_source_id => as.id)

@@ -1,9 +1,43 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
+  before_filter :setup_user
+  
   if Rails.env.production?
     rescue_from ActiveRecord::RecordNotFound, :with => :error_not_found
     rescue_from StandardError, :with => :render_error 
+  end
+  
+  def setup_user
+    User.current = find_current_user
+    Rails.logger.warn "WARN: Logged in as #{User.current.login}!"
+  end
+  
+  def find_current_user
+    user = User.find_by_id(session[:user_id])
+    return user if user && user.logged?
+    
+    authenticate_with_http_basic do |username, password|
+      return User.authenticate(username, password)
+    end
+  end
+  
+  def require_authentication
+    unless User.current.logged?
+      flash[:error] = 'Authentication required.'
+      redirect_to new_session_url
+      false
+    end
+  end
+
+  def current_user=(user)
+    reset_session
+    if user && user.is_a?(User) && user.logged?
+      User.current = user
+      session[:user_id] = user.id
+    else
+      User.current = nil
+    end
   end
   
   def error_access_denied; render_401 end
