@@ -58,10 +58,11 @@
 			var text  = this.value,
 			    input = $(this);
 			/* When textbox was empty (meaning standard-text) before, and an alphanumerical key was pressed
-			 * (0.keyCode = 48 until z.keyCode = 90, see http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
+			 * (z.keyCode = 48 until z.keyCode = 90, see http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
 			 * for what key has which keyCode) clear value and apply correct style.
 			 */
-			if (text === settings.text && event.keyCode >= 48 && event.keyCode <= 90) {
+			if ((text === settings.text && event.keyCode >= 48 && event.keyCode <= 90) || 
+				(text === settings.text && event.keyCode >= 186 && event.keyCode <= 222)) {
 				input.removeClass(settings.cssClassWhenEmpty).val('');
 			}
 		}).keyup(function () {

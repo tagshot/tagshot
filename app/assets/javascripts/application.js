@@ -58,6 +58,10 @@ $(function() {
 				inputCssClass: 'textbox',
 				autocompleteListPosition: 'above',
 				autoSelect: false,
+				onTagAdded: function (tagList) {
+					var searchString = tagList.join("+");
+					Tagshot.views.mainView.trigger("tagshot:searchTriggered", searchString);
+				},
 				postProcessors: [
 					{
 						matches: function (text) {
@@ -66,7 +70,7 @@ $(function() {
 						transform: function (text) {
 							match = text.match(/^\*([0-5])$/);
 							starNumber = match[1];
-							starString = '';
+							starString = '≥';
 							for (var i = 0; i < starNumber; i++)
 								starString += '★';
 							for (var i = 0; i < 5 - starNumber; i++)

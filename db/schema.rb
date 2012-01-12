@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20120108151710) do
     t.string   "password"
     t.integer  "auth_source_id"
     t.boolean  "admin",          :default => false
+    t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -23,6 +23,28 @@
 	"use strict";
 	// id counter, to create unique id's when there is more than one <input>-element given.
 	var autoCompleteListId = 0,
+	// standard settings
+	    settings = {
+		// list of possible autocompletions
+		autocompleteList: [],
+		// css class for the autocompletion list
+		autocompleteCssClass: 'autocompletion-list',
+		// css class for the <input>-element,
+		// will be applied to the surrounding <ul> during the plugin-process (see above for explanation)
+		inputCssClass: 'textbox',
+		// the maximum number of entries to be displayed while autocompletion
+		maxEntries: 10,
+		// auto select
+		autoSelect: true,
+		autocompleteListPosition: 'below',
+		onTagAdded: function (tagList, newTag) {
+			console.log('Tag "' + newTag + '" added.');
+		},
+		onTagRemoved: function (tagText) {
+			console.log('Tag removed.');
+		},
+		postProcessors: []
+	},
 	// for information about which key belongs to which keyCode,
 	// see http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
 	    keyCodes = {
@@ -52,30 +74,8 @@
 	};
 
 	$.fn.tagAutocomplete = function (options) {
-		    // standard settings
-		var settings = {
-			// list of possible autocompletions
-			autocompleteList: [],
-			// css class for the autocompletion list
-			autocompleteCssClass: 'autocompletion-list',
-			// css class for the <input>-element,
-			// will be applied to the surrounding <ul> during the plugin-process (see above for explanation)
-			inputCssClass: 'textbox',
-			// the maximum number of entries to be displayed while autocompletion
-			maxEntries: 10,
-			// auto select
-			autoSelect: true,
-			autocompleteListPosition: 'below',
-			onTagAdded: function (tagText) {
-				console.log('Tag "' + tagText + '" added.');
-			},
-			onTagRemoved: function (tagText) {
-				console.log('Tag removed.');
-			},
-			postProcessors: []
-		},
-		    // will hold a lowercased-version of settings.autocompleteList
-		    lowercase;
+		 // will hold a lowercased-version of settings.autocompleteList
+		 var lowercase;
 		// merge given options into standard-settings
 		$.extend(settings, options);
 
@@ -128,12 +128,13 @@
 				},
 				addTag: function () {
 					var that = this;
+					console.log(settings.autoSelect);
 					if (this.selectedEntry === null && settings.autoSelect)
 						return;
 					if (settings.autoSelect === false)
 						this.selectedEntry = this.$input.val();
 					this.doPostProcessing(this.selectedEntry);
-					settings.onTagAdded(this.selectedEntry, this.entriesList);
+					settings.onTagAdded(this.entriesList, this.selectedEntry);
 					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button>x</button></li>');
 					this.$tagList.find('li button').last().click(function () {
 						$(this).parent().addClass('tagautocomplete-to-be-removed');
@@ -269,6 +270,7 @@
 						p.addTag();
 						break;
 					case keyCodes.LEFT:
+						p.$tagList.children('.tagautocomplete-to-be-removed').removeClass('.tagautocomplete-to-be-removed');
 						break;
 					case keyCodes.DOWN:
 						var index = p.entriesList.indexOf(p.selectedEntry);

@@ -28,6 +28,8 @@ Tagshot.Views.MainView = Backbone.View.extend({
 
 		this.currentView = Tagshot.views.gallery;
 
+		this.bind('tagshot:searchTriggered', this.search);
+
 		//hook to navigation events
 		Tagshot.router.bind("route:home", this.showGallery, this);
 		Tagshot.router.bind("route:details", this.showDetails, this);
@@ -41,6 +43,12 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		// initial fetch of gallery model
 		Tagshot.collections.photoList.fetch({data: {limit: 10}, success: this.startHistory});
 
+	},
+	search: function(searchString) {
+		Tagshot.collections.photoList.fetch({data: {
+			limit: 10,
+			q: searchString
+		}});
 	},
 	startHistory: function() {
 		// Start Backbone history a neccesary step for bookmarkable URL's
