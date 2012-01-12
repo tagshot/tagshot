@@ -23,6 +23,28 @@
 	"use strict";
 	// id counter, to create unique id's when there is more than one <input>-element given.
 	var autoCompleteListId = 0,
+	// standard settings
+	    settings = {
+		// list of possible autocompletions
+		autocompleteList: [],
+		// css class for the autocompletion list
+		autocompleteCssClass: 'autocompletion-list',
+		// css class for the <input>-element,
+		// will be applied to the surrounding <ul> during the plugin-process (see above for explanation)
+		inputCssClass: 'textbox',
+		// the maximum number of entries to be displayed while autocompletion
+		maxEntries: 10,
+		// auto select
+		autoSelect: true,
+		autocompleteListPosition: 'below',
+		onTagAdded: function (tagList, newTag) {
+			console.log('Tag "' + newTag + '" added.');
+		},
+		onTagRemoved: function (tagText) {
+			console.log('Tag removed.');
+		},
+		postProcessors: []
+	},
 	// for information about which key belongs to which keyCode,
 	// see http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
 	    keyCodes = {
@@ -52,30 +74,8 @@
 	};
 
 	$.fn.tagAutocomplete = function (options) {
-		    // standard settings
-		var settings = {
-			// list of possible autocompletions
-			autocompleteList: [],
-			// css class for the autocompletion list
-			autocompleteCssClass: 'autocompletion-list',
-			// css class for the <input>-element,
-			// will be applied to the surrounding <ul> during the plugin-process (see above for explanation)
-			inputCssClass: 'textbox',
-			// the maximum number of entries to be displayed while autocompletion
-			maxEntries: 10,
-			// auto select
-			autoSelect: true,
-			autocompleteListPosition: 'below',
-			onTagAdded: function (tagText) {
-				console.log('Tag "' + tagText + '" added.');
-			},
-			onTagRemoved: function (tagText) {
-				console.log('Tag removed.');
-			},
-			postProcessors: []
-		},
-		    // will hold a lowercased-version of settings.autocompleteList
-		    lowercase;
+		 // will hold a lowercased-version of settings.autocompleteList
+		 var lowercase;
 		// merge given options into standard-settings
 		$.extend(settings, options);
 
@@ -121,33 +121,41 @@
 					this.autocompletionListId = 'autocompletion-list-' + autoCompleteListId;
 					// now save some element data needed for computation
 					this.selectedEntry = null;
+					// saves all tags
+					this.tagList = [],
 					// save the entries currently displayed in autocompletion
-					this.entriesList = []
+					this.autocompletionEntriesList = []
 					// if there is no autoselection, no entry can be selected (indicated by -1)
 					this.minIndex = this.autoSelect === true ? 0 : -1;
 				},
 				addTag: function () {
 					var that = this;
+					console.log(settings.autoSelect);
+					// if only tags are accepted and no entry is selected, abort
 					if (this.selectedEntry === null && settings.autoSelect)
 						return;
+					// if we have no selected entry, and this is allowed, just take textbox-value
 					if (settings.autoSelect === false)
 						this.selectedEntry = this.$input.val();
+					// apply postprocessing as specified by parameters
+					p.tagList.push(this.selectedEntry);
 					this.doPostProcessing(this.selectedEntry);
-					settings.onTagAdded(this.selectedEntry, this.entriesList);
-					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button>x</button></li>');
+					settings.onTagAdded(this.tagList, this.selectedEntry);
+					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button>X</button></li>');
 					this.$tagList.find('li button').last().click(function () {
 						$(this).parent().addClass('tagautocomplete-to-be-removed');
 						that.removeTag();
 					});
 					this.tags.push(this.selectedEntry);
 					this.selectedEntry = null;
-					this.entriesList = [];
+					this.autocompletionEntriesList = [];
 					this.displayAutocompletionList();
 					this.updateAutocompletionListPosition();
 					this.input.focus();
 				},
 				removeTag: function () {
 					settings.onTagRemoved();
+					p.tagList.pop();
 					p.$tagList.children('.tagautocomplete-to-be-removed').remove();
 					p.removeTagOnNextBackspace = false;
 					p.updateAutocompletionListPosition();
@@ -165,7 +173,7 @@
 				displayAutocompletionList:  function () {
 					var that = this;
 					// display all entries in autocompletion list
-					this.$autocompletionList.html(this.entriesList.reduce(function (prev, current) {
+					this.$autocompletionList.html(this.autocompletionEntriesList.reduce(function (prev, current) {
 						var selected = current === that.selectedEntry ? ' class="autocomplete-selected"' : '';
 						return prev + '<li' + selected + '>' + current + '</li>';
 					}, ''));
@@ -269,17 +277,18 @@
 						p.addTag();
 						break;
 					case keyCodes.LEFT:
+						p.$tagList.children('.tagautocomplete-to-be-removed').removeClass('.tagautocomplete-to-be-removed');
 						break;
 					case keyCodes.DOWN:
-						var index = p.entriesList.indexOf(p.selectedEntry);
-						p.selectedEntry = p.entriesList[Math.min(index + 1, p.entriesList.length - 1)];
+						var index = p.autocompletionEntriesList.indexOf(p.selectedEntry);
+						p.selectedEntry = p.autocompletionEntriesList[Math.min(index + 1, p.autocompletionEntriesList.length - 1)];
 						p.$autocompletionList.children('li').removeClass('selected');
 						p.displayAutocompletionList();
 						event.preventDefault();
 						break;
 					case keyCodes.UP:
-						var index = p.entriesList.indexOf(p.selectedEntry);
-						p.selectedEntry = p.entriesList[Math.max(index - 1, p.minIndex)];
+						var index = p.autocompletionEntriesList.indexOf(p.selectedEntry);
+						p.selectedEntry = p.autocompletionEntriesList[Math.max(index - 1, p.minIndex)];
 						p.$autocompletionList.children('li').removeClass('selected');
 						p.displayAutocompletionList();
 						event.preventDefault();
@@ -332,7 +341,7 @@
 				});
 
 				// save filtered list
-				p.entriesList = filteredList;
+				p.autocompletionEntriesList = filteredList;
 
 				// if no entries are left, stop processing
 				if (filteredList.length === 0) {
