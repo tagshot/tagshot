@@ -1,4 +1,5 @@
 
+require 'base/file'
 require 'tagshot/image'
 require 'tagshot/syncronizer'
 require 'tagshot/image_syncronizer'

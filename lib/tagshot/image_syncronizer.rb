@@ -3,8 +3,8 @@ module Tagshot
     def initialize(source, image)
       @source  = source
       @image   = image
-      @photo   = @source.photos.find_by_file image.file.path.force_encoding('UTF-8')
-      @photo ||= @source.photos.create :file => image.file.path.force_encoding('UTF-8'),
+      @photo   = @source.photos.find_by_file image.file.path
+      @photo ||= @source.photos.create :file => image.file.path,
                     :size => File.size(image.file.path)
     end
 
@@ -25,18 +25,11 @@ module Tagshot
         @photo.properties.clear
 
         @image.each do |key,value|
-          key = key.encode('UTF-8')
-          value = value.encode('UTF-8') if key.respond_to?(:encode)
-          
           if key == 'Iptc.Application2.Keywords'
             value = [value] unless value.is_a?(Array)
             value.uniq.select(&:present?).each do |tag|
               #puts "  Add iptc tag #{tag.inspect}"
-              if value.respond_to?(:encode)
-                @photo.tags << tag.encode('UTF-8')
-              else
-                @photo.tags << tag
-              end
+              @photo.tags << tag
             end
           elsif key == 'Xmp.iptc.Keywords'
             value.strip.split(/\s*,\s*/).uniq.select(&:present?).each do |tag|
