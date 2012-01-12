@@ -51,7 +51,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		}});
 	},
 	startHistory: function() {
-		// Start Backbone history a neccesary step for bookmarkable URL's
+		// start Backbone history: a neccesary step for bookmarkable URL's
 		Backbone.history.start({pushState: true, root: "/"});
 	},
 	render: function () {

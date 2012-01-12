@@ -121,20 +121,26 @@
 					this.autocompletionListId = 'autocompletion-list-' + autoCompleteListId;
 					// now save some element data needed for computation
 					this.selectedEntry = null;
+					// saves all tags
+					this.tagList = [],
 					// save the entries currently displayed in autocompletion
-					this.entriesList = []
+					this.autocompletionEntriesList = []
 					// if there is no autoselection, no entry can be selected (indicated by -1)
 					this.minIndex = this.autoSelect === true ? 0 : -1;
 				},
 				addTag: function () {
 					var that = this;
 					console.log(settings.autoSelect);
+					// if only tags are accepted and no entry is selected, abort
 					if (this.selectedEntry === null && settings.autoSelect)
 						return;
+					// if we have no selected entrie, and this is allowed, just take textbox-value
 					if (settings.autoSelect === false)
 						this.selectedEntry = this.$input.val();
+					// apply postprocessing as specified by parameters
 					this.doPostProcessing(this.selectedEntry);
-					settings.onTagAdded(this.entriesList, this.selectedEntry);
+					p.tagList.push(this.selectedEntry);
+					settings.onTagAdded(this.tagList, this.selectedEntry);
 					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button>x</button></li>');
 					this.$tagList.find('li button').last().click(function () {
 						$(this).parent().addClass('tagautocomplete-to-be-removed');
@@ -142,13 +148,14 @@
 					});
 					this.tags.push(this.selectedEntry);
 					this.selectedEntry = null;
-					this.entriesList = [];
+					this.autocompletionEntriesList = [];
 					this.displayAutocompletionList();
 					this.updateAutocompletionListPosition();
 					this.input.focus();
 				},
 				removeTag: function () {
 					settings.onTagRemoved();
+					p.tagList.pop();
 					p.$tagList.children('.tagautocomplete-to-be-removed').remove();
 					p.removeTagOnNextBackspace = false;
 					p.updateAutocompletionListPosition();
@@ -166,7 +173,7 @@
 				displayAutocompletionList:  function () {
 					var that = this;
 					// display all entries in autocompletion list
-					this.$autocompletionList.html(this.entriesList.reduce(function (prev, current) {
+					this.$autocompletionList.html(this.autocompletionEntriesList.reduce(function (prev, current) {
 						var selected = current === that.selectedEntry ? ' class="autocomplete-selected"' : '';
 						return prev + '<li' + selected + '>' + current + '</li>';
 					}, ''));
@@ -273,15 +280,15 @@
 						p.$tagList.children('.tagautocomplete-to-be-removed').removeClass('.tagautocomplete-to-be-removed');
 						break;
 					case keyCodes.DOWN:
-						var index = p.entriesList.indexOf(p.selectedEntry);
-						p.selectedEntry = p.entriesList[Math.min(index + 1, p.entriesList.length - 1)];
+						var index = p.autocompletionEntriesList.indexOf(p.selectedEntry);
+						p.selectedEntry = p.autocompletionEntriesList[Math.min(index + 1, p.autocompletionEntriesList.length - 1)];
 						p.$autocompletionList.children('li').removeClass('selected');
 						p.displayAutocompletionList();
 						event.preventDefault();
 						break;
 					case keyCodes.UP:
-						var index = p.entriesList.indexOf(p.selectedEntry);
-						p.selectedEntry = p.entriesList[Math.max(index - 1, p.minIndex)];
+						var index = p.autocompletionEntriesList.indexOf(p.selectedEntry);
+						p.selectedEntry = p.autocompletionEntriesList[Math.max(index - 1, p.minIndex)];
 						p.$autocompletionList.children('li').removeClass('selected');
 						p.displayAutocompletionList();
 						event.preventDefault();
@@ -334,7 +341,7 @@
 				});
 
 				// save filtered list
-				p.entriesList = filteredList;
+				p.autocompletionEntriesList = filteredList;
 
 				// if no entries are left, stop processing
 				if (filteredList.length === 0) {
