@@ -80,10 +80,17 @@ $(function() {
 					},
 					{
 						matches: function (text) {
-							return false;
+							return text.match(/^\*=[0-5]$/) !== null;
 						},
 						transform: function(text) {
-							return text;
+							match = text.match(/^\*=([0-5])$/);
+							starNumber = match[1];
+							starString = '=';
+							for (var i = 0; i < starNumber; i++)
+								starString += '★';
+							for (var i = 0; i < 5 - starNumber; i++)
+								starString += '☆';
+							return starString;
 						}
 					}
 				]
