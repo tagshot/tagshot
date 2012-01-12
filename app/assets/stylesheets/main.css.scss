@@ -184,7 +184,6 @@ img#loading-image {
 	height: 20px;
 	border-radius: 5px;
 	color: white;
-	line-height: 100%;
 	vertical-align: center;
 	overflow: hidden;
 	position: relative;
@@ -199,6 +198,7 @@ img#loading-image {
 	color: black;
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
 	min-width: 0;
+	position: relative;
 }
 .textbox li.tag:before {
 	content: '';
@@ -213,17 +213,24 @@ img#loading-image {
 	background: #323A4E;
 	text-align: center;
 	color: white;
-	margin-left: 6px;
+	margin-left: 2px;
 	line-height: 100%;
 	border-radius: 2px;
-	width: 20px;
-	height: 20px;
-	background: none;
+	width: 16px;
+	height: 16px;/*
+	background: url("cross.png");
+	background-size: 14px;
+	background-repeat: no-repeat;
+	background-position: center center;*/
+	background: url("cross.png") center center no-repeat;
+	background-size: 14px;
 	color: black;
 	border: none;
+	position: relative;
+	top: 0px;
 }
 .textbox li.tag button:hover {
-	background: Crimson;
+	background-color: Crimson;
 }
 .textbox input {
 }

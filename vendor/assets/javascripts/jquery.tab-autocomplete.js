@@ -141,7 +141,7 @@
 					p.tagList.push(this.selectedEntry);
 					this.doPostProcessing(this.selectedEntry);
 					settings.onTagAdded(this.tagList, this.selectedEntry);
-					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button>X</button></li>');
+					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button></button></li>');
 					this.$tagList.find('li button').last().click(function () {
 						$(this).parent().addClass('tagautocomplete-to-be-removed');
 						that.removeTag();
