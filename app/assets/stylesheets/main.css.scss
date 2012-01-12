@@ -90,6 +90,10 @@ h1.logo:hover{
 	cursor: pointer;
 }
 
+a#title{
+	text-decoration: none;
+}
+
 /***********************************/
 /* Search/Tag Input Fields*/
 /***********************************/
@@ -449,5 +453,3 @@ div#trash-container {
 	font-size: 0.85em;
 	color: #fff;
 }
-
-
