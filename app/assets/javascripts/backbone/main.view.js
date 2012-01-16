@@ -19,10 +19,10 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	selectAll: function() {
 		Tagshot.views.gallery.selectAll();
 	},
-	initialize : function() {
+	initialize: function() {
 		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
-		Tagshot.views.gallery = new Tagshot.Views.PhotoListView({ collection: Tagshot.collections.photoList});
-		Tagshot.views.detail = new Tagshot.Views.DetailListView({ collection: Tagshot.collections.photoList});
+		Tagshot.views.gallery = new Tagshot.Views.PhotoListView({ collection: Tagshot.collections.photoList });
+		Tagshot.views.detail = new Tagshot.Views.DetailListView({ collection: Tagshot.collections.photoList });
 		Tagshot.views.ajaxError = new Tagshot.Views.AjaxError();
 		Tagshot.router = new Tagshot.Router();
 
@@ -44,20 +44,27 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		Tagshot.collections.photoList.fetch({data: {limit: 10}, success: this.startHistory});
 
 	},
+
+
 	search: function(searchString) {
 		Tagshot.collections.photoList.fetch({data: {
 			limit: 10,
 			q: searchString
 		}});
 	},
-	startHistory: function() {
+
+startHistory: function() {
 		// start Backbone history: a neccesary step for bookmarkable URL's
 		Backbone.history.start({pushState: true, root: "/"});
 	},
+
+
 	render: function () {
 		console.log("render the main view with", this.currentView.className);
 		$("#backbone-main-view").html(this.currentView.el);
 	},
+
+
 	showGallery: function(query, page) {
 		this.currentView = Tagshot.views.gallery;
 		this.render();
@@ -75,6 +82,8 @@ Tagshot.Views.MainView = Backbone.View.extend({
 			this.scrolling();
 		}
 	},
+
+
 	showDetails: function(id) {
 		var model = Tagshot.collections.photoList.get({"id":id});
 		this.currentView = Tagshot.views.detail;
@@ -85,6 +94,8 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		//dispay of elements that are not in the dom
 		$('footer:first').show();
 	},
+
+
 	scrolling: function(){
 		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
 		if (pixelsFromWindowBottom < 200 && this.currentView == Tagshot.views.gallery) {
@@ -94,6 +105,8 @@ Tagshot.Views.MainView = Backbone.View.extend({
 			}
 		} 
 	},
+
+
 	openDetails: function() {
 		console.log(234);
 	}

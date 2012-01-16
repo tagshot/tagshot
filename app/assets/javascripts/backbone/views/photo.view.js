@@ -39,12 +39,9 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	},
 	starHTML: function(){
 		return function(text, render) {
-			/*var stars = render(text).split("/");
-			var blacks = parseInt(stars[0]);
-			var whites = parseInt(stars[1]) - blacks;*/
+		// TODO remove c'n p with detail.list.view.js
 			var blacks = this.model.get("properties")['rating'] || 0;
-			// var whites = this.model.get("stars").stars.of - blacks;
-			var whites = 5 - blacks;
+			var whites = 5 - blacks;	// Argh, quick fix for runtime errors
 			var blackstar = "<span>&#9733;</span>";
 			var whitestar = "<span>&#9734;</span>";
 
