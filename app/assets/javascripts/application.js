@@ -70,14 +70,17 @@ $(function() {
 					
 					{ // search for number of stars greater than or equal the given digit
 						matches: function (text) {
-							return text.match(/^(>=)?[0-9]\*$/) !== null;	// DANGER: Number of stars is a digit, not [0-5]
+							return text.match(/^(>|>=)?[0-9]\*$/) !== null;	// DANGER: Number of stars is a digit, not [0-5]
 						},
 						transform: function (text) {
 							// matches >=3*, 3* but neither =3* nor >3*
 							// no whitespace allowed!
-							match = text.match(/^(>=)?([0-9])\*$/);
+							match = text.match(/^(>|>=)?([0-9])\*$/);
 							starNumber = match[2];
-							return starString('≥', starNumber);
+							if (match[1] === '>') {
+								return stars('>', starNumber);
+							}
+							return stars('≥', starNumber);
 						}
 					},
 					
@@ -88,18 +91,21 @@ $(function() {
 						transform: function(text) {
 							match = text.match(/^=([0-9])\*$/);
 							starNumber = match[1];
-							return (starString('=', starNumber));
+							return stars('', starNumber);	// by intuition the = in =3 is superflous
 						}
 					},
 					
 					{	// search for number of stars less than or equal the given digit
 						matches: function (text) {
-							return text.match(/^<=[0-9]\*$/) !== null;
+							return text.match(/^(<|<=)?([0-9])\*$/) !== null;
 						},
 						transform: function(text) {
-							match = text.match(/^<=([0-9])\*$/);
-							starNumber = match[1];
-							return (starString('≤', starNumber));
+							match = text.match(/^(<|<=)?([0-9])\*$/);
+							starNumber = match[2];
+							if (match[1] === '<'){
+								return stars('<', starNumber);
+							}
+							return stars('≤', starNumber);
 						}
 					}
 			// TODO: Find OR and AND Expressions
@@ -110,8 +116,8 @@ $(function() {
 	});
 
 	// TODO give me a proper namespace
-function starString(prefix, starNumber) {
-	starString = '';
+function stars(prefix, starNumber) {
+	starString = prefix;
 	for (var i = 0; i < starNumber; i++)
 		starString += '★';
 	for (var i = 0; i < 5 - starNumber; i++)
