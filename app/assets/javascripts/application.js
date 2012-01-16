@@ -53,6 +53,7 @@ $(function() {
 				text: uiSettings.searchBoxText,
 				cssClassWhenEmpty: 'search-start'
 			});
+
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
 				inputCssClass: 'textbox',
@@ -65,57 +66,17 @@ $(function() {
 					var searchString = tagList.join("+");
 					Tagshot.views.mainView.trigger("tagshot:searchTriggered", searchString);
 				},
-				
 
 				postProcessors: [
-					
-					// Find stars as a search criteria
-					// search for number of stars greater than or equal the given digit
-					// matches >=3*, >3*,
-					// =3* and 3* which are equivalent
-					// <3* and <=3*
-					// no whitespace allowed!
-
 					{
-						matches: function (text) {
-							// DANGER: Number of stars is a digit, not [0-5]
-							return text.match(/^(<|<=|=|>|>=)?([0-9])\*$/) !== null;
-						},
-						transform: function (text) {
-							match = text.match(/^(<|<=|=|>|>=)?([0-9])\*$/);
-							var starNumber = match[2];
-							var prefix = match[1];
-
-							switch(prefix) {
-								case '<=':
-									return starString('≤', starNumber);
-								case '=':
-									return starString('', starNumber);
-								case undefined:
-									return starString('', starNumber);
-								case '>=':
-									return starString('≥', starNumber);
-								default:		// '<' and '>' are just fine
-									return starString(prefix, starNumber);
-							}
-						},
+						matches: tags.find.starExpression,
+						transform: tags.replace.starExpression
 					}
 			// TODO: Find OR and AND Expressions
 				]
 			});
 		},
 	});
-
-	// TODO give me a proper namespace
-function starString(prefix, starNumber) {
-	var starString = prefix;
-	for (var i = 0; i < starNumber; i++)
-		starString += '★';
-	for (var i = 0; i < 5 - starNumber; i++)
-			starString += '☆';
-	return starString;
-}
-
 
 
 	$("#show-options").click(function() {
