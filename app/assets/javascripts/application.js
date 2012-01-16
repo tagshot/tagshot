@@ -36,7 +36,7 @@ function resizeImages() {
 }
 
 function hideElements() {
-	$("#options-container").hide();	
+	$("#options-container").hide();
 }
 
 $(function() {
@@ -59,6 +59,9 @@ $(function() {
 				autocompleteListPosition: 'above',
 				autoSelect: false,
 				onTagAdded: function (tagList) {
+					// TODO add '+' means AND, ',' means OR,
+					// consult https://student.hpi.uni-potsdam.de/redmine/projects/tagshot/wiki/JSON-API#Search-for-photos
+
 					var searchString = tagList.join("+");
 					Tagshot.views.mainView.trigger("tagshot:searchTriggered", searchString);
 				},
@@ -67,57 +70,45 @@ $(function() {
 				postProcessors: [
 					
 					// Find stars as a search criteria
-					
-					{ // search for number of stars greater than or equal the given digit
+					// search for number of stars greater than or equal the given digit
+					// matches >=3*, >3*,
+					// =3* and 3* which are equivalent
+					// <3* and <=3*
+					// no whitespace allowed!
+
+					{
 						matches: function (text) {
-							return text.match(/^(>|>=)?[0-9]\*$/) !== null;	// DANGER: Number of stars is a digit, not [0-5]
+							// DANGER: Number of stars is a digit, not [0-5]
+							return text.match(/^(<|<=|=|>|>=)?([0-9])\*$/) !== null;
 						},
 						transform: function (text) {
-							// matches >=3*, 3* but neither =3* nor >3*
-							// no whitespace allowed!
-							match = text.match(/^(>|>=)?([0-9])\*$/);
-							starNumber = match[2];
-							if (match[1] === '>') {
-								return stars('>', starNumber);
+							match = text.match(/^(<|<=|=|>|>=)?([0-9])\*$/);
+							var starNumber = match[2];
+							var prefix = match[1];
+
+							switch(prefix) {
+								case '<=':
+									return starString('≤', starNumber);
+								case '=':
+									return starString('', starNumber);
+								case undefined:
+									return starString('', starNumber);
+								case '>=':
+									return starString('≥', starNumber);
+								default:		// '<' and '>' are just fine
+									return starString(prefix, starNumber);
 							}
-							return stars('≥', starNumber);
-						}
-					},
-					
-					{	//search for number of stars strictly equal the given digit
-						matches: function (text) {
-							return text.match(/^=[0-9]\*$/) !== null;	// ?????
 						},
-						transform: function(text) {
-							match = text.match(/^=([0-9])\*$/);
-							starNumber = match[1];
-							return stars('', starNumber);	// by intuition the = in =3 is superflous
-						}
-					},
-					
-					{	// search for number of stars less than or equal the given digit
-						matches: function (text) {
-							return text.match(/^(<|<=)?([0-9])\*$/) !== null;
-						},
-						transform: function(text) {
-							match = text.match(/^(<|<=)?([0-9])\*$/);
-							starNumber = match[2];
-							if (match[1] === '<'){
-								return stars('<', starNumber);
-							}
-							return stars('≤', starNumber);
-						}
 					}
 			// TODO: Find OR and AND Expressions
-
 				]
 			});
 		},
 	});
 
 	// TODO give me a proper namespace
-function stars(prefix, starNumber) {
-	starString = prefix;
+function starString(prefix, starNumber) {
+	var starString = prefix;
 	for (var i = 0; i < starNumber; i++)
 		starString += '★';
 	for (var i = 0; i < 5 - starNumber; i++)
