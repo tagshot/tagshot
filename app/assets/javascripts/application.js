@@ -18,7 +18,10 @@
 //= require backbone_datalink
 //= require mustache
 //= require backbone/tagshot
-//= require_tree .
+//= require tags
+
+// FIXME it tries to load all tests which is stupid
+//= require_tree . 
 
 var uiSettings = {
 	searchBoxText: 'Just start searching…'
