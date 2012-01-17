@@ -57,7 +57,7 @@ $(function() {
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
 				inputCssClass: 'textbox',
-				autocompleteListPosition: 'above',
+				autocompleteListPosition: 'below',
 				autoSelect: false,
 				onTagAdded: function (tagList) {
 					// TODO add '+' means AND, ',' means OR,

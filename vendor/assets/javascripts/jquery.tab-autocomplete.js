@@ -130,12 +130,11 @@
 				},
 				addTag: function () {
 					var that = this;
-					console.log(settings.autoSelect);
 					// if only tags are accepted and no entry is selected, abort
 					if (this.selectedEntry === null && settings.autoSelect)
 						return;
 					// if we have no selected entry, and this is allowed, just take textbox-value
-					if (settings.autoSelect === false)
+					if (this.selectedEntry === null && settings.autoSelect === false)
 						this.selectedEntry = this.$input.val();
 					// apply postprocessing as specified by parameters
 					p.tagList.push(this.selectedEntry);
