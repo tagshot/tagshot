@@ -1,4 +1,5 @@
-$(document).ready(function(){
+$(document).ready(function(){ if (window.module) {	// FIXME Dirty Hack
+
 
 	module("Module Tags");
 
@@ -14,4 +15,4 @@ $(document).ready(function(){
 		equals(longStarString.length, 9, 'There are 9 black stars');
 	});
 
-});
+}});
