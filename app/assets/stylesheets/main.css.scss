@@ -162,6 +162,7 @@ img#loading-image {
 	z-index: 999;
 }
 .textbox {
+	height: 33px;
 }
 .textbox li {
 	float: left;
@@ -175,61 +176,29 @@ img#loading-image {
 }
 .textbox li.tag {
 	border: 1px solid #CCD5E4;
-	font-size: 0.9em;/*
-	padding: 2px 10px;
-	padding-right: 1px;
-	padding-top: 0px;*/
-	padding: 1px 5px;
-	padding-left: 10px;
-	height: 20px;
 	border-radius: 5px;
-	color: white;
-	vertical-align: center;
-	overflow: hidden;
-	position: relative;
-	background: rgb(63,76,107); /* Old browsers */
-	background: -moz-linear-gradient(top, rgba(63,76,107,1) 0%, rgba(63,76,107,1) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(63,76,107,1)), color-stop(100%,rgba(63,76,107,1))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, rgba(63,76,107,1) 0%,rgba(63,76,107,1) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, rgba(63,76,107,1) 0%,rgba(63,76,107,1) 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, rgba(63,76,107,1) 0%,rgba(63,76,107,1) 100%); /* IE10+ */
-	background: linear-gradient(top, rgba(63,76,107,1) 0%,rgba(63,76,107,1) 100%); /* W3C */
+	padding: 1px 5px 1px 10px;
 	background: #EFF2F7;
 	color: black;
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
-	min-width: 0;
 	position: relative;
 }
-.textbox li.tag:before {
-	content: '';
+.textbox li.tag span {
+	position: relative;
+	top: -1px;
 }
-.textbox li.tag:after {
-	content: '';
-}
-.textbox li.tagautocomplete-to-be-removed {
-	background: Crimson;
-}
-.textbox li.tag button {
-	background: #323A4E;
-	text-align: center;
-	color: white;
-	margin-left: 2px;
-	line-height: 100%;
+.textbox li.tag a {
+	position: relative;
+	top: 2px;
+	margin-left: 4px;
 	border-radius: 2px;
+	display: inline-block;
 	width: 16px;
-	height: 16px;/*
-	background: url("cross.png");
-	background-size: 14px;
-	background-repeat: no-repeat;
-	background-position: center center;*/
+	height:	16px; 
 	background: url("cross.png") center center no-repeat;
 	background-size: 14px;
-	color: black;
 	border: none;
-	position: relative;
-	top: 0px;
 }
-.textbox li.tag button:hover {
+.textbox li.tag a:hover, .textbox li.tagautocomplete-to-be-removed {
 	background-color: Crimson;
 }
 .textbox input {

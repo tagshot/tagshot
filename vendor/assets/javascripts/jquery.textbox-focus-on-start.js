@@ -39,10 +39,12 @@
 			var text  = input.value,
 			    $input = $(input);
 			/* when textbox is really empty, add css class and set standard text; set cursor */
+			/*
 			if (text === '') {
 				$input.addClass(settings.cssClassWhenEmpty).val(settings.text);
 				setCaretPosition(input, 0);
 			}
+			*/
 		};
 
 		// prepare textbox with given standard text and set focus with cursor at the first position
