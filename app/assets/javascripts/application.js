@@ -58,7 +58,7 @@ $(function() {
 				autocompleteList: data,
 				inputCssClass: 'textbox',
 				autocompleteListPosition: 'below',
-				autoSelect: true,
+				autoSelect: false,
 				onTagAdded: function (tagList) {
 					// TODO add '+' means AND, ',' means OR,
 					// consult https://student.hpi.uni-potsdam.de/redmine/projects/tagshot/wiki/JSON-API#Search-for-photos
