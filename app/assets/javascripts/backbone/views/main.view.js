@@ -1,13 +1,4 @@
-/*
- *= require_self
- *= require_tree ./initializers
- *= require_tree ./templates
- *= require_tree ./models
- *= require_tree ./views
- *= require_tree ./routers
- */
-//= require backbone-eventdata
-//= require backbone-navigate
+
 
 Tagshot.Views.MainView = Backbone.View.extend({
 	el:  document,
