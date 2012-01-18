@@ -20,9 +20,6 @@
 //= require backbone/tagshot
 //= require tags
 
-// FIXME it tries to load all tests which is stupid
-//= require_tree . 
-
 var uiSettings = {
 	searchBoxText: 'Just start searching…'
 };
