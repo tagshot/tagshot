@@ -130,19 +130,18 @@
 				},
 				addTag: function () {
 					var that = this;
-					console.log(settings.autoSelect);
 					// if only tags are accepted and no entry is selected, abort
 					if (this.selectedEntry === null && settings.autoSelect)
 						return;
 					// if we have no selected entry, and this is allowed, just take textbox-value
-					if (settings.autoSelect === false)
+					if (this.selectedEntry === null && settings.autoSelect === false)
 						this.selectedEntry = this.$input.val();
 					// apply postprocessing as specified by parameters
 					p.tagList.push(this.selectedEntry);
 					this.doPostProcessing(this.selectedEntry);
 					settings.onTagAdded(this.tagList, this.selectedEntry);
-					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button></button></li>');
-					this.$tagList.find('li button').last().click(function () {
+					this.$input.val('').parent().before('<li class="tag"><span>' + this.selectedEntry + '</span><a></a></li>');
+					this.$tagList.find('li a').last().click(function () {
 						$(this).parent().addClass('tagautocomplete-to-be-removed');
 						that.removeTag();
 					});

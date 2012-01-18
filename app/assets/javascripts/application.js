@@ -18,7 +18,10 @@
 //= require backbone_datalink
 //= require mustache
 //= require backbone/tagshot
-//= require_tree .
+//= require tags
+
+// FIXME it tries to load all tests which is stupid
+//= require_tree . 
 
 var uiSettings = {
 	searchBoxText: 'Just start searching…'
@@ -36,7 +39,7 @@ function resizeImages() {
 }
 
 function hideElements() {
-	$("#options-container").hide();	
+	$("#options-container").hide();
 }
 
 $(function() {
@@ -53,46 +56,26 @@ $(function() {
 				text: uiSettings.searchBoxText,
 				cssClassWhenEmpty: 'search-start'
 			});
+
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
 				inputCssClass: 'textbox',
-				autocompleteListPosition: 'above',
-				autoSelect: false,
+				autocompleteListPosition: 'below',
+				autoSelect: true,
 				onTagAdded: function (tagList) {
+					// TODO add '+' means AND, ',' means OR,
+					// consult https://student.hpi.uni-potsdam.de/redmine/projects/tagshot/wiki/JSON-API#Search-for-photos
+
 					var searchString = tagList.join("+");
 					Tagshot.views.mainView.trigger("tagshot:searchTriggered", searchString);
 				},
+
 				postProcessors: [
 					{
-						matches: function (text) {
-							return text.match(/^\*[0-5]$/) !== null;
-						},
-						transform: function (text) {
-							match = text.match(/^\*([0-5])$/);
-							starNumber = match[1];
-							starString = '≥';
-							for (var i = 0; i < starNumber; i++)
-								starString += '★';
-							for (var i = 0; i < 5 - starNumber; i++)
-								starString += '☆';
-							return starString;
-						}
-					},
-					{
-						matches: function (text) {
-							return text.match(/^\*=[0-5]$/) !== null;
-						},
-						transform: function(text) {
-							match = text.match(/^\*=([0-5])$/);
-							starNumber = match[1];
-							starString = '=';
-							for (var i = 0; i < starNumber; i++)
-								starString += '★';
-							for (var i = 0; i < 5 - starNumber; i++)
-								starString += '☆';
-							return starString;
-						}
+						matches: tags.find.starExpression,
+						transform: tags.replace.starExpression
 					}
+			// TODO: Find OR and AND Expressions
 				]
 			});
 		},
