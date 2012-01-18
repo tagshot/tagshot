@@ -20,9 +20,7 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json do
-        render_json @photos
-      end
+      format.json { render_json @photos }
     end
   end
 
