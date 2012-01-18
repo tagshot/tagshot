@@ -1,9 +1,9 @@
 Tagshot.Router = Backbone.Router.extend({
 	routes: {
-		"photos":					"home",
+		"":							"home",
 		"search/:query":			"search",	//search/hasso
 		"p/:page":					"page",
-		"search/:query/p/:page":	"searchpage",
+		"search/:query/:page":		"searchpage",
 		"details/:id":				"details",
 		"*foo":						"fallback"
 	},
