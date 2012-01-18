@@ -14,7 +14,8 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	events: {
 		"keydown[ctrl+a]" : "selectAll",
 		"keydown[meta+a]" : "selectAll",
-		"scroll": "scrolling"
+		"scroll": "scrolling",
+		"resize": "scrolling"
 	},
 	selectAll: function() {
 		Tagshot.views.gallery.selectAll();
@@ -42,28 +43,21 @@ Tagshot.Views.MainView = Backbone.View.extend({
 
 		// initial fetch of gallery model
 		Tagshot.collections.photoList.fetch({data: {limit: 10}, success: this.startHistory});
-
 	},
-
 
 	search: function(searchString) {
-		Tagshot.collections.photoList.fetch({data: {
-			limit: 10,
-			q: searchString
-		}});
+		Tagshot.collections.photoList.search(searchString);
 	},
 
-startHistory: function() {
+	startHistory: function() {
 		// start Backbone history: a neccesary step for bookmarkable URL's
 		Backbone.history.start({pushState: true, root: "/"});
 	},
-
 
 	render: function () {
 		console.log("render the main view with", this.currentView.className);
 		$("#backbone-main-view").html(this.currentView.el);
 	},
-
 
 	showGallery: function(query, page) {
 		this.currentView = Tagshot.views.gallery;
@@ -95,8 +89,9 @@ startHistory: function() {
 		$('footer:first').show();
 	},
 
-
+	// scrolling or resizing
 	scrolling: function(){
+		// do infinite scrolling
 		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
 		if (pixelsFromWindowBottom < 200 && this.currentView == Tagshot.views.gallery) {
 			var maxNumberOfImagesBeforeNoAutomaticFetch = 20;
@@ -105,9 +100,4 @@ startHistory: function() {
 			}
 		} 
 	},
-
-
-	openDetails: function() {
-		console.log(234);
-	}
 });

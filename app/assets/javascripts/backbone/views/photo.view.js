@@ -20,7 +20,6 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		this.model.bind('deselect', this.deselect, this);
 	},
 	render: function () {
-		console.log("render", this.model.get('id'));
 		// tmpl im index.html
 		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
 
