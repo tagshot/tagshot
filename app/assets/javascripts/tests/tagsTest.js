@@ -14,6 +14,10 @@ $(document).ready(function() {
 		equals(longStarString.length, 9, 'There are 9 black stars');
 	});
 
+	test("starExpression parses <3*", function() {
+		equals(tagReplace.starExpression('<3*'), '<★★★☆☆');
+	});
+
 	test("starExpression parses <=3*", function() {
 		equals(tagReplace.starExpression('<=3*'), '≤★★★☆☆');
 	});
@@ -22,8 +26,16 @@ $(document).ready(function() {
 		equals(tagReplace.starExpression('>=3*'), '≥★★★☆☆');
 	});
 
+		test("starExpression parses >3*", function() {
+		equals(tagReplace.starExpression('>3*'), '>★★★☆☆');
+	});
+
 	test("=3* and 3* are equal", function() {
-	equals(tagReplace.starExpression('=3*'), tagReplace.starExpression('3*'));
+		equals(tagReplace.starExpression('=3*'), tagReplace.starExpression('3*'))
+	});
+
+	test("The whitespace in '< 3*' prevents recognition", function() {
+		equals(false, tagFind.starExpression('< 3*'));
 	});
 
 
