@@ -2,6 +2,9 @@ class User < ActiveRecord::Base
   
   belongs_to :auth_source
   
+  validates_presence_of :login
+  validates_uniqueness_of :login
+  
   def logged?; true end
   def admin?; admin end
     
