@@ -10,7 +10,8 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 	// for infinite scrolling
 	currentOffset: 0,
 	base_url: "/photos",
-	intialize: function(){
+	currentSearchQuery: "",
+	intialize: function() {
 		_.bindAll(this, 'selectAll', 'deselectAll', 'url', 'appendingFetch', 'parse');
 		_.bind('fetch',console.log);
 	},
@@ -22,7 +23,7 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 		console.log("select all");
 		_.map(this.models, function(item) { item.select() });
 	},
-	deselectAll: function(args)	{
+	deselectAll: function(args) {
 		args || (args = {});
 		console.log("deselect all");
 		_.map(this.models, function(item) { if (item !== args.exclude) item.deselect() });	
@@ -35,7 +36,7 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 			}
 		});
 	},
-	appendingFetch: function(add, options){
+	appendingFetch: function(add, options) {
 		// add: how many images to add
 		options || (options = {});
 		options.data || (options.data = {});
@@ -49,11 +50,10 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 			}
 
 			options.add = true;
-			
 			this.currentOffset += add;
 			options.data.offset = this.currentOffset;
-			
 			options.data.limit = add;
+			options.data.p = self.currentSearchQuery;
 
 			this.fetch(options);
 		}
@@ -67,5 +67,15 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
     },
 	comparator: function(photo) {
 		return photo.order();
+	},
+	search: function(searchString) {
+		self.currentSearchQuery = searchString;
+		this.fetch({
+			add: false, //not appending
+			data: {
+				limit: 10,
+				q: searchString
+			}
+		});
 	}
 });
