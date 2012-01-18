@@ -26,7 +26,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		this.currentView = Tagshot.views.gallery;
 
 		//hook to navigation events
-		Tagshot.router.bind("route:home", this.showGallery, this);
+		Tagshot.router.bind("route:home", this.fetchAndLoadGallery, this);
 		Tagshot.router.bind("route:page", this.showGallery, this);
 		Tagshot.router.bind("route:search", this.showGallery, this);
 		Tagshot.router.bind("route:searchpage", this.showGallery, this);
@@ -50,12 +50,11 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		$("#backbone-main-view").html(this.currentView.el);
 	},
 
-	showGallery: function() {
-		if (this.initializing) {
-			Tagshot.collections.photoList.fetch({data:{limit: 10},success: this.showGallery});
-			return;
-		}
+	fetchAndLoadGallery: function () {
+		Tagshot.collections.photoList.fetch({data:{limit: 10},success: this.showGallery, append: true});
+	},
 
+	showGallery: function() {
 		this.currentView = Tagshot.views.gallery;
 		this.render();
 		//rebind events because bindings are lost beacuse of navigation
