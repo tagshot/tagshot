@@ -15,7 +15,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.collection.bind('select', this.showFooterIfNeccessary, this);
 		this.collection.bind('deselect', this.showFooterIfNeccessary, this);
 
-		this.bind('tagshot:searchTriggered', this.search);
+		Tagshot.router.bind("route:search", this.search, this);
 
 		//this.collection.bind('refresh', this.render, this);
 		this.collection.bind('reset', this.render, this);
@@ -88,6 +88,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		}
 	},
 	search: function(searchString){
+		// called when navigate
 		this.collection.search(searchString);
 	}
 });

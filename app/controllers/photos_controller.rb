@@ -8,8 +8,8 @@ class PhotosController < ApplicationController
 
     @photos = Photo.limit(limit).offset(offset)
     
-    if params[:query]
-      params[:query].split(' ').each do |tag|
+    if params[:q]
+      params[:q].split(' ').each do |tag|
         @photos = @photos.where('photos.id IN (SELECT photo_id FROM photos_tags 
           WHERE photos_tags.tag_id IN (SELECT id FROM tags WHERE tags.name = ?))', tag)
       end
@@ -20,9 +20,7 @@ class PhotosController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json do
-        render_json @photos
-      end
+      format.json { render_json @photos }
     end
   end
 

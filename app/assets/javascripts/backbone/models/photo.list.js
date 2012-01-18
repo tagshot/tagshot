@@ -12,7 +12,7 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 	base_url: "/photos",
 	currentSearchQuery: "",
 	intialize: function() {
-		_.bindAll(this, 'selectAll', 'deselectAll', 'url', 'appendingFetch', 'parse');
+		_.bindAll(this, 'selectAll', 'deselectAll', 'url', 'appendingFetch', 'parse', 'search');
 		_.bind('fetch',console.log);
 	},
 	// return the current selection
@@ -53,7 +53,7 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 			this.currentOffset += add;
 			options.data.offset = this.currentOffset;
 			options.data.limit = add;
-			options.data.p = self.currentSearchQuery;
+			options.data.q = self.currentSearchQuery;
 
 			this.fetch(options);
 		}
@@ -69,7 +69,7 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 		return photo.order();
 	},
 	search: function(searchString) {
-		self.currentSearchQuery = searchString;
+		this.currentSearchQuery = searchString;
 		this.fetch({
 			add: false, //not appending
 			data: {

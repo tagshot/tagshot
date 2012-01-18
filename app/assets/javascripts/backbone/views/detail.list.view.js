@@ -18,7 +18,6 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		var self = this;
 
 		this.model = model;
-		console.log("render detailed view", this.model);
 		var tags = {tags:this.model.get('tags')};
 		$(this.el).html(
 			Mustache.to_html($('#detail-list-template').html(), this)+

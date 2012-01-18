@@ -13,7 +13,7 @@ Tagshot::Application.routes.draw do
   resource :session, :only => [:new, :create, :destroy]
   get 'session/destroy' => 'sessions#destroy'
 
-  match 'photos/*pushState' => 'photos#index'
-  root :to => 'sessions#new'
+  root :to => 'photos#index'
+  match '/*pushState' => 'photos#index'
 end
 
