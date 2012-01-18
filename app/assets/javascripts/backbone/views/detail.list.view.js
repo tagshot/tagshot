@@ -1,3 +1,5 @@
+//=require jquery.raty.js
+
 Tagshot.Views.DetailListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "detail",
@@ -13,13 +15,21 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		//this.model.bind('change', this.render, this);
 	},
 	render: function(model) {
+		var self = this;
+
 		this.model = model;
 		var tags = {tags:this.model.get('tags')};
 		$(this.el).html(
 			Mustache.to_html($('#detail-list-template').html(), this)+
 			Mustache.to_html($('#footer-template').html(), tags)
         ).find('footer').show();
+
+		$(this.el).find(".star-me").raty({click:self.rate});
+
 		return this;
+	},
+	rate: function(x){
+		console.log(x);
 	},
 	starHTML: function(){
 		return function(text, render) {
