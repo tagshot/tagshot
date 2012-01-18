@@ -1,6 +1,3 @@
-tags = {};
-
-
 /*****************************/
 /* Regexes that match input */
 /*****************************/
@@ -13,9 +10,9 @@ tags = {};
 // no whitespace allowed!
 
 
-tags.find = {};
+tagFind = {};
 
-tags.find.starExpression = function (text) {
+tagFind.starExpression = function (text) {
 // DANGER: Number of stars is a digit, not [0-5]
 	return text.match(/^(<|<=|=|>|>=)?([0-9])\*$/) !== null;
 };
@@ -25,24 +22,24 @@ tags.find.starExpression = function (text) {
 /* Regexes that replace input */
 /*****************************/
 
-tags.replace = {};
+tagReplace = {};
 
-tags.replace.starExpression = function (text) {
+tagReplace.starExpression = function (text) {
 	match = text.match(/^(<|<=|=|>|>=)?([0-9])\*$/);
 	var starNumber = match[2];
 	var prefix = match[1];
 
 	switch(prefix) {
 		case '<=':
-			return tags.helpers.starString('≤', starNumber);
+			return tagHelpers.starString('≤', starNumber);
 		case '=':
-			return tags.helpers.starString('', starNumber);
+			return tagHelpers.starString('', starNumber);
 		case undefined:
-			return tags.helpers.starString('', starNumber);
+			return tagHelpers.starString('', starNumber);
 		case '>=':
-			return tags.helpers.starString('≥', starNumber);
+			return tagHelpers.starString('≥', starNumber);
 		default:		// '<' and '>' are just fine
-			return tags.helpers.starString(prefix, starNumber);
+			return tagHelpers.starString(prefix, starNumber);
 	}
 };
 
@@ -51,9 +48,9 @@ tags.replace.starExpression = function (text) {
 /* Helper Functions */
 /*****************************/
 
-tags.helpers = {};
+tagHelpers = {};
 
-tags.helpers.starString = function(prefix, starNumber) {
+tagHelpers.starString = function(prefix, starNumber) {
 	var starString = prefix;
 	for (var i = 0; i < starNumber; i++)
 		starString += '★';

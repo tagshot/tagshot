@@ -69,8 +69,8 @@ $(function() {
 
 				postProcessors: [
 					{
-						matches: tags.find.starExpression,
-						transform: tags.replace.starExpression
+						matches: tagFind.starExpression,
+						transform: tagReplace.starExpression
 					}
 			// TODO: Find OR and AND Expressions
 				]
