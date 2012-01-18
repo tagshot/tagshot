@@ -51,12 +51,12 @@ describe PhotosController do
           it 'should search for photos with all given tags' do
             Factory(:photo_with_tags)
             Factory(:photo_with_more_tags)
-            get :index, :format => :json, :query => 'a b'
+            get :index, :format => :json, :q => 'a e'
             
             json = JSON(response.body)
             json.each do |photo|
               photo['tags'].include?('a').should == true
-              photo['tags'].include?('b').should == true
+              photo['tags'].include?('e').should == true
             end
           end
         end
