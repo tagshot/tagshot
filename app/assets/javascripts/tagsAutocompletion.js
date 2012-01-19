@@ -25,7 +25,7 @@ tagFind.starExpression = function (text) {
 tagReplace = {};
 
 tagReplace.starExpression = function (text) {
-	match = text.match(/^(<|<=|=|>|>=)?([0-9])\*$/);
+	var match = text.match(/^(<|<=|=|>|>=)?([0-9])\*$/);
 	var starNumber = match[2];
 	var prefix = match[1];
 
