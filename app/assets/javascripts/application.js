@@ -17,6 +17,7 @@
 //= require backbone_datalink
 //= require mustache
 //= require backbone/tagshot
+//= require tags
 //= require tagsAutocompletion
 //= require search
 
@@ -62,11 +63,12 @@ $(function() {
 				cssClassWhenEmpty: 'search-start'
 			});
 
+
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
 				autocompleteListPosition: 'above',
-				onTagAdded: Tagshot.updateTag,
-				onTagRemoved: Tagshot.updateTag
+				onTagAdded: Tagshot.updateTags,
+				onTagRemoved: Tagshot.updateTags
 			});
 		},
 	});

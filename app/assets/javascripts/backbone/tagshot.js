@@ -20,7 +20,7 @@ window.Tagshot = {
 	// "Instances"
 	collections: {},
 	views: {},
-	rounter: undefined,
+	router: undefined,
 
 	init: function() {
 		Tagshot.views.mainView = new Tagshot.Views.MainView();

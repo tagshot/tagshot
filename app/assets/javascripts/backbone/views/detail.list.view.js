@@ -1,11 +1,11 @@
 //=require jquery.raty.js
+//=require tags
 
 Tagshot.Views.DetailListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "detail",
 	events: {
-		"click footer" : "stop",
-		"change footer #tag-box": "updateTags"
+		"click footer" : "stop"
 	},
 	initialize: function(options) {
 		_.bindAll(this, "render", "propHTML", "metaHTML");
@@ -77,11 +77,6 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			});
 			return str;
 		};
-	},
-	updateTags: function(e) {
-		console.log("Update tags and send it to backend");
-		var tags = $("#tag-box").val().split(" ")
-		this.model.save({'tags': tags});
 	},
 	stop: function(e) {
 		//avoid event propagation
