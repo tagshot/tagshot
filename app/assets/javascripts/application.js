@@ -20,6 +20,7 @@
 //= require tags
 //= require tagsAutocompletion
 //= require search
+//= require jquery.fancybox-1.3.4
 
 var uiSettings = {
 	searchBoxText: 'Just start searching…'
@@ -88,6 +89,6 @@ $(function() {
 		slide: resizeImages,
 		change: resizeImages
 	});
-	
+
 	hideElements();
 });
