@@ -4,7 +4,6 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require proglag
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui-1.8.16.custom.min
@@ -19,6 +18,7 @@
 //= require mustache
 //= require backbone/tagshot
 //= require tags
+//= require search
 
 var uiSettings = {
 	searchBoxText: 'Just start searching…'
@@ -59,24 +59,14 @@ $(function() {
 				inputCssClass: 'textbox',
 				autocompleteListPosition: 'below',
 				autoSelect: false,
-				onTagAdded: function (tagList) {
-					// TODO add '+' means AND, ',' means OR,
-					// consult https://student.hpi.uni-potsdam.de/redmine/projects/tagshot/wiki/JSON-API#Search-for-photos
-					var searchString = tagList.join("+");
-					// navigate to search and the rest will be done by the backbone fairy
-					Tagshot.router.navigate('search/'+searchString, true);
-				},
-				onTagRemoved: function (tagList) {
-					var searchString = tagList.join("+");
-					// navigate to search and the rest will be done by the backbone fairy
-					Tagshot.router.navigate('search/'+searchString, true);
-				},
+				onTagAdded: Tagshot.search,
+				onTagRemoved: Tagshot.search,
 				postProcessors: [
 					{
 						matches: tagFind.starExpression,
 						transform: tagReplace.starExpression
 					}
-			// TODO: Find OR and AND Expressions
+					// TODO: Find OR and AND Expressions
 				]
 			});
 		},

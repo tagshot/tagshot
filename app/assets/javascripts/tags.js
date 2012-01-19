@@ -13,7 +13,7 @@
 tagFind = {};
 
 tagFind.starExpression = function (text) {
-// DANGER: Number of stars is a digit, not [0-5]
+	// DANGER: Number of stars is a digit, not [0-5]
 	return text.match(/^(<|<=|=|>|>=)?([0-9])\*$/) !== null;
 };
 
