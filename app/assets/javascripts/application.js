@@ -70,6 +70,10 @@ $(function() {
 				autocompleteListPosition: 'above',
 				onTagAdded: Tagshot.updateTags,
 				onTagRemoved: Tagshot.updateTags
+			}).blur(function () {
+				Tagshot.collections.photoList.selection().forEach(function (model) {
+					model.save();
+				});
 			});
 		},
 	});
