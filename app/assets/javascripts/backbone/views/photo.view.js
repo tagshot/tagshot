@@ -14,7 +14,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	initialize : function() {
 		_.bindAll(this, 'openDetails', 'click', 'select', 'deselect', 'gotoNext', 'gotoPrevious');
 
-		this.model.bind('change', this.render, this);
+		this.model.bind('change:thumb', this.render, this);
+		this.model.bind('change:tags', this.tagChange, this);
 		this.model.bind('destroy', this.remove, this);
 		this.model.bind('select', this.select, this);
 		this.model.bind('deselect', this.deselect, this);
@@ -29,6 +30,11 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		//delegate events means rebinding the events
 		this.delegateEvents();
 		return this;
+	},
+	tagChange: function () {
+		var s = this.model.get("tags").join(", ");
+		$(this.el).find(".tags").html(s);
+		alert("tagchange");
 	},
 	select: function() {
 		$(this.el).children().first().addClass("selected");
