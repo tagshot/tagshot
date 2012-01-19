@@ -15,7 +15,7 @@ module Tagshot
       self.read! if @photo.last_sync_at.nil? or @photo.last_sync_at < @image.file.mtime
 
       # db photo changed; file not changed
-      self.write! if @photo.last_sync_at < (@photo.updated_at - 1.minute)
+      self.write! if @photo.last_sync_at < @photo.updated_at
     end
 
     def read!
@@ -51,16 +51,15 @@ module Tagshot
 
       tags = @photo.tags.to_a
       if tags.length > 0
-        puts "  Write tags #{tags.join(', ').inspect}"
-        @image['Xmp.iptc.Keywords'] = tags.join ', '
-        tags.each { |tag| @image.add 'Iptc.Application2.Keywords', tag }
+        puts "  Write tags " + tags.map {|t| t.name }.join(', ').inspect
+        @image['Xmp.iptc.Keywords'] = tags.map{|t|t.name}.join ', '
+        tags.each { |tag| @image.add 'Iptc.Application2.Keywords', tag.name }
       else
         @image['Xmp.iptc.Keywords'] = ''
       end
       @image.save!
 
-      @photo.last_sync_at = Time.zone.now
-      @photo.save!
+      @photo.update_attributes(:last_sync_at => Time.zone.now + 5.seconds)
     end
   end
 end
