@@ -110,6 +110,7 @@
 				input: this,
 				// jqueryify <input>-element
 				$input: $(this),
+				// saves all tags
 				tags: [],
 				removeTagOnNextBackspace: false,
 				init: function () {
@@ -121,8 +122,6 @@
 					this.autocompletionListId = 'autocompletion-list-' + autoCompleteListId;
 					// now save some element data needed for computation
 					this.selectedEntry = null;
-					// saves all tags
-					this.tagList = [],
 					// save the entries currently displayed in autocompletion
 					this.autocompletionEntriesList = []
 					// if there is no autoselection, no entry can be selected (indicated by -1)
@@ -136,16 +135,15 @@
 					// if we have no selected entry, and this is allowed, just take textbox-value
 					if (this.selectedEntry === null && settings.autoSelect === false)
 						this.selectedEntry = this.$input.val();
+					this.tags.push(this.selectedEntry);
 					// apply postprocessing as specified by parameters
-					p.tagList.push(this.selectedEntry);
 					this.doPostProcessing(this.selectedEntry);
-					settings.onTagAdded(this.tagList, this.selectedEntry);
+					settings.onTagAdded(this.tags, this.selectedEntry);
 					this.$input.val('').parent().before('<li class="tag"><span>' + this.selectedEntry + '</span><a></a></li>');
 					this.$tagList.find('li a').last().click(function () {
 						$(this).parent().addClass('tagautocomplete-to-be-removed');
 						that.removeTag();
 					});
-					this.tags.push(this.selectedEntry);
 					this.selectedEntry = null;
 					this.autocompletionEntriesList = [];
 					this.displayAutocompletionList();
@@ -153,8 +151,8 @@
 					this.input.focus();
 				},
 				removeTag: function () {
-					settings.onTagRemoved();
-					p.tagList.pop();
+					p.tags.pop();
+					settings.onTagRemoved(this.tags);
 					p.$tagList.children('.tagautocomplete-to-be-removed').remove();
 					p.removeTagOnNextBackspace = false;
 					p.updateAutocompletionListPosition();
