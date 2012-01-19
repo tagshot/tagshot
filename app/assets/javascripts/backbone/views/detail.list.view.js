@@ -1,4 +1,4 @@
-//=require jquery.raty.js
+//=require starMe
 //=require tags
 
 Tagshot.Views.DetailListView = Backbone.View.extend({
@@ -24,13 +24,16 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			Mustache.to_html($('#footer-template').html(), tags)
         ).find('footer').show();
 
-		$(this.el).find(".star-me").raty({click:self.rate});
-
+		var stars = this.model.get("properties")['rating'] || 0;
+		var starMax = 5; 	// TODO fetch it from model
+		$(this.el).find(".star-me").starMe(stars, starMax);
 		return this;
 	},
+
 	rate: function(x){
 		console.log(x);
 	},
+
 	starHTML: function(){
 		return function(text, render) {
 			/*var stars = render(text).split("/");
