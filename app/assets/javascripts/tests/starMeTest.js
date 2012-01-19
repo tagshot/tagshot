@@ -10,9 +10,9 @@ test('starMe(6,9) adds 6 full and 9-6=3 empty star elements to the DOM', functio
 	equals($('#qunit-fixture > a').size(), 9);
 });
 
-test('starMe adds links with class="star" and title="bad"', function() {
+test('starMe adds at least a link with class="star", first' +"'"+ 's'+' title="bad"', function() {
 	$('#qunit-fixture').starMe(3, 5);
-	ok($('#qunit-fixture').has('3'));
-	equal($("#qunit-fixture > a").attr("title"), 'bad');
-	equal($("#qunit-fixture > a").attr("class"), 'star');
+	ok($('#qunit-fixture').has('a').length);	//has at least a link
+	equal($("#qunit-fixture > a:first").attr("class"), 'star');
+	equal($("#qunit-fixture > a:first").attr("title"), 'bad');
 });
