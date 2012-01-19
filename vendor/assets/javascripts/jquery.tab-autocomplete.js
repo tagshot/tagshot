@@ -129,13 +129,14 @@
 				},
 				addTag: function () {
 					var that = this;
+					this.updateTags();
 					// if only tags are accepted and no entry is selected, abort
 					if (this.selectedEntry === null && settings.autoSelect)
 						return;
 					// if we have no selected entry, and this is allowed, just take textbox-value
 					if (this.selectedEntry === null && settings.autoSelect === false)
 						this.selectedEntry = this.$input.val();
-					if (this.selectedEntry === '')
+					if (this.selectedEntry === '' || this.tags.indexOf(this.selectedEntry) !== -1)
 						return;
 					this.tags.push(this.selectedEntry);
 					// apply postprocessing as specified by parameters
@@ -150,16 +151,15 @@
 					this.displayAutocompletionList();
 					this.updateAutocompletionListPosition();
 					this.input.focus();
-					this.updateTags();
 					settings.onTagAdded(this.tags.slice(0), this.selectedEntry);
 				},
 				removeTag: function () {
+					this.updateTags();
 					p.tags.pop();
 					p.$tagList.children('.tagautocomplete-to-be-removed').remove();
 					p.removeTagOnNextBackspace = false;
 					p.updateAutocompletionListPosition();
 					p.input.focus();
-					this.updateTags();
 					settings.onTagRemoved(this.tags.slice(0));
 				},
 				updateTags: function () {

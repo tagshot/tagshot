@@ -9,7 +9,6 @@ Tagshot.updateTags = function (tagList) {
 	Tagshot.collections.photoList.selection().forEach(function (model) {
 		// use slice(0) to get a copy of tagList
 		model.set({'tags': tagList.slice(0)});
-		model.save({'tags': tagList.slice(0)});
 	});
 	/*
 	Tagshot.views.forEach(function (view) {
