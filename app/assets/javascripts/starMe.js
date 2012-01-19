@@ -15,9 +15,8 @@
 		var fullStar = '&#9733;'
 		var hints = ['bad', 'poor', 'regular', 'good', 'gorgeous'];
 
-		var buildLink = function(star, hint) {
-			foo = '<a class = "asdf" href="#" title="' + hint + '">' + star + '<a/>'
-			return foo;
+		var buildLink = function(star, hint, id) {
+			return '<a class = "star" id= "' + id + 'href="#" title="' + hint + '">' + star + '</a>'
 		}
 
 		var insertSpace = function() {
@@ -32,7 +31,7 @@
 		};
 
 		var buildEmptyStars = function() {
-			_.each(_.range(starMax), function(i) {
+			_.each(_.range(starMax-starCount), function(i) {
 				$(self).append(buildLink(emptyStar, hints[i]));
 				insertSpace();
 			});
