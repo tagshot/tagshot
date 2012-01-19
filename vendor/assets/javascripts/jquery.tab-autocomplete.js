@@ -135,6 +135,8 @@
 					// if we have no selected entry, and this is allowed, just take textbox-value
 					if (this.selectedEntry === null && settings.autoSelect === false)
 						this.selectedEntry = this.$input.val();
+					if (this.selectedEntry === '')
+						return;
 					this.tags.push(this.selectedEntry);
 					// apply postprocessing as specified by parameters
 					this.doPostProcessing(this.selectedEntry);
