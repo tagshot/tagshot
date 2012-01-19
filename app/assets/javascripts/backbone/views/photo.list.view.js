@@ -15,6 +15,8 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.collection.bind('select', this.showFooterIfNeccessary, this);
 		this.collection.bind('deselect', this.showFooterIfNeccessary, this);
 
+		Tagshot.router.bind("route:search", this.search, this);
+
 		//this.collection.bind('refresh', this.render, this);
 		this.collection.bind('reset', this.render, this);
 		this.collection.bind('add', this.append, this);
@@ -29,7 +31,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		})
 	},
 	render: function() {
-		console.log("render whole gallery");
+		console.log("reset gallery view");
 		var tags = {tags:[]};
 		$(this.el).html(
 				"<span id='fix-gallery' class='ui-helper-clearfix'></span>"+
@@ -84,5 +86,9 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		if(e) {
 			this.stop(e);
 		}
+	},
+	search: function(searchString){
+		// called when navigate
+		this.collection.search(searchString);
 	}
 });

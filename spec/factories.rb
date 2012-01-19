@@ -49,4 +49,8 @@ FactoryGirl.define do
     sequence(:name)  { |n| "Tgst.spec.prop#{n}" }
     sequence(:value) { |n| "value#{n}" }
   end
+  
+  factory :user do
+    sequence(:login) { |n| "user#{n}" }
+  end
 end

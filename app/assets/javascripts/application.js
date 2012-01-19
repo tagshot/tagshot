@@ -4,7 +4,6 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require proglag
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui-1.8.16.custom.min
@@ -18,7 +17,9 @@
 //= require backbone_datalink
 //= require mustache
 //= require backbone/tagshot
-//= require_tree .
+//= require tags
+//= require tagsAutocompletion
+//= require search
 
 var uiSettings = {
 	searchBoxText: 'Just start searching…'
@@ -36,7 +37,7 @@ function resizeImages() {
 }
 
 function hideElements() {
-	$("#options-container").hide();	
+	$("#options-container").hide();
 }
 
 $(function() {
@@ -47,53 +48,27 @@ $(function() {
 			/* apply autocompletion to <input> */
 			$("#search-box").tagAutocomplete({
 				autocompleteList: data,
-				inputCssClass: 'textbox'
+				onTagAdded: Tagshot.search,
+				onTagRemoved: Tagshot.search,
+				postProcessors: [
+					{
+						matches: tagFind.starExpression,
+						transform: tagReplace.starExpression
+					}
+					// TODO: Find OR and AND Expressions
+				]
 			/* and make it auto-focus on page-load */
 			}).textboxFocusOnStart({
 				text: uiSettings.searchBoxText,
 				cssClassWhenEmpty: 'search-start'
 			});
+
+
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
-				inputCssClass: 'textbox',
 				autocompleteListPosition: 'above',
-				autoSelect: false,
-				onTagAdded: function (tagList) {
-					var searchString = tagList.join("+");
-					Tagshot.views.mainView.trigger("tagshot:searchTriggered", searchString);
-				},
-				postProcessors: [
-					{
-						matches: function (text) {
-							return text.match(/^\*[0-5]$/) !== null;
-						},
-						transform: function (text) {
-							match = text.match(/^\*([0-5])$/);
-							starNumber = match[1];
-							starString = '≥';
-							for (var i = 0; i < starNumber; i++)
-								starString += '★';
-							for (var i = 0; i < 5 - starNumber; i++)
-								starString += '☆';
-							return starString;
-						}
-					},
-					{
-						matches: function (text) {
-							return text.match(/^\*=[0-5]$/) !== null;
-						},
-						transform: function(text) {
-							match = text.match(/^\*=([0-5])$/);
-							starNumber = match[1];
-							starString = '=';
-							for (var i = 0; i < starNumber; i++)
-								starString += '★';
-							for (var i = 0; i < 5 - starNumber; i++)
-								starString += '☆';
-							return starString;
-						}
-					}
-				]
+				onTagAdded: Tagshot.updateTags,
+				onTagRemoved: Tagshot.updateTags
 			});
 		},
 	});

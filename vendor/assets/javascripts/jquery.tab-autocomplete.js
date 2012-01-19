@@ -23,28 +23,6 @@
 	"use strict";
 	// id counter, to create unique id's when there is more than one <input>-element given.
 	var autoCompleteListId = 0,
-	// standard settings
-	    settings = {
-		// list of possible autocompletions
-		autocompleteList: [],
-		// css class for the autocompletion list
-		autocompleteCssClass: 'autocompletion-list',
-		// css class for the <input>-element,
-		// will be applied to the surrounding <ul> during the plugin-process (see above for explanation)
-		inputCssClass: 'textbox',
-		// the maximum number of entries to be displayed while autocompletion
-		maxEntries: 10,
-		// auto select
-		autoSelect: true,
-		autocompleteListPosition: 'below',
-		onTagAdded: function (tagList, newTag) {
-			console.log('Tag "' + newTag + '" added.');
-		},
-		onTagRemoved: function (tagText) {
-			console.log('Tag removed.');
-		},
-		postProcessors: []
-	},
 	// for information about which key belongs to which keyCode,
 	// see http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
 	    keyCodes = {
@@ -75,7 +53,29 @@
 
 	$.fn.tagAutocomplete = function (options) {
 		 // will hold a lowercased-version of settings.autocompleteList
-		 var lowercase;
+		 var lowercase,
+		// standard settings
+		    settings = {
+			// list of possible autocompletions
+			autocompleteList: [],
+			// css class for the autocompletion list
+			autocompleteCssClass: 'autocompletion-list',
+			// css class for the <input>-element,
+			// will be applied to the surrounding <ul> during the plugin-process (see above for explanation)
+			inputCssClass: 'textbox',
+			// the maximum number of entries to be displayed while autocompletion
+			maxEntries: 10,
+			// auto select
+			autoSelect: false,
+			autocompleteListPosition: 'below',
+			onTagAdded: function (tagList, newTag) {
+				console.log('Tag "' + newTag + '" added.');
+			},
+			onTagRemoved: function (tagText) {
+				console.log('Tag removed.');
+			},
+			postProcessors: []
+		};
 		// merge given options into standard-settings
 		$.extend(settings, options);
 
@@ -110,6 +110,7 @@
 				input: this,
 				// jqueryify <input>-element
 				$input: $(this),
+				// saves all tags
 				tags: [],
 				removeTagOnNextBackspace: false,
 				init: function () {
@@ -121,8 +122,6 @@
 					this.autocompletionListId = 'autocompletion-list-' + autoCompleteListId;
 					// now save some element data needed for computation
 					this.selectedEntry = null;
-					// saves all tags
-					this.tagList = [],
 					// save the entries currently displayed in autocompletion
 					this.autocompletionEntriesList = []
 					// if there is no autoselection, no entry can be selected (indicated by -1)
@@ -130,23 +129,23 @@
 				},
 				addTag: function () {
 					var that = this;
-					console.log(settings.autoSelect);
 					// if only tags are accepted and no entry is selected, abort
 					if (this.selectedEntry === null && settings.autoSelect)
 						return;
 					// if we have no selected entry, and this is allowed, just take textbox-value
-					if (settings.autoSelect === false)
+					if (this.selectedEntry === null && settings.autoSelect === false)
 						this.selectedEntry = this.$input.val();
+					if (this.selectedEntry === '')
+						return;
+					this.tags.push(this.selectedEntry);
 					// apply postprocessing as specified by parameters
-					p.tagList.push(this.selectedEntry);
 					this.doPostProcessing(this.selectedEntry);
-					settings.onTagAdded(this.tagList, this.selectedEntry);
-					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button></button></li>');
-					this.$tagList.find('li button').last().click(function () {
+					settings.onTagAdded(this.tags, this.selectedEntry);
+					this.$input.val('').parent().before('<li class="tag"><span>' + this.selectedEntry + '</span><a></a></li>');
+					this.$tagList.find('li a').last().click(function () {
 						$(this).parent().addClass('tagautocomplete-to-be-removed');
 						that.removeTag();
 					});
-					this.tags.push(this.selectedEntry);
 					this.selectedEntry = null;
 					this.autocompletionEntriesList = [];
 					this.displayAutocompletionList();
@@ -154,8 +153,8 @@
 					this.input.focus();
 				},
 				removeTag: function () {
-					settings.onTagRemoved();
-					p.tagList.pop();
+					p.tags.pop();
+					settings.onTagRemoved(this.tags);
 					p.$tagList.children('.tagautocomplete-to-be-removed').remove();
 					p.removeTagOnNextBackspace = false;
 					p.updateAutocompletionListPosition();

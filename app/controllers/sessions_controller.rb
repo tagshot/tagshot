@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     user = User.authenticate(params[:login], params[:password])
     if user
       self.current_user = user
-      redirect_to photos_url
+      redirect_to root_url
     else
       flash[:error] = 'Authentication failed.'
       redirect_to new_session_url(:login => params[:login])

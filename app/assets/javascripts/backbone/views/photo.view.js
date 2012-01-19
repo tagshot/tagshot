@@ -20,7 +20,6 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		this.model.bind('deselect', this.deselect, this);
 	},
 	render: function () {
-		console.log("render", this.model.get('id'));
 		// tmpl im index.html
 		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
 
@@ -39,12 +38,9 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	},
 	starHTML: function(){
 		return function(text, render) {
-			/*var stars = render(text).split("/");
-			var blacks = parseInt(stars[0]);
-			var whites = parseInt(stars[1]) - blacks;*/
+		// TODO remove c'n p with detail.list.view.js
 			var blacks = this.model.get("properties")['rating'] || 0;
-			// var whites = this.model.get("stars").stars.of - blacks;
-			var whites = 5 - blacks;
+			var whites = 5 - blacks;	// Argh, quick fix for runtime errors
 			var blackstar = "<span>&#9733;</span>";
 			var whitestar = "<span>&#9734;</span>";
 
