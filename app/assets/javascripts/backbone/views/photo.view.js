@@ -37,9 +37,11 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	},
 	select: function() {
 		$(this.el).children().first().addClass("selected");
+		this.trigger("selectionChanged");
 	},
 	deselect: function() {
 		$(this.el).children().first().removeClass("selected");
+		this.trigger("selectionChanged");
 	},
 	starHTML: function(){
 		return function(text, render) {

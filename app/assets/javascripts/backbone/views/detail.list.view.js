@@ -30,6 +30,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	},
 	rate: function(x){
 		console.log(x);
+		this.model.set("stars", 5);
 	},
 	starHTML: function(){
 		return function(text, render) {
