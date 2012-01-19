@@ -23,28 +23,6 @@
 	"use strict";
 	// id counter, to create unique id's when there is more than one <input>-element given.
 	var autoCompleteListId = 0,
-	// standard settings
-	    settings = {
-		// list of possible autocompletions
-		autocompleteList: [],
-		// css class for the autocompletion list
-		autocompleteCssClass: 'autocompletion-list',
-		// css class for the <input>-element,
-		// will be applied to the surrounding <ul> during the plugin-process (see above for explanation)
-		inputCssClass: 'textbox',
-		// the maximum number of entries to be displayed while autocompletion
-		maxEntries: 10,
-		// auto select
-		autoSelect: true,
-		autocompleteListPosition: 'below',
-		onTagAdded: function (tagList, newTag) {
-			console.log('Tag "' + newTag + '" added.');
-		},
-		onTagRemoved: function (tagText) {
-			console.log('Tag removed.');
-		},
-		postProcessors: []
-	},
 	// for information about which key belongs to which keyCode,
 	// see http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
 	    keyCodes = {
@@ -75,7 +53,29 @@
 
 	$.fn.tagAutocomplete = function (options) {
 		 // will hold a lowercased-version of settings.autocompleteList
-		 var lowercase;
+		 var lowercase,
+		// standard settings
+		    settings = {
+			// list of possible autocompletions
+			autocompleteList: [],
+			// css class for the autocompletion list
+			autocompleteCssClass: 'autocompletion-list',
+			// css class for the <input>-element,
+			// will be applied to the surrounding <ul> during the plugin-process (see above for explanation)
+			inputCssClass: 'textbox',
+			// the maximum number of entries to be displayed while autocompletion
+			maxEntries: 10,
+			// auto select
+			autoSelect: false,
+			autocompleteListPosition: 'below',
+			onTagAdded: function (tagList, newTag) {
+				console.log('Tag "' + newTag + '" added.');
+			},
+			onTagRemoved: function (tagText) {
+				console.log('Tag removed.');
+			},
+			postProcessors: []
+		};
 		// merge given options into standard-settings
 		$.extend(settings, options);
 

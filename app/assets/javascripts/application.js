@@ -17,7 +17,7 @@
 //= require backbone_datalink
 //= require mustache
 //= require backbone/tagshot
-//= require tags
+//= require tagsAutocompletion
 //= require search
 
 var uiSettings = {
@@ -47,18 +47,6 @@ $(function() {
 			/* apply autocompletion to <input> */
 			$("#search-box").tagAutocomplete({
 				autocompleteList: data,
-				inputCssClass: 'textbox'
-			/* and make it auto-focus on page-load */
-			}).textboxFocusOnStart({
-				text: uiSettings.searchBoxText,
-				cssClassWhenEmpty: 'search-start'
-			});
-
-			$("#tag-box").tagAutocomplete({
-				autocompleteList: data,
-				inputCssClass: 'textbox',
-				autocompleteListPosition: 'below',
-				autoSelect: false,
 				onTagAdded: Tagshot.search,
 				onTagRemoved: Tagshot.search,
 				postProcessors: [
@@ -68,6 +56,17 @@ $(function() {
 					}
 					// TODO: Find OR and AND Expressions
 				]
+			/* and make it auto-focus on page-load */
+			}).textboxFocusOnStart({
+				text: uiSettings.searchBoxText,
+				cssClassWhenEmpty: 'search-start'
+			});
+
+			$("#tag-box").tagAutocomplete({
+				autocompleteList: data,
+				autocompleteListPosition: 'above',
+				onTagAdded: Tagshot.updateTag,
+				onTagRemoved: Tagshot.updateTag
 			});
 		},
 	});

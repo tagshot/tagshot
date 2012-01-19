@@ -12,7 +12,7 @@
 //= require mustache
 //= require backbone/tagshot
 
-//= require tags
+//= require tagsAutocompletion
 
 // Everything in /assets/tests will be included
 //= require_tree .
