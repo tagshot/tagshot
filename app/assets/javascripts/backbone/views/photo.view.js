@@ -34,7 +34,6 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	tagChange: function () {
 		var s = this.model.get("tags").join(", ");
 		$(this.el).find(".tags").html(s);
-		alert("tagchange");
 	},
 	select: function() {
 		$(this.el).children().first().addClass("selected");
