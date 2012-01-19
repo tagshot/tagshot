@@ -57,4 +57,7 @@ Tagshot::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  config.thumb_cache_path = tmp/thumbs
+  config.thumb_cache = true
 end
