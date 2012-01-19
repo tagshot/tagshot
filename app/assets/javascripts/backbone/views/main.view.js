@@ -103,7 +103,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		// do infinite scrolling
 		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
 		if (pixelsFromWindowBottom < 200 && this.currentView == Tagshot.views.gallery) {
-			var maxNumberOfImagesBeforeNoAutomaticFetch = 20;
+			var maxNumberOfImagesBeforeNoAutomaticFetch = 200;
 			if (this.currentView.collection.length < maxNumberOfImagesBeforeNoAutomaticFetch){
 				this.currentView.loadMoreImages();
 			}
