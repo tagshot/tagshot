@@ -10,3 +10,8 @@ config/database.yml
 Gemfile.lock
 dev_db_name
 stats
+<<<<<<< Updated upstream
+=======
+*.un*
+public/images/LWW/*
+>>>>>>> Stashed changes
