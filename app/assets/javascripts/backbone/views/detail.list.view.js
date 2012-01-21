@@ -26,8 +26,12 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 
 		var stars = this.model.get("properties")['rating'] || 0;
 		var starMax = 5; 	// TODO fetch it from model
-		$(this.el).find(".star-me").starMe(stars, starMax);
+		$(this.el).find(".star-me").starMe(stars, starMax, self.rating);
 		return this;
+	},
+
+	rating: function(stars) {
+		//this.model.set({"properties": stars}); 		// FIXME It crashes
 	},
 
 	starHTML: function(){
