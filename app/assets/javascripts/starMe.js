@@ -3,7 +3,7 @@
  *		starCount = number of full stars to be set
  *		starMax 	= sum of stars to be set. 
  *		This plugin places starCount fullStars and starMax - starCount empty stars. 
- *		Each separated with a non breaking space.	
+ *		Each separated with a non breaking space.
  */
 
 (function( $ ){
@@ -26,7 +26,7 @@
 
 		var insertSpace = function() {
 			$(self).append('&nbsp;');
-		};
+		}
 
 		var appendLink = function(starChar, title, id) {
 			$(self).append(buildLink(starChar, title, id));

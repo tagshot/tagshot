@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require File.absolute_path(File.dirname(__FILE__)) + '/../config/environment'
+
+Delayed::Worker.new.start

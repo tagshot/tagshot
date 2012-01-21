@@ -4,7 +4,6 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require proglag
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui-1.8.16.custom.min
@@ -19,6 +18,9 @@
 //= require mustache
 //= require backbone/tagshot
 //= require tags
+//= require tagsAutocompletion
+//= require search
+//= require jquery.fancybox-1.3.4
 
 var uiSettings = {
 	searchBoxText: 'Just start searching…'
@@ -47,35 +49,31 @@ $(function() {
 			/* apply autocompletion to <input> */
 			$("#search-box").tagAutocomplete({
 				autocompleteList: data,
-				inputCssClass: 'textbox'
+				onTagAdded: Tagshot.search,
+				onTagRemoved: Tagshot.search,
+				postProcessors: [
+					{
+						matches: tagFind.starExpression,
+						transform: tagReplace.starExpression
+					}
+					// TODO: Find OR and AND Expressions
+				]
 			/* and make it auto-focus on page-load */
 			}).textboxFocusOnStart({
 				text: uiSettings.searchBoxText,
 				cssClassWhenEmpty: 'search-start'
 			});
 
+
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
-				inputCssClass: 'textbox',
-				autocompleteListPosition: 'below',
-				autoSelect: false,
-				onTagAdded: function (tagList) {
-					// TODO add '+' means AND, ',' means OR,
-					// consult https://student.hpi.uni-potsdam.de/redmine/projects/tagshot/wiki/JSON-API#Search-for-photos
-
-					var searchString = tagList.join("+");
-
-                    // navigate to search and the rest will be done by the backbone fairy
-                    Tagshot.router.navigate('search/'+searchString,true);
-				},
-
-				postProcessors: [
-					{
-						matches: tagFind.starExpression,
-						transform: tagReplace.starExpression
-					}
-			// TODO: Find OR and AND Expressions
-				]
+				autocompleteListPosition: 'above',
+				onTagAdded: Tagshot.updateTags,
+				onTagRemoved: Tagshot.updateTags
+			}).blur(function () {
+				Tagshot.collections.photoList.selection().forEach(function (model) {
+					model.save();
+				});
 			});
 		},
 	});
@@ -95,6 +93,6 @@ $(function() {
 		slide: resizeImages,
 		change: resizeImages
 	});
-	
+
 	hideElements();
 });

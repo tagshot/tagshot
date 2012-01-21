@@ -6,18 +6,22 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	events: {
 		"click" : "click",
 		"dblclick" : "openDetails",
+		"keydown[space]" : "quickview",
 		"keydown[return]" : "openDetails",
 		"keydown[left]" : "gotoPrevious",
 		"keydown[right]" : "gotoNext",
 		"keydown[tab]" : "gotoNext"
 	},
 	initialize : function() {
-		_.bindAll(this, 'openDetails', 'click', 'select', 'deselect', 'gotoNext', 'gotoPrevious');
+		_.bindAll(this, 'openDetails', 'click', 'select', 'deselect', 'gotoNext', 'gotoPrevious','quickview');
 
-		this.model.bind('change', this.render, this);
+		this.model.bind('change:thumb', this.render, this);
+		this.model.bind('change:tags', this.tagChange, this);
 		this.model.bind('destroy', this.remove, this);
 		this.model.bind('select', this.select, this);
 		this.model.bind('deselect', this.deselect, this);
+
+		this.quickViewVisible = false;
 	},
 	render: function () {
 		// tmpl im index.html
@@ -30,11 +34,17 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		this.delegateEvents();
 		return this;
 	},
+	tagChange: function () {
+		var s = this.model.get("tags").join(", ");
+		$(this.el).find(".tags").html(s);
+	},
 	select: function() {
 		$(this.el).children().first().addClass("selected");
+		this.trigger("selectionChanged");
 	},
 	deselect: function() {
 		$(this.el).children().first().removeClass("selected");
+		this.trigger("selectionChanged");
 	},
 	starHTML: function(){
 		return function(text, render) {
@@ -63,6 +73,26 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	},
 	openDetails : function(e) {
 		Tagshot.router.navigate("details/" + this.model.get("id"), true);
+	},
+	quickview: function(e){
+		this.stop(e);
+
+		if (this.quickViewVisible) {
+			$.fancybox.close();
+			this.quickViewVisible = false;
+		} else {
+			this.quickViewVisible = true;
+			$.fancybox({
+				'orig' : $(this.el).find('img'),
+				'href' : $(this.el).find('img').attr('src'),
+				'padding' : 0,
+				'speedIn' :	200,
+				'speedOut' :	200,
+				'title' : this.model.get('tags'),
+				'transitionIn' : 'elastic',
+				'transitionOut' : 'elastic'
+			}); 
+		}
 	},
 	remove: function() {
 		$(this.el).remove();
