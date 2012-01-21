@@ -17,6 +17,8 @@
 
 		var clickFunc = function() {
 			$(this).text(fullStar);
+			$(this).prevAll().text(fullStar);
+			$(this).nextAll().text(emptyStar);
 		};
 
 
@@ -31,6 +33,7 @@
 		var appendLink = function(starChar, title, id) {
 			$(self).append(buildLink(starChar, title, id));
 			$(self).children().click(clickFunc);
+			$(self).children().hover(clickFunc);
 			insertSpace();
 		};
 
