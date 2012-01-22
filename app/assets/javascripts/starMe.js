@@ -7,11 +7,14 @@
  *	This plugin places starCount fullStars and starMax - starCount empty stars. 
  *	Each separated with a non breaking space.
  *	It sets full stars on click in the view and the should sync that to the model
+ *
+ * Tests:
+ * 		This plugin is (or will be) thoroughly tested in starMeTest.js
  */
 
 (function( $ ){
 
-  $.fn.starMe = function(starCount, starMax, ratingFunc, model) {
+  $.fn.starMe = function(starCount, starMax, ratingFunc) {
 
 		var self = this;
 		var emptyStar = '☆';
@@ -33,7 +36,7 @@
 		function clickFunc (evt) {
 			replaceStars($(this));
 			var newStarCount = evt.data.param;
-			ratingFunc(model, newStarCount);
+			ratingFunc(newStarCount);
 		};
 
 		function buildLink(star, title, id) {

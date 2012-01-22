@@ -1,3 +1,7 @@
+/* This view is utilized to display a huge single photo with its tags and metadata
+ *
+ */
+
 //=require starMe
 
 Tagshot.Views.DetailListView = Backbone.View.extend({
@@ -33,14 +37,15 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		console.log("------- Rating should be 3 after set: ", self.model.get('properties').rating);
 
 		stars = self.model.get('properties').rating;
-		$(this.el).find(".star-me").starMe(stars, starMax, self.rating, self.model);
+		$(this.el).find(".star-me").starMe(stars, starMax, self.rating);
 		return this;
 	},
 
-	rating: function(model, stars) {
-		model.save({'properties' : {'rating' : stars}});	// overwrites all properties
-		console.log(model.get('properties').rating, "<----- Is the new rating");
-		console.log(model.get('properties'), "<----- Are the new properties");
+	rating: function(stars) {
+		// let it crash because of this!
+		this.model.save({'properties' : {'rating' : stars}});	// overwrites all properties
+		console.log(this.model.get('properties').rating, "<----- Is the new rating");
+		console.log(this.model.get('properties'), "<----- Are the new properties");
 	},
 
 	starHTML: function(){
