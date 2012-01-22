@@ -23,13 +23,23 @@
 			fullStar: 	'★',
 			titles : 		['bad', 'poor', 'regular', 'good', 'gorgeous'],	
 			ratingFunc: function(newStarCount) {
-				console.log("New star count ", newStarCount)
+				console.log('New star count: ', newStarCount)
 			},
 		};
 
 		var options = $.extend({}, defaults, options);
 
 		var self = this;
+
+/********************************************
+* High level logic
+*********************************************/
+
+		return this.each(function() {
+			buildFullStars();
+			buildEmptyStars();
+			attachClickHandler();
+		});
 
 
 /********************************************
@@ -74,7 +84,7 @@
 		function clickFunc () {
 			replaceStars($(this));
 			var newStarCount = options.starMax - $(this).nextAll().length;
-			console.log("Hi, I'm the click handler, new star count: ", newStarCount);
+			console.log("Click handler says to callback: newStarCount = ", newStarCount);
 			options.ratingFunc(newStarCount);
 		}
 
@@ -83,18 +93,5 @@
 			elem.prevAll().text(options.fullStar);
 			elem.nextAll().text(options.emptyStar);
 		}
-
-
-/********************************************
-* High level logic here
-*********************************************/
-
-		return this.each(function() {
-			buildFullStars();
-			buildEmptyStars();
-			attachClickHandler();
-		});
-
-
 	}
 })( jQuery );

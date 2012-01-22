@@ -28,25 +28,21 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			Mustache.to_html($('#footer-template').html(), tags)
         ).find('footer').show();
 
-		var stars = this.model.get("properties")['rating'] || 0;
+		var stars = self.model.get('properties').rating;
 		var starMax = 5; 	// TODO fetch it from model
-
-		//console.log("------- The Model: ", self.model);
-		//console.log("------- The Rating: ", self.model.get('properties').rating);
-		//self.model.get('properties').rating = 3;	// dirty hack to set
-		//console.log("------- Rating should be 3 after set: ", self.model.get('properties').rating);
+		console.log("Server says rating is: ", self.model.get('properties').rating);
 
 		stars = self.model.get('properties').rating;
-		$(this.el).find(".star-me").starMe({
+		$(self.el).find(".star-me").starMe({
 			'starCount': stars, 'starMax' : starMax , 'ratingFunc': self.rating});
 
-		return this;
+		return self;
 	},
 
 	rating: function(stars) {
 		// let it crash because of this!
 		this.model.save({'properties' : {'rating' : stars}});
-		console.log(this.model.get('properties.rating'), "<----- Is the new rating");
+		console.log(this.model.get('properties').rating, "<----- Is the new rating in the model");
 		console.log(this.model.get('properties'), "<----- Are the new properties");
 	},
 
