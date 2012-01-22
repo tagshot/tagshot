@@ -46,7 +46,10 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	rating: function(stars) {
 		console.log(stars);
 		// let it crash because of this!
-		this.model.save({ properties: { rating: 5 } })
+		//var properties = this.model.get('properties');
+		//properties.rating = "4";
+		//this.model.save({'properties': properties});
+		this.model.save({ properties: { rating: stars } });
 		console.log(this.model.get('properties.rating'), "<----- Is the new rating");
 		console.log(this.model.get('properties'), "<----- Are the new properties");
 	},

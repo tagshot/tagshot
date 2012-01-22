@@ -74,7 +74,6 @@
 			});
 		};
 
-
 		return this.each(function() {
 			buildFullStars();
 			buildEmptyStars();
