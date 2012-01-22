@@ -12,7 +12,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		"change footer #tag-box": "updateTags"
 	},
 	initialize: function(options) {
-		_.bindAll(this, "render", "propHTML", "metaHTML");
+		_.bindAll(this, "render", "propHTML", "metaHTML", "rating");
 
 		console.log(options);
 
