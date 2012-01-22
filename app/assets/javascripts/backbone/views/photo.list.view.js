@@ -31,6 +31,16 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		})
 	},
 	render: function() {
+		this.delegateEvents();
+
+		var signature = $.param({
+			query: this.collection.currentSearchQuery
+        });
+
+		if (this.signature === signature) return this;
+
+		this.signature = signature;
+
 		console.log("reset gallery view");
 		var tags = {tags:[]};
 		$(this.el).html(

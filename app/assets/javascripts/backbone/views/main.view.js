@@ -51,7 +51,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 	},
 
 	fetchAndLoadGallery: function () {
-		Tagshot.collections.photoList.fetch({data:{limit: 10},success: this.showGallery, append: true});
+		Tagshot.collections.photoList.fetch({data:{limit: 20},success: this.showGallery, append: true});
 	},
 
 	showGallery: function() {

@@ -24,14 +24,23 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		this.quickViewVisible = false;
 	},
 	render: function () {
+		//delegate events means rebinding the events
+		this.delegateEvents();
+
+		var signature = $.param({
+              caption: this.model.get('caption')
+        });
+
+		if (this.signature === signature) return this;
+
+		this.signature = signature;
+
 		// tmpl im index.html
 		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
 
 		//make resize of images
 		resizeImages();
 
-		//delegate events means rebinding the events
-		this.delegateEvents();
 		return this;
 	},
 	tagChange: function () {
@@ -98,6 +107,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		$(this.el).remove();
 	},
 	click: function(e) {
+		console.log(this.collection);
+
 		this.stop(e);
 		$(this.el).find('.image-frame').focus();
 		if (e.shiftKey) {
