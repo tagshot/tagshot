@@ -1,3 +1,5 @@
+//=require deep-model
+
 Tagshot.Models.Photo = Backbone.Model.extend({
 	paramRoot: "photo",
 	initialize: function() {

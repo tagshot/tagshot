@@ -1,72 +1,97 @@
 /* This plugin appends star links to a given DOM parent
  * Arguments: 
  *		starCount 	= number of full stars to be set
- *		starMax 		= sum of stars to be set. 
- *		ratingFunc	= callback which sets the new number of stars in the model
+ *		starMax 		= sum of stars that can be set.
+ *		ratingFunc	= callback which gets the new number of stars and can save it
  *
- *	This plugin places starCount fullStars and starMax - starCount empty stars. 
+ *	This plugin places starCount options.fullStars and starMax - starCount empty stars. 
  *	Each separated with a non breaking space.
- *	It sets full stars on click in the view and the should sync that to the model
+ *	It sets full stars on click in the view and the ratingFunc should sync that to the model
+ *
+ * Tests:
+ * 		This plugin is (or will be) thoroughly tested in starMeTest.js
  */
 
 (function( $ ){
 
-  $.fn.starMe = function(starCount, starMax, ratingFunc) {  
+  $.fn.starMe = function(options) {
+
+		var defaults = {
+			starCount: 	0,
+			starMax: 		5,
+			emptyStar:	'☆',
+			fullStar: 	'★',
+			titles : 		['bad', 'poor', 'regular', 'good', 'gorgeous'],	
+			ratingFunc: function(newStarCount) {
+				console.log('New star count: ', newStarCount)
+			},
+		};
+
+		var options = $.extend({}, defaults, options);
 
 		var self = this;
-		var emptyStar = '☆';
-		var fullStar = '★';
-		var titles = ['bad', 'poor', 'regular', 'good', 'gorgeous'];
 
-		var ratingFunc = ratingFunc || function(x) {console.log("New star count", x.data.param)};
+/********************************************
+* High level logic
+*********************************************/
 
-		function replaceStars(elem){
-			elem.text(fullStar);
-			elem.prevAll().text(fullStar);
-			elem.nextAll().text(emptyStar);
-		};
+		return this.each(function() {
+			buildFullStars();
+			buildEmptyStars();
+			attachClickHandler();
+		});
 
-		function mouseOverFunc () {
-			replaceStars($(this));	// dead code
-		};
 
-		function clickFunc (evt) {
-			replaceStars($(this));
-			var newStarCount = evt.data.param;
-			ratingFunc(newStarCount);
-		};
+/********************************************
+* Insert links with stars on given DOM node
+*********************************************/
 
-		function buildLink(star, title, id) {
-			return '<a class = "star" id= star-"' + id + '" href="#" title="' + title + '">' + star + '</a>'
-		};
+		function buildFullStars() {
+			_.each(_.range(options.starCount), function(i) {
+				appendLink(options.fullStar, options.titles[i], i);
+			});
+		}
+
+		function buildEmptyStars() {
+			_.each(_.range(options.starMax -  options.starCount), function(i) {
+				appendLink(options.emptyStar, options.titles[i]);
+			});
+		}
+
+		function appendLink (starChar, title) {
+			$(self).append(buildLink(starChar, title));
+			insertSpace();
+		}
+
+
+		function buildLink(star, title) {
+			return '<a class = "star" ' + 'href="#" title="' + title + '">' + star + '</a>'
+		}
 
 		function insertSpace() {
 			$(self).append('&nbsp;');
 		}
 
-		function appendLink (starChar, title, id) {
-			$(self).append(buildLink(starChar, title, id));
-			insertSpace();
-			$(self).children().bind('click', { param: id }, clickFunc);
-			//$(self).children().bind('mouseenter', mouseOverFunc);
-		};
 
-		function buildFullStars() {
-			_.each(_.range(starCount), function(i) {
-				appendLink(fullStar, titles[i], i);
-			});
-		};
+/***********************************
+* Attaching and handling of events
+************************************/
 
-		function buildEmptyStars() {
-			_.each(_.range(starMax -  starCount), function(i) { 
-				appendLink(emptyStar, titles[i], i);
-			});
-		};
+		function attachClickHandler() {
+			$(self).children().click(clickFunc);
+		}
 
+		function clickFunc () {
+			replaceStars($(this));
+			var newStarCount = options.starMax - $(this).nextAll().length;
+			console.log("Click handler says to callback: newStarCount = ", newStarCount);
+			options.ratingFunc(newStarCount);
+		}
 
-		return this.each(function() {
-			buildFullStars();
-			buildEmptyStars();
-		});
+		function replaceStars(elem){
+			elem.text(options.fullStar);
+			elem.prevAll().text(options.fullStar);
+			elem.nextAll().text(options.emptyStar);
+		}
 	}
 })( jQuery );

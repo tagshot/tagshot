@@ -1,3 +1,7 @@
+/* This view is utilized to display a huge single photo with its tags and metadata
+ *
+ */
+
 //=require starMe
 
 Tagshot.Views.DetailListView = Backbone.View.extend({
@@ -8,7 +12,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		"change footer #tag-box": "updateTags"
 	},
 	initialize: function(options) {
-		_.bindAll(this, "render", "propHTML", "metaHTML");
+		_.bindAll(this, "render", "propHTML", "metaHTML", "rating");
 
 		console.log(options);
 
@@ -24,14 +28,22 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			Mustache.to_html($('#footer-template').html(), tags)
         ).find('footer').show();
 
-		var stars = this.model.get("properties")['rating'] || 0;
+		var stars = self.model.get('properties').rating;
 		var starMax = 5; 	// TODO fetch it from model
-		$(this.el).find(".star-me").starMe(stars, starMax, self.rating);
-		return this;
+		console.log("Server says rating is: ", self.model.get('properties').rating);
+
+		stars = self.model.get('properties').rating;
+		$(self.el).find(".star-me").starMe({
+			'starCount': stars, 'starMax' : starMax , 'ratingFunc': self.rating});
+
+		return self;
 	},
 
 	rating: function(stars) {
-		//this.model.set({"properties": stars}); 		// FIXME It crashes
+		// let it crash because of this!
+		this.model.save({'properties' : {'rating' : stars}});
+		console.log(this.model.get('properties').rating, "<----- Is the new rating in the model");
+		console.log(this.model.get('properties'), "<----- Are the new properties");
 	},
 
 	starHTML: function(){
