@@ -33,7 +33,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 
 		console.log("------- The Model: ", self.model);
 		console.log("------- The Rating: ", self.model.get('properties').rating);
-		self.model.get('properties').rating = 3;	// dirty hack to set
+		//self.model.get('properties').rating = 3;	// dirty hack to set
 		console.log("------- Rating should be 3 after set: ", self.model.get('properties').rating);
 
 		stars = self.model.get('properties').rating;
@@ -45,8 +45,8 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 
 	rating: function(stars) {
 		// let it crash because of this!
-		this.model.save({'properties' : {'rating' : stars}});	// overwrites all properties
-		console.log(this.model.get('properties').rating, "<----- Is the new rating");
+		this.model.save('properties.rating', 0);
+		console.log(this.model.get('properties.rating'), "<----- Is the new rating");
 		console.log(this.model.get('properties'), "<----- Are the new properties");
 	},
 
