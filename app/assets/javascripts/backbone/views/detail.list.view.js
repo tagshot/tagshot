@@ -31,21 +31,21 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		var stars = this.model.get("properties")['rating'] || 0;
 		var starMax = 5; 	// TODO fetch it from model
 
-		console.log("------- The Model: ", self.model);
-		console.log("------- The Rating: ", self.model.get('properties').rating);
+		//console.log("------- The Model: ", self.model);
+		//console.log("------- The Rating: ", self.model.get('properties').rating);
 		//self.model.get('properties').rating = 3;	// dirty hack to set
-		console.log("------- Rating should be 3 after set: ", self.model.get('properties').rating);
+		//console.log("------- Rating should be 3 after set: ", self.model.get('properties').rating);
 
 		stars = self.model.get('properties').rating;
 		$(this.el).find(".star-me").starMe({
-			'starCount': stars, 'starMax' : starMax, 'ratingFunc': self.rating});
+			'starCount': stars, 'starMax' : starMax /*, 'ratingFunc': self.rating*/});
 
 		return this;
 	},
 
 	rating: function(stars) {
 		// let it crash because of this!
-		this.model.save('properties.rating', 0);
+		this.model.save({'properties' : {'rating' : 0}});
 		console.log(this.model.get('properties.rating'), "<----- Is the new rating");
 		console.log(this.model.get('properties'), "<----- Are the new properties");
 	},

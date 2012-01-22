@@ -35,49 +35,50 @@
 			elem.text(options.fullStar);
 			elem.prevAll().text(options.fullStar);
 			elem.nextAll().text(options.emptyStar);
-		};
+		}
 
-		function mouseOverFunc () {
-			replaceStars($(this));	// dead code
-		};
+		function clickFunc () {
+			console.log("Click self: ", $(self));
 
-		function clickFunc (evt) {
 			replaceStars($(this));
-			var newStarCount = evt.data.param;
+			var newStarCount = options.starMax - $(this).nextAll().length;
+			
+			console.log("hihihi ", newStarCount);
+			
 			options.ratingFunc(newStarCount);
-		};
+		}
 
-		function buildLink(star, title, id) {
-			return '<a class = "star" id= star-"' + id + '" href="#" title="' + title + '">' + star + '</a>'
-		};
+		function buildLink(star, title) {
+			return '<a class = "star" ' + 'href="#" title="' + title + '">' + star + '</a>'
+		}
 
 		function insertSpace() {
 			$(self).append('&nbsp;');
 		}
 
-		function appendLink (starChar, title, id) {
-			$(self).append(buildLink(starChar, title, id));
+		function appendLink (starChar, title) {
+			$(self).append(buildLink(starChar, title));
 			insertSpace();
-			$(self).children().bind('click', { param: id }, clickFunc);
-			//$(self).children().bind('mouseenter', mouseOverFunc);
-		};
+		}
 
 		function buildFullStars() {
 			_.each(_.range(options.starCount), function(i) {
 				appendLink(options.fullStar, options.titles[i], i);
 			});
-		};
+		}
 
 		function buildEmptyStars() {
 			_.each(_.range(options.starMax -  options.starCount), function(i) { 
-				appendLink(options.emptyStar, options.titles[i], i);
+				appendLink(options.emptyStar, options.titles[i]);
 			});
-		};
+		}
 
 
 		return this.each(function() {
 			buildFullStars();
 			buildEmptyStars();
+			console.log("Event bound to: ", $(self).children());
+			$(self).children().click(clickFunc);
 		});
 	}
 })( jQuery );
