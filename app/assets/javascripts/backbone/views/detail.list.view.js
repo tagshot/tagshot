@@ -37,7 +37,9 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		console.log("------- Rating should be 3 after set: ", self.model.get('properties').rating);
 
 		stars = self.model.get('properties').rating;
-		$(this.el).find(".star-me").starMe(stars, starMax, self.rating);
+		$(this.el).find(".star-me").starMe({
+			'starCount': stars, 'starMax' : starMax, 'ratingFunc': self.rating});
+
 		return this;
 	},
 

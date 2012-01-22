@@ -2,9 +2,9 @@
  * Arguments: 
  *		starCount 	= number of full stars to be set
  *		starMax 		= sum of stars to be set. 
- *		ratingFunc	= callback which sets the new number of stars in the model
+ *		ratingFunc	= callback which gets the new number of stars and can save it to the model
  *
- *	This plugin places starCount fullStars and starMax - starCount empty stars. 
+ *	This plugin places starCount options.fullStars and starMax - starCount empty stars. 
  *	Each separated with a non breaking space.
  *	It sets full stars on click in the view and the should sync that to the model
  *
@@ -14,19 +14,27 @@
 
 (function( $ ){
 
-  $.fn.starMe = function(starCount, starMax, ratingFunc) {
+  $.fn.starMe = function(options) {
+
+		var defaults = {
+			starCount: 	0,
+			starMax: 		0,
+			emptyStar:	'☆',
+			fullStar: 	'★',
+			titles : 		['bad', 'poor', 'regular', 'good', 'gorgeous'],	
+			ratingFunc: function(newStarCount) {
+				console.log("New star count ", newStarCount)
+			},
+		};
+
+		var options = $.extend({}, defaults, options);
 
 		var self = this;
-		var emptyStar = '☆';
-		var fullStar = '★';
-		var titles = ['bad', 'poor', 'regular', 'good', 'gorgeous'];
-
-		var ratingFunc = ratingFunc || function(x) {console.log("New star count", x.data.param)};
 
 		function replaceStars(elem){
-			elem.text(fullStar);
-			elem.prevAll().text(fullStar);
-			elem.nextAll().text(emptyStar);
+			elem.text(options.fullStar);
+			elem.prevAll().text(options.fullStar);
+			elem.nextAll().text(options.emptyStar);
 		};
 
 		function mouseOverFunc () {
@@ -36,7 +44,7 @@
 		function clickFunc (evt) {
 			replaceStars($(this));
 			var newStarCount = evt.data.param;
-			ratingFunc(newStarCount);
+			options.ratingFunc(newStarCount);
 		};
 
 		function buildLink(star, title, id) {
@@ -55,14 +63,14 @@
 		};
 
 		function buildFullStars() {
-			_.each(_.range(starCount), function(i) {
-				appendLink(fullStar, titles[i], i);
+			_.each(_.range(options.starCount), function(i) {
+				appendLink(options.fullStar, options.titles[i], i);
 			});
 		};
 
 		function buildEmptyStars() {
-			_.each(_.range(starMax -  starCount), function(i) { 
-				appendLink(emptyStar, titles[i], i);
+			_.each(_.range(options.starMax -  options.starCount), function(i) { 
+				appendLink(options.emptyStar, options.titles[i], i);
 			});
 		};
 
