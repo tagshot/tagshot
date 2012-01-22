@@ -1,4 +1,5 @@
-//=require deep-model
+/* Here be documentation
+ */
 
 Tagshot.Models.Photo = Backbone.Model.extend({
 	paramRoot: "photo",

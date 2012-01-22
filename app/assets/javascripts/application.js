@@ -21,7 +21,6 @@
 //= require tagsAutocompletion
 //= require search
 //= require jquery.fancybox-1.3.4
-//=require deep-model
 
 
 var uiSettings = {
