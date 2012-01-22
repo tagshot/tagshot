@@ -1,4 +1,4 @@
-Tagshot.Models.Photo = Backbone.Model.extend({
+Tagshot.Models.Photo = Backbone.DeepModel.extend({
 	paramRoot: "photo",
 	initialize: function() {
 		//_.bindAll(this, 'order', 'isSelected');

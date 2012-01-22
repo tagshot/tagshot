@@ -1,4 +1,9 @@
-// array von photos
+/* This model describes…
+ *
+ *
+ */
+
+
 Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 	model: Tagshot.Models.Photo,
 	fetching: false,
