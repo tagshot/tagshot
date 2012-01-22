@@ -11,7 +11,7 @@
 
 (function( $ ){
 
-  $.fn.starMe = function(starCount, starMax, ratingFunc) {  
+  $.fn.starMe = function(starCount, starMax, ratingFunc, model) {
 
 		var self = this;
 		var emptyStar = '☆';
@@ -33,7 +33,7 @@
 		function clickFunc (evt) {
 			replaceStars($(this));
 			var newStarCount = evt.data.param;
-			ratingFunc(newStarCount);
+			ratingFunc(model, newStarCount);
 		};
 
 		function buildLink(star, title, id) {
