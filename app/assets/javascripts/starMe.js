@@ -18,7 +18,7 @@
 
 		var defaults = {
 			starCount: 	0,
-			starMax: 		0,
+			starMax: 		5,
 			emptyStar:	'☆',
 			fullStar: 	'★',
 			titles : 		['bad', 'poor', 'regular', 'good', 'gorgeous'],	
