@@ -31,6 +31,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	},
 
 	rating: function(stars) {
+		console.log(stars);
 		//this.model.set({"properties": stars}); 		// FIXME It crashes
 	},
 
