@@ -32,22 +32,19 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 
 		var stars = self.model.get('properties').rating;
 		var starMax = 5; 	// TODO fetch it from model
-		console.log("Server says rating is: ", self.model.get('properties').rating);
-
-		console.log("------- The Model: ", self.model);
-		console.log("------- The Rating: ", self.model.get('properties').rating);
 
 		stars = self.model.get('properties').rating;
 		$(self.el).find(".star-me").starMe({
-			'starCount': stars, 'starMax' : starMax , 'ratingFunc': self.rating});
+			'starCount': stars,
+			'starMax' : starMax ,
+			'ratingFunc': self.rating
+		});
 
 		return self;
 	},
 
 rating: function(stars) {
 		this.model.save({'properties' : {'rating' : stars}});
-		console.log(this.model.get('properties').rating, "<----- Is the new rating in the model");
-		console.log(this.model.get('properties'), "<----- Are the new properties");
 	},
 
 	metaHTML: function() {

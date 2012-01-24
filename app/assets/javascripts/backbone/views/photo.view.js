@@ -5,6 +5,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	className: "image-view",
 	events: {
 		"click" : "click",
+		"click .star-me>a" : "stop",
 		"dblclick" : "openDetails",
 		"keydown[space]" : "quickview",
 		"keydown[return]" : "openDetails",
@@ -41,8 +42,6 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 
 	rating: function(stars) {
 		this.model.save({'properties' : {'rating' : stars}});
-		console.log(this.model.get('properties').rating, "<----- Is the new rating in the model");
-		console.log(this.model.get('properties'), "<----- Are the new properties");
 	},
 
 	tagChange: function () {
