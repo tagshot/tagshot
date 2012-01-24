@@ -63,7 +63,6 @@
 			insertSpace();
 		}
 
-
 		function buildLink(star, title) {
 			return '<a class = "star" ' + 'href="#" title="' + title + '">' + star + '</a>'
 		}
