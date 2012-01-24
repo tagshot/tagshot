@@ -13,11 +13,11 @@ Tagshot.Router = Backbone.Router.extend({
 		"p/:page":					"page",
 		"search/:query/:page":		"searchpage",
 		"details/:id":				"details",
-		"*foo":						"fallback"
+		"*foo":						"home"
 	},
 
-	home: function() {
-		console.log("home");
+	home: function(foo) {
+		console.log("home "+foo);
 		Tagshot.collections.photoList.fetch({
 			data: {limit: 10},
 			append: true
@@ -38,6 +38,13 @@ Tagshot.Router = Backbone.Router.extend({
 	search: function(query) {
 		console.log("search: ", query);
 		Tagshot.collections.photoList.search(query);
+
+		//rebind events because bindings are lost because of navigation
+		Tagshot.views.gallery.delegateEventsToSubViews();
+		Tagshot.views.gallery.delegateEvents();
+
+		$("#gallery").show();
+		$("#detail").hide();
 	},
 	page: function(page) {
 		console.log("page: ", page);
@@ -62,11 +69,10 @@ Tagshot.Router = Backbone.Router.extend({
 		$("#detail").show();
 		$("#gallery").hide();
 
+		Tagshot.views.detail.delegateEvents();
+
 		//fix for crappy webkit that can't change 
 		//dispay of elements that are not in the dom
 		//$('footer:first').show();
-	},
-	fallback: function(foo) {
-		console.log("foo: ",foo);
 	}
 });
