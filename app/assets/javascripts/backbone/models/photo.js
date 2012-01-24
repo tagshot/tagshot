@@ -5,6 +5,7 @@
  */
 
 Tagshot.Models.Photo = Backbone.Model.extend({
+	collection: Tagshot.Collections.PhotoList,
 	paramRoot: "photo",
 	initialize: function() {
 		//_.bindAll(this, 'order', 'isSelected');

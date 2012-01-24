@@ -30,7 +30,7 @@ var uiSettings = {
 function resizeImages() {
 	var value  = $("#thumbnail-size-slider").slider("value");
 
-	$(".gallery div.image").css(
+	$("#gallery div.image").css(
 		'height',value).css(
 		'width',function(){
 			return value*1.6;
@@ -62,9 +62,9 @@ $(function() {
 			/* and make it auto-focus on page-load */
 			}).textboxFocusOnStart({
 				text: uiSettings.searchBoxText,
-				cssClassWhenEmpty: 'search-start'
+				cssClassWhenEmpty: 'search-start',
+				doFocus: false
 			});
-
 
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
@@ -76,24 +76,29 @@ $(function() {
 					model.save();
 				});
 			});
+
+			// options bar stuff
+			// TODO refactor
+
+			$("#show-options").click(function() {
+				$("#options-container").slideToggle(300);
+				$(this).toggleClass("open");
+			});
+
+			$("#thumbnail-size-slider").slider({
+				orientation: "horizontal",
+				range: "min", 
+				min: 50,
+				max: 500,
+				value: 200,
+				slide: resizeImages,
+				change: resizeImages
+			});
+
+			hideElements();
+
+
 		},
 	});
-
-
-	$("#show-options").click(function() {
-		$("#options-container").slideToggle(300);
-		$(this).toggleClass("open");
-	});
-
-	$("#thumbnail-size-slider").slider({
-		orientation: "horizontal",
-		range: "min", 
-		min: 50,
-		max: 500,
-		value: 200,
-		slide: resizeImages,
-		change: resizeImages
-	});
-
-	hideElements();
+	
 });

@@ -1,20 +1,16 @@
-/* This model describes…
- *
- *
+/* 
+ * This model describes…
  */
 
 
-Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
+Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	model: Tagshot.Models.Photo,
 	fetching: false,
 	// needed for infinite scrolling
 	reachedEnd: false,
-	url: function() {
-		return this.base_url;
-	},
+	url: "/photos",
 	// for infinite scrolling
 	currentOffset: 0,
-	base_url: "/photos",
 	currentSearchQuery: "",
 	intialize: function() {
 		_.bindAll(this, 'selectAll', 'deselectAll', 'url', 'appendingFetch', 'parse', 'search');
@@ -24,13 +20,15 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 	selection: function() {
 		return this.filter(function(photo){ return photo.selected });
 	},
+	getMainModel: function() {
+		// the main model, meaning the one that may be in the detailed view
+		return this.mainModel;
+	},
 	selectAll: function() {
-		console.log("select all");
 		_.map(this.models, function(item) { item.select() });
 	},
 	deselectAll: function(args) {
 		args || (args = {});
-		console.log("deselect all");
 		_.map(this.models, function(item) { if (item !== args.exclude) item.deselect() });	
 	},
 	selectFromTo: function(from, to) {
@@ -50,11 +48,12 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 		if (!this.fetching && !this.reachedEnd) {
 			this.fetching = true;
 
+			// TODO ansehen
 			options.success = function(e) {
 				self.fetching = false;
 			}
 
-			options.add = true;
+			options.add = true; 
 			this.currentOffset += add;
 			options.data.offset = this.currentOffset;
 			options.data.limit = add;
@@ -63,22 +62,23 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 			this.fetch(options);
 		}
 	},
-	parse : function(resp, xhr) {
+	/*parse : function(resp, xhr) {
 		if (resp.length == 0) {
 			//no response, probably reached end
 			this.reachedEnd = true;
 		}
 		return resp;
-    },
+    },*/
 	comparator: function(photo) {
 		return photo.order();
 	},
 	search: function(searchString) {
+		console.log("search for "+searchString);
 		this.currentSearchQuery = searchString;
 		this.fetch({
 			add: false, //not appending
 			data: {
-				limit: 10,
+				limit: 20,
 				q: searchString
 			}
 		});
