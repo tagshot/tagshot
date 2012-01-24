@@ -62,7 +62,8 @@ $(function() {
 			/* and make it auto-focus on page-load */
 			}).textboxFocusOnStart({
 				text: uiSettings.searchBoxText,
-				cssClassWhenEmpty: 'search-start'
+				cssClassWhenEmpty: 'search-start',
+				doFocus: false
 			});
 
 			$("#tag-box").tagAutocomplete({
@@ -75,23 +76,29 @@ $(function() {
 					model.save();
 				});
 			});
+
+			// options bar stuff
+			// TODO refactor
+
+			$("#show-options").click(function() {
+				$("#options-container").slideToggle(300);
+				$(this).toggleClass("open");
+			});
+
+			$("#thumbnail-size-slider").slider({
+				orientation: "horizontal",
+				range: "min", 
+				min: 50,
+				max: 500,
+				value: 200,
+				slide: resizeImages,
+				change: resizeImages
+			});
+
+			hideElements();
+
+
 		},
 	});
-
-	$("#show-options").click(function() {
-		$("#options-container").slideToggle(300);
-		$(this).toggleClass("open");
-	});
-
-	$("#thumbnail-size-slider").slider({
-		orientation: "horizontal",
-		range: "min", 
-		min: 50,
-		max: 500,
-		value: 200,
-		slide: resizeImages,
-		change: resizeImages
-	});
-
-	hideElements();
+	
 });

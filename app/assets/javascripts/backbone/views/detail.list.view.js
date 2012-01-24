@@ -17,23 +17,23 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		_.bindAll(this, "render", "propHTML", "metaHTML", "rating");
 
 		console.log(options);
-		//this.model.bind('change', this.render, this);
+		//this.collection.getModel().bind('change', this.render, this);
 	},
 
 	render: function() {
 		var self = this;
 
 		if (this.collection.getModel() != undefined) {
-			var tags = {tags:this.collection.model.get('tags')};
+			var tags = {tags:this.collection.getModel().get('tags')};
 			$(this.el).html(
-				Mustache.to_html($('#detail-list-template').html(), this)+
+				Mustache.to_html($('#detail-template').html(), this)+
 				Mustache.to_html($('#footer-template').html(), tags)
 			).find('footer').show();
 
-			var stars = self.model.get('properties').rating;
+			var stars = self.collection.getModel().get('properties').rating;
 			var starMax = 5; 	// TODO fetch it from model
 
-			stars = self.model.get('properties').rating;
+			stars = self.collection.getModel().get('properties').rating;
 			$(self.el).find(".star-me").starMe({
 				'starCount': stars,
 				'starMax' : starMax ,
@@ -44,14 +44,14 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	},
 
 	rating: function(stars) {
-		this.model.save({'properties' : {'rating' : stars}});
+		this.collection.getModel().save({'properties' : {'rating' : stars}});
 	},
 
 	metaHTML: function() {
 		return function(text, render) {
 			var str = '';
 			
-			$.each(this.model.get("meta"), function(key, value) {
+			$.each(this.collection.getModel().get("meta"), function(key, value) {
 				str += '<dt>' + key + '</dt><dd>' + value + '</dd>';
 			});
 			return str;
@@ -61,7 +61,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	propHTML: function() {
 		return function(text, render) {
 			var str = '';
-			$.each(this.model.get("properties"), function(key, value) {
+			$.each(this.collection.getModel().get("properties"), function(key, value) {
 				if(key != 'caption' && key != 'rating') {
 					if(!value) value = '&lt;not set&gt;'
 					str += '<dt class="'+key+'">' + key + '</dt><dd>' + value + '</dd>';

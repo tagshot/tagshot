@@ -1,3 +1,15 @@
+<header>
+	<a id="title" href="/" title="go home">
+		<h1 class="logo">Tagshot.</h1>
+	</a>
+	<div id="search-container" class="textbox-container">
+		<input type="text" id="search-box" class='textbox' />
+		<%= image_tag "loading.gif", :id => 'loading-image' %>
+	</div>
+	<br style="clear: both;" />
+	<button id="show-options">Show/hide more options</button>
+</header>
+<section>
 <div class="imagebox">
 	<img src="{{model.attributes.image}}" alt="{{model.attributes.caption}}" />
 </div>
@@ -15,3 +27,4 @@
         {{#metaHTML}}{{/metaHTML}}
     </dl>
 </div>
+</section>

@@ -22,7 +22,7 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	},
 	getModel: function() {
 		// the main model, meaning the one that may be in the detailed view
-		return undefined;
+		return this.first();
 	},
 	selectAll: function() {
 		_.map(this.models, function(item) { item.select() });

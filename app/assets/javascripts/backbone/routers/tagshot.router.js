@@ -14,6 +14,12 @@ Tagshot.Router = Backbone.Router.extend({
 			data: {limit: 10},
 			append: true
 		});
+
+		//rebind events because bindings are lost beacuse of navigation
+		Tagshot.views.gallery.delegateEventsToSubViews();
+		Tagshot.views.gallery.delegateEvents();
+
+		$(".detail").hide();
 	},
 	search: function(query) {
 		console.log("search: ", query);
@@ -27,6 +33,15 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 	details: function(id) {
 		console.log("details: ", id);
+		Tagshot.collections.photoList.fetch({
+			url:"/photos/"+id,
+			append: true,
+			success: function(){
+				Tagshot.collections.photoList.get({"id":id});
+				Tagshot.views.detail.render();
+			}
+		});
+		$(".gallery").hide();
 	},
 	fallback: function(foo) {
 		console.log("foo: ",foo);
