@@ -1,5 +1,5 @@
 Tagshot.Views.PhotoListView = Backbone.View.extend({
-	tagName:  "ul",
+	tagName:  "div",
 	className: "gallery",
 	events: {
 		"click" : "deselectAll",
@@ -7,17 +7,11 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		"click footer" : "stop"
 	},
 	initialize: function(options) {
-		_.bindAll(this, 'selectAll', 'deselectAll', 'loadMoreImages');
-
-		// make this available in render and append
-		_.bindAll(this);
+		_.bindAll(this, 'selectAll', 'deselectAll', 'loadMoreImages', 'render', 'showFooterIfNeccessary', 'append');
 
 		this.collection.bind('select', this.showFooterIfNeccessary, this);
 		this.collection.bind('deselect', this.showFooterIfNeccessary, this);
 
-		Tagshot.router.bind("route:search", this.search, this);
-
-		//this.collection.bind('refresh', this.render, this);
 		this.collection.bind('reset', this.render, this);
 		this.collection.bind('add', this.append, this);
 
@@ -31,8 +25,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		})
 	},
 	render: function() {
-		this.delegateEvents();
-
 		/*var signature = $.param({
 			query: this.collection.currentSearchQuery
         });
@@ -44,10 +36,11 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		console.log("reset gallery view");
 		var tags = {tags:[]};
 		$(this.el).html(
-				"<span id='fix-gallery' class='ui-helper-clearfix'></span>"+
-				"<button id='more'>load more...</button>"+
-				Mustache.to_html($('#footer-template').html(), tags)
-				);
+			Mustache.to_html($('#searchbar-template').html())+"<div>"+
+			"<span id='fix-gallery' class='ui-helper-clearfix'></span></div>"+
+			"<button id='more'>load more...</button>"+
+			Mustache.to_html($('#footer-template').html(), tags)
+		);
 		this.collection.each(this.append);
 
 		return this;
@@ -70,7 +63,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		view.bind('selectionChanged', this.selectionChanged, this);
 		this.subviews[view.model.id] = view;
 		// insert images before the clearfix thingy
-		$(this.el).children("#fix-gallery").before(view.render().el);
+		$(this.el).find("#fix-gallery").before(view.render().el);
 	},
 	selectAll: function(){
 		this.collection.selectAll();
@@ -106,9 +99,5 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		if(e) {
 			this.stop(e);
 		}
-	},
-	search: function(searchString){
-		// called when navigate
-		this.collection.search(searchString);
 	}
 });

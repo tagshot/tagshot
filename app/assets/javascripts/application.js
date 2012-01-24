@@ -65,7 +65,6 @@ $(function() {
 				cssClassWhenEmpty: 'search-start'
 			});
 
-
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
 				autocompleteListPosition: 'above',
@@ -78,7 +77,6 @@ $(function() {
 			});
 		},
 	});
-
 
 	$("#show-options").click(function() {
 		$("#options-container").slideToggle(300);

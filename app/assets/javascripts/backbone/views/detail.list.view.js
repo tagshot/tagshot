@@ -20,30 +20,30 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		//this.model.bind('change', this.render, this);
 	},
 
-	render: function(model) {
+	render: function() {
 		var self = this;
 
-		this.model = model;
-		var tags = {tags:this.model.get('tags')};
-		$(this.el).html(
-			Mustache.to_html($('#detail-list-template').html(), this)+
-			Mustache.to_html($('#footer-template').html(), tags)
-        ).find('footer').show();
+		if (this.collection.getModel() != undefined) {
+			var tags = {tags:this.collection.model.get('tags')};
+			$(this.el).html(
+				Mustache.to_html($('#detail-list-template').html(), this)+
+				Mustache.to_html($('#footer-template').html(), tags)
+			).find('footer').show();
 
-		var stars = self.model.get('properties').rating;
-		var starMax = 5; 	// TODO fetch it from model
+			var stars = self.model.get('properties').rating;
+			var starMax = 5; 	// TODO fetch it from model
 
-		stars = self.model.get('properties').rating;
-		$(self.el).find(".star-me").starMe({
-			'starCount': stars,
-			'starMax' : starMax ,
-			'ratingFunc': self.rating
-		});
-
+			stars = self.model.get('properties').rating;
+			$(self.el).find(".star-me").starMe({
+				'starCount': stars,
+				'starMax' : starMax ,
+				'ratingFunc': self.rating
+			});
+		}
 		return self;
 	},
 
-rating: function(stars) {
+	rating: function(stars) {
 		this.model.save({'properties' : {'rating' : stars}});
 	},
 
@@ -72,7 +72,6 @@ rating: function(stars) {
 	},
 
 	updateTags: function(e) {
-		console.log("Update tags and send it to backend");
 		var tags = $("#tag-box").val().split(" ")
 		this.model.save({'tags': tags});
 	},

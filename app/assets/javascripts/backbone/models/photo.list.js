@@ -1,20 +1,16 @@
-/* This model describes…
- *
- *
+/* 
+ * This model describes…
  */
 
 
-Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
+Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	model: Tagshot.Models.Photo,
 	fetching: false,
 	// needed for infinite scrolling
 	reachedEnd: false,
-	url: function() {
-		return this.base_url;
-	},
+	url: "/photos",
 	// for infinite scrolling
 	currentOffset: 0,
-	base_url: "/photos",
 	currentSearchQuery: "",
 	intialize: function() {
 		_.bindAll(this, 'selectAll', 'deselectAll', 'url', 'appendingFetch', 'parse', 'search');
@@ -23,6 +19,10 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 	// return the current selection
 	selection: function() {
 		return this.filter(function(photo){ return photo.selected });
+	},
+	getModel: function() {
+		// the main model, meaning the one that may be in the detailed view
+		return undefined;
 	},
 	selectAll: function() {
 		_.map(this.models, function(item) { item.select() });
@@ -48,6 +48,7 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 		if (!this.fetching && !this.reachedEnd) {
 			this.fetching = true;
 
+			// TODO ansehen
 			options.success = function(e) {
 				self.fetching = false;
 			}
@@ -61,13 +62,13 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 			this.fetch(options);
 		}
 	},
-	parse : function(resp, xhr) {
+	/*parse : function(resp, xhr) {
 		if (resp.length == 0) {
 			//no response, probably reached end
 			this.reachedEnd = true;
 		}
 		return resp;
-    },
+    },*/
 	comparator: function(photo) {
 		return photo.order();
 	},
@@ -77,7 +78,7 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 		this.fetch({
 			add: false, //not appending
 			data: {
-				limit: 10,
+				limit: 20,
 				q: searchString
 			}
 		});
