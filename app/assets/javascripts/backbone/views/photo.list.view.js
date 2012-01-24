@@ -34,7 +34,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	render: function() {
 		var signature = $.param({
 			query: this.collection.currentSearchQuery,
-			legth: this.collection.legth
+			legth: this.collection.length
         });
 
 		if (this.signature === signature) return this;
@@ -43,7 +43,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		this.signature = signature;
 		
-		console.log("reset gallery view");
 		var tags = {tags:[]};
 		$(this.el).html(
 			Mustache.to_html($('#searchbar-template').html())+"<ul>"+
