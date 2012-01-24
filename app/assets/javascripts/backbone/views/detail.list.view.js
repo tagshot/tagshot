@@ -1,19 +1,25 @@
-//=require jquery.raty.js
-//=require tags
+/* This view is utilized to display a huge single photo with its tags and metadata
+ *
+ */
+
+//=require starMe
 
 Tagshot.Views.DetailListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "detail",
+
 	events: {
-		"click footer" : "stop"
+		"click footer" : "stop",
+		"change footer #tag-box": "updateTags"
 	},
+
 	initialize: function(options) {
-		_.bindAll(this, "render", "propHTML", "metaHTML");
+		_.bindAll(this, "render", "propHTML", "metaHTML", "rating");
 
 		console.log(options);
-
 		//this.model.bind('change', this.render, this);
 	},
+
 	render: function(model) {
 		var self = this;
 
@@ -24,38 +30,23 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			Mustache.to_html($('#footer-template').html(), tags)
         ).find('footer').show();
 
-		$(this.el).find(".star-me").raty({click:self.rate});
+		var stars = self.model.get('properties').rating;
+		var starMax = 5; 	// TODO fetch it from model
 
-		return this;
+		stars = self.model.get('properties').rating;
+		$(self.el).find(".star-me").starMe({
+			'starCount': stars,
+			'starMax' : starMax ,
+			'ratingFunc': self.rating
+		});
+
+		return self;
 	},
-	rate: function(x){
-		console.log(x);
+
+rating: function(stars) {
+		this.model.save({'properties' : {'rating' : stars}});
 	},
-	starHTML: function(){
-		return function(text, render) {
-			/*var stars = render(text).split("/");
-			var blacks = parseInt(stars[0]);
-			var whites = parseInt(stars[1]) - blacks;*/
-			var blacks = this.model.get("properties")['rating'] || 0;
-			// var whites = this.model.get("stars").stars.of - blacks;
-			var whites = 5 - blacks;
-			var blackstar = "<a href='#'>&#9733;</a>";
-			var whitestar = "<a href='#'>&#9734;</a>";
 
-			var buildString = function(star, count) {
-				starString = "";
-				for(var i=0; i<count; i++) {
-					starString = starString + " " + star;
-				};
-				return starString;
-			};
-
-			var blackstars = buildString(blackstar, blacks);
-			var whitestars = buildString(whitestar, whites);
-
-			return blackstars+whitestars;
-		}
-	},
 	metaHTML: function() {
 		return function(text, render) {
 			var str = '';
@@ -66,6 +57,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			return str;
 		};
 	},
+
 	propHTML: function() {
 		return function(text, render) {
 			var str = '';
@@ -78,6 +70,13 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			return str;
 		};
 	},
+
+	updateTags: function(e) {
+		console.log("Update tags and send it to backend");
+		var tags = $("#tag-box").val().split(" ")
+		this.model.save({'tags': tags});
+	},
+
 	stop: function(e) {
 		//avoid event propagation
 		e.stopPropagation();

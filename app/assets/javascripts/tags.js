@@ -1,15 +1,8 @@
-//
-// For Willi: Former tags.js is now tagsAutocompletion.js
-//
-
-
-
 Tagshot.updateTags = function (tagList) {
 	console.log("Update tags and send it to backend");
 	Tagshot.collections.photoList.selection().forEach(function (model) {
-		alert("neu: " + tagList);
-		alert("alt: " + model.get('tags'));
-		model.save({'tags': tagList});
+		// use slice(0) to get a copy of tagList
+		model.set({'tags': tagList.slice(0)});
 	});
 	/*
 	Tagshot.views.forEach(function (view) {

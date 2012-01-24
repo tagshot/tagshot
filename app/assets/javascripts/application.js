@@ -20,6 +20,8 @@
 //= require tags
 //= require tagsAutocompletion
 //= require search
+//= require jquery.fancybox-1.3.4
+
 
 var uiSettings = {
 	searchBoxText: 'Just start searching…'
@@ -69,6 +71,10 @@ $(function() {
 				autocompleteListPosition: 'above',
 				onTagAdded: Tagshot.updateTags,
 				onTagRemoved: Tagshot.updateTags
+			}).blur(function () {
+				Tagshot.collections.photoList.selection().forEach(function (model) {
+					model.save();
+				});
 			});
 		},
 	});
@@ -88,6 +94,6 @@ $(function() {
 		slide: resizeImages,
 		change: resizeImages
 	});
-	
+
 	hideElements();
 });

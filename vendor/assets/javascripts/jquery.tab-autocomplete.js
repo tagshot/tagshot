@@ -129,18 +129,18 @@
 				},
 				addTag: function () {
 					var that = this;
+					this.updateTags();
 					// if only tags are accepted and no entry is selected, abort
 					if (this.selectedEntry === null && settings.autoSelect)
 						return;
 					// if we have no selected entry, and this is allowed, just take textbox-value
 					if (this.selectedEntry === null && settings.autoSelect === false)
 						this.selectedEntry = this.$input.val();
-					if (this.selectedEntry === '')
+					if (this.selectedEntry === '' || this.tags.indexOf(this.selectedEntry) !== -1)
 						return;
 					this.tags.push(this.selectedEntry);
 					// apply postprocessing as specified by parameters
 					this.doPostProcessing(this.selectedEntry);
-					settings.onTagAdded(this.tags, this.selectedEntry);
 					this.$input.val('').parent().before('<li class="tag"><span>' + this.selectedEntry + '</span><a></a></li>');
 					this.$tagList.find('li a').last().click(function () {
 						$(this).parent().addClass('tagautocomplete-to-be-removed');
@@ -151,14 +151,21 @@
 					this.displayAutocompletionList();
 					this.updateAutocompletionListPosition();
 					this.input.focus();
+					settings.onTagAdded(this.tags.slice(0), this.selectedEntry);
 				},
 				removeTag: function () {
+					this.updateTags();
 					p.tags.pop();
-					settings.onTagRemoved(this.tags);
 					p.$tagList.children('.tagautocomplete-to-be-removed').remove();
 					p.removeTagOnNextBackspace = false;
 					p.updateAutocompletionListPosition();
 					p.input.focus();
+					settings.onTagRemoved(this.tags.slice(0));
+				},
+				updateTags: function () {
+					var updatedTags = [];
+					this.$tagList.find('li.tag').each(function() { updatedTags.push($(this).text()) });
+					this.tags = updatedTags;
 				},
 				doPostProcessing: function (entry) {
 					for (var i = 0; i < settings.postProcessors.length; i++) {

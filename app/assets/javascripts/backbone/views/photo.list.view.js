@@ -10,7 +10,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		_.bindAll(this, 'selectAll', 'deselectAll', 'loadMoreImages');
 
 		// make this available in render and append
-		_.bindAll(this, 'render', 'append');
+		_.bindAll(this);
 
 		this.collection.bind('select', this.showFooterIfNeccessary, this);
 		this.collection.bind('deselect', this.showFooterIfNeccessary, this);
@@ -45,7 +45,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	showFooterIfNeccessary: function() {
 		var self = this;
 		var footer = $('footer');
-		//console.log(this.collection.selection().length);
 		if (this.collection.selection().length > 0) {
 			footer.stop(true,true).slideDown(400);
 		} else {
@@ -58,16 +57,27 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 	append: function(photo) {
 		var view = new Tagshot.Views.PhotoView({model: photo});
+		view.bind('selectionChanged', this.selectionChanged, this);
 		this.subviews[view.model.id] = view;
 		// insert images before the clearfix thingy
 		$(this.el).children("#fix-gallery").before(view.render().el);
 	},
 	selectAll: function(){
-		console.log("select all");
 		this.collection.selectAll();
 	},
 	deselectAll: function(e){
 		this.collection.deselectAll();
+	},
+	selectionChanged: function(e) {
+		$("footer .tag").remove();
+		var selection = this.collection.selection();
+		var attributes = _.pluck(selection,"attributes");
+		var tags = _.pluck(attributes, "tags");
+		var intersect = _.intersection.apply(_, tags);
+		var list = _.reduce(intersect, function (prev, tag) {
+			return prev + "<li class='tag'>" + tag + '<a></a></li>';
+		}, "");
+		$("footer .textbox").prepend(list);
 	},
 	stop: function(e) {  
 		//avoid event propagation

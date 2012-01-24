@@ -7,6 +7,7 @@ class Photo < ActiveRecord::Base
   meta_property :location, 'Xmp.iptc.Location', 'Iptc.Application2.LocationName'
 
   belongs_to :source
+  has_one :photo_data
 
 
   validates_presence_of :file, :size

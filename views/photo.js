@@ -60,31 +60,6 @@ App.views.PhotoView = Backbone.View.extend({
 				resizeImages();
 				return this;
 		},
-		starHTML: function(){
-			return function(text, render) {
-				/*var stars = render(text).split("/");
-				var blacks = parseInt(stars[0]);
-				var whites = parseInt(stars[1]) - blacks;*/
-				var blacks = this.model.get("iptc").stars.nr;
-				var whites = this.model.get("iptc").stars.of - blacks;
-
-				var blackstar = "<a href='#'>&#9733;</a>";
-				var whitestar = "<a href='#'>&#9734;</a>";
-
-				var buildString = function(star, count) {
-					starString = "";
-					for(var i=0; i<count; i++) {
-						starString = starString + " " + star;
-					};
-					return starString;
-				};
-
-				var blackstars = buildString(blackstar, blacks);
-				var whitestars = buildString(whitestar, whites);
-
-				return blackstars+whitestars;
-			}
-		},
 		isSelected: function() {
         	return this.model.get("selected");
     	},

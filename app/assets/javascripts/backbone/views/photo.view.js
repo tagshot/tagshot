@@ -5,20 +5,24 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	className: "image-view",
 	events: {
 		"click" : "click",
+		"click .star-me>a" : "stop",
 		"dblclick" : "openDetails",
+		"keydown[space]" : "quickview",
 		"keydown[return]" : "openDetails",
 		"keydown[left]" : "gotoPrevious",
 		"keydown[right]" : "gotoNext",
 		"keydown[tab]" : "gotoNext"
 	},
 	initialize : function() {
-		_.bindAll(this, 'openDetails', 'click', 'select', 'deselect', 'gotoNext', 'gotoPrevious');
+		_.bindAll(this, 'openDetails', 'click', 'select', 'deselect', 'gotoNext', 'gotoPrevious','quickview', 'rating');
 
 		this.model.bind('change:thumb', this.render, this);
 		this.model.bind('change:tags', this.tagChange, this);
 		this.model.bind('destroy', this.remove, this);
 		this.model.bind('select', this.select, this);
 		this.model.bind('deselect', this.deselect, this);
+
+		this.quickViewVisible = false;
 	},
 	render: function () {
 		// tmpl im index.html
@@ -27,48 +31,56 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		//make resize of images
 		resizeImages();
 
+		var stars = this.model.get('properties').rating;
+		$(this.el).find(".star-me").starMe({'starCount': stars, 'ratingFunc': this.rating});
+
 		//delegate events means rebinding the events
 		this.delegateEvents();
+
 		return this;
 	},
+
+	rating: function(stars) {
+		this.model.save({'properties' : {'rating' : stars}});
+	},
+
 	tagChange: function () {
 		var s = this.model.get("tags").join(", ");
 		$(this.el).find(".tags").html(s);
-		alert("tagchange");
 	},
 	select: function() {
 		$(this.el).children().first().addClass("selected");
+		this.trigger("selectionChanged");
 	},
 	deselect: function() {
 		$(this.el).children().first().removeClass("selected");
-	},
-	starHTML: function(){
-		return function(text, render) {
-		// TODO remove c'n p with detail.list.view.js
-			var blacks = this.model.get("properties")['rating'] || 0;
-			var whites = 5 - blacks;	// Argh, quick fix for runtime errors
-			var blackstar = "<span>&#9733;</span>";
-			var whitestar = "<span>&#9734;</span>";
-
-			var buildString = function(star, count) {
-				starString = "";
-				for(var i=0; i<count; i++) {
-					starString = starString + " " + star;
-				};
-				return starString;
-			};
-
-			var blackstars = buildString(blackstar, blacks);
-			var whitestars = buildString(whitestar, whites);
-
-			return blackstars+whitestars;
-		}
+		this.trigger("selectionChanged");
 	},
 	isSelected: function() {
 		return this.model.selected;
 	},
 	openDetails : function(e) {
 		Tagshot.router.navigate("details/" + this.model.get("id"), true);
+	},
+	quickview: function(e){
+		this.stop(e);
+
+		if (this.quickViewVisible) {
+			$.fancybox.close();
+			this.quickViewVisible = false;
+		} else {
+			this.quickViewVisible = true;
+			$.fancybox({
+				'orig' : $(this.el).find('img'),
+				'href' : $(this.el).find('img').attr('src'),
+				'padding' : 0,
+				'speedIn' :	200,
+				'speedOut' :	200,
+				'title' : this.model.get('tags'),
+				'transitionIn' : 'elastic',
+				'transitionOut' : 'elastic'
+			}); 
+		}
 	},
 	remove: function() {
 		$(this.el).remove();
