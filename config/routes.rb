@@ -14,6 +14,6 @@ Tagshot::Application.routes.draw do
   get 'session/destroy' => 'sessions#destroy'
 
   root :to => 'photos#index'
-  match '/*pushState' => 'photos#index'
+  get '/*pushState' => 'photos#index'
 end
 
