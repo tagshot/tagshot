@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.3'
+gem 'rails', '3.2'
 
 # Choose gem depending on your database
 # Create config/database.yml with required database configuration depending
@@ -15,7 +15,7 @@ gem 'sqlite3'
 
 gem 'jquery-rails'
 gem 'rails-backbone'
-gem 'exiv2', '~> 0.0.6'
+gem 'exiv2'
 gem 'draper'
 gem 'delayed_job'
 gem 'rmagick'
@@ -23,9 +23,9 @@ gem 'rmagick'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.1.4'
-  gem 'coffee-rails', '~> 3.1.1'
-  gem 'uglifier', '>= 1.0.3'
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
   gem 'therubyracer' if RUBY_PLATFORM.downcase.include?("linux")
 end
 gem 'rspec-rails', :group => [:development, :test]
@@ -35,7 +35,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'accept_values_for'
   gem 'guard-rspec'
-  gem 'spork', '> 0.9.0.rc'
+  gem 'spork'
   gem 'guard-spork'
 end
 
