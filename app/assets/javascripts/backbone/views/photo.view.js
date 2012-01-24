@@ -11,19 +11,21 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		"keydown[return]" : "openDetails",
 		"keydown[left]" : "gotoPrevious",
 		"keydown[right]" : "gotoNext",
-		"keydown[tab]" : "gotoNext"
+		"keydown[tab]" : "gotoNext",
+		"keydown[del]": "delete",
 	},
+
 	initialize : function() {
 		_.bindAll(this, 'openDetails', 'click', 'select', 'deselect', 'gotoNext', 'gotoPrevious','quickview', 'rating');
 
 		this.model.bind('change:thumb', this.render, this);
 		this.model.bind('change:tags', this.tagChange, this);
-		this.model.bind('destroy', this.remove, this);
+		this.model.bind('destroy', this._remove, this);
 		this.model.bind('select', this.select, this);
 		this.model.bind('deselect', this.deselect, this);
-
 		this.quickViewVisible = false;
 	},
+
 	render: function () {
 		// tmpl im index.html
 		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
@@ -82,9 +84,29 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			}); 
 		}
 	},
-	remove: function() {
-		$(this.el).remove();
+
+	_remove: function() {
+		//should get called when destroy() was called b.c. of event binding in initialize()
+		debugger;
+		this.remove();	// equivalent to $(this.el).remove()
 	},
+
+	delete: function() {
+		var selected = this.model.collection.selection();
+		var that = this;
+		//this.model.destroy();
+
+		//this.remove();	// works only for one element, not for all selected
+
+		_.each(selected, function(elem){
+				elem.destroy({
+					error: function(model, err) {
+						console.log('DELETE abortet with model:', model, 'Status:', err.status);
+					}
+				});
+		});
+	},
+
 	click: function(e) {
 		this.stop(e);
 		$(this.el).find('.image-frame').focus();
