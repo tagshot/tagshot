@@ -23,15 +23,15 @@ Tagshot.Views.MainView = Backbone.View.extend({
 
 		_.bindAll(this, "showDetails","showGallery");
 		
-		this.currentView = Tagshot.views.gallery;
+		//this.currentView = Tagshot.views.gallery;
 
 		//hook to navigation events
-		Tagshot.router.bind("route:home", this.fetchAndLoadGallery, this);
-		Tagshot.router.bind("route:page", this.showGallery, this);
-		Tagshot.router.bind("route:search", this.showGallery, this);
-		Tagshot.router.bind("route:searchpage", this.showGallery, this);
+		//Tagshot.router.bind("route:home", this.fetchAndLoadGallery, this);
+		//Tagshot.router.bind("route:page", this.showGallery, this);
+		//Tagshot.router.bind("route:search", this.showGallery, this);
+		//Tagshot.router.bind("route:searchpage", this.showGallery, this);
 
-		Tagshot.router.bind("route:details", this.showDetails, this);
+		//Tagshot.router.bind("route:details", this.showDetails, this);
 
 		//navigation with title
 		$('#title').click(function(){
@@ -42,7 +42,7 @@ Tagshot.Views.MainView = Backbone.View.extend({
 		var match = Backbone.history.start({pushState: true, root: "/"});
 		console.log("Match for first url: "+match);
 
-		this.initializing = false;
+		//this.initializing = false;
 	},
 
 	render: function () {

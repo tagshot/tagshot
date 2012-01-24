@@ -25,12 +25,10 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 		return this.filter(function(photo){ return photo.selected });
 	},
 	selectAll: function() {
-		console.log("select all");
 		_.map(this.models, function(item) { item.select() });
 	},
 	deselectAll: function(args) {
 		args || (args = {});
-		console.log("deselect all");
 		_.map(this.models, function(item) { if (item !== args.exclude) item.deselect() });	
 	},
 	selectFromTo: function(from, to) {
@@ -54,7 +52,7 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 				self.fetching = false;
 			}
 
-			options.add = true;
+			options.add = true; 
 			this.currentOffset += add;
 			options.data.offset = this.currentOffset;
 			options.data.limit = add;
@@ -74,6 +72,7 @@ Tagshot.Collections.PhotoList  = Backbone.Collection.extend({
 		return photo.order();
 	},
 	search: function(searchString) {
+		console.log("search for "+searchString);
 		this.currentSearchQuery = searchString;
 		this.fetch({
 			add: false, //not appending
