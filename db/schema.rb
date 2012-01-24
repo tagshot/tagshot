@@ -11,13 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120108151710) do
+ActiveRecord::Schema.define(:version => 20120119155051) do
 
   create_table "auth_sources", :force => true do |t|
     t.string   "type"
     t.integer  "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "delayed_jobs", :force => true do |t|
@@ -29,17 +29,33 @@ ActiveRecord::Schema.define(:version => 20120108151710) do
     t.datetime "locked_at"
     t.datetime "failed_at"
     t.string   "locked_by"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "photo_data", :force => true do |t|
+    t.integer  "photo_id"
+    t.datetime "date"
+    t.string   "owner"
+    t.string   "creator"
+    t.integer  "aperture_denominator",     :limit => 2
+    t.integer  "aperture_numerator",       :limit => 2
+    t.integer  "exposureTime_denominator", :limit => 2
+    t.integer  "exposureTime_numerator",   :limit => 2
+    t.string   "lens"
+    t.integer  "isoSpeedRating"
+    t.string   "exposureMode"
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+  end
+
   create_table "photos", :force => true do |t|
     t.string   "file"
     t.integer  "size"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.integer  "source_id"
     t.datetime "last_sync_at"
     t.datetime "file_mtime"
@@ -64,8 +80,8 @@ ActiveRecord::Schema.define(:version => 20120108151710) do
   create_table "sources", :force => true do |t|
     t.string   "path"
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "tags", :force => true do |t|
@@ -80,8 +96,8 @@ ActiveRecord::Schema.define(:version => 20120108151710) do
     t.integer  "auth_source_id"
     t.boolean  "admin",          :default => false
     t.string   "type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
 end

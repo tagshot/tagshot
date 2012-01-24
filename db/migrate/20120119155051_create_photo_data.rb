@@ -8,7 +8,7 @@ class CreatePhotoData < ActiveRecord::Migration
       t.integer  :aperture_denominator, :limit => 2
       t.integer  :aperture_numerator, :limit => 2
       t.integer  :exposureTime_denominator, :limit => 2
-      t.interger :exposureTime_numerator, :limit => 2
+      t.integer  :exposureTime_numerator, :limit => 2
       t.string   :lens
       t.integer  :isoSpeedRating
       t.string   :exposureMode
