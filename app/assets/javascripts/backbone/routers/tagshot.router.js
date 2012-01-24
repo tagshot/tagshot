@@ -8,6 +8,7 @@ Tagshot.Router = Backbone.Router.extend({
 		"details/:id":				"details",
 		"*foo":						"fallback"
 	},
+
 	home: function() {
 		console.log("home");
 		Tagshot.collections.photoList.fetch({
@@ -19,8 +20,14 @@ Tagshot.Router = Backbone.Router.extend({
 		Tagshot.views.gallery.delegateEventsToSubViews();
 		Tagshot.views.gallery.delegateEvents();
 
-		$(".detail").hide();
+		$("#gallery").show();
+		$("#detail").hide();
+
+		// set focus to search bar
+		$('#search-box').focus();
+
 	},
+
 	search: function(query) {
 		console.log("search: ", query);
 		Tagshot.collections.photoList.search(query);
@@ -33,15 +40,24 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 	details: function(id) {
 		console.log("details: ", id);
-		Tagshot.collections.photoList.fetch({
-			url:"/photos/"+id,
-			append: true,
-			success: function(){
-				Tagshot.collections.photoList.get({"id":id});
-				Tagshot.views.detail.render();
-			}
-		});
-		$(".gallery").hide();
+		if (Tagshot.collections.photoList.get({"id":id}) === undefined) {
+			Tagshot.collections.photoList.fetch({
+				url:"/photos/"+id,
+				append: true,
+				success: function(){
+					Tagshot.collections.photoList.mainModel = Tagshot.collections.photoList.get({"id": id});
+					Tagshot.views.detail.render();
+				}
+			});
+		} else {
+			Tagshot.views.detail.render();
+		}
+		$("#detail").show();
+		$("#gallery").hide();
+
+		//fix for crappy webkit that can't change 
+		//dispay of elements that are not in the dom
+		//$('footer:first').show();
 	},
 	fallback: function(foo) {
 		console.log("foo: ",foo);

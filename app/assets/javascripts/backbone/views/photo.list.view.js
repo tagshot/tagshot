@@ -1,19 +1,26 @@
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "gallery",
+	id: "gallery",
+
 	events: {
 		"click" : "deselectAll",
 		"click #more" : "loadMoreImages",
-		"click footer" : "stop"
+		"click footer" : "stop",
+		"keydown[ctrl+a]" : "selectAll",
+		"keydown[meta+a]" : "selectAll"
 	},
 	initialize: function(options) {
-		_.bindAll(this, 'selectAll', 'deselectAll', 'loadMoreImages', 'render', 'showFooterIfNeccessary', 'append');
+		var self  = this;
+		_.bindAll(this);
 
 		this.collection.bind('select', this.showFooterIfNeccessary, this);
 		this.collection.bind('deselect', this.showFooterIfNeccessary, this);
 
 		this.collection.bind('reset', this.render, this);
 		this.collection.bind('add', this.append, this);
+
+		$(document).bind('scroll',this.scrolling);
 
 		//subviews
 		this.subviews = {};
@@ -25,14 +32,17 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		})
 	},
 	render: function() {
-		/*var signature = $.param({
-			query: this.collection.currentSearchQuery
+		var signature = $.param({
+			query: this.collection.currentSearchQuery,
+			legth: this.collection.legth
         });
 
 		if (this.signature === signature) return this;
 
-		this.signature = signature;*/
+		console.log("signature change: " + this.signature + " -> " + signature);
 
+		this.signature = signature;
+		
 		console.log("reset gallery view");
 		var tags = {tags:[]};
 		$(this.el).html(
@@ -86,9 +96,19 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		//avoid event propagation
 		e.stopPropagation();
 	},
-	loadMoreImages: function(e) {
-		// scrolling event by main view
 
+	// scrolling or resizing
+	scrolling: function(){
+		// do infinite scrolling
+		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
+		if (pixelsFromWindowBottom < 200 && $(this.el).is(':visible')) {
+			var maxNumberOfImagesBeforeNoAutomaticFetch = 200;
+			if (this.collection.length < maxNumberOfImagesBeforeNoAutomaticFetch){
+				this.loadMoreImages();
+			}
+		}
+	},
+	loadMoreImages: function(e) {
 		var imagesToFetch = 10;
 		this.collection.appendingFetch(imagesToFetch);
 

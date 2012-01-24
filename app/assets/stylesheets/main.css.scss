@@ -265,12 +265,12 @@ div#thumbnail-size-slider {
 /* Gallery */
 /***********************************/
 
-.gallery {
+#gallery {
 	/*background: url(); */
 }
 
 /* former li.image-view button */
-.gallery .image-frame {
+#gallery .image-frame {
 	display: block;
 	background: white;
 	float: left;
@@ -283,19 +283,19 @@ div#thumbnail-size-slider {
 	position: relative;
 	-webkit-user-select: none;
 }
-.gallery .image-frame:hover:not(.selected):not(:focus) {
+#gallery .image-frame:hover:not(.selected):not(:focus) {
 	box-shadow: 4px 4px 16px #222;
 	outline: none;
 }
-.gallery .image-frame.selected:not(:focus) {
+#gallery .image-frame.selected:not(:focus) {
 	box-shadow: 0 0 5px 5px red;
 	outline: none;
 }
 
-.gallery .image-frame:focus {
+#gallery .image-frame:focus {
 	box-shadow: 0 0 5px 5px orange;
 }
-.gallery div.image {
+#gallery div.image {
 	overflow: hidden;
 	margin: 2px auto;
 	position: relative;
@@ -305,22 +305,22 @@ div#thumbnail-size-slider {
 	min-height: 40px;
 	max-height: 500px;
 }
-.gallery img {
+#gallery img {
 	max-width: 100%;
 	max-height: 100%;
 }
-.gallery .image-frame div.more_infos {
+#gallery .image-frame div.more_infos {
 	background-color: rgba(0, 0, 0, 0.8);
 	color: white;
 	margin: 0 2px 4px 2px;
 	padding-bottom: 2px; 
 }
-.gallery .image-frame div.star-me {
+#gallery .image-frame div.star-me {
 	text-align: center;
 	font-size: 1.7em;
 }
 
-.gallery .image-frame:hover div.star-me {
+#gallery .image-frame:hover div.star-me {
 	display: block;
 }
 .star-me span{
@@ -378,7 +378,7 @@ div#trash-container {
 /* Detailed image view
 /***********************************/
 
-.detail {
+#detail > section {
 	align: center;
 	position: absolute;
 	top: 60px; bottom: 60px;
@@ -386,18 +386,18 @@ div#trash-container {
 	padding: 10px 440px 10px 10px;
 }
 
-.detail h2 {
+#detail > section h2 {
 	font-size: 1.1em;
 	padding: 9px 0 6px;
 	font-weight: normal;
 }
 
-.detail .imagebox {
+#detail > section .imagebox {
 	height: 100%;
 	text-align: center;
 }
 
-.detail .imagebox img {
+#detail > section .imagebox img {
 	max-width: 100%;
 	max-height: 100%;
 	margin: auto;
@@ -406,7 +406,7 @@ div#trash-container {
 	padding: 1px;
 }
 
-.detail .propbox {
+#detail > section .propbox {
 	padding: 0 14px;
 	position: absolute;
 	top: 0; bottom: 0;
@@ -418,12 +418,12 @@ div#trash-container {
 	overflow: auto;
 }
 
-.detail .propbox dl {
+#detail > section .propbox dl {
 	// padding-left: 90px;
 	margin-bottom: 10px;
 }
 
-.detail .propbox dt {
+#detail > section .propbox dt {
 	font-size: 0.65em;
 	color: #888;
 	// width: 85px;
@@ -431,7 +431,7 @@ div#trash-container {
 	// margin: 2px 0 0 -90px;
 }
 
-.detail .propbox dd {
+#detail > section .propbox dd {
 	// height: 22px;
 	margin: 0 0 2px 30px;
 	font-size: 0.85em;

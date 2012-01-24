@@ -14,7 +14,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		"keydown[tab]" : "gotoNext"
 	},
 	initialize : function() {
-		_.bindAll(this, 'openDetails', 'click', 'select', 'deselect', 'gotoNext', 'gotoPrevious','quickview', 'rating');
+		_.bindAll(this);
 
 		this.model.bind('change:thumb', this.render, this);
 		this.model.bind('change:tags', this.tagChange, this);
@@ -28,14 +28,17 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		//delegate events means rebinding the events
 		this.delegateEvents();
 
-		/*var signature = $.param({
+		var signature = $.param({
+			id: this.model.id,
 			caption: this.model.get('caption'),
 			tags: this.model.get('tags')
 		});
 
 		if (this.signature === signature) return this;
 
-		this.signature = signature;*/
+		console.log("signature change: " + this.signature + " -> " + signature);
+
+		this.signature = signature;
 
 		// tmpl im index.html
 		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
@@ -98,6 +101,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		$(this.el).remove();
 	},
 	click: function(e) {
+		this.model.collection.mainModel = this.model;
+
 		this.stop(e);
 		$(this.el).find('.image-frame').focus();
 		if (e.shiftKey) {

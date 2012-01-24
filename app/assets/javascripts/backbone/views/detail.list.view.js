@@ -7,6 +7,7 @@
 Tagshot.Views.DetailListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "detail",
+	id: "detail",
 
 	events: {
 		"click footer" : "stop",
@@ -17,41 +18,45 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		_.bindAll(this, "render", "propHTML", "metaHTML", "rating");
 
 		console.log(options);
-		//this.collection.getModel().bind('change', this.render, this);
+		//this.collection.getMainModel().bind('change', this.render, this);
 	},
 
 	render: function() {
 		var self = this;
 
-		if (this.collection.getModel() != undefined) {
-			var tags = {tags:this.collection.getModel().get('tags')};
+		if (this.collection.getMainModel() != undefined) {
+			var tags = {tags:this.collection.getMainModel().get('tags')};
+			this.model = this.collection.getMainModel();
+
 			$(this.el).html(
 				Mustache.to_html($('#detail-template').html(), this)+
 				Mustache.to_html($('#footer-template').html(), tags)
 			).find('footer').show();
 
-			var stars = self.collection.getModel().get('properties').rating;
+			var stars = self.collection.getMainModel().get('properties').rating;
 			var starMax = 5; 	// TODO fetch it from model
 
-			stars = self.collection.getModel().get('properties').rating;
+			stars = self.collection.getMainModel().get('properties').rating;
 			$(self.el).find(".star-me").starMe({
 				'starCount': stars,
 				'starMax' : starMax ,
 				'ratingFunc': self.rating
 			});
+		} else {
+			$(this.el).html("not found");
 		}
 		return self;
 	},
 
 	rating: function(stars) {
-		this.collection.getModel().save({'properties' : {'rating' : stars}});
+		this.collection.getMainModel().save({'properties' : {'rating' : stars}});
 	},
 
 	metaHTML: function() {
 		return function(text, render) {
 			var str = '';
 			
-			$.each(this.collection.getModel().get("meta"), function(key, value) {
+			$.each(this.collection.getMainModel().get("meta"), function(key, value) {
 				str += '<dt>' + key + '</dt><dd>' + value + '</dd>';
 			});
 			return str;
@@ -61,7 +66,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	propHTML: function() {
 		return function(text, render) {
 			var str = '';
-			$.each(this.collection.getModel().get("properties"), function(key, value) {
+			$.each(this.collection.getMainModel().get("properties"), function(key, value) {
 				if(key != 'caption' && key != 'rating') {
 					if(!value) value = '&lt;not set&gt;'
 					str += '<dt class="'+key+'">' + key + '</dt><dd>' + value + '</dd>';
