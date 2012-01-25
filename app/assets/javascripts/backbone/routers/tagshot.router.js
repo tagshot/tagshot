@@ -24,8 +24,8 @@ Tagshot.Router = Backbone.Router.extend({
 		});
 
 		//rebind events because bindings are lost because of navigation
-		Tagshot.views.gallery.delegateEventsToSubViews();
-		Tagshot.views.gallery.delegateEvents();
+		//Tagshot.views.gallery.delegateEventsToSubViews();
+		//Tagshot.views.gallery.delegateEvents();
 
 		$("#gallery").show();
 		$("#detail").hide();
@@ -69,7 +69,7 @@ Tagshot.Router = Backbone.Router.extend({
 		$("#detail").show();
 		$("#gallery").hide();
 
-		Tagshot.views.detail.delegateEvents();
+		//Tagshot.views.detail.delegateEvents();
 
 		//fix for crappy webkit that can't change 
 		//dispay of elements that are not in the dom

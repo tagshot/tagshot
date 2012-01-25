@@ -5,6 +5,7 @@
 
 Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	model: Tagshot.Models.Photo,
+
 	fetching: false,
 	// needed for infinite scrolling
 	reachedEnd: false,
@@ -12,6 +13,7 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	// for infinite scrolling
 	currentOffset: 0,
 	currentSearchQuery: "",
+	
 	intialize: function() {
 		_.bindAll(this, 'selectAll', 'deselectAll', 'url', 'appendingFetch', 'parse', 'search');
 		_.bind('fetch',console.log);
@@ -62,13 +64,13 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 			this.fetch(options);
 		}
 	},
-	/*parse : function(resp, xhr) {
+	parse : function(resp) {
 		if (resp.length == 0) {
 			//no response, probably reached end
 			this.reachedEnd = true;
 		}
 		return resp;
-    },*/
+    },
 	comparator: function(photo) {
 		return photo.order();
 	},
