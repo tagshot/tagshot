@@ -36,11 +36,9 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 
 		if (this.signature === signature) return this;
 
-		console.log("signature change: " + this.signature + " -> " + signature);
+		//console.log("signature change: " + this.signature + " -> " + signature);
 
 		this.signature = signature;
-
-		console.log("render photo")
 
 		// tmpl im index.html
 		$(this.el).html(Mustache.to_html($('#image-template').html(), this));

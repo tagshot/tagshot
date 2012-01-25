@@ -53,10 +53,12 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	},
 
 	metaHTML: function() {
+		return "";
+		//TODO nutzen
 		return function(text, render) {
 			var str = '';
-			
-			$.each(this.model.get("meta"), function(key, value) {
+			var metadata = this.model.get("meta");
+			$.each(metadata, function(key, value) {
 				str += '<dt>' + key + '</dt><dd>' + value + '</dd>';
 			});
 			return str;

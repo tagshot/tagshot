@@ -61,7 +61,7 @@ Tagshot.Router = Backbone.Router.extend({
 		console.log("details: ", id);
 		var model = Tagshot.collections.photoList.get({"id":id});
 		if (model == undefined) {
-			console.log("not yet defined: "+ id);
+			console.log("model not yet loaded: "+ id);
 			Tagshot.collections.photoList.fetch({
 				url:"/photos/"+id,
 				append: true,
@@ -70,10 +70,10 @@ Tagshot.Router = Backbone.Router.extend({
 				}
 			});
 			return;
-		} else {
-			//Tagshot.views.detail = new Tagshot.Views.DetailListView({'model': model});
-			Tagshot.views.detail.render(model);
 		}
+		
+		//Tagshot.views.detail = new Tagshot.Views.DetailListView({'model': model});
+		Tagshot.views.detail.render(model);
 		
 		$("#backbone-detail-view").show();
 		$("#backbone-gallery-view").hide();
