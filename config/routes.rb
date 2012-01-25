@@ -1,6 +1,8 @@
 Tagshot::Application.routes.draw do
 
-  resources :photos, :only => [:index, :update, :show]
+  resources :photos, :only => [:index, :update, :show] do
+    resources :properties, :only => [:index]
+  end
   get 'photos/thumb/:id(.:format)' => 'photos#thumb', :as => :thumb
   get 'photos/:id/download/:width(/:height)(/:crop)/:name.:format' => 'photos#download', :as => :download_photo,
         :constraints => {

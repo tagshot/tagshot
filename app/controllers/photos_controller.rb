@@ -16,7 +16,7 @@ class PhotosController < ApplicationController
     end
     
     # force fetch
-    @photos.all(:include => [:tags, :properties])
+    @photos.all(:include => [:tags])
 
     respond_to do |format|
       format.html
