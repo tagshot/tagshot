@@ -4,11 +4,19 @@ FactoryGirl.define do
   
   factory :photo do
     association :source
+    association :photo_data
     
     file Rails.root.join(*%w[spec resources image.jpg])
     last_sync_at { Time.zone.now }
     file_mtime   { Time.zone.now - 2.minutes }
     size 1024*1024*5
+  end
+
+  factory :photo_data do
+    date { Time.zone.now }
+    caption 'Caption'
+    description 'Description'
+    location 'Here'
   end
   
   factory :photo_with_tags, :parent => :photo do

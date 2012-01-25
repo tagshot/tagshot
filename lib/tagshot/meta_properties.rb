@@ -7,6 +7,7 @@ module Tagshot
       def meta_property(name, *attrs)
         return nil unless attrs.any?
         before_save :save_meta_properties
+        after_initialize :setup_meta_defaults
 
         options = attrs.extract_options!
         meta_properties[name.to_sym] = {
@@ -29,6 +30,8 @@ module Tagshot
     module InstanceMethods
 
       def save_meta_properties
+        return unless self.photo # ensure we've a photo association
+
         # remove all properties that will be written to avoid doubles
         properties = self.class.meta_properties.map{|name, attrs| attrs[:properties]}.flatten.uniq
         self.photo.properties.where(name: properties).destroy_all
@@ -40,12 +43,15 @@ module Tagshot
             value = options[:default] unless value
             value = value.send options[:process] if options[:process].is_a?(Symbol)
 
+            # puts ">> Save meta property #{name} as #{property} => #{value.inspect}"
             Property.new(photo: self.photo, name: property, value: value)
           end
         end.flatten
       end
 
       def load_meta_properties
+        return unless self.photo # ensure we've a photo association
+
         self.class.meta_properties.each do |name, attrs|
           properties, options = attrs[:properties], attrs[:options]
           value = load_meta_property_from properties, options[:default]
@@ -53,6 +59,14 @@ module Tagshot
           send :"#{name}=", value
         end
         self
+      end
+
+      def setup_meta_defaults
+        self.class.meta_properties.each do |name, attrs|
+          properties, options = attrs[:properties], attrs[:options]
+          value = self.send name
+          send :"#{name}=", attrs[:options][:default] unless value
+        end
       end
 
       private

@@ -156,8 +156,8 @@ describe PhotosController do
           put :update, :format => :json, :id => photo.id, :photo => { :properties => nil }
           response.status.should == 200
           
-          photo.caption.should == nil
-          photo.rating.should == 0
+          photo.photo_data(true).caption.should == 'Caption'
+          photo.photo_data(true).rating.should == 0
         end
         
         it 'should update photo properties' do
@@ -166,9 +166,9 @@ describe PhotosController do
               
           response.status.should == 200
           
-          photo.caption.should == 'Bla'
-          photo.description.should == 'Blub'
-          photo.rating.should == 5
+          photo.photo_data(true).caption.should == 'Bla'
+          photo.photo_data(true).description.should == 'Blub'
+          photo.photo_data(true).rating.should == 5
         end
       end
     end

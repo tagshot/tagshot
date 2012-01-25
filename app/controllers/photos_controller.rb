@@ -42,9 +42,7 @@ class PhotosController < ApplicationController
     if params[:photo].is_a?(Hash) 
       @photo.tags = params[:photo][:tags] if params[:photo][:tags].present?
       if params[:photo][:properties].is_a?(Hash)
-        Photo.meta_property_names.each do |name|
-          @photo.send("#{name}=", params[:photo][:properties][name]) if params[:photo][:properties][name]
-        end
+        @photo.data.update_attributes!(params[:photo][:properties])
       end
     end
 

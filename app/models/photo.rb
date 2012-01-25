@@ -5,8 +5,6 @@ class Photo < ActiveRecord::Base
   validates_presence_of :file, :size
   validates_uniqueness_of :file, :scope => :source_id
 
-  after_initialize :build_missing_photo_data
-
   has_many :properties do
     def to_hash
       hash = {}
@@ -66,12 +64,12 @@ class Photo < ActiveRecord::Base
   end
 
   def file=(file); write_attribute(:file, file.to_s.strip) end
-  def file; read_attribute(:file).strip end
+  def file; read_attribute(:file).try :strip end
 
-  def build_missing_photo_data
-    return if self.photo_data
-
-    PhotoData.new(photo: self).load_meta_properties.save!
+  def data
+    data = self.photo_data || PhotoData.new(photo_id: id)
+    data.load_meta_properties.save! if data.new_record?
+    data
   end
 
   def extname
