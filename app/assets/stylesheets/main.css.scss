@@ -438,7 +438,10 @@ div#trash-container {
 	color: #fff;
 }
 
-.star-me {
+.star-me > a {
 	color: #fff;
 	text-decoration: none;
+}
+.star-me {
+	cursor: pointer;
 }

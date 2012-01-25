@@ -20,7 +20,10 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.collection.bind('reset', this.render, this);
 		this.collection.bind('add', this.append, this);
 
+		_.extend(this.el,Backbone.Events);
+
 		$(document).bind('scroll',this.scrolling);
+		$(document).bind('keydown',function(evt){ self.el.trigger('keydown',evt.data);});
 
 		//subviews
 		this.subviews = {};
