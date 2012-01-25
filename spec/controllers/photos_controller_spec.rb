@@ -151,6 +151,25 @@ describe PhotosController do
           response.status.should == 200
           photo.tag_names.should == ['abc', 'cde', 'efg', 'hij']
         end
+        
+        it 'should not update properties if nil given' do
+          put :update, :format => :json, :id => photo.id, :photo => { :properties => nil }
+          response.status.should == 200
+          
+          photo.caption.should == nil
+          photo.rating.should == 0
+        end
+        
+        it 'should update photo properties' do
+          put :update, :format => :json, :id => photo.id, :photo => 
+              { :properties => {:caption => 'Bla', :description => 'Blub', :rating => 5}}
+              
+          response.status.should == 200
+          
+          photo.caption.should == 'Bla'
+          photo.description.should == 'Blub'
+          photo.rating.should == 5
+        end
       end
     end
   end
