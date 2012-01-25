@@ -7,6 +7,7 @@
 Tagshot.Views.DetailListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "detail",
+	id: "detail",
 
 	events: {
 		"click footer" : "stop",
@@ -17,41 +18,45 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		_.bindAll(this, "render", "propHTML", "metaHTML", "rating");
 
 		console.log(options);
-		//this.model.bind('change', this.render, this);
+		//this.collection.getMainModel().bind('change', this.render, this);
 	},
 
-	render: function(model) {
+	render: function() {
 		var self = this;
 
-		this.model = model;
-		var tags = {tags:this.model.get('tags')};
-		$(this.el).html(
-			Mustache.to_html($('#detail-list-template').html(), this)+
-			Mustache.to_html($('#footer-template').html(), tags)
-        ).find('footer').show();
+		if (this.collection.getMainModel() != undefined) {
+			var tags = {tags:this.collection.getMainModel().get('tags')};
+			this.model = this.collection.getMainModel();
 
-		var stars = self.model.get('properties').rating;
-		var starMax = 5; 	// TODO fetch it from model
+			$(this.el).html(
+				Mustache.to_html($('#detail-template').html(), this)+
+				Mustache.to_html($('#footer-template').html(), tags)
+			).find('footer').show();
 
-		stars = self.model.get('properties').rating;
-		$(self.el).find(".star-me").starMe({
-			'starCount': stars,
-			'starMax' : starMax ,
-			'ratingFunc': self.rating
-		});
+			var stars = self.collection.getMainModel().get('properties').rating;
+			var starMax = 5; 	// TODO fetch it from model
 
+			stars = self.collection.getMainModel().get('properties').rating;
+			$(self.el).find(".star-me").starMe({
+				'starCount': stars,
+				'starMax' : starMax ,
+				'ratingFunc': self.rating
+			});
+		} else {
+			$(this.el).html("not found");
+		}
 		return self;
 	},
 
-rating: function(stars) {
-		this.model.save({'properties' : {'rating' : stars}});
+	rating: function(stars) {
+		this.collection.getMainModel().save({'properties' : {'rating' : stars}});
 	},
 
 	metaHTML: function() {
 		return function(text, render) {
 			var str = '';
 			
-			$.each(this.model.get("meta"), function(key, value) {
+			$.each(this.collection.getMainModel().get("meta"), function(key, value) {
 				str += '<dt>' + key + '</dt><dd>' + value + '</dd>';
 			});
 			return str;
@@ -61,7 +66,7 @@ rating: function(stars) {
 	propHTML: function() {
 		return function(text, render) {
 			var str = '';
-			$.each(this.model.get("properties"), function(key, value) {
+			$.each(this.collection.getMainModel().get("properties"), function(key, value) {
 				if(key != 'caption' && key != 'rating') {
 					if(!value) value = '&lt;not set&gt;'
 					str += '<dt class="'+key+'">' + key + '</dt><dd>' + value + '</dd>';
@@ -72,7 +77,6 @@ rating: function(stars) {
 	},
 
 	updateTags: function(e) {
-		console.log("Update tags and send it to backend");
 		var tags = $("#tag-box").val().split(" ")
 		this.model.save({'tags': tags});
 	},

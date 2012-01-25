@@ -64,7 +64,7 @@
 		}
 
 		function buildLink(star, title) {
-			return '<a class = "star" ' + 'href="#" title="' + title + '">' + star + '</a>'
+			return '<span class = "star" ' + 'title="' + title + '">' + star + '</span>'
 		}
 
 		function insertSpace() {
