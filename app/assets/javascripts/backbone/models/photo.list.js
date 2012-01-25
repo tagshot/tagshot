@@ -48,18 +48,24 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		self  = this;
 
 		if (!this.fetching && !this.reachedEnd) {
+			
 			this.fetching = true;
 
-			// TODO ansehen
-			options.success = function(e) {
-				self.fetching = false;
+			var options = {
+				success: function(e) {
+					self.fetching = false;
+				},
+				add: true,
+				data: {
+					offset: this.currentOffset,
+					limit: add,
+					q: self.currentSearchQuery
+				}
 			}
 
-			options.add = true; 
-			this.currentOffset += add;
-			options.data.offset = this.currentOffset;
-			options.data.limit = add;
-			options.data.q = self.currentSearchQuery;
+
+			//this.currentOffset += add;
+			this.currentOffset = this.length + add;
 
 			this.fetch(options);
 		}

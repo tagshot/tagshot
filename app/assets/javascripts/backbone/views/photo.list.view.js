@@ -1,7 +1,7 @@
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "gallery",
-	id: "gallery",
+	id: "backbone-gallery-view",
 
 	events: {
 		"click" : "deselectAll",
@@ -35,7 +35,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		})
 	},
 	render: function() {
-		/*var signature = $.param({
+		var signature = $.param({
 			query: this.collection.currentSearchQuery,
 			length: this.collection.length
         });
@@ -44,7 +44,9 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		console.log("signature change: " + this.signature + " -> " + signature);
 
-		this.signature = signature;*/
+		this.signature = signature;
+
+		console.log("render gallery");
 		
 		var tags = {tags:[]};
 		$(this.el).html(
@@ -53,6 +55,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 			"<button id='more'>load more...</button>"+
 			Mustache.to_html($('#footer-template').html(), tags)
 		);
+		console.log("built");
 		this.collection.each(this.append);
 
 		return this;

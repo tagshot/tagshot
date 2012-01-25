@@ -26,15 +26,15 @@ window.Tagshot = {
 		Tagshot.router = new Tagshot.Router();
 		
 		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
-		Tagshot.views.gallery = new Tagshot.Views.PhotoListView({ collection: Tagshot.collections.photoList });
-		this.views.detail = new Tagshot.Views.DetailListView({ collection: Tagshot.collections.photoList });
-		this.views.ajaxError = new Tagshot.Views.AjaxError();
+		Tagshot.views.gallery = new Tagshot.Views.PhotoListView({ 'collection': Tagshot.collections.photoList });
+		Tagshot.views.detail = new Tagshot.Views.DetailListView({ 'model': undefined });
+		Tagshot.views.ajaxError = new Tagshot.Views.AjaxError();
 
 		$("#backbone-main-view").append(Tagshot.views.gallery.el);
 		$("#backbone-main-view").append(Tagshot.views.detail.el);
 
 		Tagshot.views.gallery.render();
-		Tagshot.views.detail.render();
+		//Tagshot.views.detail.render();
 
 		console.log("Inserted and rendered all views");
 

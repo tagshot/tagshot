@@ -40,6 +40,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 
 		this.signature = signature;
 
+		console.log("render photo")
+
 		// tmpl im index.html
 		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
 
@@ -101,7 +103,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		$(this.el).remove();
 	},
 	click: function(e) {
-		this.model.collection = Tagshot.collections.photoList;
+		//this.model.collection = Tagshot.collections.photoList;
 		this.model.collection.mainModel = this.model;
 
 		this.stop(e);

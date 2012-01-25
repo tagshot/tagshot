@@ -17,7 +17,7 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	home: function(foo) {
-		console.log("home "+foo);
+		console.log("navigate:home "+foo);
 		Tagshot.collections.photoList.fetch({
 			data: {limit: 10},
 			append: true
@@ -27,8 +27,9 @@ Tagshot.Router = Backbone.Router.extend({
 		//Tagshot.views.gallery.delegateEventsToSubViews();
 		//Tagshot.views.gallery.delegateEvents();
 
-		$("#gallery").show();
-		$("#detail").hide();
+		$("#backbone-detail-view").hide();
+		$("#backbone-gallery-view").show();
+
 
 		// set focus to search bar
 		$('#search-box').focus();
@@ -53,23 +54,31 @@ Tagshot.Router = Backbone.Router.extend({
 		console.log("searchpage: "+query+" "+page);
 	},
 	details: function(id) {
+		console.log("navigate:details "+id);
+
+		var self = this;
+
 		console.log("details: ", id);
-		if (Tagshot.collections.photoList.get({"id":id}) === undefined) {
+		var model = Tagshot.collections.photoList.get({"id":id});
+		if (model == undefined) {
+			console.log("not yet defined: "+ id);
 			Tagshot.collections.photoList.fetch({
 				url:"/photos/"+id,
 				append: true,
 				success: function(){
-					Tagshot.collections.photoList.mainModel = Tagshot.collections.photoList.get({"id": id});
-					Tagshot.views.detail.render();
+					self.details(id);
 				}
 			});
+			return;
 		} else {
-			Tagshot.views.detail.render();
+			//Tagshot.views.detail = new Tagshot.Views.DetailListView({'model': model});
+			Tagshot.views.detail.render(model);
 		}
-		$("#detail").show();
-		$("#gallery").hide();
+		
+		$("#backbone-detail-view").show();
+		$("#backbone-gallery-view").hide();
 
-		//Tagshot.views.detail.delegateEvents();
+		Tagshot.views.detail.delegateEvents();
 
 		//fix for crappy webkit that can't change 
 		//dispay of elements that are not in the dom
