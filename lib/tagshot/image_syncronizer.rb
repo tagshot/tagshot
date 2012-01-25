@@ -21,8 +21,8 @@ module Tagshot
     def read!
       # clean up
       Photo.transaction do
-        @photo.tags.delete_all
-        @photo.properties.clear
+        @photo.tags.destroy_all
+        @photo.properties.destroy_all
 
         @image.each do |key,value|
           if key == 'Iptc.Application2.Keywords'
@@ -38,11 +38,12 @@ module Tagshot
             end
           else
            # puts "  Add property #{key} => #{value}"
-            @photo.properties.create :name => key, :value => value
+            Property.create photo: @photo, name: key, value: value
           end
         end
 
         @photo.update_attributes(:last_sync_at => Time.zone.now)
+        @photo.photo_data.load_meta_properties.save
       end
     end
 

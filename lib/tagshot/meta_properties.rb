@@ -1,65 +1,71 @@
 module Tagshot
   module MetaProperties
     module ClassMethods
+      # Defines a new meta property. The meta property must be an attribute of
+      # the model. After there must be a list of properties where the meta
+      # property will be read from and written to.
       def meta_property(name, *attrs)
         return nil unless attrs.any?
-        
-        @meta_property_names ||= []
-        return false if @meta_property_names.include?(name)
-        
-        opts = attrs.last.is_a?(Hash) ? attrs.pop : {}
-        
-        send :define_method, name do
-          meta_property_get(attrs, opts)
-        end
-        
-        send :define_method, "#{name}=" do |value|
-          meta_property_set(attrs, value, opts)
-        end
-        
-        @meta_property_names << name
+        before_save :save_meta_properties
+
+        options = attrs.extract_options!
+        meta_properties[name.to_sym] = {
+          properties: attrs,
+          options: options
+        }
       end
-      
+
+      # Returns all defined meta properties along there property mappings and
+      # options.
+      def meta_properties
+        @meta_properties ||= {}
+      end
+
       def meta_property_names
-        @meta_property_names || []
+        @meta_properties.keys
       end
     end
     
     module InstanceMethods
-      def meta_property_get(attrs, opts)
-        attrs.each do |key|
-          values = self.properties.select{|p|p.name == key}.map(&:value)
-          next if values.empty?
-          
-          values = values.map{|i| meta_convert_value(i, opts)}
-          return values.length == 1 ? values.first : values
-        end
-        opts[:default]
-      end
-      
-      def meta_convert_value(value, opts)
-        return opts[:do].call value if opts[:do].is_a?(Proc)
-        return value.send opts[:do] if opts[:do].is_a?(Symbol)
-        value || opts[:default]
-      rescue
-        value || opts[:default]
-      end
-      
-      def meta_property_set(attrs, value, opts)
-        attrs.each do |key|
-          value = [value] unless value.is_a?(Array)
-          
-          self.properties.where(:name => key).destroy_all
-          
-          value.each do |val|
-            self.properties.create :name => key, :value => val
+
+      def save_meta_properties
+        # remove all properties that will be written to avoid doubles
+        properties = self.class.meta_properties.map{|name, attrs| attrs[:properties]}.flatten.uniq
+        self.photo.properties.where(name: properties).destroy_all
+
+        self.photo.properties + self.class.meta_properties.map do |name, attrs|
+          properties, options = attrs[:properties], attrs[:options]
+          properties.map do |property|
+            value = self.send name
+            value = options[:default] unless value
+            value = value.send options[:process] if options[:process].is_a?(Symbol)
+
+            Property.new(photo: self.photo, name: property, value: value)
           end
+        end.flatten
+      end
+
+      def load_meta_properties
+        self.class.meta_properties.each do |name, attrs|
+          properties, options = attrs[:properties], attrs[:options]
+          value = load_meta_property_from properties, options[:default]
+          value = value.send options[:process] if options[:process].is_a?(Symbol)
+          send :"#{name}=", value
         end
-        self.update_attributes :updated_at => Time.zone.now
+        self
+      end
+
+      private
+      def load_meta_property_from(properties, default)
+        properties.each do |property|
+          value = self.photo.properties.limit(1).where(name: property).first.try :value
+          return value if value
+        end
+        default
       end
     end
-  
-    def self.included(receiver)
+    
+    def self.included(receiver) # :nodoc:
       receiver.extend         ClassMethods
       receiver.send :include, InstanceMethods
     end

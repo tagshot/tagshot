@@ -1,17 +1,11 @@
 class Photo < ActiveRecord::Base
-  include Tagshot::MetaProperties
-
-  meta_property :caption, 'Xmp.dc.title', 'Iptc.Application2.Headline'
-  meta_property :description, 'Xmp.dc.description', 'Iptc.Application2.Caption', 'Exif.Photo.UserComment'
-  meta_property :rating, 'Iptc.Application2.Urgency', :default => 0, :do => :to_i
-  meta_property :location, 'Xmp.iptc.Location', 'Iptc.Application2.LocationName'
-
   belongs_to :source
   has_one :photo_data
 
-
   validates_presence_of :file, :size
   validates_uniqueness_of :file, :scope => :source_id
+
+  after_initialize :build_missing_photo_data
 
   has_many :properties do
     def to_hash
@@ -73,6 +67,12 @@ class Photo < ActiveRecord::Base
 
   def file=(file); write_attribute(:file, file.to_s.strip) end
   def file; read_attribute(:file).strip end
+
+  def build_missing_photo_data
+    return if self.photo_data
+
+    PhotoData.new(photo: self).load_meta_properties.save!
+  end
 
   def extname
     @extname ||= File.extname(file).gsub(/\./, '')

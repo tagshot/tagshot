@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120119155051) do
+ActiveRecord::Schema.define(:version => 20120125201403) do
 
   create_table "auth_sources", :force => true do |t|
     t.string   "type"
@@ -49,6 +49,10 @@ ActiveRecord::Schema.define(:version => 20120119155051) do
     t.string   "exposureMode"
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
+    t.string   "caption"
+    t.integer  "rating"
+    t.string   "location"
+    t.string   "description"
   end
 
   create_table "photos", :force => true do |t|
