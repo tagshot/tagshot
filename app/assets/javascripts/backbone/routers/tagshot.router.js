@@ -80,8 +80,8 @@ Tagshot.Router = Backbone.Router.extend({
 
 		Tagshot.views.detail.delegateEvents();
 
-		//fix for crappy webkit that can't change 
-		//dispay of elements that are not in the dom
-		//$('footer:first').show();
+		// fix for crappy webkit that can't change 
+		// display of elements that are not in the dom
+		// $('footer:first').show();
 	}
 });

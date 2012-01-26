@@ -63,7 +63,7 @@ $(function() {
 			}).textboxFocusOnStart({
 				text: uiSettings.searchBoxText,
 				cssClassWhenEmpty: 'search-start',
-				doFocus: false
+				doFocus: true
 			});
 
 			$("#tag-box").tagAutocomplete({
