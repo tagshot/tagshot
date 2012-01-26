@@ -5,7 +5,6 @@
 
 Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	model: Tagshot.Models.Photo,
-
 	fetching: false,
 	// needed for infinite scrolling
 	reachedEnd: false,

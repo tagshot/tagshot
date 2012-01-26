@@ -69,8 +69,8 @@ $(function() {
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
 				autocompleteListPosition: 'above',
-				onTagAdded: Tagshot.updateTags,
-				onTagRemoved: Tagshot.updateTags
+				onTagAdded: Tagshot.addTag,
+				onTagRemoved: Tagshot.removeTag
 			}).blur(function () {
 				// TODO: Rethink about this
 				setTimeout(function () {
