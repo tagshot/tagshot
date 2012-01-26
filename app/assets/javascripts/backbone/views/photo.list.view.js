@@ -39,7 +39,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var signature = $.param({
 			query: this.collection.currentSearchQuery,
 			length: this.collection.length
-        });
+        	});
 
 		if (this.signature === signature) return this;
 

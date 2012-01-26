@@ -72,10 +72,13 @@ $(function() {
 				onTagAdded: Tagshot.updateTags,
 				onTagRemoved: Tagshot.updateTags
 			}).blur(function () {
-				Tagshot.collections.photoList.selection().forEach(function (model) {
-					model.save();
-				});
-				$("#tags-saved").fadeIn().delay(500).fadeOut();
+				// TODO: Rethink about this
+				setTimeout(function () {
+					Tagshot.collections.photoList.selection().forEach(function (model) {
+						model.save();
+					});
+					$("#tags-saved").stop().fadeIn().delay(200).fadeOut();
+				}, 500);
 			});
 
 			// options bar stuff
