@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(:version => 20120125201403) do
   create_table "auth_sources", :force => true do |t|
     t.string   "type"
     t.integer  "position"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "delayed_jobs", :force => true do |t|
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(:version => 20120125201403) do
     t.datetime "locked_at"
     t.datetime "failed_at"
     t.string   "locked_by"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(:version => 20120125201403) do
   create_table "photos", :force => true do |t|
     t.string   "file"
     t.integer  "size"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "source_id"
     t.datetime "last_sync_at"
     t.datetime "file_mtime"
@@ -84,8 +84,8 @@ ActiveRecord::Schema.define(:version => 20120125201403) do
   create_table "sources", :force => true do |t|
     t.string   "path"
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "tags", :force => true do |t|
@@ -100,8 +100,8 @@ ActiveRecord::Schema.define(:version => 20120125201403) do
     t.integer  "auth_source_id"
     t.boolean  "admin",          :default => false
     t.string   "type"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

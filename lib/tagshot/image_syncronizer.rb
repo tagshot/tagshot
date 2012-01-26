@@ -43,7 +43,7 @@ module Tagshot
         end
 
         @photo.update_attributes(:last_sync_at => Time.zone.now)
-        @photo.photo_data.load_meta_properties.save
+        @photo.data.load_meta_properties.save
       end
     end
 
