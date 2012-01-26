@@ -75,6 +75,7 @@ $(function() {
 				Tagshot.collections.photoList.selection().forEach(function (model) {
 					model.save();
 				});
+				$("#tags-saved").fadeIn().delay(500).fadeOut();
 			});
 
 			// options bar stuff
