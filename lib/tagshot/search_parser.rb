@@ -14,8 +14,10 @@ module Tagshot
         block.split('+').each do |condition|
           if condition =~ /(.+):(.*)/
 	    qMethode = "q_#$1"
-            if response_to? qMethode
-	      queryBlocks.append(send_to qMethode $2)
+            if respond_to? qMethode
+	      query, *args = send qMethode, $2
+              queryBlocks << query
+              options += args
               next
 	    end
           end
@@ -26,7 +28,15 @@ module Tagshot
 	'(' + queryBlocks.join(' AND ') + ')'
       end
       sql = orBlocks.join(') OR (')
-      @query.where('('+sql+')', *options)
+      @query.joins(:photo_data).where('('+sql+')', *options)
+    end
+
+    def q_after(string)
+      [ 'photo_data.date > ?', string ]
+    end
+
+    def q_before(string)
+      [ 'photo_data.date < ?', string ]
     end
   end
 end
