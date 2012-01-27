@@ -94,7 +94,7 @@ $(function() {
 				setTimeout(function () {
 					selection.forEach(function (model) {
 						model.save(undefined,{
-							success: function() {$("#tags-saved").stop().fadeIn().delay(200).fadeOut()}
+							success: function() {$("#tags-saved").stop(true, true).fadeIn().delay(200).fadeOut()}
 						});
 					});
 				}, 500);
