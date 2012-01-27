@@ -13,3 +13,4 @@ stats
 *.un*
 public/images/LWW/*
 *.orig
+.bundle\n
