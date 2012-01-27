@@ -74,6 +74,6 @@ Tagshot.Router = Backbone.Router.extend({
 
 		// fix for crappy webkit that can't change 
 		// display of elements that are not in the dom
-		// $('footer:first').show();
+		$('footer:first').show();
 	}
 });
