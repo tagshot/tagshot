@@ -29,17 +29,8 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			var tags = {tags: this.model.get('tags')};
 
 			$(this.el).html(Mustache.to_html($('#detail-template').html(), this));
+			this.setStars({});
 
-			/*
-			var stars = this.model.get('properties').rating;
-			var starMax = 5;	// TODO fetch it from model
-
-			$(this.el).find(".star-me").starMe({
-				'starCount': this.model.get('properties').rating,
-				'starMax' : starMax ,
-				'ratingFunc': this.rating
-			});
-			*/
 		} else {
 			$(this.el).html("Image not found");
 		}
@@ -76,6 +67,16 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			return str;
 		};
 	},
+
+	setStars: function() {
+		// copy'n pasted from photo.view.js FIXME
+		var stars = this.model.get('properties').rating;
+		$(this.el).find(".star-me").starMe({
+			'starCount': stars,
+			'ratingFunc': this.rating
+		});
+	},
+
 
 	updateTags: function(e) {
 		var tags = $("#tag-box").val().split(" ")

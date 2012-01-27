@@ -1,3 +1,6 @@
+/* This view displays the photo gallery
+ */
+
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "gallery",
@@ -48,8 +51,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		console.log("render gallery");
 		
-		$(this.el).html("abc");
-
 		$(this.el).html(
 			"<ul>"+
 			"<span id='fix-gallery' class='ui-helper-clearfix'></span>"+
@@ -77,10 +78,10 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	append: function(photo) {
 		var sv = this.subviews;
 
-		/*if (photo.id in sv) {
+		if (photo.id in sv) {
 			console.log("remove:", sv[photo.id]);
 			sv[photo.id].remove();
-		}*/
+		}
 
 		var view = new Tagshot.Views.PhotoView({model: photo});
 		view.bind('selectionChanged', this.selectionChanged, this);
