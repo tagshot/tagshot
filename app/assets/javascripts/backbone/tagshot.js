@@ -44,12 +44,6 @@ window.Tagshot = {
 			return false;
 		});
 
-		// initial fetch
-		Tagshot.collections.photoList.fetch({
-			data: {limit: 10},
-			append: true
-		});
-
 		var match = Backbone.history.start({pushState: true, root: "/"});
 		console.log("Match for first url: "+match);
 	}
