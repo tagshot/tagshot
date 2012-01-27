@@ -10,3 +10,10 @@
   <input type="password" value="" name="password" />
   <input type="submit" value="Login" />
 </form>
+<p>
+	<% if defined?(RUBY_VERSION) or defined?(VERSION) %>
+    <%= [defined?(RUBY_ENGINE) ? RUBY_ENGINE.capitalize : 'Ruby', defined?(RUBY_VERSION) ? RUBY_VERSION : VERSION].join(' ') + ' | ' %>
+    <% end %>
+    <%= "Rails #{Rails.version} | #{Rails.env.capitalize} | " %>
+    <%= "Tagshot #{Tagshot.version}" %>
+</p>

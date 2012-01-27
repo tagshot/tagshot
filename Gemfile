@@ -6,8 +6,8 @@ gem 'rails', '3.2'
 # Create config/database.yml with required database configuration depending
 # on your system. See config/database.yml.example for more information.
 gem 'sqlite3'
-#gem 'pg'
-#gem 'mysql2'
+# gem 'pg'
+# gem 'mysql2'
 
 #gem 'mongo_mapper'
 #gem 'bson_ext'	# better performance, MonogDB protocol in C
@@ -26,9 +26,13 @@ group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
   gem 'uglifier'
-  gem 'therubyracer' if RUBY_PLATFORM.downcase.include?("linux")
+  gem 'execjs'
+  gem 'therubyracer'
 end
-gem 'rspec-rails', :group => [:development, :test]
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'capistrano'
+end
 # testing gems
 group :test do
   gem 'turn', :require => false

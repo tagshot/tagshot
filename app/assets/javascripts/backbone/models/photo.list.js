@@ -81,13 +81,15 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	},
 	search: function(searchString) {
 		console.log("search for "+searchString);
-		this.currentSearchQuery = searchString;
-		this.fetch({
-			add: false, //not appending
-			data: {
-				limit: 20,
-				q: searchString
-			}
-		});
+		if (this.currentSearchQuery != searchString) {
+			this.currentSearchQuery = searchString;
+			this.fetch({
+				add: false, //not appending
+				data: {
+					limit: 20,
+					q: searchString
+				}
+			});
+		}
 	}
 });

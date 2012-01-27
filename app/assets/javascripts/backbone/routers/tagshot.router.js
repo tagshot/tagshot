@@ -17,10 +17,9 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	home: function(foo) {
-		console.log("navigate:home "+foo);
 		Tagshot.collections.photoList.fetch({
 			data: {limit: 10},
-			append: true
+			add: true
 		});
 
 		//rebind events because bindings are lost because of navigation
@@ -41,8 +40,8 @@ Tagshot.Router = Backbone.Router.extend({
 		Tagshot.collections.photoList.search(query);
 
 		//rebind events because bindings are lost because of navigation
-		Tagshot.views.gallery.delegateEventsToSubViews();
-		Tagshot.views.gallery.delegateEvents();
+		//Tagshot.views.gallery.delegateEventsToSubViews();
+		//Tagshot.views.gallery.delegateEvents();
 
 		$("#gallery").show();
 		$("#detail").hide();
@@ -57,14 +56,12 @@ Tagshot.Router = Backbone.Router.extend({
 		console.log("navigate:details "+id);
 
 		var self = this;
-
-		console.log("details: ", id);
 		var model = Tagshot.collections.photoList.get({"id":id});
-		if (model == undefined) {
+		if (model === undefined) {
 			console.log("model not yet loaded: "+ id);
 			Tagshot.collections.photoList.fetch({
 				url:"/photos/"+id,
-				append: true,
+				add: true,
 				success: function(){
 					self.details(id);
 				}
@@ -82,6 +79,6 @@ Tagshot.Router = Backbone.Router.extend({
 
 		// fix for crappy webkit that can't change 
 		// display of elements that are not in the dom
-		// $('footer:first').show();
+		$('footer:first').show();
 	}
 });

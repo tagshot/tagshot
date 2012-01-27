@@ -4,7 +4,6 @@ Tagshot.addTag = function (tagList, newTag) {
 		tags.push(newTag);
 		// use slice(0) to get a copy of tagList
 		model.set({'tags': tags.slice(0)});
-		model.change();
 	});
 };
 Tagshot.removeTag = function (tagList) {
