@@ -109,7 +109,8 @@ div#search-container {
 	float: left;
 	background: white image-url("zoom_icon_16.png") no-repeat 10px center;
 	background: white image-url("searchbox.png") no-repeat 0px center;
-	width: 900px;
+	min-width: 450px;
+	max-width: 900px;
 }
 div#tag-edit-container {
 	margin-top: 4px;
