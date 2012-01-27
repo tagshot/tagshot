@@ -6,7 +6,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	events: {
 		"click" : "deselectAll",
 		"click #more" : "loadMoreImages",
-		"click footer" : "stop",
 		"keydown[ctrl+a]" : "selectAll",
 		"keydown[meta+a]" : "selectAll"
 	},
