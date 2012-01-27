@@ -18,15 +18,22 @@ Tagshot.Router = Backbone.Router.extend({
 
 	home: function(foo) {
 
-		/*if (Tagshot.collections.photoList.length == 1) {
-			console.log("reset collection");
-			Tagshot.collections.photoList.reset();
-		}*/
+		var numberOfImagesToFetchAtStart = 10;
 
-		Tagshot.collections.photoList.fetch({
-			data: {limit: 10},
-			add: false
-		});
+		if (Tagshot.collections.photoList.length == 1) {
+			console.log("reset collection");
+
+			Tagshot.collections.photoList.reset();
+		}
+
+		if (Tagshot.collections.photoList.length < numberOfImagesToFetchAtStart) {
+			// if start or resetted
+			Tagshot.collections.photoList.fetch({
+				data: {limit: numberOfImagesToFetchAtStart},
+				add: false
+			});
+		}
+
 
 		//rebind events because bindings are lost because of navigation
 		//Tagshot.views.gallery.delegateEventsToSubViews();
