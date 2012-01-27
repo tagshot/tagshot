@@ -78,15 +78,14 @@
 
 		function attachClickHandler() {
 			$(self).children().click(clickFunc);
-
 		}
 
 		function clickFunc(evt) {
-			evt.stopPropagation();
 			replaceStars($(this));
 			var newStarCount = options.starMax - $(this).nextAll().length;
 			console.log("Click handler says to callback: newStarCount = ", newStarCount);
 			options.ratingFunc(newStarCount);
+			return false;	// prevent jump to top of the page
 		}
 
 		function replaceStars(elem){

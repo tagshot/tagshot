@@ -4,7 +4,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	tagName:  "li",
 	className: "image-view",
 	events: {
-		"click .star-me" : "click",
+		//"click .star-me" : "click",
 		"click" : "click",
 		"dblclick" : "openDetails",
 		"keydown[space]" : "quickview",
