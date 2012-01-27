@@ -6,7 +6,7 @@ module Tagshot
     BUILD = 'dev'
     LEVEL = 1
     
-    def to_s
+    def self.to_s
       [MAJOR, MINOR, PATCH, BUILD, LEVEL].join('.')
     end
   end
