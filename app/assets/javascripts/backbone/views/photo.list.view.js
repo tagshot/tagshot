@@ -1,3 +1,6 @@
+/* This view displays the photo gallery
+ */
+
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "gallery",
@@ -48,8 +51,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		console.log("render gallery");
 		
-		$(this.el).html("abc");
-
 		$(this.el).html(
 			"<ul>"+
 			"<span id='fix-gallery' class='ui-helper-clearfix'></span>"+
