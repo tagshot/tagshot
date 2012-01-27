@@ -50,7 +50,7 @@ function addGlobalAjxIndicator(){
 	});
 
 	$(document).ajaxStop(function() {
-		indicator.delay(300).fadeOut(500);
+		indicator.delay(500).fadeOut(100);
 	});
 }
 
