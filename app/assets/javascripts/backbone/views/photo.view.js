@@ -157,12 +157,12 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	},
 
 	needsNoRender: function() {
-		var currentModelID = this.model.hash();
-		if (this.model.hash === currentModelID) {
+		var currentModelHash = this.model.computeHash();
+		if (this.model.hash === currentModelHash) {
 			return true;
 		}
-		console.log("identifier change: " + this.model.hash + " -> " + currentModelID);
-		this.model.hash = currentModelID;
+		console.log("identifier change: " + this.model.hash + " -> " + currentModelHash);
+		this.model.hash = currentModelHash;
 		return false;
 	}
 });
