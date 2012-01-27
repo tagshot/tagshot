@@ -1,5 +1,34 @@
-	<section id="backbone-main-view">
-	</section>
+	<header>
+		<a id="title" href="/" title="go home">
+			<h1 class="logo">Tagshot.</h1>
+		</a>
+		<div id="search-container" class="textbox-container">
+			<input type="text" id="search-box" class='textbox' />
+			<%= image_tag "loading.gif", :id => 'loading-image' %>
+		</div>
+		<br style="clear: both;" />
+		<button id="show-options"></button>
+		<div id="tags-saved">Tags saved.</div>
+		<section id="options-container">
+			<div id="thumbnail-size-container">
+				<span>Set tile size: </span>
+				<div id="thumbnail-size-slider"></div>
+			</div>
+			<br style="clear: both;" />
+		</section>
+
+	</header>
+
+	<section id="backbone-main-view"></section>
+
+	<footer id="tag-footer" class="header-footer">
+		<div id="trash-container"></div>
+		<div id="tag-edit-container" class="textbox-container">
+			<input type="text" value="" id="tag-box" class='textbox' >
+		</div>
+	</footer>
+	
+
 	<%= mustache_templates %>
 	<%= javascript_include_tag "application" %>
 

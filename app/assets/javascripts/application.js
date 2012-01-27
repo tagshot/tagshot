@@ -72,12 +72,17 @@ $(function() {
 				onTagAdded: Tagshot.addTag,
 				onTagRemoved: Tagshot.removeTag
 			}).blur(function () {
-				// TODO: Rethink about this
+				// TODO: Rethink this
+
+				// keep selection since we will not have it after the timeout, 
+				// timeout because of race conditions with put and fetch of differnt models
+				var selection = Tagshot.collections.photoList.selection();
 				setTimeout(function () {
-					Tagshot.collections.photoList.selection().forEach(function (model) {
-						model.save();
+					selection.forEach(function (model) {
+						model.save(undefined,{
+							success: function() {$("#tags-saved").stop().fadeIn().delay(200).fadeOut()}
+						});
 					});
-					$("#tags-saved").stop().fadeIn().delay(200).fadeOut();
 				}, 500);
 			});
 
