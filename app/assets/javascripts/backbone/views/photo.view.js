@@ -101,9 +101,6 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		$(this.el).remove();
 	},
 	click: function(e) {
-		//this.model.collection = Tagshot.collections.photoList;
-		this.model.collection.mainModel = this.model;
-
 		this.stop(e);
 		$(this.el).find('.image-frame').focus();
 		if (e.shiftKey) {

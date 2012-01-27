@@ -73,6 +73,9 @@ $(function() {
 				onTagRemoved: Tagshot.removeTag
 			}).blur(function () {
 				// TODO: Rethink this
+
+				// keep selection since we will not have it after the timeout, 
+				// timeout because of race conditions with put and fetch of differnt models
 				var selection = Tagshot.collections.photoList.selection();
 				setTimeout(function () {
 					selection.forEach(function (model) {
