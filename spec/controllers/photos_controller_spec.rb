@@ -59,6 +59,12 @@ describe PhotosController do
               photo['tags'].include?('e').should == true
             end
           end
+          it 'should return the default list for an empty search' do
+            Factory(:photo_with_tags)
+            Factory(:photo_with_more_tags)
+            get :index, :format => :json, :q => ''
+            JSON(response.body).length.should > 0
+          end
         end
       end
     end

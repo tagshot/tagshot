@@ -8,7 +8,7 @@ class PhotosController < ApplicationController
 
     @photos = Photo.limit(limit).offset(offset)
     
-    if params[:q]
+    if params[:q] and params[:q].present?
       @photos = Tagshot::SearchParser.new(@photos, params[:q]).convert
     end
     
