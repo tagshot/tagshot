@@ -30,9 +30,9 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			var tags = {tags: this.model.get('tags')};
 
 			$(this.el).html(Mustache.to_html($('#detail-template').html(), this));
-			this.setStars({});
-
+			
 			this.makePropertiesInlineEdit();
+			this.setStars();
 
 		} else {
 			$(this.el).html("Image not found");
@@ -43,6 +43,12 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 
 	rating: function(stars) {
 		this.model.save({'properties' : {'rating' : stars}});
+	},
+
+	setKey: function(key, value) {
+		var props = this.model.get('properties');
+		props[key] = value;
+		this.model.save({'properties': props});
 	},
 
 	metaHTML: function() {
@@ -58,31 +64,16 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		};
 	},
 
-	propHTML: function() {
+	makePropertiesInlineEdit: function() {
 		var self = this;
-		return function(text, render) {
-			var str = '';
-			$.each(this.model.get("properties"), function(key, value) {
-				if( key != 'rating') {
-					if(!value) value = '-';
-					str += '<dt class="'+key+'">' + key + '</dt><dd class="e'+key+'">' + value + '</dd>';
-					selector = ".e"+key;
-					self.makePropertiesInlineEdit(selector,key);
-				}
-			});
-			return str;
-		};
-	},
-
-	makePropertiesInlineEdit: function(selector, key) {
-		var self = this;
-		$(selector).inlineEdit({
+		$('.prop dd:not(.rating)').inlineEdit({
 			hover: 'hoverEdit',
 			buttons: '<button class="cancel">cancel</button>',
 			placeholder: '',
 			saveOnBlur: false,
+			constrol: $(this).attr('class')==='description' ? 'textarea' : 'input',
 			save: function( event, hash ) {
-				self.model.save({properties: {key: hash.value}});
+				self.setKey($(this).attr('class'), hash.value);
 			},
 			cancelOnBlur: false,
 			saveOnBlur: true
@@ -92,7 +83,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	setStars: function() {
 		// copy'n pasted from photo.view.js FIXME
 		var stars = this.model.get('properties').rating;
-		$(this.el).find(".star-me").starMe({
+		$(this.el).find(".rating").starMe({
 			'starCount': stars,
 			'ratingFunc': this.rating
 		});

@@ -455,21 +455,42 @@ div#trash-container {
 }
 
 #backbone-detail-view > section .propbox dd {
-	// height: 22px;
-	margin: 0 0 2px 30px;
+	padding: 4px 8px;
+	margin: 2px 0 2px 30px;
 	font-size: 0.85em;
 	color: #fff;
+	height: 15px;
 }
 
-.star-me > a {
+#backbone-detail-view > section .propbox dd input,
+#backbone-detail-view > section .propbox dd textarea, {
+	background: #333;
 	color: #fff;
-	text-decoration: none;
-}
-.star-me {
-	cursor: pointer;
+	padding: 4px 8px;
+	margin: -4px 10px 0px 0;
+	font-size: 1em;
+	width: 200px;
+	float: left;
+	border: 0px none;
 }
 
-.hoverEdit {
+#backbone-detail-view > section .propbox dd textarea {
+	height: 70px;
+}
+
+
+#backbone-detail-view > section .propbox dd.hoverEdit {
 	background-color: #333;
 	cursor: text;
+	width: 200px;
+}
+
+.rating > a {
+	color: #fff;
+	text-decoration: none;
+	font-size: 1.2em;
+	width: 6px;
+}
+.rating {
+	cursor: pointer;
 }
