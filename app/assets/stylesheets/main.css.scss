@@ -224,11 +224,12 @@ input.tagautocomplete-clear-textbox {
 button#show-options {
 	position: absolute;
 	font-size: 20px;
-	bottom: 12px;
+	top: 10px;
 	right: 8px;
 	width: 40px;
 	height: 40px;
 	border: none;
+	background-color: transparent;
 /*	background: transparent image-url("show_toggle.png") no-repeat;*/
 	cursor: pointer;
 }
@@ -263,6 +264,8 @@ section#options-container {
 	padding: 10px 20px;
 	border-top: 3px solid #333;
 	border-bottom: 3px solid #333;
+	margin-top: 8px;
+	margin-bottom: -8px;
 }
 div#thumbnail-size-container {
 	font-size: 1.0em;
