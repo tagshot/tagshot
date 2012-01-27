@@ -1,5 +1,5 @@
 /* 
- * This view is utilized to display a huge single photo with its tags and metadata
+ * This view is used to display a huge single photo with its tags and metadata.
  */
 
 //=require starMe
@@ -28,11 +28,15 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		if (this.model) {
 			var tags = {tags: this.model.get('tags')};
 
-			$(this.el).html(
-				Mustache.to_html($('#detail-template').html(), this )+
-				Mustache.to_html($('#footer-template').html(), tags )
-			).find('footer').show();
+			var header = $("header").detach();
+			$(this.el).append(header).find('#search-container').hide();
 
+			$(this.el).html(
+				//Mustache.to_html($('#detail-template').html(), this)+
+				//Mustache.to_html($('#footer-template').html(), tags)
+			);//.find('footer').show();
+
+			/*
 			var stars = this.model.get('properties').rating;
 			var starMax = 5;	// TODO fetch it from model
 
@@ -41,6 +45,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 				'starMax' : starMax ,
 				'ratingFunc': this.rating
 			});
+			*/
 		} else {
 			$(this.el).html("Image not found");
 		}
