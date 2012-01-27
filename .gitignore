@@ -7,7 +7,6 @@ tmp/
 .DS_Store
 *.swp
 config/database.yml
-Gemfile.lock
 dev_db_name
 stats
 *.un*
