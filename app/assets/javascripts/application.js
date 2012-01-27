@@ -77,8 +77,7 @@ $(function() {
 				setTimeout(function () {
 					selection.forEach(function (model) {
 						model.save(undefined,{
-							success: function() {$("#tags-saved").stop().fadeIn().delay(200).fadeOut()}, 
-							error: function() {alert("Error")}
+							success: function() {$("#tags-saved").stop().fadeIn().delay(200).fadeOut()}
 						});
 					});
 				}, 500);
