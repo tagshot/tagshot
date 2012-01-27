@@ -9,10 +9,7 @@ class PhotosController < ApplicationController
     @photos = Photo.limit(limit).offset(offset)
     
     if params[:q]
-      params[:q].split(' ').each do |tag|
-        @photos = @photos.where('photos.id IN (SELECT photo_id FROM photos_tags 
-          WHERE photos_tags.tag_id IN (SELECT id FROM tags WHERE tags.name = ?))', tag)
-      end
+      @photos = Tagshot::SearchParser.new(@photos, params[:q]).convert
     end
     
     # force fetch
