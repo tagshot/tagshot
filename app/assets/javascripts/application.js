@@ -72,9 +72,10 @@ $(function() {
 				onTagAdded: Tagshot.addTag,
 				onTagRemoved: Tagshot.removeTag
 			}).blur(function () {
-				// TODO: Rethink about this
+				// TODO: Rethink this
+				var selection = Tagshot.collections.photoList.selection();
 				setTimeout(function () {
-					Tagshot.collections.photoList.selection().forEach(function (model) {
+					selection.forEach(function (model) {
 						model.save(undefined,{
 							success: function() {$("#tags-saved").stop().fadeIn().delay(200).fadeOut()}, 
 							error: function() {alert("Error")}
