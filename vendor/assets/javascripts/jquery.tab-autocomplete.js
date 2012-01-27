@@ -227,7 +227,7 @@
 			autoCompleteListId += 1;
 
 			// create tag list, add css class from input-field and put <input>-field right into it
-			p.$tagList = $('<ul><li></li><br style="clear: both;" /></ul>').addClass(settings.inputCssClass).prependTo(p.parent).click(function () {
+			p.$tagList = $('<ul><li></li><span style="clear: both;" /></ul>').addClass(settings.inputCssClass).prependTo(p.parent).click(function () {
 				p.$input.focus();
 			});
 			p.$tagList.children('li').last().append(p.$input);
