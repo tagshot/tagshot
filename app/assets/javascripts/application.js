@@ -46,7 +46,7 @@ function addGlobalAjxIndicator(){
 	var indicator = $('#loading-image');
 
 	$(document).ajaxSend(function() {
-		indicator.fadeIn(50);
+		indicator.stop(true,true).fadeIn(50);
 	});
 
 	$(document).ajaxStop(function() {
