@@ -7,15 +7,9 @@ tmp/
 .DS_Store
 *.swp
 config/database.yml
-Gemfile.lock
-dev_db_name
+dev_db_name*
 stats
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
 *.un*
 public/images/LWW/*
->>>>>>> Stashed changes
-=======
-*.un*
->>>>>>> develop
+*.orig
+.bundle\n

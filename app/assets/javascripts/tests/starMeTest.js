@@ -46,3 +46,4 @@ test('Callback func gets called when last star was clicked', function() {
 	$('#qunit-fixture > a:last').click();
 	equal(called, true);
 });
+

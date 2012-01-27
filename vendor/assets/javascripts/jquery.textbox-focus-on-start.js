@@ -27,7 +27,8 @@
 		// standard settings
 		var settings = {
 			text: 'Search…',
-			cssClassWhenEmpty: 'textbox-empty'
+			cssClassWhenEmpty: 'textbox-empty',
+			doFocus: true
 		},
 		// get the textbox-dom-element
 		    domElement = this.get(0);
@@ -47,10 +48,12 @@
 			*/
 		};
 
-		// prepare textbox with given standard text and set focus with cursor at the first position
-		this.val(settings.text).addClass(settings.cssClassWhenEmpty);
-		domElement.focus();
-		setCaretPosition(domElement, 0);
+		if (settings.doFocus) {
+			// prepare textbox with given standard text and set focus with cursor at the first position
+			this.val(settings.text).addClass(settings.cssClassWhenEmpty);
+			domElement.focus();
+			setCaretPosition(domElement, 0);
+		}
 
 		/* add key-event-handlers for keydown and keyup:
 		 * note: in keydown, this.value refers to the value before the keypress,

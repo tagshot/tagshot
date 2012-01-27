@@ -23,6 +23,28 @@ window.Tagshot = {
 	router: undefined,
 
 	init: function() {
-		Tagshot.views.mainView = new Tagshot.Views.MainView();
+		Tagshot.router = new Tagshot.Router();
+		
+		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
+		Tagshot.views.gallery = new Tagshot.Views.PhotoListView({ 'collection': Tagshot.collections.photoList });
+		Tagshot.views.detail = new Tagshot.Views.DetailListView({ 'model': undefined });
+		Tagshot.views.ajaxError = new Tagshot.Views.AjaxError();
+
+		$("#backbone-main-view").append(Tagshot.views.gallery.el);
+		$("#backbone-main-view").append(Tagshot.views.detail.el);
+
+		Tagshot.views.gallery.render();
+		//Tagshot.views.detail.render();
+
+		console.log("Inserted and rendered all views");
+
+		//navigation with title
+		$('#title').click(function(){
+			Tagshot.router.navigate('',true);
+			return false;
+		});
+
+		var match = Backbone.history.start({pushState: true, root: "/"});
+		console.log("Match for first url: "+match);
 	}
 };

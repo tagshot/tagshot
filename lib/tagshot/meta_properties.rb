@@ -49,10 +49,10 @@ module Tagshot
         attrs.each do |key|
           value = [value] unless value.is_a?(Array)
           
-          self.properties.where(:name => key).destroy
+          self.properties.where(:name => key).destroy_all
           
           value.each do |val|
-            self.properties.create :name => key, :value => al
+            self.properties.create :name => key, :value => val
           end
         end
         self.update_attributes :updated_at => Time.zone.now

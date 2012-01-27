@@ -32,9 +32,6 @@ describe PhotoDecorator do
     it 'should contain an array with tags' do
       @json[:tags].should =~ @photo.tags.names
     end
-    it 'should contain a hash with meta data' do
-      @json[:meta].should == @photo.properties.to_hash
-    end
     it 'should contain a thumb url' do
       @json[:thumb].should == Rails.application.routes.url_helpers.thumb_url(@photo, :format => @photo.extname)
     end

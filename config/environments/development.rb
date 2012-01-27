@@ -28,6 +28,6 @@ Tagshot::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  config.thumb_cache = false
+  config.thumb_cache = true
 end
 

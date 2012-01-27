@@ -7,28 +7,28 @@
 			<%= image_tag "loading.gif", :id => 'loading-image' %>
 		</div>
 		<br style="clear: both;" />
-		<button id="show-options">Show/hide more options</button>
+		<button id="show-options"></button>
+		<div id="tags-saved">Tags saved.</div>
+		<section id="options-container">
+			<div id="thumbnail-size-container">
+				<span>Set tile size: </span>
+				<div id="thumbnail-size-slider"></div>
+			</div>
+			<br style="clear: both;" />
+		</section>
+
 	</header>
-	<section id="options-container">
-		<div id="thumbnail-size-container">
-			<span>Set tile size: </span>
-			<div id="thumbnail-size-slider"></div>
+
+	<section id="backbone-main-view"></section>
+
+	<footer id="tag-footer" class="header-footer">
+		<div id="trash-container"></div>
+		<div id="tag-edit-container" class="textbox-container">
+			<input type="text" value="" id="tag-box" class='textbox' >
 		</div>
-		<br style="clear: both;" />
-	</section>
-	<section id="backbone-main-view">
-		<br style="clear: both;" />
-	</section>	
-	<%= mustache_templates %>
-
-  <%= javascript_include_tag "application" %>
-
-	<!-- mehrere fonts, könnt mal bisschen rumspielen, welche euch am besten gefällt -->
-	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Delius+Swash+Caps' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Coda' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Linden+Hill' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Sorts+Mill+Goudy|Lora:400,700|Gentium+Basic:400,700|Cantarell:400,700' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Prociono' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:700,400' rel='stylesheet' type='text/css'>
+	</footer>
 	
+	<%= mustache_templates %>
+	<%= javascript_include_tag "application" %>
+	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'></link>
+

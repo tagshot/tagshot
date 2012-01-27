@@ -30,7 +30,7 @@ var uiSettings = {
 function resizeImages() {
 	var value  = $("#thumbnail-size-slider").slider("value");
 
-	$(".gallery div.image").css(
+	$("#backbone-gallery-view div.image").css(
 		'height',value).css(
 		'width',function(){
 			return value*1.6;
@@ -42,7 +42,21 @@ function hideElements() {
 	$("#options-container").hide();
 }
 
+function addGlobalAjxIndicator(){
+	var indicator = $('#loading-image');
+
+	$(document).ajaxSend(function() {
+		indicator.stop(true,true).fadeIn(50);
+	});
+
+	$(document).ajaxStop(function() {
+		indicator.delay(500).fadeOut(100);
+	});
+}
+
 $(function() {
+	addGlobalAjxIndicator();
+
 	Tagshot.init();
 
 	$.ajax("/tags", {
@@ -62,38 +76,52 @@ $(function() {
 			/* and make it auto-focus on page-load */
 			}).textboxFocusOnStart({
 				text: uiSettings.searchBoxText,
-				cssClassWhenEmpty: 'search-start'
+				cssClassWhenEmpty: 'search-start',
+				doFocus: true
 			});
-
 
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
 				autocompleteListPosition: 'above',
-				onTagAdded: Tagshot.updateTags,
-				onTagRemoved: Tagshot.updateTags
+				onTagAdded: Tagshot.addTag,
+				onTagRemoved: Tagshot.removeTag
 			}).blur(function () {
-				Tagshot.collections.photoList.selection().forEach(function (model) {
-					model.save();
-				});
+				// TODO: Rethink this
+
+				// keep selection since we will not have it after the timeout, 
+				// timeout because of race conditions with put and fetch of differnt models
+				var selection = Tagshot.collections.photoList.selection();
+				setTimeout(function () {
+					selection.forEach(function (model) {
+						model.save(undefined,{
+							success: function() {$("#tags-saved").stop().fadeIn().delay(200).fadeOut()}
+						});
+					});
+				}, 500);
 			});
+
+			// options bar stuff
+			// TODO refactor
+
+			$("#show-options").click(function() {
+				$("#options-container").slideToggle(300);
+				$(this).toggleClass("open");
+			});
+
+			$("#thumbnail-size-slider").slider({
+				orientation: "horizontal",
+				range: "min", 
+				min: 50,
+				max: 500,
+				value: 200,
+				slide: resizeImages,
+				change: resizeImages
+			});
+
+			hideElements();
+
+
 		},
 	});
-
-
-	$("#show-options").click(function() {
-		$("#options-container").slideToggle(300);
-		$(this).toggleClass("open");
-	});
-
-	$("#thumbnail-size-slider").slider({
-		orientation: "horizontal",
-		range: "min", 
-		min: 50,
-		max: 500,
-		value: 200,
-		slide: resizeImages,
-		change: resizeImages
-	});
-
-	hideElements();
+	
 });

@@ -4,8 +4,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	tagName:  "li",
 	className: "image-view",
 	events: {
+		//"click .star-me" : "click",
 		"click" : "click",
-		"click .star-me>a" : "stop",
 		"dblclick" : "openDetails",
 		"keydown[space]" : "quickview",
 		"keydown[return]" : "openDetails",
@@ -16,7 +16,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	},
 
 	initialize : function() {
-		_.bindAll(this, 'openDetails', 'click', 'select', 'deselect', 'gotoNext', 'gotoPrevious','quickview', 'rating');
+		_.bindAll(this);
 
 		this.model.bind('change:thumb', this.render, this);
 		this.model.bind('change:tags', this.tagChange, this);
@@ -27,6 +27,21 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	},
 
 	render: function () {
+		//delegate events means rebinding the events
+		this.delegateEvents();
+
+		var signature = $.param({
+			id: this.model.id,
+			caption: this.model.get('caption'),
+			tags: this.model.get('tags')
+		});
+
+		if (this.signature === signature) return this;
+
+		//console.log("signature change: " + this.signature + " -> " + signature);
+
+		this.signature = signature;
+
 		// tmpl im index.html
 		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
 
@@ -34,7 +49,11 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		resizeImages();
 
 		var stars = this.model.get('properties').rating;
-		$(this.el).find(".star-me").starMe({'starCount': stars, 'ratingFunc': this.rating});
+		$(this.el).find(".star-me").starMe({
+			'starCount': stars,
+			'ratingFunc': this.rating
+		});
+		//$(this.el).find(".star-me>a:nth-child(2)").click(); works in FF and Chrome
 
 		//delegate events means rebinding the events
 		this.delegateEvents();

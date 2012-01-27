@@ -1,5 +1,5 @@
-/* This view is utilized to display a huge single photo with its tags and metadata
- *
+/* 
+ * This view is used to display a huge single photo with its tags and metadata.
  */
 
 //=require starMe
@@ -7,6 +7,7 @@
 Tagshot.Views.DetailListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "detail",
+	id: "backbone-detail-view",
 
 	events: {
 		"click footer" : "stop",
@@ -14,44 +15,49 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	},
 
 	initialize: function(options) {
-		_.bindAll(this, "render", "propHTML", "metaHTML", "rating");
+		_.bindAll(this);
 
-		console.log(options);
 		//this.model.bind('change', this.render, this);
 	},
 
 	render: function(model) {
-		var self = this;
+		if (model) {
+			this.model = model;
+		}
 
-		this.model = model;
-		var tags = {tags:this.model.get('tags')};
-		$(this.el).html(
-			Mustache.to_html($('#detail-list-template').html(), this)+
-			Mustache.to_html($('#footer-template').html(), tags)
-        ).find('footer').show();
+		if (this.model) {
+			var tags = {tags: this.model.get('tags')};
 
-		var stars = self.model.get('properties').rating;
-		var starMax = 5; 	// TODO fetch it from model
+			$(this.el).html(Mustache.to_html($('#detail-template').html(), this));
 
-		stars = self.model.get('properties').rating;
-		$(self.el).find(".star-me").starMe({
-			'starCount': stars,
-			'starMax' : starMax ,
-			'ratingFunc': self.rating
-		});
+			/*
+			var stars = this.model.get('properties').rating;
+			var starMax = 5;	// TODO fetch it from model
 
-		return self;
+			$(this.el).find(".star-me").starMe({
+				'starCount': this.model.get('properties').rating,
+				'starMax' : starMax ,
+				'ratingFunc': this.rating
+			});
+			*/
+		} else {
+			$(this.el).html("Image not found");
+		}
+
+		return this;
 	},
 
-rating: function(stars) {
+	rating: function(stars) {
 		this.model.save({'properties' : {'rating' : stars}});
 	},
 
 	metaHTML: function() {
+		return "";
+		//TODO nutzen
 		return function(text, render) {
 			var str = '';
-			
-			$.each(this.model.get("meta"), function(key, value) {
+			var metadata = this.model.get("meta");
+			$.each(metadata, function(key, value) {
 				str += '<dt>' + key + '</dt><dd>' + value + '</dd>';
 			});
 			return str;
@@ -72,7 +78,6 @@ rating: function(stars) {
 	},
 
 	updateTags: function(e) {
-		console.log("Update tags and send it to backend");
 		var tags = $("#tag-box").val().split(" ")
 		this.model.save({'tags': tags});
 	},
