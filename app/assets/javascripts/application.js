@@ -30,7 +30,7 @@ var uiSettings = {
 function resizeImages() {
 	var value  = $("#thumbnail-size-slider").slider("value");
 
-	$("#gallery div.image").css(
+	$("#backbone-gallery-view div.image").css(
 		'height',value).css(
 		'width',function(){
 			return value*1.6;
@@ -42,7 +42,21 @@ function hideElements() {
 	$("#options-container").hide();
 }
 
+function addGlobalAjxIndicator(){
+	var indicator = $('#loading-image');
+
+	$(document).ajaxSend(function() {
+		indicator.stop(true,true).fadeIn(50);
+	});
+
+	$(document).ajaxStop(function() {
+		indicator.delay(300).fadeOut(500);
+	});
+}
+
 $(function() {
+	addGlobalAjxIndicator();
+
 	Tagshot.init();
 
 	$.ajax("/tags", {

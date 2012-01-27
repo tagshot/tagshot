@@ -109,7 +109,8 @@ div#search-container {
 	float: left;
 	background: white image-url("zoom_icon_16.png") no-repeat 10px center;
 	background: white image-url("searchbox.png") no-repeat 0px center;
-	width: 900px;
+	min-width: 450px;
+	max-width: 900px;
 }
 div#tag-edit-container {
 	margin-top: 4px;
@@ -142,7 +143,7 @@ img#loading-image {
 	right: 15px;
 	width: 26px;
 	margin-top: -13px;
-	visibility: hidden;
+	display: none;
 }
 
 
@@ -373,7 +374,7 @@ div#thumbnail-size-slider {
 
 footer .textbox {
 	height: 29px;
-	padding: 4px 0;
+	padding: 0px 0 4px 0;
 }
 
 footer{
