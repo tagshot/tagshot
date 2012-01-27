@@ -74,10 +74,13 @@ $(function() {
 			}).blur(function () {
 				// TODO: Rethink about this
 				setTimeout(function () {
+					$("#tags-saved").stop().fadeIn()
 					Tagshot.collections.photoList.selection().forEach(function (model) {
-						model.save();
+						model.save(undefined,{
+							success: function() {$("#tags-saved").delay(200).fadeOut()}, 
+							error: function() {alert("Error")}
+						});
 					});
-					$("#tags-saved").stop().fadeIn().delay(200).fadeOut();
 				}, 500);
 			});
 

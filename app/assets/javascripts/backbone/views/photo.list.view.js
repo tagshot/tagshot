@@ -49,12 +49,10 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		console.log("render gallery");
 		
-		var tags = {tags:[]};
 		$(this.el).html(
 			"<ul>"+
 			"<span id='fix-gallery' class='ui-helper-clearfix'></span></ul>"+
-			"<button id='more'>load more...</button>"+
-			Mustache.to_html($('#footer-template').html(), tags)
+			"<button id='more'>load more...</button>"
 		);
 		console.log("built");
 		this.collection.each(this.append);
