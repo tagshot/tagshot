@@ -26,6 +26,7 @@ group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
   gem 'uglifier'
+  gem 'execjs'
   gem 'therubyracer' if RUBY_PLATFORM.downcase.include?("linux")
 end
 group :development, :test do
