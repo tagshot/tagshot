@@ -45,10 +45,12 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		this.model.save({'properties' : {'rating' : stars}});
 	},
 
-	setKey: function(key, value) {
-		var props = this.model.get('properties');
-		props[key] = value;
-		this.model.save({'properties': props});
+	saveProp: function(key, value) {
+		if (value != "") {
+			var props = this.model.get('properties');
+			props[key] = value;
+			this.model.save({'properties': props});
+		}
 	},
 
 	metaHTML: function() {
@@ -66,14 +68,14 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 
 	makePropertiesInlineEdit: function() {
 		var self = this;
+
 		$('.prop dd:not(.rating)').inlineEdit({
 			hover: 'hoverEdit',
 			buttons: '<button class="cancel">cancel</button>',
 			placeholder: '',
 			saveOnBlur: false,
-			constrol: $(this).attr('class')==='description' ? 'textarea' : 'input',
 			save: function( event, hash ) {
-				self.setKey($(this).attr('class'), hash.value);
+				self.saveProp($(this).attr('class'), hash.value);
 			},
 			cancelOnBlur: false,
 			saveOnBlur: true

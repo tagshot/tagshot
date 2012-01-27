@@ -56,6 +56,9 @@ $.fn.inlineEdit = function( options ) {
 // plugin constructor
 $.inlineEdit = function( elem, options ) {
 
+	// use special attribute, by tagshot
+	options.control = $(elem).attr('data-inputtype');
+
     // deep extend
     this.options = $.extend( true, {}, $.inlineEdit.defaults, options );
 

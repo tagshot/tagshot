@@ -469,20 +469,21 @@ div#trash-container {
 	padding: 4px 8px;
 	margin: -4px 10px 0px 0;
 	font-size: 1em;
-	width: 200px;
+	width: 250px;
 	float: left;
 	border: 0px none;
 }
 
+#backbone-detail-view > section .propbox dd.description,
 #backbone-detail-view > section .propbox dd textarea {
-	height: 70px;
+	height: 60px;
 }
 
 
 #backbone-detail-view > section .propbox dd.hoverEdit {
 	background-color: #333;
 	cursor: text;
-	width: 200px;
+	width: 250px;
 }
 
 .rating > a {
