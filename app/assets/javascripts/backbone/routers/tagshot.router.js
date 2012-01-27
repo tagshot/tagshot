@@ -26,12 +26,13 @@ Tagshot.Router = Backbone.Router.extend({
 
 
 		// set focus to search bar
-		$('#search-box').focus();
+		$('#search-container .textbox li.tag').remove().parent().find("input").focus();
 
 	},
 
 	search: function(query) {
 		console.log("search: ", query);
+		query = encodeURI(query);
 		Tagshot.collections.photoList.search(query);
 
 		//rebind events because bindings are lost because of navigation
