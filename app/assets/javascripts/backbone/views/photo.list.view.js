@@ -1,25 +1,30 @@
 Tagshot.Views.PhotoListView = Backbone.View.extend({
-	tagName:  "ul",
+	tagName:  "div",
 	className: "gallery",
+	id: "backbone-gallery-view",
+
 	events: {
 		"click" : "deselectAll",
 		"click #more" : "loadMoreImages",
-		"click footer" : "stop"
+		"click footer" : "stop",
+		"keydown[ctrl+a]" : "selectAll",
+		"keydown[meta+a]" : "selectAll"
 	},
 	initialize: function(options) {
-		_.bindAll(this, 'selectAll', 'deselectAll', 'loadMoreImages');
-
-		// make this available in render and append
+		var self  = this;
 		_.bindAll(this);
 
 		this.collection.bind('select', this.showFooterIfNeccessary, this);
 		this.collection.bind('deselect', this.showFooterIfNeccessary, this);
 
-		Tagshot.router.bind("route:search", this.search, this);
-
-		//this.collection.bind('refresh', this.render, this);
 		this.collection.bind('reset', this.render, this);
 		this.collection.bind('add', this.append, this);
+
+		_.extend(this.el,Backbone.Events);
+
+		$(document).bind('scroll',this.scrolling);
+		$(document).bind('resize',this.scrolling);
+		$(document).bind('keydown',function(evt){ self.el.trigger('keydown',evt.data);});
 
 		//subviews
 		this.subviews = {};
@@ -31,13 +36,27 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		})
 	},
 	render: function() {
-		console.log("reset gallery view");
+		var signature = $.param({
+			query: this.collection.currentSearchQuery,
+			length: this.collection.length
+        	});
+
+		if (this.signature === signature) return this;
+
+		console.log("signature change: " + this.signature + " -> " + signature);
+
+		this.signature = signature;
+
+		console.log("render gallery");
+		
 		var tags = {tags:[]};
 		$(this.el).html(
-				"<span id='fix-gallery' class='ui-helper-clearfix'></span>"+
-				"<button id='more'>load more...</button>"+
-				Mustache.to_html($('#footer-template').html(), tags)
-				);
+			Mustache.to_html($('#searchbar-template').html())+"<ul>"+
+			"<span id='fix-gallery' class='ui-helper-clearfix'></span></ul>"+
+			"<button id='more'>load more...</button>"+
+			Mustache.to_html($('#footer-template').html(), tags)
+		);
+		console.log("built");
 		this.collection.each(this.append);
 
 		return this;
@@ -60,7 +79,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		view.bind('selectionChanged', this.selectionChanged, this);
 		this.subviews[view.model.id] = view;
 		// insert images before the clearfix thingy
-		$(this.el).children("#fix-gallery").before(view.render().el);
+		$(this.el).find("#fix-gallery").before(view.render().el);
 	},
 	selectAll: function(){
 		this.collection.selectAll();
@@ -83,9 +102,19 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		//avoid event propagation
 		e.stopPropagation();
 	},
-	loadMoreImages: function(e) {
-		// scrolling event by main view
 
+	// scrolling or resizing
+	scrolling: function(){
+		// do infinite scrolling
+		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
+		if (pixelsFromWindowBottom < 200 && $(this.el).is(':visible')) {
+			var maxNumberOfImagesBeforeNoAutomaticFetch = 200;
+			if (this.collection.length < maxNumberOfImagesBeforeNoAutomaticFetch){
+				this.loadMoreImages();
+			}
+		}
+	},
+	loadMoreImages: function(e) {
 		var imagesToFetch = 10;
 		this.collection.appendingFetch(imagesToFetch);
 
@@ -96,9 +125,5 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		if(e) {
 			this.stop(e);
 		}
-	},
-	search: function(searchString){
-		// called when navigate
-		this.collection.search(searchString);
 	}
 });

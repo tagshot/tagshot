@@ -41,6 +41,9 @@
 
 		  var scroll = e.originalEvent.state.scroll;
 		  window.scrollTo(scroll[0],scroll[1]);
+    
+          console.log(scroll);
+
 		},
 	});
 })();

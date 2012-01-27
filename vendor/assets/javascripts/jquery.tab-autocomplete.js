@@ -128,7 +128,8 @@
 					this.minIndex = this.autoSelect === true ? 0 : -1;
 				},
 				addTag: function () {
-					var that = this;
+					var that = this,
+					newTag = '';
 					this.updateTags();
 					// if only tags are accepted and no entry is selected, abort
 					if (this.selectedEntry === null && settings.autoSelect)
@@ -138,6 +139,7 @@
 						this.selectedEntry = this.$input.val();
 					if (this.selectedEntry === '' || this.tags.indexOf(this.selectedEntry) !== -1)
 						return;
+					newTag = this.selectedEntry;
 					this.tags.push(this.selectedEntry);
 					// apply postprocessing as specified by parameters
 					this.doPostProcessing(this.selectedEntry);
@@ -151,7 +153,7 @@
 					this.displayAutocompletionList();
 					this.updateAutocompletionListPosition();
 					this.input.focus();
-					settings.onTagAdded(this.tags.slice(0), this.selectedEntry);
+					settings.onTagAdded(this.tags.slice(0), newTag);
 				},
 				removeTag: function () {
 					this.updateTags();

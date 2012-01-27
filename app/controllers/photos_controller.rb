@@ -16,7 +16,7 @@ class PhotosController < ApplicationController
     end
     
     # force fetch
-    @photos.all(:include => [:tags, :properties])
+    @photos.all(:include => [:tags])
 
     respond_to do |format|
       format.html
@@ -39,8 +39,13 @@ class PhotosController < ApplicationController
   def update
     @photo = Photo.find(params[:id])
 
-    if params[:photo].is_a?(Hash) and params[:photo][:tags].present?
-      @photo.tags = params[:photo][:tags]
+    if params[:photo].is_a?(Hash) 
+      @photo.tags = params[:photo][:tags] if params[:photo][:tags].present?
+      if params[:photo][:properties].is_a?(Hash)
+        Photo.meta_property_names.each do |name|
+          @photo.send("#{name}=", params[:photo][:properties][name]) if params[:photo][:properties][name]
+        end
+      end
     end
 
     if @photo.save

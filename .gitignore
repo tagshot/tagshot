@@ -10,12 +10,5 @@ config/database.yml
 Gemfile.lock
 dev_db_name
 stats
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
 *.un*
 public/images/LWW/*
->>>>>>> Stashed changes
-=======
-*.un*
->>>>>>> develop
