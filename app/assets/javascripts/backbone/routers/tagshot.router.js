@@ -17,6 +17,13 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	home: function(foo) {
+
+		if (Tagshot.collections.photoList.length == 1) {
+			console.log("reset collection");
+			Tagshot.collections.photoList.reset();
+		}
+		
+
 		Tagshot.collections.photoList.fetch({
 			data: {limit: 10},
 			add: true
@@ -36,10 +43,17 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	search: function(query) {
-		console.log("search: ", query);
-		query = encodeURI(query);
+		var tags = query.split('+');
 		Tagshot.collections.photoList.search(query);
+		var currentTags = [];
+		$("#search-container .textbox li.tag").each(function() { currentTags.push($(this).text()) });
 
+		for (var i = 0; i < tags.length; i++) {
+			if (currentTags.indexOf(tags[i]) === -1 && tags[i] !== '') {
+				$("#search-container .textbox li:last").before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
+			}
+			//alert($("#search-container .textbox").get(0)); //.before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');;
+		}
 		//rebind events because bindings are lost because of navigation
 		//Tagshot.views.gallery.delegateEventsToSubViews();
 		//Tagshot.views.gallery.delegateEvents();

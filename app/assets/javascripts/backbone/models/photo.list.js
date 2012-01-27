@@ -9,8 +9,6 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	// needed for infinite scrolling
 	reachedEnd: false,
 	url: "/photos",
-	// for infinite scrolling
-	currentOffset: 0,
 	currentSearchQuery: "",
 	
 	intialize: function() {
@@ -50,21 +48,19 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 			
 			this.fetching = true;
 
+			var currentOffset = this.length;
+
 			var options = {
 				success: function(e) {
 					self.fetching = false;
 				},
 				add: true,
 				data: {
-					offset: this.currentOffset,
+					offset: currentOffset,
 					limit: add,
 					q: self.currentSearchQuery
 				}
 			}
-
-
-			//this.currentOffset += add;
-			this.currentOffset = this.length + add;
 
 			this.fetch(options);
 		}
