@@ -77,10 +77,10 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	append: function(photo) {
 		var sv = this.subviews;
 
-		/*if (photo.id in sv) {
+		if (photo.id in sv) {
 			console.log("remove:", sv[photo.id]);
 			sv[photo.id].remove();
-		}*/
+		}
 
 		var view = new Tagshot.Views.PhotoView({model: photo});
 		view.bind('selectionChanged', this.selectionChanged, this);

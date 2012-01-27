@@ -18,15 +18,14 @@ Tagshot.Router = Backbone.Router.extend({
 
 	home: function(foo) {
 
-		if (Tagshot.collections.photoList.length == 1) {
+		/*if (Tagshot.collections.photoList.length == 1) {
 			console.log("reset collection");
 			Tagshot.collections.photoList.reset();
-		}
-		
+		}*/
 
 		Tagshot.collections.photoList.fetch({
 			data: {limit: 10},
-			add: true
+			add: false
 		});
 
 		//rebind events because bindings are lost because of navigation
@@ -35,6 +34,10 @@ Tagshot.Router = Backbone.Router.extend({
 
 		$("#backbone-detail-view").hide();
 		$("#backbone-gallery-view").show();
+
+		$('#search-container').show();
+		$('#options-container').hide();
+		$('#show-options').show();
 
 
 		// set focus to search bar
@@ -89,6 +92,10 @@ Tagshot.Router = Backbone.Router.extend({
 		
 		$("#backbone-detail-view").show();
 		$("#backbone-gallery-view").hide();
+
+		$('#search-container').hide();
+		$('#options-container').hide();
+		$('#show-options').hide();
 
 		Tagshot.views.detail.delegateEvents();
 
