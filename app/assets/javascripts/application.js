@@ -42,7 +42,21 @@ function hideElements() {
 	$("#options-container").hide();
 }
 
+function addGlobalAjxIndicator(){
+	var indicator = $('#loading-image');
+
+	$(document).ajaxSend(function() {
+		indicator.fadeIn(50);
+	});
+
+	$(document).ajaxStop(function() {
+		indicator.delay(300).fadeOut(500);
+	});
+}
+
 $(function() {
+	addGlobalAjxIndicator();
+
 	Tagshot.init();
 
 	$.ajax("/tags", {
