@@ -29,7 +29,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			var tags = {tags: this.model.get('tags')};
 
 			var header = $("header").detach();
-			$(this.el).append(header).find('#search-container').hide();
+			$(this.el).append(header);
 
 			$(this.el).html(
 				//Mustache.to_html($('#detail-template').html(), this)+

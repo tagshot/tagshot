@@ -397,6 +397,10 @@ div#trash-container {
 /* backbone-detail-viewed image view
 /***********************************/
 
+#backbone-detail-view  #search-container {
+	display: none;
+}
+
 #backbone-detail-view > section {
 	align: center;
 	position: absolute;
