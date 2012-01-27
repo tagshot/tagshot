@@ -17,6 +17,13 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	home: function(foo) {
+
+		if (Tagshot.collections.photoList.length == 1) {
+			console.log("reset collection");
+			Tagshot.collections.photoList.reset();
+		}
+		
+
 		Tagshot.collections.photoList.fetch({
 			data: {limit: 10},
 			add: true
