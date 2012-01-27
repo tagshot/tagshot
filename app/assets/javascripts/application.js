@@ -57,7 +57,6 @@ function addGlobalAjxIndicator(){
 $(function() {
 	addGlobalAjxIndicator();
 
-	Tagshot.init();
 
 	$.ajax("/tags", {
 		success: function (data) {
@@ -120,8 +119,10 @@ $(function() {
 
 			hideElements();
 
-
+			Tagshot.init();
 		},
 	});
+
+
 	
 });
