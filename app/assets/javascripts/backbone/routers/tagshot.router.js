@@ -17,11 +17,6 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	home: function(foo) {
-		Tagshot.collections.photoList.fetch({
-			data: {limit: 10},
-			append: true
-		});
-
 		//rebind events because bindings are lost because of navigation
 		//Tagshot.views.gallery.delegateEventsToSubViews();
 		//Tagshot.views.gallery.delegateEvents();
