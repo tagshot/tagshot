@@ -9,3 +9,6 @@ tmp/
 config/database.yml
 Gemfile.lock
 dev_db_name
+stats
+*.un*
+public/images/LWW/*

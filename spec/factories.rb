@@ -5,7 +5,7 @@ FactoryGirl.define do
   factory :photo do
     association :source
     
-    sequence(:file) { |n| "image#{n}.jpg" }
+    file Rails.root.join(*%w[spec resources image.jpg])
     last_sync_at { Time.zone.now }
     file_mtime   { Time.zone.now - 2.minutes }
     size 1024*1024*5
@@ -14,6 +14,14 @@ FactoryGirl.define do
   factory :photo_with_tags, :parent => :photo do
     after_create do |p|
       [:a, :b, :c].map(&:to_s).each do |t|
+        Tag.find_or_create_by_name(t).photos << p
+      end
+    end
+  end
+  
+  factory :photo_with_more_tags, :parent => :photo do
+    after_create do |p|
+      [:a, :b, :c, :d, :e].map(&:to_s).each do |t|
         Tag.find_or_create_by_name(t).photos << p
       end
     end
@@ -34,5 +42,15 @@ FactoryGirl.define do
   factory :source do
     sequence(:path) { |n| "path/nr/#{n}" }
     sequence(:name) { |n| "Photo Source ##{n}" }
+  end
+  
+  factory :property do
+    association :photo
+    sequence(:name)  { |n| "Tgst.spec.prop#{n}" }
+    sequence(:value) { |n| "value#{n}" }
+  end
+  
+  factory :user do
+    sequence(:login) { |n| "user#{n}" }
   end
 end

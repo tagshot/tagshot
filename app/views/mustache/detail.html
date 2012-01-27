@@ -1,0 +1,27 @@
+<header>
+	<a id="title" href="/" title="go home">
+		<h1 class="logo">Tagshot.</h1>
+	</a>
+	<br style="clear: both;" />
+	<button id="show-options"></button>
+</header>
+<section>
+<div class="imagebox">
+	<img src="{{model.attributes.image}}" alt="{{model.attributes.caption}}" />
+</div>
+<div class="propbox">
+    <h2>Image Properties</h2>
+    <dl>
+        <dt>Caption</dt>
+        <dd class="caption">Image Caption{{model.attributes.properties.caption}}</dd>
+        <dt>Rating</dt>
+        	<dd class="star-me"></dd>
+        {{#propHTML}}{{/propHTML}}
+    </dl>
+    <h2>Image Metadata</h2>
+    <dl>
+        {{#metaHTML}}{{/metaHTML}}
+    </dl>
+</div>
+</section>
+

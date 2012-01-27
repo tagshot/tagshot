@@ -1,29 +1,7 @@
-	<header>
-		<h1 class="logo">Tagshot.</h1>
-		<div id="search-container" class="textbox-container">
-			<input type="text" id="search-box" class='textbox' />
-			<%= image_tag "loading.gif", :id => 'loading-image' %>
-		</div>
-		<br style="clear: both;" />
-		<button id="show-options">Show/hide more options</button>
-	</header>
-	<section id="options-container">
-		<div id="date-picker"></div>
-		<div id="thumbnail-size-container">
-			<span>Set tile size: </span>
-			<div id="thumbnail-size-slider"></div>
-		</div>
-		<br style="clear: both;" />
+	<section id="backbone-main-view">
 	</section>
-	<section id="gallery-view">
-		<div id="backbone-image-list-anchor"> </div>
-		<br style="clear: both;" />
-	</section>
-	<footer class="header-footer">
-		<div id="trash-container"></div>
-		<div id="tag-edit-container" class="textbox-container">
-			<input type="text" value="Tag it!" id="search-box" class='textbox' />
-		</div>
-	</footer>
 	<%= mustache_templates %>
+	<%= javascript_include_tag "application" %>
 
+	<!-- mehrere fonts, könnt mal bisschen rumspielen, welche euch am besten gefällt -->
+	<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>

@@ -52,8 +52,10 @@
 	};
 
 	$.fn.tagAutocomplete = function (options) {
-		    // standard settings
-		var settings = {
+		 // will hold a lowercased-version of settings.autocompleteList
+		 var lowercase,
+		// standard settings
+		    settings = {
 			// list of possible autocompletions
 			autocompleteList: [],
 			// css class for the autocompletion list
@@ -63,15 +65,17 @@
 			inputCssClass: 'textbox',
 			// the maximum number of entries to be displayed while autocompletion
 			maxEntries: 10,
-			onTagAdded: function (tagText) {
-				console.log('Tag "' + tagText + '" added.');
+			// auto select
+			autoSelect: false,
+			autocompleteListPosition: 'below',
+			onTagAdded: function (tagList, newTag) {
+				console.log('Tag "' + newTag + '" added.');
 			},
 			onTagRemoved: function (tagText) {
 				console.log('Tag removed.');
-			}
-		},
-		    // will hold a lowercased-version of settings.autocompleteList
-		    lowercase;
+			},
+			postProcessors: []
+		};
 		// merge given options into standard-settings
 		$.extend(settings, options);
 
@@ -80,19 +84,21 @@
 		 * This is needed to be case-insensitive, so typing 'java'
 		 * will also find 'Java'.
 		 * Input:
-		 * [
-		 * 	'JavaScript',
-		 * 	'Java'
-		 * ]
+		 * {
+		 * 	'JavaScript': 100
+		 * 	'Java': 20
+		 * }
 		 * Output:
 		 * [
-		 * 	'javascript',
-		 * 	'java'
+		 * 	['javascript', 100, 'JavaScript'],
+		 * 	['java', 20, 'Java']
 		 * ]
 		 */
-		lowercase = settings.autocompleteList.map(function (el) {
-			return [el[0].toLowerCase(), el[1]];
-		});
+		lowercase = [];
+		for (var entry in settings.autocompleteList) {
+			if (!settings.autocompleteList.hasOwnProperty(entry)) continue;
+			lowercase.push([entry.toLowerCase(), settings.autocompleteList[entry], entry]);
+		}
 
 		this.each(function () {
 			// javascript note: this now refers to the input dom element
@@ -104,6 +110,7 @@
 				input: this,
 				// jqueryify <input>-element
 				$input: $(this),
+				// saves all tags
 				tags: [],
 				removeTagOnNextBackspace: false,
 				init: function () {
@@ -116,36 +123,65 @@
 					// now save some element data needed for computation
 					this.selectedEntry = null;
 					// save the entries currently displayed in autocompletion
-					this.entriesList = []
+					this.autocompletionEntriesList = []
+					// if there is no autoselection, no entry can be selected (indicated by -1)
+					this.minIndex = this.autoSelect === true ? 0 : -1;
 				},
 				addTag: function () {
-					var that = this;
-					if (this.selectedEntry === null)
+					var that = this,
+					newTag = '';
+					this.updateTags();
+					// if only tags are accepted and no entry is selected, abort
+					if (this.selectedEntry === null && settings.autoSelect)
 						return;
-					settings.onTagAdded(this.selectedEntry);
-					this.$input.val('').parent().before('<li class="tag">' + this.selectedEntry + '<button>x</button></li>');
-					this.$tagList.find('li button').last().click(function () {
+					// if we have no selected entry, and this is allowed, just take textbox-value
+					if (this.selectedEntry === null && settings.autoSelect === false)
+						this.selectedEntry = this.$input.val();
+					if (this.selectedEntry === '' || this.tags.indexOf(this.selectedEntry) !== -1)
+						return;
+					newTag = this.selectedEntry;
+					this.tags.push(this.selectedEntry);
+					// apply postprocessing as specified by parameters
+					this.doPostProcessing(this.selectedEntry);
+					this.$input.val('').parent().before('<li class="tag"><span>' + this.selectedEntry + '</span><a></a></li>');
+					this.$tagList.find('li a').last().click(function () {
 						$(this).parent().addClass('tagautocomplete-to-be-removed');
 						that.removeTag();
 					});
-					this.tags.push(this.selectedEntry);
 					this.selectedEntry = null;
-					this.entriesList = [];
+					this.autocompletionEntriesList = [];
 					this.displayAutocompletionList();
 					this.updateAutocompletionListPosition();
 					this.input.focus();
+					settings.onTagAdded(this.tags.slice(0), newTag);
 				},
 				removeTag: function () {
-					settings.onTagRemoved();
+					this.updateTags();
+					p.tags.pop();
 					p.$tagList.children('.tagautocomplete-to-be-removed').remove();
 					p.removeTagOnNextBackspace = false;
 					p.updateAutocompletionListPosition();
 					p.input.focus();
+					settings.onTagRemoved(this.tags.slice(0));
+				},
+				updateTags: function () {
+					var updatedTags = [];
+					this.$tagList.find('li.tag').each(function() { updatedTags.push($(this).text()) });
+					this.tags = updatedTags;
+				},
+				doPostProcessing: function (entry) {
+					for (var i = 0; i < settings.postProcessors.length; i++) {
+						var postprocessor = settings.postProcessors[i];
+						if (postprocessor.matches(this.selectedEntry)) {
+							this.selectedEntry = postprocessor.transform(this.selectedEntry);
+							break;
+						}
+					}
 				},
 				displayAutocompletionList:  function () {
 					var that = this;
 					// display all entries in autocompletion list
-					this.$autocompletionList.html(this.entriesList.reduce(function (prev, current) {
+					this.$autocompletionList.html(this.autocompletionEntriesList.reduce(function (prev, current) {
 						var selected = current === that.selectedEntry ? ' class="autocomplete-selected"' : '';
 						return prev + '<li' + selected + '>' + current + '</li>';
 					}, ''));
@@ -164,10 +200,19 @@
 					this.offset = this.$input.offset();
 					this.height = this.$input.outerHeight();
 					this.width = this.$input.outerWidth();
-					this.$autocompletionList
-						.css('top', this.offset.top + this.height + 5)
-						.css('left', this.offset.left)
-						.css('width', this.width + 'px');
+					if (settings.autocompleteListPosition === 'below') {
+						this.$autocompletionList
+							.css('top', this.offset.top + this.height + 5)
+							.css('left', this.offset.left)
+							.css('width', this.width + 'px');
+					}
+					else if (settings.autocompleteListPosition === 'above') {
+						var listHeight = this.$autocompletionList.outerHeight();
+						this.$autocompletionList
+							.css('top', this.offset.top - listHeight - 5)
+							.css('left', this.offset.left)
+							.css('width', this.width + 'px');
+					}
 				}
 			};
 
@@ -240,17 +285,18 @@
 						p.addTag();
 						break;
 					case keyCodes.LEFT:
+						p.$tagList.children('.tagautocomplete-to-be-removed').removeClass('.tagautocomplete-to-be-removed');
 						break;
 					case keyCodes.DOWN:
-						var index = p.entriesList.indexOf(p.selectedEntry);
-						p.selectedEntry = p.entriesList[Math.min(index + 1, p.entriesList.length - 1)];
+						var index = p.autocompletionEntriesList.indexOf(p.selectedEntry);
+						p.selectedEntry = p.autocompletionEntriesList[Math.min(index + 1, p.autocompletionEntriesList.length - 1)];
 						p.$autocompletionList.children('li').removeClass('selected');
 						p.displayAutocompletionList();
 						event.preventDefault();
 						break;
 					case keyCodes.UP:
-						var index = p.entriesList.indexOf(p.selectedEntry);
-						p.selectedEntry = p.entriesList[Math.max(index - 1, 0)];
+						var index = p.autocompletionEntriesList.indexOf(p.selectedEntry);
+						p.selectedEntry = p.autocompletionEntriesList[Math.max(index - 1, p.minIndex)];
 						p.$autocompletionList.children('li').removeClass('selected');
 						p.displayAutocompletionList();
 						event.preventDefault();
@@ -296,14 +342,14 @@
 
 				// as we want to entries in autocomplete list to be displayed in normal case
 				// (and not lowercased as the entries in filteredList)
-				// we have to find the correctly speed version of the word
+				// we have to find the correctly spelled version of the word
 				// so we just map each entry to its original, un-lowercased equivalent
 				filteredList = filteredList.map(function (el) {
-					return settings.autocompleteList[lowercase.indexOf(el)][0];
+					return el[2];
 				});
 
 				// save filtered list
-				p.entriesList = filteredList;
+				p.autocompletionEntriesList = filteredList;
 
 				// if no entries are left, stop processing
 				if (filteredList.length === 0) {
@@ -313,9 +359,11 @@
 				}
 				// if there is no previous entry or the previous entry is not in the list anymore, use first
 				if (p.selectedEntry === null || filteredList.indexOf(p.selectedEntry) < 0) {
-					p.selectedEntry = filteredList[0];
+					if (settings.autoSelect)
+						p.selectedEntry = filteredList[0];
 				}
 				p.displayAutocompletionList();
+				p.updateAutocompletionListPosition();
 			}).focus(function () {
 				p.$autocompletionList.show(0);
 			}).blur(function () {

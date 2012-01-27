@@ -1,4 +1,5 @@
 
+require 'base/file'
 require 'tagshot/image'
 require 'tagshot/syncronizer'
 require 'tagshot/image_syncronizer'
@@ -18,5 +19,9 @@ module Tagshot
     Source.all.each do |source|
       Tagshot::Syncronizer.new(source).read!
     end
+  end
+
+  def self.version
+    Tagshot::VERSION.to_s
   end
 end

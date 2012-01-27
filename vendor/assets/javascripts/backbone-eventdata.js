@@ -1,5 +1,9 @@
 //= require backbone
 
+/*
+ * reguires the jquery hotkey plugin by jresig
+ */
+
 (function(){
 	// Cached regex to split keys for `delegate`.
 	var eventSplitter = /^([^\s\[\]]+)(\[([^\[\]]+)\])?\s*(.*)$/;
@@ -17,7 +21,6 @@
 				var eventName = match[1], eventData = match[3], selector = match[4];
 				method = _.bind(method, this);
 				eventName += '.delegateEvents' + this.cid;
-				console.log(eventData);
 				if (selector === '') {
 					$(this.el).bind(eventName, eventData, method);
 				} else {

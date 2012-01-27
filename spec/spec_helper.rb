@@ -44,5 +44,7 @@ end
 Spork.each_run do
   # This code will be run each time you run your specs.
   FactoryGirl.reload
+  # need to be "test.host" (!)
+  Rails.application.routes.default_url_options[:host] = 'test.host'
 end
 

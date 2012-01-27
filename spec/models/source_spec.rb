@@ -1,5 +1,13 @@
 require 'spec_helper'
 
 describe Source do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:source) { Factory(:source) }
+  
+  it { source.should_not accept_values_for(:path, "", nil) }
+  it { source.should_not accept_values_for(:name, "", nil) }
+  
+  it 'should accept a non existent path' do
+    source.path = '/path/that/does/not/exists'
+    source.should be_valid
+  end
 end
