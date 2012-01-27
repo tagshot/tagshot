@@ -27,37 +27,16 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	},
 
 	render: function () {
-		//delegate events means rebinding the events
-		this.delegateEvents();
-
-		var signature = $.param({
-			id: this.model.id,
-			caption: this.model.get('caption'),
-			tags: this.model.get('tags')
-		});
-
-		if (this.signature === signature) return this;
-
-		//console.log("signature change: " + this.signature + " -> " + signature);
-
-		this.signature = signature;
-
-		// tmpl im index.html
-		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
-
-		//make resize of images
+		// caching magic
+		if (this.needsNoRender()) {
+			return this;
+		}
+		this.fillTemplate();
 		resizeImages();
-
-		var stars = this.model.get('properties').rating;
-		$(this.el).find(".star-me").starMe({
-			'starCount': stars,
-			'ratingFunc': this.rating
-		});
-		//$(this.el).find(".star-me>a:nth-child(2)").click(); works in FF and Chrome
+		this.setStars();
 
 		//delegate events means rebinding the events
 		this.delegateEvents();
-
 		return this;
 	},
 
@@ -69,20 +48,25 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		var s = this.model.get("tags").join(", ");
 		$(this.el).find(".tags").html(s);
 	},
+
 	select: function() {
 		$(this.el).children().first().addClass("selected");
 		this.trigger("selectionChanged");
 	},
+
 	deselect: function() {
 		$(this.el).children().first().removeClass("selected");
 		this.trigger("selectionChanged");
 	},
+
 	isSelected: function() {
 		return this.model.selected;
 	},
+
 	openDetails : function(e) {
 		Tagshot.router.navigate("details/" + this.model.get("id"), true);
 	},
+
 	quickview: function(e){
 		this.stop(e);
 
@@ -103,10 +87,10 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			}); 
 		}
 	},
+	
 
 	_remove: function() {
 		//should get called when destroy() was called b.c. of event binding in initialize()
-		debugger;
 		this.remove();	// equivalent to $(this.el).remove()
 	},
 
@@ -145,15 +129,40 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			this.model.select();
 		}
 	},
+
 	stop: function(e) {  
 		//avoid propagation to underlying view(s)
 		e.stopPropagation();
 	},
+
 	gotoNext: function(e) {
 		this.stop(e);
 		$(this.el).next().find('.image-frame').focus();
 	},
+
 	gotoPrevious: function() {
 		$(this.el).prev().find('.image-frame').focus();
 	},
+
+	fillTemplate: function() {
+		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
+	},
+
+	setStars: function() {
+		var stars = this.model.get('properties').rating;
+		$(this.el).find(".star-me").starMe({
+			'starCount': stars,
+			'ratingFunc': this.rating
+		});
+	},
+
+	needsNoRender: function() {
+		var currentModelID = this.model.hash();
+		if (this.model.hash === currentModelID) {
+			return true;
+		}
+		console.log("identifier change: " + this.model.hash + " -> " + currentModelID);
+		this.model.hash = currentModelID;
+		return false;
+	}
 });
