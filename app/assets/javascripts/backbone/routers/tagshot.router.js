@@ -17,6 +17,24 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	home: function(foo) {
+
+		var numberOfImagesToFetchAtStart = 10;
+
+		if (Tagshot.collections.photoList.length == 1) {
+			console.log("reset collection");
+
+			Tagshot.collections.photoList.reset();
+		}
+
+		if (Tagshot.collections.photoList.length < numberOfImagesToFetchAtStart) {
+			// if start or resetted
+			Tagshot.collections.photoList.fetch({
+				data: {limit: numberOfImagesToFetchAtStart},
+				add: false
+			});
+		}
+
+
 		//rebind events because bindings are lost because of navigation
 		//Tagshot.views.gallery.delegateEventsToSubViews();
 		//Tagshot.views.gallery.delegateEvents();
@@ -24,16 +42,28 @@ Tagshot.Router = Backbone.Router.extend({
 		$("#backbone-detail-view").hide();
 		$("#backbone-gallery-view").show();
 
+		$('#search-container').show();
+		$('#options-container').hide();
+		$('#show-options').show();
+
 
 		// set focus to search bar
-		$('#search-box').focus();
+		$('#search-container .textbox li.tag').remove().parent().find("input").focus();
 
 	},
 
 	search: function(query) {
-		console.log("search: ", query);
+		var tags = query.split('+');
 		Tagshot.collections.photoList.search(query);
+		var currentTags = [];
+		$("#search-container .textbox li.tag").each(function() { currentTags.push($(this).text()) });
 
+		for (var i = 0; i < tags.length; i++) {
+			if (currentTags.indexOf(tags[i]) === -1 && tags[i] !== '') {
+				$("#search-container .textbox li:last").before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
+			}
+			//alert($("#search-container .textbox").get(0)); //.before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');;
+		}
 		//rebind events because bindings are lost because of navigation
 		//Tagshot.views.gallery.delegateEventsToSubViews();
 		//Tagshot.views.gallery.delegateEvents();
@@ -52,11 +82,11 @@ Tagshot.Router = Backbone.Router.extend({
 
 		var self = this;
 		var model = Tagshot.collections.photoList.get({"id":id});
-		if (model == undefined) {
+		if (model === undefined) {
 			console.log("model not yet loaded: "+ id);
 			Tagshot.collections.photoList.fetch({
 				url:"/photos/"+id,
-				append: true,
+				add: true,
 				success: function(){
 					self.details(id);
 				}
@@ -69,6 +99,10 @@ Tagshot.Router = Backbone.Router.extend({
 		
 		$("#backbone-detail-view").show();
 		$("#backbone-gallery-view").hide();
+
+		$('#search-container').hide();
+		$('#options-container').hide();
+		$('#show-options').hide();
 
 		Tagshot.views.detail.delegateEvents();
 

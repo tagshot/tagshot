@@ -1,3 +1,6 @@
+/* This view displays the photo gallery
+ */
+
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "gallery",
@@ -6,7 +9,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	events: {
 		"click" : "deselectAll",
 		"click #more" : "loadMoreImages",
-		"click footer" : "stop",
 		"keydown[ctrl+a]" : "selectAll",
 		"keydown[meta+a]" : "selectAll"
 	},
@@ -27,7 +29,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		$(document).bind('keydown',function(evt){ self.el.trigger('keydown',evt.data);});
 
 		//subviews
-		this.subviews = {};
+		this.subviews = [];
 	},
 	delegateEventsToSubViews: function() {
 		//rebinds events of subviews, in this case the photo views
@@ -39,9 +41,9 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var signature = $.param({
 			query: this.collection.currentSearchQuery,
 			length: this.collection.length
-        	});
+        });
 
-		if (this.signature === signature) return this;
+		if (this.collection.length > 1 && this.signature === signature) return this;
 
 		console.log("signature change: " + this.signature + " -> " + signature);
 
@@ -51,7 +53,8 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		
 		$(this.el).html(
 			"<ul>"+
-			"<span id='fix-gallery' class='ui-helper-clearfix'></span></ul>"+
+			"<span id='fix-gallery' class='ui-helper-clearfix'></span>"+
+			"</ul>"+
 			"<button id='more'>load more...</button>"
 		);
 		this.collection.each(this.append);
@@ -73,9 +76,16 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		}
 	},
 	append: function(photo) {
+		var sv = this.subviews;
+
+		if (photo.id in sv) {
+			console.log("remove:", sv[photo.id]);
+			sv[photo.id].remove();
+		}
+
 		var view = new Tagshot.Views.PhotoView({model: photo});
 		view.bind('selectionChanged', this.selectionChanged, this);
-		this.subviews[view.model.id] = view;
+		sv[view.model.id] = view;
 		// insert images before the clearfix thingy
 		$(this.el).find("#fix-gallery").before(view.render().el);
 	},

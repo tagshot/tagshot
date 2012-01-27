@@ -50,14 +50,13 @@ function addGlobalAjxIndicator(){
 	});
 
 	$(document).ajaxStop(function() {
-		indicator.delay(300).fadeOut(500);
+		indicator.delay(500).fadeOut(100);
 	});
 }
 
 $(function() {
 	addGlobalAjxIndicator();
 
-	Tagshot.init();
 
 	$.ajax("/tags", {
 		success: function (data) {
@@ -94,7 +93,7 @@ $(function() {
 				setTimeout(function () {
 					selection.forEach(function (model) {
 						model.save(undefined,{
-							success: function() {$("#tags-saved").stop().fadeIn().delay(200).fadeOut()}
+							success: function() {$("#tags-saved").stop(true, true).fadeIn().delay(200).fadeOut()}
 						});
 					});
 				}, 500);
@@ -120,8 +119,10 @@ $(function() {
 
 			hideElements();
 
-
+			Tagshot.init();
 		},
 	});
+
+
 	
 });
