@@ -17,7 +17,7 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	home: function(foo) {
-		console.log("navigate:home "+foo);
+		console.log("navigate: home "+foo);
 		Tagshot.collections.photoList.fetch({
 			data: {limit: 10},
 			append: true
@@ -37,28 +37,26 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	search: function(query) {
-		console.log("search: ", query);
+		console.log("navigate: search ", query);
 		Tagshot.collections.photoList.search(query);
 
 		//rebind events because bindings are lost because of navigation
-		Tagshot.views.gallery.delegateEventsToSubViews();
-		Tagshot.views.gallery.delegateEvents();
+		//Tagshot.views.gallery.delegateEventsToSubViews();
+		//Tagshot.views.gallery.delegateEvents();
 
 		$("#gallery").show();
 		$("#detail").hide();
 	},
 	page: function(page) {
-		console.log("page: ", page);
+		console.log("navigate: page ", page);
 	},
 	searchpage: function(query, page) {
-		console.log("searchpage: "+query+" "+page);
+		console.log("navigate: searchpage "+query+" "+page);
 	},
 	details: function(id) {
-		console.log("navigate:details "+id);
+		console.log("navigate: details "+id);
 
 		var self = this;
-
-		console.log("details: ", id);
 		var model = Tagshot.collections.photoList.get({"id":id});
 		if (model == undefined) {
 			console.log("model not yet loaded: "+ id);

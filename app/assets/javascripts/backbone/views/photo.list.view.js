@@ -54,7 +54,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 			"<span id='fix-gallery' class='ui-helper-clearfix'></span></ul>"+
 			"<button id='more'>load more...</button>"
 		);
-		console.log("built");
 		this.collection.each(this.append);
 
 		return this;
