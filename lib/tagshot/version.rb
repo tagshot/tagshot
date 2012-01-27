@@ -4,10 +4,10 @@ module Tagshot
     MINOR = 1
     PATCH = 0
     BUILD = 'dev'
-    LEVEL = 1
+    LEVEL = nil
     
     def self.to_s
-      [MAJOR, MINOR, PATCH, BUILD, LEVEL].join('.')
+      [MAJOR, MINOR, PATCH, BUILD, LEVEL].select{|p| not p.nil?}.join('.')
     end
   end
 end
