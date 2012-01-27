@@ -63,10 +63,11 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var footer = $('footer');
 		if (this.collection.selection().length > 0) {
 			footer.stop(true,true).slideDown(400);
+			footer.find('input').focus();
 		} else {
 			window.setTimeout(function(){
 				if (self.collection.selection().length == 0) {
-					footer.stop(true,true).slideUp(200);	
+					footer.stop(true, true).slideUp(200);	
 				} 
 			},100);
 		}
