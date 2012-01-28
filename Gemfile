@@ -32,16 +32,16 @@ group :assets do
 end
 group :development, :test do
   gem 'rspec-rails'
-  gem 'capistrano'
-  gem 'guard-rails'
+  gem 'capistrano',  :require => false
+  gem 'guard-rails', :require => false
 end
 # testing gems
 group :test do
-  gem 'turn', :require => false
   gem 'factory_girl_rails'
   gem 'accept_values_for'
-  gem 'guard-rspec'
-  gem 'spork'
-  gem 'guard-spork'
+  gem 'spork',       :require => false
+  gem 'turn',        :require => false
+  gem 'guard-rspec', :require => false
+  gem 'guard-spork', :require => false
 end
 
