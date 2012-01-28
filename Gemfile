@@ -33,6 +33,7 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'capistrano'
+  gem 'guard-rails'
 end
 # testing gems
 group :test do
