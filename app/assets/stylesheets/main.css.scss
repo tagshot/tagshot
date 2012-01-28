@@ -298,7 +298,7 @@ div#thumbnail-size-slider {
 		float: left;
 		margin: 10px 10px 20px 10px;
 		outline: none;
-		overflow: hidden;
+		overflow: visible;
 		position: relative;
 		
 		&:hover img { 
@@ -317,8 +317,6 @@ div#thumbnail-size-slider {
 		position: relative;
 		height: 100%;
 		width: 100%;
-		background-color: red;
-		margin-bottom: 20px;
 
 		img { 
 			max-width: 100%; 
@@ -327,7 +325,6 @@ div#thumbnail-size-slider {
 			padding: 1px; 
 			margin: 5px;
 			box-shadow: 1px 1px 5px #333;
-			display: none;
 		}
 	}
 
