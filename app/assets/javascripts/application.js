@@ -36,6 +36,13 @@ function resizeImages() {
 			return value*1.5;
 		}
 	);
+
+	if (value <= 100) {
+		$("#backbone-gallery-view div.image-frame").addClass("no-tags");
+	}
+	else {
+		$("#backbone-gallery-view div.image-frame").removeClass("no-tags");
+	}
 }
 
 function hideElements() {
