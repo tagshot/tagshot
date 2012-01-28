@@ -17,8 +17,11 @@ module Tagshot
     
     def read!
       return if @source.nil?
-      Dir[File.join(@source.path, '**', '*')].each do |file|
-        try_action file, :read! if File.file?(file)
+      file_num = 0
+      files.each do |file|
+        file_num += 1
+        puts "Read #{file_num} of #{files.length}: #{File.basename(file)} ... "
+        read file
       end
     end
     
