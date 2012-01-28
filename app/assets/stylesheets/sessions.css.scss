@@ -11,13 +11,21 @@
 		box-shadow: 0 0 4px #fff;
 		padding: 10px 20px;
 		margin: 0 0 5px 0;
+		text-align: right;
 
 		p { padding: 5px; color: red; text-align: center; }
-		.input { padding: 6px; width: 100%; margin: 4px 0 4px -7px; border: 1px solid #ccc; border-radius: 5px; }
-		.input:hover { border-color: #aaa; }
-		.input:focus { border-color: #777; }
-		.submit { padding: 6px; float: right; margin: 4px -7px 4px 0; width: 140px; border: 1px solid #ccc; border-radius: 5px;  }
+		input {
+			width: 100%; 
+			padding: 6px; 
+			margin: 4px -7px 4px -7px; 
+			border: 1px solid #ccc; 
+			border-radius: 5px; }
+		input:hover { border-color: #aaa; }
+		input:focus { border-color: #777; }
+		.submit { cursor: pointer; width: 140px; margin-right: -10px; background-color: #eee;}
+		.submit:active { padding: 7px 6px 5px 6px; background-color: #ccc; };
 	}
+	.clear { clear: both; }
 
 	h1 {
 		color: #333;
