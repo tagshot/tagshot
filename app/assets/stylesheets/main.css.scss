@@ -128,7 +128,8 @@ input#search-box {
 	padding: 10px;
 }
 input#tag-box {
-	padding: 6px;
+	padding: 8px 8px 4px 8px;
+	background-color: #fff;
 }
 
 .textbox {
@@ -215,7 +216,7 @@ img#loading-image {
 input.tagautocomplete-clear-textbox {
 	border: none;
 	height: 100%;
-	font-size: 1em;
+	font-size: 14px;
 	padding: 2px 0 0 5px;
 	padding: 5px 5px;
 	margin: 0;
@@ -352,7 +353,7 @@ div#shortcut-explanation td.empty {
 	.image-frame {
 		display: block;
 		float: left;
-		margin: 5px;
+		margin: 7px;
 		outline: none;
 		overflow: visible;
 		position: relative;
