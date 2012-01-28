@@ -33,7 +33,7 @@ function resizeImages() {
 	$("#backbone-gallery-view div.image-frame").css(
 		'height',value).css(
 		'width',function(){
-			return value*1.6;
+			return value*1.5;
 		}
 	);
 }
