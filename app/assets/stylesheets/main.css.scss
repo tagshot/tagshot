@@ -30,7 +30,8 @@ body {
 	height: 101%;
 
 	color: #333;
-	background: #ddd;
+	// background: #ddd;
+	background: #676767;
 }
 a {
    outline: 0;
@@ -314,94 +315,199 @@ div#shortcut-explanation td.empty {
 /* Main View */
 /***********************************/
 
+@mixin transition-property($property) {
+	-webkit-transition-property: $property;
+	-moz-transition-property: $property;
+	-o-transition-property: $property;
+	transition-property: $property;
+}
+
+@mixin transition-duration($duration) {
+	-webkit-transition-duration: $duration;
+	-moz-transition-duration: $duration;
+	-o-transition-duration: $duration;
+	transition-duration: $duration;
+}
+
 
 /***********************************/
 /* backbone-gallery-view */
 /***********************************/
-
 #backbone-gallery-view {
-	/*background: url(); */
+	background-color: #676767;
+	text-align: center;
+	padding-bottom: 20px;
+
+	&.photos-only {
+		div.image { bottom: 0; }
+		div.more_infos { 
+  			@include transition-property(opacity);
+  			@include transition-duration(1s);
+			opacity: 0; }
+	}
+
+	.image-frame {
+		display: block;
+		float: left;
+		margin: 10px 10px 10px 10px;
+		outline: none;
+		overflow: visible;
+		position: relative;
+		
+		&:hover img { 
+			border: 4px solid #aaa;
+			border-radius: 6px; 
+			margin: 1px; 
+			padding: 1px; }
+		&.selected img, &.selected:hover img {
+			border: 4px solid #f8d450;
+			border-radius: 6px; 
+			margin: 1px; }
+		&.smaller .more_infos {
+  			@include transition-property(opacity);
+  			@include transition-duration(1s);
+			opacity: 0; }
+		&.smaller div.image { bottom: 0; }
+	}
+
+	div.image {
+		text-align: center;
+		position: absolute;
+		width: 100%;
+		top: 0;
+		bottom: 33px;
+
+		img { 
+			max-width: 100%; 
+			max-height: 100%;
+			border: 0;
+			padding: 1px; 
+			margin: 5px;
+			box-shadow: 1px 1px 5px #333;
+		}
+	}
+
+	div.more_infos {
+		text-align: center;
+		display: block;
+		background-color: rgba(0,0,0,0.4);
+		border-radius: 5px;
+		color: #eee;
+		padding: 0 5px 0 5px;
+		margin: 0 5px 0 5px;
+		height: 19px;
+		overflow: hidden;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		left: 0;
+
+  		@include transition-property(opacity);
+  		@include transition-duration(1s);
+		opacity: 1;
+
+		.star-me {
+			float: left;
+			font-size: 14px;
+		}
+
+		.tags {
+			font-family: Verdana, Arial;
+			padding-top: 3px;
+			font-size: 10px;
+			text-align: right;
+			overflow: hidden;
+			max-height: 18px;
+			text-overflow: ellipsis;
+		}
+	}
+
+	#more { 
+		margin: 20px;
+		padding: 6px 80px;}
+	#more:disabled { display: none };
 }
 
 /* former li.image-view button */
-#backbone-gallery-view .image-frame {
-	display: block;
-	background: white;
-	float: left;
-	margin: 15px 15px 30px 15px;
-	margin: 8px;
-	/*border: 2px solid black;*/
-	border: none;
-	padding: 0;
-	position: relative;
-	-webkit-user-select: none;
-	border: 2px solid #999;
-}
-#backbone-gallery-view .image-frame:hover:not(.selected):not(:focus) {
-	outline: none;
-	border: 2px solid black;
-}
-#backbone-gallery-view .image-frame.selected:not(:focus) {
-	border: 2px solid red;
-	outline: none;
-}
+// #backbone-gallery-view .image-frame {
+// 	display: block;
+// 	background: white;
+// 	float: left;
+// 	margin: 15px 15px 30px 15px;
+// 	margin: 8px;
+// 	/*border: 2px solid black;*/
+// 	border: none;
+// 	padding: 0;
+// 	position: relative;
+// 	-webkit-user-select: none;
+// 	border: 2px solid #999;
+// }
+// #backbone-gallery-view .image-frame:hover:not(.selected):not(:focus) {
+// 	outline: none;
+// 	border: 2px solid black;
+// }
+// #backbone-gallery-view .image-frame.selected:not(:focus) {
+// 	border: 2px solid red;
+// 	outline: none;
+// }
 
-#backbone-gallery-view .image-frame:focus {
-	border: 2px solid orange;
-}
-#backbone-gallery-view div.image {
-	overflow: hidden;
-	position: relative;
-	height: 200px;
-	width:  300px;
+// #backbone-gallery-view .image-frame:focus {
+// 	border: 2px solid orange;
+// }
+// #backbone-gallery-view div.image {
+// 	overflow: hidden;
+// 	position: relative;
+// 	height: 200px;
+// 	width:  300px;
 	
-	min-height: 40px;
-	max-height: 500px;
-	text-align: center;
-}
-#backbone-gallery-view img {
-	max-width: 100%;
-	max-height: 100%;
-}
-#backbone-gallery-view .image-frame {
-}
-#backbone-gallery-view .image-frame:hover {
-}
-#backbone-gallery-view .image-frame div.more_infos {
-	background-color: rgba(0, 0, 0, 0.9);
-	color: white;
-	margin: 0;
-	padding-bottom: 2px; 
-}
-#backbone-gallery-view .image-frame div.star-me {
-	text-align: center;
-	font-size: 1.7em;
-}
+// 	min-height: 40px;
+// 	max-height: 500px;
+// 	text-align: center;
+// }
+// #backbone-gallery-view img {
+// 	max-width: 100%;
+// 	max-height: 100%;
+// }
+// #backbone-gallery-view .image-frame {
+// }
+// #backbone-gallery-view .image-frame:hover {
+// }
+// #backbone-gallery-view .image-frame div.more_infos {
+// 	background-color: rgba(0, 0, 0, 0.9);
+// 	color: white;
+// 	margin: 0;
+// 	padding-bottom: 2px; 
+// }
+// #backbone-gallery-view .image-frame div.star-me {
+// 	text-align: center;
+// 	font-size: 1.7em;
+// }
 
-#backbone-gallery-view .image-frame:hover div.star-me {
-	display: block;
-}
-.star-me a {
-	text-decoration: none;
-	color: white;
-}
+// #backbone-gallery-view .image-frame:hover div.star-me {
+// 	display: block;
+// }
+// .star-me a {
+// 	text-decoration: none;
+// 	color: white;
+// }
 
-#more {
-	margin: 20px auto 10px auto;
-	height: 30px;
-	width: 300px;
-	font-size: 1em;
-	display: block;
-	cursor: pointer;
-}
+// #more {
+// 	margin: 20px auto 10px auto;
+// 	height: 30px;
+// 	width: 300px;
+// 	font-size: 1em;
+// 	display: block;
+// 	cursor: pointer;
+// }
 
-.autocompletion-list li {
-	padding: 10px;
-}
-.autocompletion-list li.autocomplete-selected {
-	background: #3F4C6B;
-	color: white;
-}
+// .autocompletion-list li {
+// 	padding: 10px;
+// }
+// .autocompletion-list li.autocomplete-selected {
+// 	background: #3F4C6B;
+// 	color: white;
+// }
+// >>>>>>> 2794a21ba577aababa946c960907ae4bd13968ee
 
 /**************************************/
 /* Tag it bar + Footer specialization
