@@ -5,8 +5,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	className: "image-view",
 	events: {
 		//"click .star-me" : "click",
-		"click" : "click",
-		"dblclick" : "openDetails",
+		"click img" : "click",
+		"dblclick img" : "openDetails",
 		"keydown[space]" : "quickview",
 		"keydown[return]" : "openDetails",
 		"keydown[left]" : "gotoPrevious",
@@ -32,8 +32,9 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			return this;
 		}
 		this.fillTemplate();
-		resizeImages();
 		this.setStars();
+
+		resizeImages();
 
 		//delegate events means rebinding the events
 		this.delegateEvents();
