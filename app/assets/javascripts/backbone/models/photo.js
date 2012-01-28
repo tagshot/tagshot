@@ -19,7 +19,9 @@ Tagshot.Models.Photo = Backbone.Model.extend({
 	computeHash: function() {
 		return $.param({ id: this.id,
 			caption: this.caption,
-			tags: this.tags})
+			tags: this.tags,
+			rating: this.rating
+		})
 	},
 
 	selected: false,
