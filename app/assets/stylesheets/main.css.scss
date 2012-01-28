@@ -284,6 +284,20 @@ div#thumbnail-size-slider {
 /* Main View */
 /***********************************/
 
+@mixin transition-property($property) {
+	-webkit-transition-property: $property;
+	-moz-transition-property: $property;
+	-o-transition-property: $property;
+	transition-property: $property;
+}
+
+@mixin transition-duration($duration) {
+	-webkit-transition-duration: $duration;
+	-moz-transition-duration: $duration;
+	-o-transition-duration: $duration;
+	transition-duration: $duration;
+}
+
 
 /***********************************/
 /* backbone-gallery-view */
@@ -293,10 +307,18 @@ div#thumbnail-size-slider {
 	text-align: center;
 	padding-bottom: 20px;
 
+	&.photos-only {
+		div.image { bottom: 0; }
+		div.more_infos { 
+  			@include transition-property(opacity);
+  			@include transition-duration(1s);
+			opacity: 0; }
+	}
+
 	.image-frame {
 		display: block;
 		float: left;
-		margin: 10px 10px 20px 10px;
+		margin: 10px 10px 10px 10px;
 		outline: none;
 		overflow: visible;
 		position: relative;
@@ -310,17 +332,23 @@ div#thumbnail-size-slider {
 			border: 4px solid #f8d450;
 			border-radius: 6px; 
 			margin: 1px; }
+		&.smaller .more_infos {
+  			@include transition-property(opacity);
+  			@include transition-duration(1s);
+			opacity: 0; }
+		&.smaller div.image { bottom: 0; }
 	}
 
 	div.image {
 		text-align: center;
-		position: relative;
-		height: 100%;
+		position: absolute;
 		width: 100%;
+		top: 0;
+		bottom: 33px;
 
 		img { 
 			max-width: 100%; 
-			max-height: 90%;
+			max-height: 100%;
 			border: 0;
 			padding: 1px; 
 			margin: 5px;
@@ -335,8 +363,17 @@ div#thumbnail-size-slider {
 		border-radius: 5px;
 		color: #eee;
 		padding: 0 5px 0 5px;
-		margin: 0px 5px 0 5px;
+		margin: 0 5px 0 5px;
 		height: 19px;
+		overflow: hidden;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		left: 0;
+
+  		@include transition-property(opacity);
+  		@include transition-duration(1s);
+		opacity: 1;
 
 		.star-me {
 			float: left;

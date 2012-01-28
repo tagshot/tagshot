@@ -37,11 +37,11 @@ function resizeImages() {
 		}
 	);
 
-	if (value <= 100) {
-		$("#backbone-gallery-view div.image-frame").addClass("no-tags");
+	if (value <= 120) {
+		$("#backbone-gallery-view div.image-frame").addClass("smaller");
 	}
 	else {
-		$("#backbone-gallery-view div.image-frame").removeClass("no-tags");
+		$("#backbone-gallery-view div.image-frame").removeClass("smaller");
 	}
 }
 
