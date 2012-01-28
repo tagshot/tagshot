@@ -8,13 +8,8 @@
 * {
 	padding: 0;
 	margin: 0;
-	/* fonts zum rumspielen, 
-	 * welche gefällt euch am besten? 
-	 * Lato: Willi
-	   Lato: Stefan
-	 */
 	
-	font-family: 'Lato', sans-serif;	/* Willis Favorit */
+	font-family: 'Ubuntu', sans-serif;
 /*	font-family: "Ubuntu", sans-serif;
 	font-family: 'Delius Swash Caps', cursive;
 	font-family: 'Coda', cursive;
@@ -90,6 +85,7 @@ h1.logo {
 	margin: 5px 40px 0 20px; 
 	float: left;
 	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
 }
 
 h1.logo:hover {
@@ -272,6 +268,9 @@ section#options-container {
 	border-bottom: 3px solid #333;
 	
 	padding-top: 8px;
+	height: 45px;
+	display: block !important;
+	position: relative;
 }
 div#thumbnail-size-container {
 	font-size: 1.0em;
@@ -283,7 +282,33 @@ div#thumbnail-size-slider {
 	width: 500px;
 }
 
-
+div#shortcut-explanation {
+	background: red;
+	position: absolute;
+	top: 0px;
+	left: 600px;
+	right: 0px;
+	bottom: 0px;
+}
+div#shortcut-explanation table {
+	height: 45px;
+	position: absolute;
+	right: 20px;
+}
+div#shortcut-explanation tr {
+	height: 15px;
+}
+div#shortcut-explanation tr.short-explanation-header {
+	background: blue;
+}
+div#shortcut-explanation table td {
+	border: 1px solid black;
+	padding: 0px 20px;
+}
+div#shortcut-explanation td.empty {
+	border-top: none;
+	border-bottom: none;
+}
 /***********************************/
 /* Main View */
 /***********************************/
