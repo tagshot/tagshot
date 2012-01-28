@@ -48,12 +48,6 @@ a {
 /* Header, Footer */
 /***********************************/
 
-header {
-	text-align: center;
-	padding: 8px 0;
-	position: relative;
-	border-top: 3px solid #444 !important;
-}
 header, footer {
 	background: -moz-linear-gradient(top,  rgba(237,237,237,0.8) 0%, rgba(204,204,204,0.85) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(237,237,237,0.8)), color-stop(100%,rgba(204,204,204,0.85))); /* Chrome,Safari4+ */
@@ -75,6 +69,17 @@ header, footer {
 	border-top: 2px solid #444;
 	left: 0;
 	bottom: 0;
+}
+
+header {
+	text-align: center;
+	padding: 8px 0px 0px 0px;
+	position: relative;
+	border-top: 3px solid #444 !important;
+}
+
+#title-bar {
+	padding-bottom: 8px;
 }
 
 h1.logo {
@@ -265,8 +270,8 @@ section#options-container {
 	padding: 10px 20px;
 	border-top: 3px solid #333;
 	border-bottom: 3px solid #333;
-	margin-top: 8px;
-	margin-bottom: -8px;
+	
+	padding-top: 8px;
 }
 div#thumbnail-size-container {
 	font-size: 1.0em;
