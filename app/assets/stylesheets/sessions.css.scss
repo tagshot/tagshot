@@ -1,0 +1,35 @@
+
+#login {
+	margin: 40px auto 0 auto;
+	width: 400px;
+	padding: 10px;
+
+	form {
+		background: #fff;
+		border: 1px solid #ccc;
+		border-radius: 12px;
+		box-shadow: 0 0 4px #fff;
+		padding: 10px 20px;
+		margin: 0 0 5px 0;
+
+		p { padding: 5px; color: red; text-align: center; }
+		.input { padding: 6px; width: 100%; margin: 4px 0 4px -7px; border: 1px solid #ccc; border-radius: 5px; }
+		.input:hover { border-color: #aaa; }
+		.input:focus { border-color: #777; }
+		.submit { padding: 6px; float: right; margin: 4px -7px 4px 0; width: 140px; border: 1px solid #ccc; border-radius: 5px;  }
+	}
+
+	h1 {
+		color: #333;
+		font-size: 1.8em;
+		margin: 0 0 20px 0;
+		text-transform: uppercase;
+		text-align: center;
+	}
+
+	#info { 
+		text-align: center;
+		font-size: 0.6em;
+		color: #aaa;
+	}
+}
