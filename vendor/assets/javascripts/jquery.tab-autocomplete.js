@@ -287,10 +287,38 @@
 						p.addTag();
 						break;
 					case keyCodes.LEFT:
-						p.$tagList.children('.' + settings.tagRemoveClass).removeClass(settings.tagRemoveClass).prev().addClass(settings.tagRemoveClass);
+						if (!p.removeTagOnNextBackspace) {
+							if (getCaretPosition(p.input) === 0) {
+								p.$tagList.children('li').last().prev().addClass(settings.tagRemoveClass);
+								p.removeTagOnNextBackspace = true;
+							}
+							break;
+						}
+						var prev = p.$tagList.children('.' + settings.tagRemoveClass).removeClass(settings.tagRemoveClass).prev('.tag');
+						if (prev.length !== 0) {
+							prev.addClass(settings.tagRemoveClass);
+						}
+						else {
+							p.removeTagOnNextBackspace = false;
+						}
+
 						break;
 					case keyCodes.RIGHT:
-						p.$tagList.children('.' + settings.tagRemoveClass).removeClass(settings.tagRemoveClass).next().addClass(settings.tagRemoveClass);
+						if (!p.removeTagOnNextBackspace) {
+							if (getCaretPosition(p.input) === 0) {
+								p.$tagList.children('li').first().addClass(settings.tagRemoveClass);
+								p.removeTagOnNextBackspace = true;
+							}
+							break;
+						}
+						var next = p.$tagList.children('.' + settings.tagRemoveClass).removeClass(settings.tagRemoveClass).next('.tag');
+						if (next.length !== 0) {
+							next.addClass(settings.tagRemoveClass);
+						}
+						else {
+							p.removeTagOnNextBackspace = false;
+						}
+						next.addClass(settings.tagRemoveClass);
 						break;
 					case keyCodes.DOWN:
 						var index = p.autocompletionEntriesList.indexOf(p.selectedEntry);
