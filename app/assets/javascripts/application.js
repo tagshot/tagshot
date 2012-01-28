@@ -30,7 +30,7 @@ var uiSettings = {
 function resizeImages() {
 	var value  = $("#thumbnail-size-slider").slider("value");
 
-	$("#backbone-gallery-view div.image").css(
+	$("#backbone-gallery-view div.image-frame").css(
 		'height',value).css(
 		'width',function(){
 			return value*1.6;

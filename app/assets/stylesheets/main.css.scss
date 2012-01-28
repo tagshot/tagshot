@@ -35,7 +35,8 @@ body {
 	height: 101%;
 
 	color: #333;
-	background: #ddd;
+	// background: #ddd;
+	background: #676767;
 }
 a {
    outline: 0;
@@ -287,86 +288,161 @@ div#thumbnail-size-slider {
 /***********************************/
 /* backbone-gallery-view */
 /***********************************/
-
 #backbone-gallery-view {
-	/*background: url(); */
-}
-
-/* former li.image-view button */
-#backbone-gallery-view .image-frame {
-	display: block;
-	background: white;
-	float: left;
-	margin: 15px 15px 30px 15px;
-	margin: 8px;
-	/*border: 2px solid black;*/
-	box-shadow: 2px 2px 10px #333;
-	border: none;
-	padding: 0;
-	position: relative;
-	-webkit-user-select: none;
-}
-#backbone-gallery-view .image-frame:hover:not(.selected):not(:focus) {
-	box-shadow: 4px 4px 16px #222;
-	outline: none;
-}
-#backbone-gallery-view .image-frame.selected:not(:focus) {
-	box-shadow: 0 0 5px 5px red;
-	outline: none;
-}
-
-#backbone-gallery-view .image-frame:focus {
-	box-shadow: 0 0 5px 5px orange;
-}
-#backbone-gallery-view div.image {
-	overflow: hidden;
-	margin: 2px auto;
-	position: relative;
-	height: 200px;
-	width:  320px;
-	
-	min-height: 40px;
-	max-height: 500px;
-}
-#backbone-gallery-view img {
-	max-width: 100%;
-	max-height: 100%;
-}
-#backbone-gallery-view .image-frame div.more_infos {
-	background-color: rgba(0, 0, 0, 0.8);
-	color: white;
-	margin: 0 2px 4px 2px;
-	padding-bottom: 2px; 
-}
-#backbone-gallery-view .image-frame div.star-me {
+	background-color: #676767;
 	text-align: center;
-	font-size: 1.7em;
+	padding-bottom: 20px;
+
+	.image-frame {
+		display: block;
+		float: left;
+		margin: 10px 10px 20px 10px;
+		outline: none;
+		overflow: hidden;
+		position: relative;
+		
+		&:hover img { 
+			border: 4px solid #aaa;
+			border-radius: 6px; 
+			margin: 1px; 
+			padding: 1px; }
+		&.selected img, &.selected:hover img {
+			border: 4px solid #f8d450;
+			border-radius: 6px; 
+			margin: 1px; }
+	}
+
+	div.image {
+		text-align: center;
+		position: relative;
+		height: 100%;
+		width: 100%;
+		background-color: red;
+		margin-bottom: 20px;
+
+		img { 
+			max-width: 100%; 
+			max-height: 90%;
+			border: 0;
+			padding: 1px; 
+			margin: 5px;
+			box-shadow: 1px 1px 5px #333;
+			display: none;
+		}
+	}
+
+	div.more_infos {
+		text-align: center;
+		display: block;
+		background-color: rgba(0,0,0,0.4);
+		border-radius: 5px;
+		color: #eee;
+		padding: 0 5px 0 5px;
+		margin: 0px 5px 0 5px;
+		height: 19px;
+
+		.star-me {
+			float: left;
+			font-size: 14px;
+		}
+
+		.tags {
+			font-family: Verdana, Arial;
+			padding-top: 3px;
+			font-size: 10px;
+			text-align: right;
+			overflow: hidden;
+			max-height: 18px;
+			text-overflow: ellipsis;
+		}
+	}
+
+	#more { 
+		margin: 20px;
+		padding: 6px 80px;}
+	#more:disabled { display: none };
 }
 
-#backbone-gallery-view .image-frame:hover div.star-me {
-	display: block;
-}
-.star-me span{
-	text-decoration: none;
-	color: white;
-}
+// #backbone-gallery-view {
+// 	background-color: #555;
+// }
 
-#more {
-	margin: 20px auto 10px auto;
-	height: 30px;
-	width: 300px;
-	font-size: 1em;
-	display: block;
-	cursor: pointer;
-}
+// /* former li.image-view button */
+// #backbone-gallery-view .image-frame {
+// 	display: block;
+// 	// background: white;
+// 	float: left;
+// 	margin: 15px 15px 30px 15px;
+// 	margin: 8px;
+// 	/*border: 2px solid black;*/
+// 	box-shadow: 2px 2px 10px #333;
+// 	border: none;
+// 	padding: 0;
+// 	position: relative;
+// 	-webkit-user-select: none;
+// }
+// #backbone-gallery-view .image-frame:hover:not(.selected):not(:focus) {
+// 	box-shadow: 4px 4px 16px #222;
+// 	outline: none;
+// }
+// #backbone-gallery-view .image-frame.selected:not(:focus) {
+// 	box-shadow: 0 0 5px 5px red;
+// 	outline: none;
+// }
 
-.autocompletion-list li {
-	padding: 10px;
-}
-.autocompletion-list li.autocomplete-selected {
-	background: #3F4C6B;
-	color: white;
-}
+// #backbone-gallery-view .image-frame:focus {
+// 	box-shadow: 0 0 5px 5px orange;
+// }
+// #backbone-gallery-view div.image {
+// 	overflow: hidden;
+// 	//margin: 2px auto;
+// 	position: relative;
+// 	height: 200px;
+// 	width:  320px;
+	
+// 	min-height: 40px;
+// 	max-height: 500px;
+// 	text-align: center;
+// }
+// #backbone-gallery-view img {
+// 	max-width: 100%;
+// 	max-height: 100%;
+// }
+// #backbone-gallery-view .image-frame div.more_infos {
+// 	background-color: rgba(0, 0, 0, 0.8);
+// 	color: white;
+// 	//margin: 0 2px 4px 2px;
+// 	padding-bottom: 2px; 
+// }
+// #backbone-gallery-view .image-frame div.star-me {
+// 	text-align: center;
+// 	font-size: 1.7em;
+// }
+
+// #backbone-gallery-view .image-frame:hover div.star-me {
+// 	display: block;
+// }
+// .star-me span{
+// 	text-decoration: none;
+// 	color: white;
+// }
+
+// #more {
+// 	margin: 20px auto 10px auto;
+// 	height: 30px;
+// 	width: 300px;
+// 	font-size: 1em;
+// 	display: block;
+// 	cursor: pointer;
+// }
+
+// .autocompletion-list li {
+// 	padding: 10px;
+// }
+// .autocompletion-list li.autocomplete-selected {
+// 	background: #3F4C6B;
+// 	color: white;
+// }
 
 /**************************************/
 /* Tag it bar + Footer specialization
