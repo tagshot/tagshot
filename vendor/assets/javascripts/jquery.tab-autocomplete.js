@@ -60,6 +60,8 @@
 			autocompleteList: [],
 			// css class for the autocompletion list
 			autocompleteCssClass: 'autocompletion-list',
+			// autocomplete to be removed class
+			tagRemoveClass: 'tagautocomplete-to-be-removed',
 			// css class for the <input>-element,
 			// will be applied to the surrounding <ul> during the plugin-process (see above for explanation)
 			inputCssClass: 'textbox',
@@ -145,7 +147,7 @@
 					this.doPostProcessing(this.selectedEntry);
 					this.$input.val('').parent().before('<li class="tag"><span>' + this.selectedEntry + '</span><a></a></li>');
 					this.$tagList.find('li a').last().click(function () {
-						$(this).parent().addClass('tagautocomplete-to-be-removed');
+						$(this).parent().addClass(settings.tagRemoveClass);
 						that.removeTag();
 					});
 					this.selectedEntry = null;
@@ -156,9 +158,8 @@
 					settings.onTagAdded(this.tags.slice(0), newTag);
 				},
 				removeTag: function () {
+					p.$tagList.children('.' + settings.tagRemoveClass).remove();
 					this.updateTags();
-					p.tags.pop();
-					p.$tagList.children('.tagautocomplete-to-be-removed').remove();
 					p.removeTagOnNextBackspace = false;
 					p.updateAutocompletionListPosition();
 					p.input.focus();
@@ -273,10 +274,11 @@
 						p.selectedEntry = null;
 						if (getCaretPosition(p.input) === 0 && p.$tagList.children('li').length >= 2) {
 							if (p.removeTagOnNextBackspace) {
+								//p.$tagList.children('.' +settings.tagRemoveClass).remove(); //removeTag();
 								p.removeTag();
 							}
 							else {
-								p.$tagList.children('li').last().prev().addClass('tagautocomplete-to-be-removed');
+								p.$tagList.children('li').last().prev().addClass(settings.tagRemoveClass);
 								p.removeTagOnNextBackspace = true;
 							}
 						}
@@ -285,7 +287,10 @@
 						p.addTag();
 						break;
 					case keyCodes.LEFT:
-						p.$tagList.children('.tagautocomplete-to-be-removed').removeClass('.tagautocomplete-to-be-removed');
+						p.$tagList.children('.' + settings.tagRemoveClass).removeClass(settings.tagRemoveClass).prev().addClass(settings.tagRemoveClass);
+						break;
+					case keyCodes.RIGHT:
+						p.$tagList.children('.' + settings.tagRemoveClass).removeClass(settings.tagRemoveClass).next().addClass(settings.tagRemoveClass);
 						break;
 					case keyCodes.DOWN:
 						var index = p.autocompletionEntriesList.indexOf(p.selectedEntry);
@@ -302,7 +307,7 @@
 						event.preventDefault();
 						break;
 					default:
-						p.$tagList.children('li').removeClass('tagautocomplete-to-be-removed');
+						p.$tagList.children('li').removeClass(settings.tagRemoveClass);
 						p.removeTagOnNextBackspace = false;
 						break;
 				}
