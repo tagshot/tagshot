@@ -31,9 +31,9 @@ function resizeImages() {
 	var value  = $("#thumbnail-size-slider").slider("value");
 
 	$("#backbone-gallery-view div.image").css(
-		'height',value).css(
-		'width',function(){
-			return value*1.6;
+		'height', value).css(
+		'width', function(){
+			return value * 1.5;
 		}
 	);
 }
