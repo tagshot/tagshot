@@ -4,54 +4,40 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	tagName:  "li",
 	className: "image-view",
 	events: {
-		"click" : "click",
-		"click .star-me>a" : "stop",
-		"dblclick" : "openDetails",
+		//"click .star-me" : "click",
+		"click img" : "click",
+		"dblclick img" : "openDetails",
 		"keydown[space]" : "quickview",
 		"keydown[return]" : "openDetails",
 		"keydown[left]" : "gotoPrevious",
 		"keydown[right]" : "gotoNext",
-		"keydown[tab]" : "gotoNext"
+		"keydown[tab]" : "gotoNext",
+		"keydown[del]": "delete",
 	},
+
 	initialize : function() {
 		_.bindAll(this);
 
 		this.model.bind('change:thumb', this.render, this);
 		this.model.bind('change:tags', this.tagChange, this);
-		this.model.bind('destroy', this.remove, this);
+		this.model.bind('destroy', this._remove, this);
 		this.model.bind('select', this.select, this);
 		this.model.bind('deselect', this.deselect, this);
-
 		this.quickViewVisible = false;
 	},
+
 	render: function () {
-		//delegate events means rebinding the events
-		this.delegateEvents();
+		// caching magic
+		if (this.needsNoRender()) {
+			return this;
+		}
+		this.fillTemplate();
+		this.setStars();
 
-		var signature = $.param({
-			id: this.model.id,
-			caption: this.model.get('caption'),
-			tags: this.model.get('tags')
-		});
-
-		if (this.signature === signature) return this;
-
-		console.log("signature change: " + this.signature + " -> " + signature);
-
-		this.signature = signature;
-
-		// tmpl im index.html
-		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
-
-		//make resize of images
 		resizeImages();
 
-		var stars = this.model.get('properties').rating;
-		$(this.el).find(".star-me").starMe({'starCount': stars, 'ratingFunc': this.rating});
-
 		//delegate events means rebinding the events
 		this.delegateEvents();
-
 		return this;
 	},
 
@@ -63,20 +49,25 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		var s = this.model.get("tags").join(", ");
 		$(this.el).find(".tags").html(s);
 	},
+
 	select: function() {
 		$(this.el).children().first().addClass("selected");
 		this.trigger("selectionChanged");
 	},
+
 	deselect: function() {
 		$(this.el).children().first().removeClass("selected");
 		this.trigger("selectionChanged");
 	},
+
 	isSelected: function() {
 		return this.model.selected;
 	},
+
 	openDetails : function(e) {
 		Tagshot.router.navigate("details/" + this.model.get("id"), true);
 	},
+
 	quickview: function(e){
 		this.stop(e);
 
@@ -97,12 +88,30 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			}); 
 		}
 	},
-	remove: function() {
-		$(this.el).remove();
-	},
-	click: function(e) {
-		this.model.collection.mainModel = this.model;
+	
 
+	_remove: function() {
+		//should get called when destroy() was called b.c. of event binding in initialize()
+		this.remove();	// equivalent to $(this.el).remove()
+	},
+
+	delete: function() {
+		var selected = this.model.collection.selection();
+		var that = this;
+		//this.model.destroy();
+
+		//this.remove();	// works only for one element, not for all selected
+
+		_.each(selected, function(elem){
+				elem.destroy({
+					error: function(model, err) {
+						console.log('DELETE abortet with model:', model, 'Status:', err.status);
+					}
+				});
+		});
+	},
+
+	click: function(e) {
 		this.stop(e);
 		$(this.el).find('.image-frame').focus();
 		if (e.shiftKey) {
@@ -121,15 +130,40 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			this.model.select();
 		}
 	},
+
 	stop: function(e) {  
 		//avoid propagation to underlying view(s)
 		e.stopPropagation();
 	},
+
 	gotoNext: function(e) {
 		this.stop(e);
 		$(this.el).next().find('.image-frame').focus();
 	},
+
 	gotoPrevious: function() {
 		$(this.el).prev().find('.image-frame').focus();
 	},
+
+	fillTemplate: function() {
+		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
+	},
+
+	setStars: function() {
+		var stars = this.model.get('properties').rating;
+		$(this.el).find(".star-me").starMe({
+			'starCount': stars,
+			'ratingFunc': this.rating
+		});
+	},
+
+	needsNoRender: function() {
+		var currentModelHash = this.model.computeHash();
+		if (this.model.hash === currentModelHash) {
+			return true;
+		}
+		console.log("identifier change: " + this.model.hash + " -> " + currentModelHash);
+		this.model.hash = currentModelHash;
+		return false;
+	}
 });

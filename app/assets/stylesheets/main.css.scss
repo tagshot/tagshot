@@ -8,13 +8,8 @@
 * {
 	padding: 0;
 	margin: 0;
-	/* fonts zum rumspielen, 
-	 * welche gefällt euch am besten? 
-	 * Lato: Willi
-	   Lato: Stefan
-	 */
 	
-	font-family: 'Lato', sans-serif;	/* Willis Favorit */
+	font-family: 'Ubuntu', sans-serif;
 /*	font-family: "Ubuntu", sans-serif;
 	font-family: 'Delius Swash Caps', cursive;
 	font-family: 'Coda', cursive;
@@ -35,7 +30,8 @@ body {
 	height: 101%;
 
 	color: #333;
-	background: #ddd;
+	// background: #ddd;
+	background: #676767;
 }
 a {
    outline: 0;
@@ -48,12 +44,6 @@ a {
 /* Header, Footer */
 /***********************************/
 
-header {
-	text-align: center;
-	padding: 8px 0;
-	position: relative;
-	border-top: 2px solid #444;
-}
 header, footer {
 	background: -moz-linear-gradient(top,  rgba(237,237,237,0.8) 0%, rgba(204,204,204,0.85) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(237,237,237,0.8)), color-stop(100%,rgba(204,204,204,0.85))); /* Chrome,Safari4+ */
@@ -62,6 +52,8 @@ header, footer {
 	background: -ms-linear-gradient(top,  rgba(237,237,237,0.8) 0%,rgba(204,204,204,0.85) 100%); /* IE10+ */
 	background: linear-gradient(top,  rgba(237,237,237,0.8) 0%,rgba(204,204,204,0.85) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ccededed', endColorstr='#d9cccccc',GradientType=0 ); /* IE6-9 */
+
+	background: #DDDDDD;
 						
 	z-index: 20;
 	box-shadow: 0px 0px 10px #000;
@@ -75,17 +67,29 @@ header, footer {
 	bottom: 0;
 }
 
+header {
+	text-align: center;
+	padding: 8px 0px 0px 0px;
+	position: relative;
+	border-top: 3px solid #444 !important;
+}
+
+#title-bar {
+	padding-bottom: 8px;
+}
+
 h1.logo {
 	color: #333;
 	//text-shadow: 1px 1px 0px #ddd, 2px 2px 0px #ddd, 3px 3px 0px #707070;
 	font-size: 1.8em;
 	position: relative;
-	margin: 5px 20px 0 20px; 
+	margin: 5px 40px 0 20px; 
 	float: left;
 	text-transform: uppercase;
+	font-family: 'Lato', sans-serif;
 }
 
-h1.logo:hover{
+h1.logo:hover {
 	color: black;
 	cursor: pointer;
 }
@@ -99,30 +103,40 @@ a#title{
 /***********************************/
 
 div.textbox-container {
-	border-radius: 50px;
-	border: 3px solid Crimson; /* on error */
-	border: 2px solid #3F4C6B;
+	border-radius: 10px;
+	border: 2px solid #333;
 }
 div#search-container {
 	position: relative;
 	float: left;
 	background: white image-url("zoom_icon_16.png") no-repeat 10px center;
-	width: 900px;
+	background: white image-url("searchbox.png") no-repeat 0px center;
+	min-width: 450px;
+	max-width: 900px;
+	padding-left: 50px;
+
+	.tag { margin: 8px 0 0 5px; }
 }
 div#tag-edit-container {
 	margin-top: 4px;
 	margin-right: 100px;
 	margin-left: 6px;
 	background: white image-url("tag_icon_16.png") no-repeat 10px center;
-	padding: 0 22px 0 15px;
+	padding: 0 10px 0 38px;
+}
+input#search-box {
+	padding: 10px;
+}
+input#tag-box {
+	padding: 8px 8px 4px 8px;
+	background-color: #fff;
 }
 
 .textbox {
 	border: none;
 	text-align: left;
-	padding: 4px;
-	margin-right: 30px;
-	margin-left: 20px;
+	// padding: 4px;
+	margin: 0;
 	font-size: 1.0em;
 	width: 95%;		/* Fits perfectly if input size is fixed */
 }
@@ -140,7 +154,7 @@ img#loading-image {
 	right: 15px;
 	width: 26px;
 	margin-top: -13px;
-	visibility: hidden;
+	display: none;
 }
 
 
@@ -166,18 +180,16 @@ img#loading-image {
 }
 .textbox li {
 	float: left;
-	margin: 5px 10px;
 	display: block;
-	/*height: 100%;
-	padding: 4px;*/
 }
-.textbox li:first-child {
-	margin-left: 10px;
-}
+// .textbox li:first-child {
+// 	margin-left: 10px;
+// }
 .textbox li.tag {
 	border: 1px solid #CCD5E4;
 	border-radius: 5px;
-	padding: 1px 5px 1px 10px;
+	padding: 1px 5px 1px 7px;
+	margin: 5px 5px 5px 0;
 	background: #EFF2F7;
 	color: black;
 	position: relative;
@@ -201,15 +213,12 @@ img#loading-image {
 .textbox li.tag a:hover, .textbox li.tagautocomplete-to-be-removed {
 	background-color: Crimson;
 }
-.textbox input {
-}
-.textbox li {
-}
 input.tagautocomplete-clear-textbox {
 	border: none;
 	height: 100%;
-	font-size: 1em;
-	padding: 0;
+	font-size: 14px;
+	padding: 2px 0 0 5px;
+	padding: 5px 5px;
 	margin: 0;
 	width: 100%;
 }
@@ -221,17 +230,38 @@ input.tagautocomplete-clear-textbox {
 
 button#show-options {
 	position: absolute;
-	text-indent: -9999px;
-	bottom: 12px;
+	font-size: 20px;
+	top: 10px;
 	right: 8px;
-	width: 32px;
-	height: 32px;
+	width: 40px;
+	height: 40px;
 	border: none;
-	background: transparent image-url("show_toggle.png") no-repeat;
+	background-color: transparent;
+/*	background: transparent image-url("show_toggle.png") no-repeat;*/
 	cursor: pointer;
 }
-button#show-options.open {
-	background: transparent url("show_toggle.png") -32px no-repeat;
+button#show-options:after {
+	content: '▼';
+}
+button#show-options:hover {
+	background: #333333;
+	color: white;
+	border-radius: 3px;
+}
+button#show-options.open:after {
+	content: '▲';
+}
+
+div#tags-saved {
+	position: absolute;
+	right: 100px;
+	padding: 6px;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	bottom: 0px;
+	background: green;
+	color: white;
+	display: none;
 }
 
 section#options-container {
@@ -241,6 +271,11 @@ section#options-container {
 	padding: 10px 20px;
 	border-top: 3px solid #333;
 	border-bottom: 3px solid #333;
+	
+	padding-top: 8px;
+	height: 45px;
+	display: block;
+	position: relative;
 }
 div#thumbnail-size-container {
 	font-size: 1.0em;
@@ -252,97 +287,168 @@ div#thumbnail-size-slider {
 	width: 500px;
 }
 
-
+div#shortcut-explanation {
+	position: absolute;
+	top: 0px;
+	left: 600px;
+	right: 0px;
+	bottom: 0px;
+}
+div#shortcut-explanation table {
+	height: 45px;
+	position: absolute;
+	right: 20px;
+}
+div#shortcut-explanation tr {
+	height: 15px;
+}
+div#shortcut-explanation tr.short-explanation-header td {
+	background: #111;
+}
+div#shortcut-explanation table td {
+	border: 1px solid black;
+	padding: 0px 30px;
+	background: #666;
+}
+div#shortcut-explanation td.empty {
+	border-top: none;
+	border-bottom: none;
+	background: none !important;
+}
 /***********************************/
 /* Main View */
 /***********************************/
 
-#backbone-main-view {
+@mixin transition-property($property) {
+	-webkit-transition-property: $property;
+	-moz-transition-property: $property;
+	-o-transition-property: $property;
+	transition-property: $property;
+}
+
+@mixin transition-duration($duration) {
+	-webkit-transition-duration: $duration;
+	-moz-transition-duration: $duration;
+	-o-transition-duration: $duration;
+	transition-duration: $duration;
 }
 
 
 /***********************************/
-/* Gallery */
+/* backbone-gallery-view */
 /***********************************/
-
-#gallery {
-	/*background: url(); */
-}
-
-/* former li.image-view button */
-#gallery .image-frame {
-	display: block;
-	background: white;
-	float: left;
-	margin: 15px 15px 30px 15px;
-	margin: 8px;
-	/*border: 2px solid black;*/
-	box-shadow: 2px 2px 10px #333;
-	border: none;
-	padding: 0;
-	position: relative;
-	-webkit-user-select: none;
-}
-#gallery .image-frame:hover:not(.selected):not(:focus) {
-	box-shadow: 4px 4px 16px #222;
-	outline: none;
-}
-#gallery .image-frame.selected:not(:focus) {
-	box-shadow: 0 0 5px 5px red;
-	outline: none;
-}
-
-#gallery .image-frame:focus {
-	box-shadow: 0 0 5px 5px orange;
-}
-#gallery div.image {
-	overflow: hidden;
-	margin: 2px auto;
-	position: relative;
-	height: 200px;
-	width:  320px;
-	
-	min-height: 40px;
-	max-height: 500px;
-}
-#gallery img {
-	max-width: 100%;
-	max-height: 100%;
-}
-#gallery .image-frame div.more_infos {
-	background-color: rgba(0, 0, 0, 0.8);
-	color: white;
-	margin: 0 2px 4px 2px;
-	padding-bottom: 2px; 
-}
-#gallery .image-frame div.star-me {
+#backbone-gallery-view {
+	background-color: #676767;
 	text-align: center;
-	font-size: 1.7em;
+	padding-bottom: 20px;
+
+	&.photos-only {
+		div.image { bottom: 0; }
+		div.more_infos { 
+  			@include transition-property(opacity);
+  			@include transition-duration(1s);
+			opacity: 0; }
+	}
+
+	.image-frame {
+		display: block;
+		float: left;
+		margin: 7px;
+		outline: none;
+		overflow: visible;
+		position: relative;
+		
+		& img:hover { 
+			border: 4px solid #aaa;
+			border-radius: 6px; 
+			margin: 1px; 
+			padding: 1px; }
+		&.selected img, &.selected img:hover {
+			border: 4px solid #f8d450;
+			border-radius: 6px; 
+			margin: 1px; }
+		&.smaller .more_infos {
+  			@include transition-property(opacity);
+  			@include transition-duration(1s);
+			opacity: 0; }
+		&.smaller div.image { bottom: 0; }
+	}
+
+	div.image {
+		text-align: center;
+		position: absolute;
+		width: 100%;
+		top: 0;
+		bottom: 33px;
+
+		img { 
+			max-width: 100%; 
+			max-height: 100%;
+			border: 0;
+			padding: 1px; 
+			margin: 5px;
+			box-shadow: 1px 1px 5px #333;
+		}
+	}
+
+	div.more_infos {
+		text-align: center;
+		display: block;
+		background-color: rgba(0,0,0,0.4);
+		border-radius: 5px;
+		color: #eee;
+		padding: 0 5px 0 5px;
+		margin: 0 5px 0 5px;
+		height: 19px;
+		overflow: hidden;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		left: 0;
+
+  		@include transition-property(opacity);
+  		@include transition-duration(1s);
+		opacity: 1;
+
+		.star-me {
+			a { color: inherit; text-decoration: none; }
+			float: left;
+			font-size: 14px;
+		}
+
+		.tags {
+			font-family: Verdana, Arial;
+			padding-top: 3px;
+			font-size: 10px;
+			text-align: right;
+			overflow: hidden;
+			height: 18px;
+			text-overflow: ellipsis;
+		}
+	}
+
+	#more { 
+		margin: 20px;
+		padding: 6px 80px;}
+	#more:disabled { display: none };
 }
 
-#gallery .image-frame:hover div.star-me {
-	display: block;
-}
-.star-me span{
-	text-decoration: none;
-	color: white;
-}
-
-#more {
-	margin: 20px auto 10px auto;
-	height: 30px;
-	width: 300px;
-	font-size: 1em;
-	display: block;
-	cursor: pointer;
-}
+/**************************************/
+/* auto completion
+/**************************************/
 
 .autocompletion-list li {
-	padding: 10px;
-}
-.autocompletion-list li.autocomplete-selected {
-	background: #3F4C6B;
-	color: white;
+	padding: 6px;
+	border: 1px solid #bbb;
+	border-top-width: 0;
+	
+	&:first-child {
+		border-width: 1px;
+	}
+	&.autocomplete-selected {
+		background: #3F4C6B;
+		color: white; 
+	}
 }
 
 /**************************************/
@@ -351,7 +457,7 @@ div#thumbnail-size-slider {
 
 footer .textbox {
 	height: 29px;
-	padding: 4px 0;
+	padding: 0px 0 4px 0;
 }
 
 footer{
@@ -375,10 +481,10 @@ div#trash-container {
 }
 
 /***********************************/
-/* Detailed image view
+/* backbone-detail-viewed image view
 /***********************************/
 
-#detail > section {
+#backbone-detail-view > section {
 	align: center;
 	position: absolute;
 	top: 60px; bottom: 60px;
@@ -386,18 +492,18 @@ div#trash-container {
 	padding: 10px 440px 10px 10px;
 }
 
-#detail > section h2 {
+#backbone-detail-view > section h2 {
 	font-size: 1.1em;
 	padding: 9px 0 6px;
 	font-weight: normal;
 }
 
-#detail > section .imagebox {
+#backbone-detail-view > section .imagebox {
 	height: 100%;
 	text-align: center;
 }
 
-#detail > section .imagebox img {
+#backbone-detail-view > section .imagebox img {
 	max-width: 100%;
 	max-height: 100%;
 	margin: auto;
@@ -406,7 +512,7 @@ div#trash-container {
 	padding: 1px;
 }
 
-#detail > section .propbox {
+#backbone-detail-view > section .propbox {
 	padding: 0 14px;
 	position: absolute;
 	top: 0; bottom: 0;
@@ -418,12 +524,12 @@ div#trash-container {
 	overflow: auto;
 }
 
-#detail > section .propbox dl {
+#backbone-detail-view > section .propbox dl {
 	// padding-left: 90px;
 	margin-bottom: 10px;
 }
 
-#detail > section .propbox dt {
+#backbone-detail-view > section .propbox dt {
 	font-size: 0.65em;
 	color: #888;
 	// width: 85px;
@@ -431,17 +537,44 @@ div#trash-container {
 	// margin: 2px 0 0 -90px;
 }
 
-#detail > section .propbox dd {
-	// height: 22px;
-	margin: 0 0 2px 30px;
+#backbone-detail-view > section .propbox dd {
+	padding: 4px 8px;
+	margin: 2px 0 2px 30px;
 	font-size: 0.85em;
 	color: #fff;
+	height: 15px;
 }
 
-.star-me > a {
+#backbone-detail-view > section .propbox dd input,
+#backbone-detail-view > section .propbox dd textarea, {
+	background: #333;
+	color: #fff;
+	padding: 4px 8px;
+	margin: -4px 10px 0px 0;
+	font-size: 1em;
+	width: 250px;
+	float: left;
+	border: 0px none;
+}
+
+#backbone-detail-view > section .propbox dd.description,
+#backbone-detail-view > section .propbox dd textarea {
+	height: 60px;
+}
+
+
+#backbone-detail-view > section .propbox dd.hoverEdit {
+	background-color: #333;
+	cursor: text;
+	width: 250px;
+}
+
+.rating > a {
 	color: #fff;
 	text-decoration: none;
+	font-size: 1.2em;
+	width: 6px;
 }
-.star-me {
+.rating {
 	cursor: pointer;
 }

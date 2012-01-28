@@ -37,7 +37,9 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
 
     if params[:photo].is_a?(Hash) 
-      @photo.tags = params[:photo][:tags] if params[:photo][:tags].present?
+      if params[:photo][:tags].is_a?(Array)
+        @photo.tags = params[:photo][:tags]
+      end
       if params[:photo][:properties].is_a?(Hash)
         @photo.data.update_attributes!(params[:photo][:properties])
       end

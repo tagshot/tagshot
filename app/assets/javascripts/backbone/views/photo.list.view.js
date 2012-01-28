@@ -1,12 +1,14 @@
+/* This view displays the photo gallery
+ */
+
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "div",
 	className: "gallery",
-	id: "gallery",
+	id: "backbone-gallery-view",
 
 	events: {
 		"click" : "deselectAll",
 		"click #more" : "loadMoreImages",
-		"click footer" : "stop",
 		"keydown[ctrl+a]" : "selectAll",
 		"keydown[meta+a]" : "selectAll"
 	},
@@ -23,10 +25,11 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		_.extend(this.el,Backbone.Events);
 
 		$(document).bind('scroll',this.scrolling);
+		$(document).bind('resize',this.scrolling);
 		$(document).bind('keydown',function(evt){ self.el.trigger('keydown',evt.data);});
 
 		//subviews
-		this.subviews = {};
+		this.subviews = [];
 	},
 	delegateEventsToSubViews: function() {
 		//rebinds events of subviews, in this case the photo views
@@ -37,21 +40,22 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	render: function() {
 		var signature = $.param({
 			query: this.collection.currentSearchQuery,
-			legth: this.collection.length
+			length: this.collection.length
         });
 
-		if (this.signature === signature) return this;
+		if (this.collection.length > 1 && this.signature === signature) return this;
 
 		console.log("signature change: " + this.signature + " -> " + signature);
 
 		this.signature = signature;
+
+		console.log("render gallery");
 		
-		var tags = {tags:[]};
 		$(this.el).html(
-			Mustache.to_html($('#searchbar-template').html())+"<ul>"+
-			"<span id='fix-gallery' class='ui-helper-clearfix'></span></ul>"+
-			"<button id='more'>load more...</button>"+
-			Mustache.to_html($('#footer-template').html(), tags)
+			"<ul>"+
+			"<span id='fix-gallery' class='ui-helper-clearfix'></span>"+
+			"</ul>"+
+			"<button id='more'>load more...</button>"
 		);
 		this.collection.each(this.append);
 
@@ -62,20 +66,30 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var footer = $('footer');
 		if (this.collection.selection().length > 0) {
 			footer.stop(true,true).slideDown(400);
+			footer.find('input').focus();
 		} else {
 			window.setTimeout(function(){
 				if (self.collection.selection().length == 0) {
-					footer.stop(true,true).slideUp(200);	
+					footer.stop(true, true).slideUp(200);	
 				} 
 			},100);
 		}
 	},
 	append: function(photo) {
+		var sv = this.subviews;
+
+		if (photo.id in sv) {
+			console.log("remove:", sv[photo.id]);
+			sv[photo.id].remove();
+		}
+
 		var view = new Tagshot.Views.PhotoView({model: photo});
 		view.bind('selectionChanged', this.selectionChanged, this);
-		this.subviews[view.model.id] = view;
+		sv[view.model.id] = view;
 		// insert images before the clearfix thingy
 		$(this.el).find("#fix-gallery").before(view.render().el);
+
+		resizeImages();
 	},
 	selectAll: function(){
 		this.collection.selectAll();

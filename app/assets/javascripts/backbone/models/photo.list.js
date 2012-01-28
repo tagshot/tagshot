@@ -9,9 +9,8 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	// needed for infinite scrolling
 	reachedEnd: false,
 	url: "/photos",
-	// for infinite scrolling
-	currentOffset: 0,
 	currentSearchQuery: "",
+	
 	intialize: function() {
 		_.bindAll(this, 'selectAll', 'deselectAll', 'url', 'appendingFetch', 'parse', 'search');
 		_.bind('fetch',console.log);
@@ -46,41 +45,47 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		self  = this;
 
 		if (!this.fetching && !this.reachedEnd) {
+			
 			this.fetching = true;
 
-			// TODO ansehen
-			options.success = function(e) {
-				self.fetching = false;
-			}
+			var currentOffset = this.length;
 
-			options.add = true; 
-			this.currentOffset += add;
-			options.data.offset = this.currentOffset;
-			options.data.limit = add;
-			options.data.q = self.currentSearchQuery;
+			var options = {
+				success: function(e) {
+					self.fetching = false;
+				},
+				add: true,
+				data: {
+					offset: currentOffset,
+					limit: add,
+					q: self.currentSearchQuery
+				}
+			}
 
 			this.fetch(options);
 		}
 	},
-	/*parse : function(resp, xhr) {
+	parse : function(resp) {
 		if (resp.length == 0) {
 			//no response, probably reached end
 			this.reachedEnd = true;
 		}
 		return resp;
-    },*/
+    },
 	comparator: function(photo) {
 		return photo.order();
 	},
 	search: function(searchString) {
 		console.log("search for "+searchString);
-		this.currentSearchQuery = searchString;
-		this.fetch({
-			add: false, //not appending
-			data: {
-				limit: 20,
-				q: searchString
-			}
-		});
+		if (this.currentSearchQuery != searchString || searchString === "") {
+			this.currentSearchQuery = searchString;
+			this.fetch({
+				add: false, //not appending
+				data: {
+					limit: 20,
+					q: searchString
+				}
+			});
+		}
 	}
 });

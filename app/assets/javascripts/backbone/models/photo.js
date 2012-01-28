@@ -8,11 +8,20 @@
 Tagshot.Models.Photo = Backbone.Model.extend({
 	collection: Tagshot.Collections.PhotoList,
 	paramRoot: "photo",
+
 	initialize: function() {
 	},
 
 	order: function() {
 		return this.id;
+	},
+
+	computeHash: function() {
+		return $.param({ id: this.id,
+			caption: this.caption,
+			tags: this.tags,
+			rating: this.rating
+		})
 	},
 
 	selected: false,

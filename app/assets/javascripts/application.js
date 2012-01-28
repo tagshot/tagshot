@@ -30,20 +30,40 @@ var uiSettings = {
 function resizeImages() {
 	var value  = $("#thumbnail-size-slider").slider("value");
 
-	$("#gallery div.image").css(
+	$("#backbone-gallery-view div.image-frame").css(
 		'height',value).css(
 		'width',function(){
-			return value*1.6;
+			return value*1.5;
 		}
 	);
+
+	if (value <= 120) {
+		$("#backbone-gallery-view div.image-frame").addClass("smaller");
+	}
+	else {
+		$("#backbone-gallery-view div.image-frame").removeClass("smaller");
+	}
 }
 
 function hideElements() {
 	$("#options-container").hide();
 }
 
+function addGlobalAjxIndicator(){
+	var indicator = $('#loading-image');
+
+	$(document).ajaxSend(function() {
+		indicator.stop(true,true).fadeIn(50);
+	});
+
+	$(document).ajaxStop(function() {
+		indicator.delay(500).fadeOut(100);
+	});
+}
+
 $(function() {
-	Tagshot.init();
+	addGlobalAjxIndicator();
+
 
 	$.ajax("/tags", {
 		success: function (data) {
@@ -63,18 +83,27 @@ $(function() {
 			}).textboxFocusOnStart({
 				text: uiSettings.searchBoxText,
 				cssClassWhenEmpty: 'search-start',
-				doFocus: false
+				doFocus: true
 			});
 
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
 				autocompleteListPosition: 'above',
-				onTagAdded: Tagshot.updateTags,
-				onTagRemoved: Tagshot.updateTags
+				onTagAdded: Tagshot.addTag,
+				onTagRemoved: Tagshot.removeTag
 			}).blur(function () {
-				Tagshot.collections.photoList.selection().forEach(function (model) {
-					model.save();
-				});
+				// TODO: Rethink this
+
+				// keep selection since we will not have it after the timeout, 
+				// timeout because of race conditions with put and fetch of differnt models
+				var selection = Tagshot.collections.photoList.selection();
+				setTimeout(function () {
+					selection.forEach(function (model) {
+						model.save(undefined,{
+							success: function() {$("#tags-saved").stop(true, true).fadeIn().delay(200).fadeOut()}
+						});
+					});
+				}, 500);
 			});
 
 			// options bar stuff
@@ -97,8 +126,10 @@ $(function() {
 
 			hideElements();
 
-
+			Tagshot.init();
 		},
 	});
+
+
 	
 });

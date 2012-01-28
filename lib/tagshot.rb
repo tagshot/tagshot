@@ -21,4 +21,8 @@ module Tagshot
       Tagshot::Syncronizer.new(source).read!
     end
   end
+
+  def self.version
+    Tagshot::VERSION.to_s
+  end
 end

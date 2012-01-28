@@ -1,12 +1,22 @@
-<h1>Login</h1>
-<% if flash[:error] %>
-  <p><%= flash[:error] %>
-<% end %>
-<% if flash[:notice] %>
-  <p><%= flash[:notice] %>
-<% end %>
-<form action="<%= session_path %>" method="POST">
-  <input type="text" value="<%= params[:login] %>" name="login" />
-  <input type="password" value="" name="password" />
-  <input type="submit" value="Login" />
-</form>
+<div id="login">
+  <h1>Tagshot.</h1>
+  <form action="<%= session_path %>" method="POST">
+    <% if flash[:error] %>
+      <p><%= flash[:error] %></p>
+    <% end %>
+    <% if flash[:notice] %>
+      <p><%= flash[:notice] %></p>
+    <% end %>
+    <input class="input" type="text" value="<%= params[:login] %>" name="login" placeholder="Login" />
+    <input class="input" type="password" value="" name="password" placeholder="******" />
+    <input class="submit" type="submit" value="Login" />
+    <br class="clear" />
+  </form>
+  <p id="info">
+  	<% if defined?(RUBY_VERSION) or defined?(VERSION) %>
+      <%= [defined?(RUBY_ENGINE) ? RUBY_ENGINE.capitalize : 'Ruby', defined?(RUBY_VERSION) ? RUBY_VERSION : VERSION].join(' ') + ' | ' %>
+      <% end %>
+      <%= "Rails #{Rails.version} | #{Rails.env.capitalize} | " %>
+      <%= "Tagshot #{Tagshot.version}" %>
+  </p>
+</div>
