@@ -407,6 +407,7 @@ div#shortcut-explanation td.empty {
 		opacity: 1;
 
 		.star-me {
+			a { color: inherit; text-decoration: none; }
 			float: left;
 			font-size: 14px;
 		}
@@ -428,86 +429,17 @@ div#shortcut-explanation td.empty {
 	#more:disabled { display: none };
 }
 
-/* former li.image-view button */
-// #backbone-gallery-view .image-frame {
-// 	display: block;
-// 	background: white;
-// 	float: left;
-// 	margin: 15px 15px 30px 15px;
-// 	margin: 8px;
-// 	/*border: 2px solid black;*/
-// 	border: none;
-// 	padding: 0;
-// 	position: relative;
-// 	-webkit-user-select: none;
-// 	border: 2px solid #999;
-// }
-// #backbone-gallery-view .image-frame:hover:not(.selected):not(:focus) {
-// 	outline: none;
-// 	border: 2px solid black;
-// }
-// #backbone-gallery-view .image-frame.selected:not(:focus) {
-// 	border: 2px solid red;
-// 	outline: none;
-// }
+/**************************************/
+/* auto completion
+/**************************************/
 
-// #backbone-gallery-view .image-frame:focus {
-// 	border: 2px solid orange;
-// }
-// #backbone-gallery-view div.image {
-// 	overflow: hidden;
-// 	position: relative;
-// 	height: 200px;
-// 	width:  300px;
-	
-// 	min-height: 40px;
-// 	max-height: 500px;
-// 	text-align: center;
-// }
-// #backbone-gallery-view img {
-// 	max-width: 100%;
-// 	max-height: 100%;
-// }
-// #backbone-gallery-view .image-frame {
-// }
-// #backbone-gallery-view .image-frame:hover {
-// }
-// #backbone-gallery-view .image-frame div.more_infos {
-// 	background-color: rgba(0, 0, 0, 0.9);
-// 	color: white;
-// 	margin: 0;
-// 	padding-bottom: 2px; 
-// }
-// #backbone-gallery-view .image-frame div.star-me {
-// 	text-align: center;
-// 	font-size: 1.7em;
-// }
-
-// #backbone-gallery-view .image-frame:hover div.star-me {
-// 	display: block;
-// }
-// .star-me a {
-// 	text-decoration: none;
-// 	color: white;
-// }
-
-// #more {
-// 	margin: 20px auto 10px auto;
-// 	height: 30px;
-// 	width: 300px;
-// 	font-size: 1em;
-// 	display: block;
-// 	cursor: pointer;
-// }
-
-// .autocompletion-list li {
-// 	padding: 10px;
-// }
-// .autocompletion-list li.autocomplete-selected {
-// 	background: #3F4C6B;
-// 	color: white;
-// }
-// >>>>>>> 2794a21ba577aababa946c960907ae4bd13968ee
+.autocompletion-list li {
+	padding: 10px;
+}
+.autocompletion-list li.autocomplete-selected {
+	background: #3F4C6B;
+	color: white;
+}
 
 /**************************************/
 /* Tag it bar + Footer specialization
