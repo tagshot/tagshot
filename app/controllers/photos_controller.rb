@@ -40,7 +40,9 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
 
     if params[:photo].is_a?(Hash) 
-      @photo.tags = params[:photo][:tags] if params[:photo][:tags].present?
+      if params[:photo][:tags].is_a?(Array)
+        @photo.tags = params[:photo][:tags]
+      end
       if params[:photo][:properties].is_a?(Hash)
         Photo.meta_property_names.each do |name|
           @photo.send("#{name}=", params[:photo][:properties][name]) if params[:photo][:properties][name]

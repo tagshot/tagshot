@@ -146,6 +146,19 @@ describe PhotosController do
           photo.tag_names.should == tags
         end
         
+        it 'should do not update photo tags if no array given (1)' do
+          tags = photo.tag_names
+          put :update, :format => :json, :id => photo.id, :photo => {:tags => "abc"}
+          response.status.should == 200
+          photo.tag_names.should == tags
+        end
+        
+        it 'should do remove all tags if empty array is given' do
+          put :update, :format => :json, :id => photo.id, :photo => {:tags => []}
+          response.status.should == 200
+          photo.tag_names.should == []
+        end
+        
         it 'should do update photo tags' do
           put :update, :format => :json, :id => photo.id, :photo => {:tags => ['abc', 'cde', 'efg', 'hij']}
           response.status.should == 200
