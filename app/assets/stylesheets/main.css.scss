@@ -119,15 +119,14 @@ div#tag-edit-container {
 	margin-right: 100px;
 	margin-left: 6px;
 	background: white image-url("tag_icon_16.png") no-repeat 10px center;
-	padding: 0 22px 0 15px;
+	padding: 0 10px 0 38px;
 }
 
 .textbox {
 	border: none;
 	text-align: left;
 	padding: 4px;
-	margin-right: 30px;
-	margin-left: 50px;
+	margin: 0;
 	font-size: 1.0em;
 	width: 95%;		/* Fits perfectly if input size is fixed */
 }
@@ -171,18 +170,18 @@ img#loading-image {
 }
 .textbox li {
 	float: left;
-	margin: 5px 10px;
+	margin: 5px 5px 5px 0;
 	display: block;
 	/*height: 100%;
 	padding: 4px;*/
 }
-.textbox li:first-child {
-	margin-left: 10px;
-}
+// .textbox li:first-child {
+// 	margin-left: 10px;
+// }
 .textbox li.tag {
 	border: 1px solid #CCD5E4;
 	border-radius: 5px;
-	padding: 1px 5px 1px 10px;
+	padding: 1px 5px 1px 7px;
 	background: #EFF2F7;
 	color: black;
 	position: relative;
@@ -206,15 +205,11 @@ img#loading-image {
 .textbox li.tag a:hover, .textbox li.tagautocomplete-to-be-removed {
 	background-color: Crimson;
 }
-.textbox input {
-}
-.textbox li {
-}
 input.tagautocomplete-clear-textbox {
 	border: none;
 	height: 100%;
 	font-size: 1em;
-	padding: 0;
+	padding: 2px 0 0 5px;
 	margin: 0;
 	width: 100%;
 }
@@ -418,7 +413,7 @@ div#shortcut-explanation td.empty {
 			font-size: 10px;
 			text-align: right;
 			overflow: hidden;
-			max-height: 18px;
+			height: 18px;
 			text-overflow: ellipsis;
 		}
 	}
@@ -434,11 +429,17 @@ div#shortcut-explanation td.empty {
 /**************************************/
 
 .autocompletion-list li {
-	padding: 10px;
-}
-.autocompletion-list li.autocomplete-selected {
-	background: #3F4C6B;
-	color: white;
+	padding: 6px;
+	border: 1px solid #bbb;
+	border-top-width: 0;
+	
+	&:first-child {
+		border-width: 1px;
+	}
+	&.autocomplete-selected {
+		background: #3F4C6B;
+		color: white; 
+	}
 }
 
 /**************************************/
