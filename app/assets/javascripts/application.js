@@ -30,12 +30,19 @@ var uiSettings = {
 function resizeImages() {
 	var value  = $("#thumbnail-size-slider").slider("value");
 
-	$("#backbone-gallery-view div.image").css(
+	$("#backbone-gallery-view div.image-frame").css(
 		'height',value).css(
 		'width',function(){
-			return value*1.6;
+			return value*1.5;
 		}
 	);
+
+	if (value <= 120) {
+		$("#backbone-gallery-view div.image-frame").addClass("smaller");
+	}
+	else {
+		$("#backbone-gallery-view div.image-frame").removeClass("smaller");
+	}
 }
 
 function hideElements() {

@@ -3,6 +3,7 @@
  */
 
 //=require starMe
+//=require jquery.inlineedit
 
 Tagshot.Views.DetailListView = Backbone.View.extend({
 	tagName:  "div",
@@ -29,7 +30,9 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 			var tags = {tags: this.model.get('tags')};
 
 			$(this.el).html(Mustache.to_html($('#detail-template').html(), this));
-			this.setStars({});
+			
+			this.makePropertiesInlineEdit();
+			this.setStars();
 
 		} else {
 			$(this.el).html("Image not found");
@@ -40,6 +43,14 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 
 	rating: function(stars) {
 		this.model.save({'properties' : {'rating' : stars}});
+	},
+
+	saveProp: function(key, value) {
+		if (value != "") {
+			var props = this.model.get('properties');
+			props[key] = value;
+			this.model.save({'properties': props});
+		}
 	},
 
 	metaHTML: function() {
@@ -55,23 +66,26 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		};
 	},
 
-	propHTML: function() {
-		return function(text, render) {
-			var str = '';
-			$.each(this.model.get("properties"), function(key, value) {
-				if(key != 'caption' && key != 'rating') {
-					if(!value) value = '&lt;not set&gt;'
-					str += '<dt class="'+key+'">' + key + '</dt><dd>' + value + '</dd>';
-				}
-			});
-			return str;
-		};
+	makePropertiesInlineEdit: function() {
+		var self = this;
+
+		$('.prop dd:not(.rating)').inlineEdit({
+			hover: 'hoverEdit',
+			buttons: '<button class="cancel">cancel</button>',
+			placeholder: '',
+			saveOnBlur: false,
+			save: function( event, hash ) {
+				self.saveProp($(this).attr('class'), hash.value);
+			},
+			cancelOnBlur: false,
+			saveOnBlur: true
+		});
 	},
 
 	setStars: function() {
 		// copy'n pasted from photo.view.js FIXME
 		var stars = this.model.get('properties').rating;
-		$(this.el).find(".star-me").starMe({
+		$(this.el).find(".rating").starMe({
 			'starCount': stars,
 			'ratingFunc': this.rating
 		});

@@ -36,6 +36,7 @@
 *********************************************/
 
 		return this.each(function() {
+			$(self).html(""); //empty
 			buildFullStars();
 			buildEmptyStars();
 			attachClickHandler();
