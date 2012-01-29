@@ -70,7 +70,7 @@ describe PhotosController do
             get :index, :format => :json, :q => 'before:2012-01-02'
             json = JSON(response.body)
             json.each do |photo|
-              photo['properties']['date'] < '2012-01-02'
+              photo['properties']['date'].should < '2012-01-02'
             end
           end
           it 'should return a list of photos with a date after' do
@@ -78,8 +78,28 @@ describe PhotosController do
             get :index, :format => :json, :q => 'after:2012-01-02'
             json = JSON(response.body)
             json.each do |photo|
-              photo['properties']['date'] > '2012-01-02'
+              photo['properties']['date'].should > '2012-01-02'
             end
+          end
+          it 'should return a list of photos with a special rating' do
+            Factory(:photo_with_tags)
+            get :index, :format => :json, :q => 'stars:3'
+            JSON(response.body).each do |photo|
+              photo['properties']['rating'].should == 3
+            end
+            get :index, :format => :json, :q => 'stars:>3'
+            JSON(response.body).each do |photo|
+              photo['properties']['rating'].should > 3
+            end
+          end
+          it 'should correct handle rating range queries' do
+            Factory(:photo_with_tags)
+            get :index, :format => :json, :q => 'stars:<3+stars:>3'
+            JSON(response.body).length.should == 0
+            get :index, :format => :json, :q => 'stars:>=0'
+            length = JSON(response.body).length
+            get :index, :format => :json, :q => 'stars:<=5'
+            JSON(response.body).length.should == length
           end
         end
       end
@@ -192,7 +212,8 @@ describe PhotosController do
           response.status.should == 200
           
           photo.photo_data(true).caption.should == 'Caption'
-          photo.photo_data(true).rating.should == 0
+          photo.photo_data(true).rating.should >= 0
+          photo.photo_data(true).rating.should <= 5
         end
         
         it 'should update photo properties' do

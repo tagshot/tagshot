@@ -17,6 +17,7 @@ FactoryGirl.define do
     caption 'Caption'
     description 'Description'
     location 'Here'
+    sequence(:rating)  { |n| n % 6 }
   end
   
   factory :photo_with_tags, :parent => :photo do
