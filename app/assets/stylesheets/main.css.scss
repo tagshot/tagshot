@@ -253,12 +253,12 @@ button#show-options.open:after {
 }
 
 div#tags-saved {
-	position: absolute;
+	position: fixed;
 	right: 100px;
 	padding: 6px;
-	border-top-right-radius: 5px;
-	border-top-left-radius: 5px;
-	bottom: 0px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	top: 0px;
 	background: green;
 	color: white;
 	display: none;
