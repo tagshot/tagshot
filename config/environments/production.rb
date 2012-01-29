@@ -60,4 +60,6 @@ Tagshot::Application.configure do
 
   config.thumb_cache_path = "tmp/thumbs"
   config.thumb_cache = true
+
+  config.image_root_path = "/net/fs3/foto"
 end
