@@ -56,10 +56,20 @@ $(function() {
 				// keep selection since we will not have it after the timeout, 
 				// timeout because of race conditions with put and fetch of different models => this is why we use setTimeout
 				var selection = Tagshot.collections.photoList.selection();
+
+				// we only want to show "Tags saved", when all photos in selection have been saved
+				// so we need to save, how many photos have been saved so far
+				var savedPhotos = 0;
 				setTimeout(function () {
-					selection.forEach(function (model) {
+					selection.forEach(function (model, index) {
 						model.save(undefined,{
-							success: function() {$("#tags-saved").stop(true, true).fadeIn().delay(200).fadeOut()}
+							success: function() {
+								savedPhotos += 1;
+								// check if all photos have been saved
+								if (savedPhotos === selection.length) {
+									$("#tags-saved").stop(true, true).fadeIn().delay(200).fadeOut()
+								}
+							}
 						});
 					});
 				}, 500);
