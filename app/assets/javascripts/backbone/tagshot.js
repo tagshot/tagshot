@@ -40,9 +40,9 @@ window.Tagshot = {
 		$("#backbone-main-view").append(Tagshot.views.detail.el);
 
 		Tagshot.views.gallery.render();
-		//Tagshot.views.detail.render();
 
-		console.log("Inserted and rendered all views");
+		// saves whether the currently local version has already been saved to the server
+		Tagshot.localVersionDirty = false;
 
 		//navigation with title
 		$('#title').click(function(){
@@ -50,7 +50,6 @@ window.Tagshot = {
 			return false;
 		});
 
-		var match = Backbone.history.start({pushState: true, root: "/"});
-		console.log("Match for first url: "+match);
+		var match = Backbone.history.start( { pushState: true, root: "/" } );
 	}
 };

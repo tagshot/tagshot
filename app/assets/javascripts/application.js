@@ -53,6 +53,9 @@ $(function() {
 				onTagAdded: Tagshot.addTag,
 				onTagRemoved: Tagshot.removeTag
 			}).blur(function () {
+				if (Tagshot.localVersionDirty === false)
+					return;
+
 				// keep selection since we will not have it after the timeout, 
 				// timeout because of race conditions with put and fetch of different models => this is why we use setTimeout
 				var selection = Tagshot.collections.photoList.selection();
@@ -67,7 +70,8 @@ $(function() {
 								savedPhotos += 1;
 								// check if all photos have been saved
 								if (savedPhotos === selection.length) {
-									$("#tags-saved").stop(true, true).fadeIn().delay(200).fadeOut()
+									$("#tags-saved").stop(true, true).fadeIn().delay(200).fadeOut();
+									Tagshot.localVersionDirty = false;
 								}
 							}
 						});
