@@ -31,12 +31,15 @@ module Tagshot
       @query.joins(:photo_data, :source).where('('+sql+')', *options)
     end
 
-    def q_after(string)
-      [ 'photo_data.date > ?', string ]
-    end
-
-    def q_before(string)
-      [ 'photo_data.date < ?', string ]
+    def q_date(string)
+      if string =~ /(>|>=|=|<=|<|)([0-9]{4})(-[0-9]{2})?(-[0-9]{2})?/
+        opt = $1 == '' ? '=' : $1
+        year = $2
+        month = $3 == '' ? '-01' : $3
+        day = $4 == '' ? '-01' : $4
+        return [ "photo_data.date #{opt} \"#{year}#{month}#{day}\"" ]
+      end
+      raise 'no valid stars query'
     end
 
     def q_stars(string)

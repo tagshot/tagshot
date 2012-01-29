@@ -77,34 +77,65 @@ describe PhotosController do
             end
           end
           it 'should return a list of photos with a date before' do
-            Factory(:photo_with_tags)
-            get :index, :format => :json, :q => 'before:2012-01-02'
+            Factory(:photo)
+            get :index, :format => :json, :q => 'date:<2012-01-02'
             json = JSON(response.body)
+            json.length.should > 0
             json.each do |photo|
               photo['properties']['date'].should < '2012-01-02'
             end
           end
           it 'should return a list of photos with a date after' do
-            Factory(:photo_with_tags)
-            get :index, :format => :json, :q => 'after:2012-01-02'
+            Factory(:photo)
+            Factory(:photo)
+            Factory(:photo)
+            Factory(:photo)
+            get :index, :format => :json, :q => 'date:>2012-01-01'
             json = JSON(response.body)
+            json.length.should > 0
             json.each do |photo|
               photo['properties']['date'].should > '2012-01-02'
             end
           end
+          it 'should return a list of photos with a partial date before' do
+            Factory(:photo)
+            Factory(:photo)
+            get :index, :format => :json, :q => 'date:<2012-01'
+            json = JSON(response.body)
+            json.length.should > 0
+            json.each do |photo|
+              photo['properties']['date'].should < '2012-01-01'
+            end
+          end
+          it 'should return a list of photos with a partial date after' do
+            Factory(:photo)
+            Factory(:photo)
+            Factory(:photo)
+            Factory(:photo)
+            get :index, :format => :json, :q => 'date:>2012'
+            json = JSON(response.body)
+            json.length.should > 0
+            json.each do |photo|
+              photo['properties']['date'].should > '2012-01-01'
+            end
+          end
           it 'should return a list of photos with a special rating' do
-            Factory(:photo_with_tags)
+            Factory(:photo)
             get :index, :format => :json, :q => 'stars:3'
-            JSON(response.body).each do |photo|
+            json = JSON(response.body)
+            json.length.should > 0
+            json.each do |photo|
               photo['properties']['rating'].should == 3
             end
             get :index, :format => :json, :q => 'stars:>3'
-            JSON(response.body).each do |photo|
+            json = JSON(response.body)
+            json.length.should > 0
+            json.each do |photo|
               photo['properties']['rating'].should > 3
             end
           end
           it 'should correct handle rating range queries' do
-            Factory(:photo_with_tags)
+            Factory(:photo)
             get :index, :format => :json, :q => 'stars:<3+stars:>3'
             JSON(response.body).length.should == 0
             get :index, :format => :json, :q => 'stars:>=0'
@@ -113,7 +144,7 @@ describe PhotosController do
             JSON(response.body).length.should == length
           end
           it 'should return a list with photos from a given year' do
-            Factory(:photo_with_tags)
+            Factory(:photo)
             get :index, :format => :json, :q => 'year:2010'
             # need a way to check photo year
             #JSON(response.body).each do |photo|

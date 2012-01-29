@@ -13,7 +13,7 @@ FactoryGirl.define do
   end
 
   factory :photo_data do
-    date { Time.zone.now }
+    sequence(:date) { |n| Date.new(2011, 12, 30) + n.days + n.hours + n.seconds }
     caption 'Caption'
     description 'Description'
     location 'Here'
