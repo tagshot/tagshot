@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2'
+gem 'rails', '~> 3.2'
 
 # Choose gem depending on your database
 # Create config/database.yml with required database configuration depending
@@ -19,7 +19,6 @@ gem 'exiv2'
 gem 'draper'
 gem 'delayed_job'
 gem 'rmagick'
-gem 'unicorn'
 
 # Gems used only for assets and not required
 # in production environments by default.

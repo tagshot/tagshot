@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(:version => 20120129210559) do
   create_table "auth_sources", :force => true do |t|
     t.string   "type"
     t.integer  "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "delayed_jobs", :force => true do |t|
@@ -56,8 +56,8 @@ ActiveRecord::Schema.define(:version => 20120129210559) do
   create_table "photos", :force => true do |t|
     t.string   "file"
     t.integer  "size"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.integer  "source_id"
     t.datetime "last_sync_at"
     t.datetime "file_mtime"
@@ -82,8 +82,8 @@ ActiveRecord::Schema.define(:version => 20120129210559) do
   create_table "sources", :force => true do |t|
     t.string   "path"
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.integer  "year"
   end
 
@@ -99,8 +99,8 @@ ActiveRecord::Schema.define(:version => 20120129210559) do
     t.integer  "auth_source_id"
     t.boolean  "admin",          :default => false
     t.string   "type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
 end
