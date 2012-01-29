@@ -1,8 +1,7 @@
-/*
- * This router is the controller and main actor. 
- * It's initialized by window.Tagshot.init
+/* This router is the controller and main actor.
+ * It's initialized by window.Tagshot.init.
  *
- * Triggering a route will change the view if necessary
+ * Triggering a route will change the view if necessary.
  */
 
 Tagshot.Router = Backbone.Router.extend({
