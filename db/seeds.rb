@@ -10,5 +10,6 @@ Source.create!(:path => Rails.root.join(*%w{public images}).to_s, :name => "Publ
 
 require 'auth_source'
 
-as = PasswordAuthSource.create!
-User.create!(:login => 'admin', :password => 'admin', :admin => true, :auth_source_id => as.id)
+pas = PasswordAuthSource.create!
+kas = KerberosAuthSource.create!
+User.create!(:login => 'admin', :password => 'admin', :admin => true, :auth_source_id => pas.id)
