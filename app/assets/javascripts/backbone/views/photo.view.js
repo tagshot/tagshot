@@ -34,7 +34,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		this.fillTemplate();
 		this.setStars();
 
-		resizeImages();
+		Tagshot.helpers.resizeImages();
 
 		//delegate events means rebinding the events
 		this.delegateEvents();
