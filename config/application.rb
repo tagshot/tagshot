@@ -46,6 +46,8 @@ module Tagshot
     config.assets.version = '1.0'
 
     config.thumb_options = { :width => 640, :height => 400, :crop => false }
+
+    config.image_source_level_count = 2
   end
 end
 

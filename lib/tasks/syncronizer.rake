@@ -1,4 +1,7 @@
 namespace :tagshot do
+  task :index => :environment do
+    Tagshot.index!
+  end
   task :sync => :environment do
     Tagshot.sync_all!
   end

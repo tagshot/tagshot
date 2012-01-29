@@ -36,4 +36,6 @@ Tagshot::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  config.image_root_path = Rails.root.join(*%w{public images}).to_s
 end
