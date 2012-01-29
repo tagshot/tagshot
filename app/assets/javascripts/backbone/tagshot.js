@@ -22,6 +22,7 @@ window.Tagshot = {
 	views: {},
 	router: undefined,
 
+	// Setup the app
 	init: function() {
 		Tagshot.router = new Tagshot.Router();
 		
