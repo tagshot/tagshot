@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120125201403) do
+ActiveRecord::Schema.define(:version => 20120129175717) do
 
   create_table "auth_sources", :force => true do |t|
     t.string   "type"
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(:version => 20120125201403) do
     t.datetime "locked_at"
     t.datetime "failed_at"
     t.string   "locked_by"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(:version => 20120125201403) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "year"
   end
 
   create_table "tags", :force => true do |t|

@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Source.create!(:path => Rails.root.join(*%w{public images}).to_s, :name => "Public Images")
+Source.create!(:path => Rails.root.join(*%w{test images}).to_s, :name => "Test Images", :year => 2011)
 
 require 'auth_source'
 

@@ -51,6 +51,7 @@ FactoryGirl.define do
   factory :source do
     sequence(:path) { |n| "path/nr/#{n}" }
     sequence(:name) { |n| "Photo Source ##{n}" }
+    sequence(:year) { |n| 2010 + n % 3 }
   end
   
   factory :property do
