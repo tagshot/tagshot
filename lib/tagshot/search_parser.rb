@@ -28,7 +28,7 @@ module Tagshot
         '(' + queryBlocks.join(' AND ') + ')'
       end
       sql = orBlocks.join(') OR (')
-      @query.joins(:photo_data).where('('+sql+')', *options)
+      @query.joins(:photo_data, :source).where('('+sql+')', *options)
     end
 
     def q_after(string)
@@ -45,6 +45,14 @@ module Tagshot
         return [ "photo_data.rating #{opt} #{$2}" ]
       end
       raise 'no valid stars query'
+    end
+
+    def q_year(string)
+      if string =~ /(>|>=|=|<=|<|)([0-9]{4})/
+        opt = $1 == '' ? '=' : $1
+        return [ "sources.year #{opt} #{$2}" ]
+      end
+      raise 'no valid year query'
     end
   end
 end

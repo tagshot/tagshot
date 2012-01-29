@@ -101,6 +101,23 @@ describe PhotosController do
             get :index, :format => :json, :q => 'stars:<=5'
             JSON(response.body).length.should == length
           end
+          it 'should return a list with photos from a given year' do
+            Factory(:photo_with_tags)
+            get :index, :format => :json, :q => 'year:2010'
+            # need a way to check photo year
+            #JSON(response.body).each do |photo|
+            #  photo['year'].should == 2010
+            #end
+          end
+          it 'should correct handle year range queries' do
+            Factory(:photo_with_tags)
+            get :index, :format => :json, :q => 'year:<2011+year:>2011'
+            JSON(response.body).length.should == 0
+            get :index, :format => :json, :q => 'year:>=2010'
+            length = JSON(response.body).length
+            get :index, :format => :json, :q => 'year:<=2012'
+            JSON(response.body).length.should == length
+          end
         end
       end
     end
