@@ -34,7 +34,7 @@ Tagshot.Router = Backbone.Router.extend({
 
 		if (model === undefined) {
 			this.fetchUnloadedModel(id);
-			return;		// details page is already setup
+			return;
 		}
 
 		this.buildDetailsPage(model);
@@ -76,6 +76,7 @@ Tagshot.Router = Backbone.Router.extend({
 	 *******************/
 
 	fetchUnloadedModel: function(id) {
+		var self = this;
 		console.log("model not yet loaded: "+ id);
 			Tagshot.collections.photoList.fetch({
 				url:"/photos/"+id,
