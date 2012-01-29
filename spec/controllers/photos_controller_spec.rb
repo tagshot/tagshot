@@ -65,6 +65,17 @@ describe PhotosController do
             get :index, :format => :json, :q => ''
             JSON(response.body).length.should > 0
           end
+          it 'should support or queries' do
+            Factory(:photo_with_tags)
+            Factory(:photo_with_f_tags)
+            Factory(:photo_with_g_tags)
+            get :index, :format => :json, :q => 'f,g'
+            json = JSON(response.body)
+            json.length.should >= 2
+            json.each do |photo|
+              (photo['tags'] & ['f', 'g']).size.should > 0
+            end
+          end
           it 'should return a list of photos with a date before' do
             Factory(:photo_with_tags)
             get :index, :format => :json, :q => 'before:2012-01-02'
