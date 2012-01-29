@@ -1,8 +1,7 @@
-/*
- * This router is the controller and main actor. 
- * It's initialized by window.Tagshot.init
+/* This router is the controller and main actor.
+ * It's initialized by window.Tagshot.init.
  *
- * Triggering a route will change the view if necessary
+ * Triggering a route will change the view if necessary.
  */
 
 Tagshot.Router = Backbone.Router.extend({
@@ -28,13 +27,10 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	details: function(id) {
-		console.log("navigate:details "+id);
-
 		var model = Tagshot.collections.photoList.get({"id":id});
 
 		if (model === undefined) {
-			this.fetchUnloadedModel(id);
-			return;
+			return this.fetchUnloadedModel(id);
 		}
 
 		this.buildDetailsPage(model);
@@ -77,7 +73,6 @@ Tagshot.Router = Backbone.Router.extend({
 
 	fetchUnloadedModel: function(id) {
 		var self = this;
-		console.log("model not yet loaded: "+ id);
 			Tagshot.collections.photoList.fetch({
 				url:"/photos/"+id,
 				add: true,

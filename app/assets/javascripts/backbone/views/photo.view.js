@@ -1,3 +1,14 @@
+/* This view displays the information defined in poto.js.
+ *
+ * It is responsible for setting up plugins that manipulate the DOM,
+ * do the selection magic and add fancy effects.
+ *
+ * It also captures user input and saves it into the model.
+ *
+ * It's HTML template is located in app/views/moustache/image.html
+ */
+
+
 //= require backbone-eventdata
 
 Tagshot.Views.PhotoView = Backbone.View.extend({
@@ -18,6 +29,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	initialize : function() {
 		_.bindAll(this);
 
+		// registering event handlers
 		this.model.bind('change:thumb', this.render, this);
 		this.model.bind('change:tags', this.tagChange, this);
 		this.model.bind('destroy', this._remove, this);

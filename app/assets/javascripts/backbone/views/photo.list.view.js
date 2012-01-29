@@ -1,5 +1,8 @@
-/* This view displays the photo gallery
+/* This view displays the photo gallery.
+ *
+ * The HTML template for this view is app/views/moustache/gallery.html
  */
+
 
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:  "div",
@@ -12,13 +15,13 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		"keydown[ctrl+a]" : "selectAll",
 		"keydown[meta+a]" : "selectAll"
 	},
+
 	initialize: function(options) {
 		var self  = this;
 		_.bindAll(this);
 
 		this.collection.bind('select', this.showFooterIfNeccessary, this);
 		this.collection.bind('deselect', this.showFooterIfNeccessary, this);
-
 		this.collection.bind('reset', this.render, this);
 		this.collection.bind('add', this.append, this);
 
@@ -26,18 +29,23 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		$(document).bind('scroll',this.scrolling);
 		$(document).bind('resize',this.scrolling);
-		$(document).bind('keydown',function(evt){ self.el.trigger('keydown',evt.data);});
+		$(document).bind('keydown',function(evt){
+			self.el.trigger('keydown',evt.data);
+		});
 
 		//subviews
 		this.subviews = [];
 	},
+
 	delegateEventsToSubViews: function() {
 		//rebinds events of subviews, in this case the photo views
 		_.each(this.subviews, function(view) {
 			view.delegateEvents();
 		})
 	},
+
 	render: function() {
+		// TODO refactor it in photo.list.js, why not use changed/hasChanged/changedAttributes?
 		var signature = $.param({
 			query: this.collection.currentSearchQuery,
 			length: this.collection.length
@@ -61,6 +69,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		return this;
 	},
+
 	showFooterIfNeccessary: function() {
 		var self = this;
 		var footer = $('footer');
@@ -75,6 +84,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 			},100);
 		}
 	},
+
 	append: function(photo) {
 		var sv = this.subviews;
 
@@ -91,12 +101,15 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		Tagshot.helpers.resizeImages();
 	},
+
 	selectAll: function(){
 		this.collection.selectAll();
 	},
+
 	deselectAll: function(e){
 		this.collection.deselectAll();
 	},
+
 	selectionChanged: function(e) {
 		$("footer .tag").remove();
 		var selection = this.collection.selection();
@@ -108,6 +121,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		}, "");
 		$("footer .textbox").prepend(list);
 	},
+
 	stop: function(e) {  
 		//avoid event propagation
 		e.stopPropagation();
@@ -124,6 +138,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 			}
 		}
 	},
+
 	loadMoreImages: function(e) {
 		var imagesToFetch = 10;
 		this.collection.appendingFetch(imagesToFetch);

@@ -1,3 +1,8 @@
+/* This is the applications's main module.
+ * It sets up the backbone.js framework and routes the user to the home view
+ * defined in (photo.list.view/gallery.html).
+ */
+
 /*
  *= require_self
  *= require_tree ./initializers
