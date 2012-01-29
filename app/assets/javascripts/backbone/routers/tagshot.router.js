@@ -27,33 +27,6 @@ Tagshot.Router = Backbone.Router.extend({
 		this.buildGalleryView();
 	},
 
-	search: function(query) {
-		var tags = query.split('+');
-		Tagshot.collections.photoList.search(query);
-		var currentTags = [];
-		$("#search-container .textbox li.tag").each(function() {
-			currentTags.push($(this).text());
-		});
-
-		for (var i = 0; i < tags.length; i++) {
-			if (currentTags.indexOf(tags[i]) === -1 && tags[i] !== '') {
-				$("#search-container .textbox li:last").before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
-			}
-			//alert($("#search-container .textbox").get(0)); //.before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');;
-		}
-
-		$("#gallery").show();
-		$("#detail").hide();
-	},
-
-	page: function(page) {
-		console.log("page: ", page);
-	},
-
-	searchpage: function(query, page) {
-		console.log("searchpage: "+query+" "+page);
-	},
-
 	details: function(id) {
 		console.log("navigate:details "+id);
 
@@ -66,6 +39,41 @@ Tagshot.Router = Backbone.Router.extend({
 
 		this.buildDetailsPage(model);
 	},
+
+	search: function(query) {
+		var tags = query.split('+');
+		Tagshot.collections.photoList.search(query);
+		var currentTags = [];
+		$("#search-container .textbox li.tag").each(function() {
+			currentTags.push($(this).text());
+		});
+
+		for (var i = 0; i < tags.length; i++) {
+			if (currentTags.indexOf(tags[i]) === -1 && tags[i] !== '') {
+				$("#search-container .textbox li:last").before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
+			}
+		}
+
+		$("#gallery").show();
+		$("#detail").hide();
+	},
+
+
+	/*******************
+	 * Not used routes
+	 *******************/
+
+	page: function(page) {
+		console.log("page: ", page);
+	},
+
+	searchpage: function(query, page) {
+		console.log("searchpage: "+query+" "+page);
+	},
+
+	/*******************
+	 * Helpers
+	 *******************/
 
 	fetchUnloadedModel: function(id) {
 		console.log("model not yet loaded: "+ id);
@@ -93,7 +101,7 @@ Tagshot.Router = Backbone.Router.extend({
 		// display of elements that are not in the dom
 		$('footer:first').show();
 	},
-	
+
 	buildGalleryView: function() {
 		$("#backbone-detail-view").hide();
 		$("#backbone-gallery-view").show();
