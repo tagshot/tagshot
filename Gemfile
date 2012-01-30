@@ -6,7 +6,7 @@ gem 'rails', '~> 3.2'
 # Create config/database.yml with required database configuration depending
 # on your system. See config/database.yml.example for more information.
 gem 'sqlite3'
-# gem 'pg'
+gem 'pg'
 # gem 'mysql2'
 
 #gem 'mongo_mapper'
