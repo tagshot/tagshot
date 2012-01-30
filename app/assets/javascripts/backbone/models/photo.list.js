@@ -1,5 +1,5 @@
 /* This Collection is a list of photo models.
- * It is the model for photo.list.vie.js and it's template is app/views/moustache/gallery.html
+ * It is the model for photo.list.view.js and it's template is app/views/moustache/gallery.html
  */
 
 
@@ -46,27 +46,21 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		});
 	},
 
-	appendingFetch: function(add, options) {
+	appendingFetch: function(add) {
+		// this function fetches models for infinite scrolling (load more button)
 		// add: how many images to add
-		options || (options = {});
-		options.data || (options.data = {});
-		self  = this;
 
 		if (!this.fetching && !this.reachedEnd) {
-			// TODO What does this? It should be a separate function
-			this.fetching = true;
-
-			var currentOffset = this.length;
+			this.setFetchMutex();	// prevent two "load more" requests
 
 			var options = {
-				success: function(e) {
-					self.fetching = false;
-				},
-				add: true,
+				success: this.releaseFetchMutex,
+				error: this.releaseFetchMutex,
+				add: true,	//append models
 				data: {
-					offset: currentOffset,
+					offset: this.length,
 					limit: add,
-					q: self.currentSearchQuery
+					q: this.currentSearchQuery
 				}
 			}
 
@@ -98,5 +92,17 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 				}
 			});
 		}
+	},
+
+	/***************
+	* Helpers
+	****************/
+
+	releaseFetchMutex: function() {
+			this.fetching = false;
+	},
+
+	setFetchMutex: function() {
+			this.fetching = true;
 	}
 });
