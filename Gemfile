@@ -38,6 +38,7 @@ end
 group :test do
   gem 'factory_girl_rails'
   gem 'accept_values_for'
+  gem 'database_cleaner'
   gem 'spork',       :require => false
   gem 'turn',        :require => false
   gem 'guard-rspec', :require => false

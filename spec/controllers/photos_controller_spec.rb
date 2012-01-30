@@ -51,55 +51,65 @@ describe PhotosController do
           it 'should search for photos with all given tags' do
             Factory(:photo_with_tags)
             Factory(:photo_with_more_tags)
+
             get :index, :format => :json, :q => 'a+e'
-            
-            json = JSON(response.body)
-            json.each do |photo|
+            JSON(response.body).each do |photo|
               photo['tags'].include?('a').should == true
               photo['tags'].include?('e').should == true
             end
           end
+
           it 'should return the default list for an empty search' do
             Factory(:photo_with_tags)
             Factory(:photo_with_more_tags)
+
             get :index, :format => :json, :q => ''
             JSON(response.body).length.should > 0
           end
+
           it 'should support or queries' do
             Factory(:photo_with_tags)
             Factory(:photo_with_f_tags)
             Factory(:photo_with_g_tags)
+
             get :index, :format => :json, :q => 'f,g'
             json = JSON(response.body)
-            json.length.should >= 2
+            json.length.should == 2
             json.each do |photo|
               (photo['tags'] & ['f', 'g']).size.should > 0
             end
           end
+
           it 'should return a list of photos with a date before' do
-            Factory(:photo)
+            Factory(:photo).data.update_attributes!(:date => '2012-01-01')
+            Factory(:photo).data.update_attributes!(:date => '2012-01-02')
+            Factory(:photo).data.update_attributes!(:date => '2012-01-03')
+
             get :index, :format => :json, :q => 'date:<2012-01-02'
             json = JSON(response.body)
-            json.length.should > 0
+            json.length.should == 1
             json.each do |photo|
               photo['properties']['date'].should < '2012-01-02'
             end
           end
+
           it 'should return a list of photos with a date after' do
-            Factory(:photo)
-            Factory(:photo)
-            Factory(:photo)
-            Factory(:photo)
+            Factory(:photo).data.update_attributes!(:date => '2012-01-01')
+            Factory(:photo).data.update_attributes!(:date => '2012-01-02')
+            Factory(:photo).data.update_attributes!(:date => '2012-01-03')
+
             get :index, :format => :json, :q => 'date:>2012-01-01'
             json = JSON(response.body)
-            json.length.should > 0
+            json.length.should == 2
             json.each do |photo|
-              photo['properties']['date'].should > '2012-01-02'
+              photo['properties']['date'].should > '2012-01-01'
             end
           end
+
           it 'should return a list of photos with a partial date before' do
             Factory(:photo)
             Factory(:photo)
+
             get :index, :format => :json, :q => 'date:<2012-01'
             json = JSON(response.body)
             json.length.should > 0
@@ -107,11 +117,13 @@ describe PhotosController do
               photo['properties']['date'].should < '2012-01-01'
             end
           end
+
           it 'should return a list of photos with a partial date after' do
             Factory(:photo)
             Factory(:photo)
             Factory(:photo)
             Factory(:photo)
+
             get :index, :format => :json, :q => 'date:>2012'
             json = JSON(response.body)
             json.length.should > 0
@@ -119,38 +131,60 @@ describe PhotosController do
               photo['properties']['date'].should > '2012-01-01'
             end
           end
-          it 'should return a list of photos with a special rating' do
-            Factory(:photo)
+
+          it 'should return a list of photos with specific stars' do
+            Photo.count.should == 0
+            Factory(:photo).data.update_attributes!(:rating => 2)
+            Factory(:photo).data.update_attributes!(:rating => 3)
+            Factory(:photo).data.update_attributes!(:rating => 4)
+
             get :index, :format => :json, :q => 'stars:3'
             json = JSON(response.body)
-            json.length.should > 0
+            json.length.should == 1
             json.each do |photo|
               photo['properties']['rating'].should == 3
             end
+          end
+
+          it 'should return a list of photos with more or equal stars' do
+            Factory(:photo).data.update_attributes!(:rating => 2)
+            Factory(:photo).data.update_attributes!(:rating => 3)
+            Factory(:photo).data.update_attributes!(:rating => 4)
+
             get :index, :format => :json, :q => 'stars:>3'
             json = JSON(response.body)
-            json.length.should > 0
+            json.length.should == 2
             json.each do |photo|
               photo['properties']['rating'].should > 3
             end
           end
-          it 'should correct handle rating range queries' do
+
+          it 'should return nothing for invalid rating ranges' do
             Factory(:photo)
             get :index, :format => :json, :q => 'stars:<3+stars:>3'
             JSON(response.body).length.should == 0
+          end
+
+          it 'should handle all matching rating range queries' do
             get :index, :format => :json, :q => 'stars:>=0'
             length = JSON(response.body).length
             get :index, :format => :json, :q => 'stars:<=5'
             JSON(response.body).length.should == length
           end
+
           it 'should return a list with photos from a given year' do
             Factory(:photo)
             get :index, :format => :json, :q => 'year:2010'
+
+            JSON(response.body).each do |photo|
+              Photo.find(photo[:id]).source.year.should == 2010
+            end
             # need a way to check photo year
             #JSON(response.body).each do |photo|
             #  photo['year'].should == 2010
             #end
           end
+
           it 'should correct handle year range queries' do
             Factory(:photo_with_tags)
             get :index, :format => :json, :q => 'year:<2011+year:>2011'
