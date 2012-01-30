@@ -18,52 +18,13 @@
 //= require mustache
 //= require backbone/tagshot
 //= require tags
+//= require helpers
 //= require tagsAutocompletion
 //= require search
 //= require jquery.fancybox-1.3.4
 
-
-var uiSettings = {
-	searchBoxText: 'Just start searching…'
-};
-
-function resizeImages() {
-	var value  = $("#thumbnail-size-slider").slider("value");
-
-	$("#backbone-gallery-view div.image-frame").css(
-		'height',value).css(
-		'width',function(){
-			return value*1.5;
-		}
-	);
-
-	if (value <= 120) {
-		$("#backbone-gallery-view div.image-frame").addClass("smaller");
-	}
-	else {
-		$("#backbone-gallery-view div.image-frame").removeClass("smaller");
-	}
-}
-
-function hideElements() {
-	$("#options-container").hide();
-}
-
-function addGlobalAjxIndicator(){
-	var indicator = $('#loading-image');
-
-	$(document).ajaxSend(function() {
-		indicator.stop(true,true).fadeIn(50);
-	});
-
-	$(document).ajaxStop(function() {
-		indicator.delay(500).fadeOut(100);
-	});
-}
-
 $(function() {
-	addGlobalAjxIndicator();
-
+	Tagshot.helpers.addGlobalAjaxIndicator();
 
 	$.ajax("/tags", {
 		success: function (data) {
@@ -81,7 +42,7 @@ $(function() {
 				]
 			/* and make it auto-focus on page-load */
 			}).textboxFocusOnStart({
-				text: uiSettings.searchBoxText,
+				text: 'Just start searching…',
 				cssClassWhenEmpty: 'search-start',
 				doFocus: true
 			});
@@ -92,22 +53,32 @@ $(function() {
 				onTagAdded: Tagshot.addTag,
 				onTagRemoved: Tagshot.removeTag
 			}).blur(function () {
-				// TODO: Rethink this
+				if (Tagshot.localVersionDirty === false)
+					return;
 
 				// keep selection since we will not have it after the timeout, 
-				// timeout because of race conditions with put and fetch of differnt models
+				// timeout because of race conditions with put and fetch of different models => this is why we use setTimeout
 				var selection = Tagshot.collections.photoList.selection();
+
+				// we only want to show "Tags saved", when all photos in selection have been saved
+				// so we need to save, how many photos have been saved so far
+				var savedPhotos = 0;
 				setTimeout(function () {
-					selection.forEach(function (model) {
+					selection.forEach(function (model, index) {
 						model.save(undefined,{
-							success: function() {$("#tags-saved").stop(true, true).fadeIn().delay(200).fadeOut()}
+							success: function() {
+								savedPhotos += 1;
+								// check if all photos have been saved
+								if (savedPhotos === selection.length) {
+									$("#tags-saved").stop(true, true).fadeIn().delay(200).fadeOut();
+									Tagshot.localVersionDirty = false;
+								}
+							}
 						});
 					});
 				}, 500);
 			});
 
-			// options bar stuff
-			// TODO refactor
 
 			$("#show-options").click(function() {
 				$("#options-container").slideToggle(300);
@@ -120,16 +91,11 @@ $(function() {
 				min: 50,
 				max: 500,
 				value: 200,
-				slide: resizeImages,
-				change: resizeImages
+				slide: Tagshot.helpers.resizeImages,
+				change: Tagshot.helpers.resizeImages
 			});
-
-			hideElements();
 
 			Tagshot.init();
 		},
 	});
-
-
-	
 });

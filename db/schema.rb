@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120119155051) do
+ActiveRecord::Schema.define(:version => 20120129210559) do
 
   create_table "auth_sources", :force => true do |t|
     t.string   "type"
@@ -40,15 +40,17 @@ ActiveRecord::Schema.define(:version => 20120119155051) do
     t.datetime "date"
     t.string   "owner"
     t.string   "creator"
-    t.integer  "aperture_denominator",     :limit => 2
-    t.integer  "aperture_numerator",       :limit => 2
-    t.integer  "exposureTime_denominator", :limit => 2
-    t.integer  "exposureTime_numerator",   :limit => 2
     t.string   "lens"
     t.integer  "isoSpeedRating"
     t.string   "exposureMode"
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.string   "caption"
+    t.integer  "rating"
+    t.string   "location"
+    t.string   "description"
+    t.string   "aperture"
+    t.string   "exposureTime"
   end
 
   create_table "photos", :force => true do |t|
@@ -82,6 +84,7 @@ ActiveRecord::Schema.define(:version => 20120119155051) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "year"
   end
 
   create_table "tags", :force => true do |t|

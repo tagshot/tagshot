@@ -1,9 +1,9 @@
-/* 
- * This model describes a photo
+/* This model describes a photo
  * The select/deselect/isSelected stuff helps to select multiple
  * photos for batch processing in the photo.list.view.
  * One can add tags to all or delete all the selected photos.
  */
+
 
 Tagshot.Models.Photo = Backbone.Model.extend({
 	collection: Tagshot.Collections.PhotoList,
@@ -17,9 +17,12 @@ Tagshot.Models.Photo = Backbone.Model.extend({
 	},
 
 	computeHash: function() {
-		return $.param({ id: this.id,
+		return $.param({
+			id: this.id,
 			caption: this.caption,
-			tags: this.tags})
+			tags: this.tags,
+			rating: this.rating
+		})
 	},
 
 	selected: false,

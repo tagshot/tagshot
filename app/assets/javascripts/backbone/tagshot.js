@@ -1,3 +1,8 @@
+/* This is the applications's main module.
+ * It sets up the backbone.js framework and routes the user to the home view
+ * defined in (photo.list.view/gallery.html).
+ */
+
 /*
  *= require_self
  *= require_tree ./initializers
@@ -22,6 +27,7 @@ window.Tagshot = {
 	views: {},
 	router: undefined,
 
+	// Setup the app
 	init: function() {
 		Tagshot.router = new Tagshot.Router();
 		
@@ -34,9 +40,9 @@ window.Tagshot = {
 		$("#backbone-main-view").append(Tagshot.views.detail.el);
 
 		Tagshot.views.gallery.render();
-		//Tagshot.views.detail.render();
 
-		console.log("Inserted and rendered all views");
+		// saves whether the currently local version has already been saved to the server
+		Tagshot.localVersionDirty = false;
 
 		//navigation with title
 		$('#title').click(function(){
@@ -44,7 +50,6 @@ window.Tagshot = {
 			return false;
 		});
 
-		var match = Backbone.history.start({pushState: true, root: "/"});
-		console.log("Match for first url: "+match);
+		var match = Backbone.history.start( { pushState: true, root: "/" } );
 	}
 };

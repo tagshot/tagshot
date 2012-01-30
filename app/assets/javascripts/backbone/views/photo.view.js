@@ -1,3 +1,14 @@
+/* This view displays the information defined in poto.js.
+ *
+ * It is responsible for setting up plugins that manipulate the DOM,
+ * do the selection magic and add fancy effects.
+ *
+ * It also captures user input and saves it into the model.
+ *
+ * It's HTML template is located in app/views/moustache/image.html
+ */
+
+
 //= require backbone-eventdata
 
 Tagshot.Views.PhotoView = Backbone.View.extend({
@@ -5,8 +16,8 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	className: "image-view",
 	events: {
 		//"click .star-me" : "click",
-		"click" : "click",
-		"dblclick" : "openDetails",
+		"click img" : "click",
+		"dblclick img" : "openDetails",
 		"keydown[space]" : "quickview",
 		"keydown[return]" : "openDetails",
 		"keydown[left]" : "gotoPrevious",
@@ -18,8 +29,10 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 	initialize : function() {
 		_.bindAll(this);
 
+		// registering event handlers
 		this.model.bind('change:thumb', this.render, this);
 		this.model.bind('change:tags', this.tagChange, this);
+		// this.model.bind('change:select', this.select, this);
 		this.model.bind('destroy', this._remove, this);
 		this.model.bind('select', this.select, this);
 		this.model.bind('deselect', this.deselect, this);
@@ -32,8 +45,9 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 			return this;
 		}
 		this.fillTemplate();
-		resizeImages();
 		this.setStars();
+
+		Tagshot.helpers.resizeImages();
 
 		//delegate events means rebinding the events
 		this.delegateEvents();

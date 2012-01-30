@@ -8,11 +8,8 @@ class PhotosController < ApplicationController
 
     @photos = Photo.limit(limit).offset(offset)
     
-    if params[:q]
-      params[:q].split(' ').each do |tag|
-        @photos = @photos.where('photos.id IN (SELECT photo_id FROM photos_tags 
-          WHERE photos_tags.tag_id IN (SELECT id FROM tags WHERE tags.name = ?))', tag)
-      end
+    if params[:q] and params[:q].present?
+      @photos = Tagshot::SearchParser.new(@photos, params[:q]).convert
     end
     
     # force fetch
@@ -40,11 +37,11 @@ class PhotosController < ApplicationController
     @photo = Photo.find(params[:id])
 
     if params[:photo].is_a?(Hash) 
-      @photo.tags = params[:photo][:tags] if params[:photo][:tags].present?
+      if params[:photo][:tags].is_a?(Array)
+        @photo.tags = params[:photo][:tags]
+      end
       if params[:photo][:properties].is_a?(Hash)
-        Photo.meta_property_names.each do |name|
-          @photo.send("#{name}=", params[:photo][:properties][name]) if params[:photo][:properties][name]
-        end
+        @photo.data.update_attributes!(params[:photo][:properties])
       end
     end
 

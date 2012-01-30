@@ -29,5 +29,7 @@ Tagshot::Application.configure do
   config.assets.debug = true
 
   config.thumb_cache = true
+
+  config.image_root_path = Rails.root.join(*%w{public images}).to_s
 end
 
