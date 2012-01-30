@@ -214,6 +214,24 @@
 							.css('left', this.offset.left)
 							.css('width', this.width + 'px');
 					}
+				},
+				doTagMovement: function (firstOrLast, prevOrNext) {
+					if (!event.shiftKey) return;
+					if (!p.removeTagOnNextBackspace) {
+						if (getCaretPosition(p.input) === 0 && p.$input.val().length === 0) {
+							firstOrLast.addClass(settings.tagRemoveClass);
+							p.removeTagOnNextBackspace = true;
+						}
+						return;
+					}
+					this.$tagList.children('.' + settings.tagRemoveClass).removeClass(settings.tagRemoveClass);
+					var node = prevOrNext;
+					if (node.length !== 0) {
+						node.addClass(settings.tagRemoveClass);
+					}
+					else {
+						p.removeTagOnNextBackspace = false;
+					}
 				}
 			};
 
@@ -287,40 +305,14 @@
 						p.addTag();
 						break;
 					case keyCodes.LEFT:
-						if (!event.shiftKey) return;
-						if (!p.removeTagOnNextBackspace) {
-							if (getCaretPosition(p.input) === 0) {
-								p.$tagList.children('li').last().prev().addClass(settings.tagRemoveClass);
-								p.removeTagOnNextBackspace = true;
-							}
-							break;
-						}
-						var prev = p.$tagList.children('.' + settings.tagRemoveClass).removeClass(settings.tagRemoveClass).prev('.tag');
-						if (prev.length !== 0) {
-							prev.addClass(settings.tagRemoveClass);
-						}
-						else {
-							p.removeTagOnNextBackspace = false;
-						}
-
+						var last = p.$tagList.children('li').last().prev();
+						var prev = p.$tagList.children('.' + settings.tagRemoveClass).prev('.tag');
+						p.doTagMovement(last, prev);
 						break;
 					case keyCodes.RIGHT:
-						if (!event.shiftKey) return;
-						if (!p.removeTagOnNextBackspace) {
-							if (getCaretPosition(p.input) === 0) {
-								p.$tagList.children('li').first().addClass(settings.tagRemoveClass);
-								p.removeTagOnNextBackspace = true;
-							}
-							break;
-						}
-						var next = p.$tagList.children('.' + settings.tagRemoveClass).removeClass(settings.tagRemoveClass).next('.tag');
-						if (next.length !== 0) {
-							next.addClass(settings.tagRemoveClass);
-						}
-						else {
-							p.removeTagOnNextBackspace = false;
-						}
-						next.addClass(settings.tagRemoveClass);
+						var first = p.$tagList.children('li').first();
+						var next = p.$tagList.children('.' + settings.tagRemoveClass).next('.tag');
+						p.doTagMovement(first, next);
 						break;
 					case keyCodes.DOWN:
 						var index = p.autocompletionEntriesList.indexOf(p.selectedEntry);
@@ -411,4 +403,4 @@
 		// support jquery-chaining
 		return this;
 	};
-}(jQuery));
+} (jQuery));
