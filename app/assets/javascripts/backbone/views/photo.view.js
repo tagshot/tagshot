@@ -32,6 +32,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		// registering event handlers
 		this.model.bind('change:thumb', this.render, this);
 		this.model.bind('change:tags', this.tagChange, this);
+		// this.model.bind('change:select', this.select, this);
 		this.model.bind('destroy', this._remove, this);
 		this.model.bind('select', this.select, this);
 		this.model.bind('deselect', this.deselect, this);
