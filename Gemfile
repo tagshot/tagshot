@@ -21,6 +21,10 @@ gem 'delayed_job'
 gem 'rmagick'
 gem 'timfel-krb5-auth', '~> 0.8'
 
+group :production do
+  gem 'pg'
+end
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -32,8 +36,9 @@ group :assets do
 end
 group :development, :test do
   gem 'rspec-rails'
-  gem 'capistrano',  :require => false
-  gem 'guard-rails', :require => false
+  gem 'capistrano',        :require => false
+  gem 'capistrano_colors', :require => false
+  gem 'guard-rails',       :require => false
 end
 # testing gems
 group :test do

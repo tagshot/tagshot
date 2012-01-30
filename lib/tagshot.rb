@@ -1,3 +1,4 @@
+# encoding: UTF-8
 
 require 'base/file'
 require 'tagshot/image'
