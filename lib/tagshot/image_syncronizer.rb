@@ -3,16 +3,16 @@ module Tagshot
     def initialize(source, image)
       @source  = source
       @image   = image
-      @photo   = @source.photos.find_by_file image.file.path
-      @photo ||= @source.photos.create :file => image.file.path,
-                    :size => File.size(image.file.path)
+      @photo   = @source.photos.find_by_file image.file
+      @photo ||= @source.photos.create :file => image.file,
+                    :size => File.size(image.file)
     end
 
     def sync!
       # db photo not changed; file changed
       # or
       # db and file changed; override db
-      self.read! if @photo.last_sync_at.nil? or @photo.last_sync_at < @image.file.mtime
+      self.read! if @photo.last_sync_at.nil? or @photo.last_sync_at < File.mtime(@image.file)
 
       # db photo changed; file not changed
       self.write! if @photo.last_sync_at < @photo.updated_at
