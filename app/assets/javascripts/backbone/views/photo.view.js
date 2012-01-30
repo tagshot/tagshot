@@ -11,7 +11,7 @@
 
 //= require backbone-eventdata
 
-Tagshot.Views.PhotoView = Backbone.View.extend({
+Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	tagName:  "li",
 	className: "image-view",
 	events: {
@@ -160,14 +160,6 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 
 	fillTemplate: function() {
 		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
-	},
-
-	setStars: function() {
-		var stars = this.model.get('properties').rating;
-		$(this.el).find(".star-me").starMe({
-			'starCount': stars,
-			'ratingFunc': this.rating
-		});
 	},
 
 	needsNoRender: function() {

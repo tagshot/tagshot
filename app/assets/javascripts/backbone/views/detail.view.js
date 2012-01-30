@@ -5,7 +5,7 @@
 //=require starMe
 //=require jquery.inlineedit
 
-Tagshot.Views.DetailListView = Backbone.View.extend({
+Tagshot.Views.DetailListView = Tagshot.AbstractPhotoView.extend({
 	tagName:  "div",
 	className: "detail",
 	id: "backbone-detail-view",
@@ -67,7 +67,6 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	},
 
 	bindInputListener: function() {
-		var self = this;
 		this.bindSave('.prop dd input');
 		this.bindSave('.prop dd textarea');
 		this.setFocusIfEmpty('.prop dd input:first');
@@ -88,8 +87,7 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	},
 
 	setFocusIfEmpty: function(selector) {
-		console.log($(selector).val());
-		if ($(selector).val()=== '') {
+		if ($(selector).val() === '') {
 			$(selector).focus();
 		}
 	},
