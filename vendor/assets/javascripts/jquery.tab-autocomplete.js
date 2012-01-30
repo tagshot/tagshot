@@ -292,7 +292,6 @@
 						p.selectedEntry = null;
 						if (getCaretPosition(p.input) === 0 && p.$tagList.children('li').length >= 2) {
 							if (p.removeTagOnNextBackspace) {
-								//p.$tagList.children('.' +settings.tagRemoveClass).remove(); //removeTag();
 								p.removeTag();
 							}
 							else {
@@ -302,7 +301,17 @@
 						}
 						break;
 					case keyCodes.ENTER:
-						p.addTag();
+						if (p.$input.val().length !== 0) {
+							p.addTag();
+						}
+						else {
+							var tagRemove = p.$tagList.children('.' + settings.tagRemoveClass);
+							if (tagRemove.length !== 0) {
+								var value = tagRemove.text();
+								p.removeTag();
+								p.$input.val(value);
+							}
+						}
 						break;
 					case keyCodes.LEFT:
 						var last = p.$tagList.children('li').last().prev();
