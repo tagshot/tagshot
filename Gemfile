@@ -19,6 +19,7 @@ gem 'exiv2'
 gem 'draper'
 gem 'delayed_job'
 gem 'rmagick'
+gem 'timfel-krb5-auth', '~> 0.8'
 
 # Gems used only for assets and not required
 # in production environments by default.
