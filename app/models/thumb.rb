@@ -23,7 +23,7 @@ class Thumb
   end
 
   def path
-    @path ||= Rails.root.join(self.class.cache_path, name).to_s
+    @path ||= Rails.root.join(self.class.cache_path, name).to_s.to_fs_encoding
   end
 
   def cached?
@@ -31,7 +31,7 @@ class Thumb
   end
 
   def updated_at
-    exist? ? File.new(path).mtime : Time.utc
+    exist? ? File.mtime(path) : Time.utc
   end
 
   def create!
@@ -40,7 +40,7 @@ class Thumb
     width  = self.class.defaults[:width]
     height = self.class.defaults[:height]
 
-    image =  Magick::Image.read(photo.file).first
+    image =  Magick::Image.read(photo.file.to_fs_encoding).first
     if self.class.defaults[:crop]
       image.crop_resized!(width, height, Magick::CenterGravity)
     else

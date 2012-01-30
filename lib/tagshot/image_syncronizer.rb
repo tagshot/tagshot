@@ -3,8 +3,8 @@ module Tagshot
     def initialize(source, image)
       @source  = source
       @image   = image
-      @photo   = @source.photos.find_by_file image.file
-      @photo ||= @source.photos.create :file => image.file,
+      @photo   = @source.photos.find_by_file image.file.from_fs_encoding
+      @photo ||= @source.photos.create :file => image.file.from_fs_encoding,
                     :size => File.size(image.file)
     end
 

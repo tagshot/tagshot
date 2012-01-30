@@ -48,6 +48,9 @@ module Tagshot
     config.thumb_options = { :width => 640, :height => 400, :crop => false }
 
     config.image_source_level_count = 2
+
+    # assume that the real fs encoding is different
+    config.forced_fs_encoding = nil
   end
 end
 

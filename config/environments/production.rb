@@ -62,4 +62,5 @@ Tagshot::Application.configure do
   config.thumb_cache = true
 
   config.image_root_path = "/net/fs3/foto"
+  config.forced_fs_encoding = "ISO-8859-15"
 end
