@@ -107,8 +107,9 @@ describe PhotosController do
           end
 
           it 'should return a list of photos with a partial date before' do
-            Factory(:photo)
-            Factory(:photo)
+            Factory(:photo).data.update_attributes!(:date => '2011-12-31')
+            Factory(:photo).data.update_attributes!(:date => '2012-01-01')
+            Factory(:photo).data.update_attributes!(:date => '2012-02-03')
 
             get :index, :format => :json, :q => 'date:<2012-01'
             json = JSON(response.body)
@@ -153,7 +154,7 @@ describe PhotosController do
 
             get :index, :format => :json, :q => 'stars:>3'
             json = JSON(response.body)
-            json.length.should == 2
+            json.length.should == 1
             json.each do |photo|
               photo['properties']['rating'].should > 3
             end
@@ -166,6 +167,8 @@ describe PhotosController do
           end
 
           it 'should handle all matching rating range queries' do
+            Factory(:photo).data.update_attributes!(:rating => 2)
+            Factory(:photo).data.update_attributes!(:rating => 5)
             get :index, :format => :json, :q => 'stars:>=0'
             length = JSON(response.body).length
             get :index, :format => :json, :q => 'stars:<=5'
@@ -173,16 +176,15 @@ describe PhotosController do
           end
 
           it 'should return a list with photos from a given year' do
-            Factory(:photo)
-            get :index, :format => :json, :q => 'year:2010'
+            Factory(:photo).source.update_attributes!(:year => 2010)
+            Factory(:photo).source.update_attributes!(:year => 2011)
 
-            JSON(response.body).each do |photo|
-              Photo.find(photo[:id]).source.year.should == 2010
+            get :index, :format => :json, :q => 'year:2010'
+            json = JSON(response.body)
+            json.length.should == 1
+            json.each do |photo|
+              Photo.find(photo['id']).source.year.should == 2010
             end
-            # need a way to check photo year
-            #JSON(response.body).each do |photo|
-            #  photo['year'].should == 2010
-            #end
           end
 
           it 'should correct handle year range queries' do
