@@ -9,6 +9,7 @@ Tagshot.Views.DetailListView = Tagshot.AbstractPhotoView.extend({
 	tagName:  "div",
 	className: "detail",
 	id: "backbone-detail-view",
+	templateSelector: '#detail-template',
 
 	events: {
 		"click footer" : "stop",
@@ -17,7 +18,6 @@ Tagshot.Views.DetailListView = Tagshot.AbstractPhotoView.extend({
 
 	initialize: function(options) {
 		_.bindAll(this);
-		//this.model.bind('change', this.render, this);
 	},
 
 	render: function(model) {
@@ -28,20 +28,15 @@ Tagshot.Views.DetailListView = Tagshot.AbstractPhotoView.extend({
 		if (this.model) {
 			var tags = {tags: this.model.get('tags')};
 
-			$(this.el).html(Mustache.to_html($('#detail-template').html(), this));
-			
+			this.fillTemplate(this.templateSelector);
 			this.setStars();
 			this.bindInputListener();
 
 		} else {
-			$(this.el).html("Image not found");
+			this.renderNotfound();
 		}
 
 		return this;
-	},
-
-	rating: function(stars) {
-		this.model.save({'properties' : {'rating' : stars}});
 	},
 
 	metaHTML: function() {
@@ -100,5 +95,9 @@ Tagshot.Views.DetailListView = Tagshot.AbstractPhotoView.extend({
 	stop: function(e) {
 		//avoid event propagation
 		e.stopPropagation();
+	},
+
+	renderNotfound: function() {
+		$(this.el).html("Image not found");
 	}
 });
