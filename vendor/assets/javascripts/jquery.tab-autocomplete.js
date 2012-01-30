@@ -287,6 +287,7 @@
 						p.addTag();
 						break;
 					case keyCodes.LEFT:
+						if (!event.shiftKey) return;
 						if (!p.removeTagOnNextBackspace) {
 							if (getCaretPosition(p.input) === 0) {
 								p.$tagList.children('li').last().prev().addClass(settings.tagRemoveClass);
@@ -304,6 +305,7 @@
 
 						break;
 					case keyCodes.RIGHT:
+						if (!event.shiftKey) return;
 						if (!p.removeTagOnNextBackspace) {
 							if (getCaretPosition(p.input) === 0) {
 								p.$tagList.children('li').first().addClass(settings.tagRemoveClass);
