@@ -15,7 +15,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		"keydown[ctrl+a]" : "selectAll",
 		"keydown[meta+a]" : "selectAll",
 
-		"keydown[tab]" : "jumpToFooter",
+		//"keydown[tab]" : "jumpToFooter",
 
 		"keydown[alt+left]" : "footerLeft",
 		"keydown[alt+right]" : "footerRight"

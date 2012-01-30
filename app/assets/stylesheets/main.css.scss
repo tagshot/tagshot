@@ -358,7 +358,7 @@ div#shortcut-explanation td.empty {
 		overflow: visible;
 		position: relative;
 		
-		& img:hover, &:focus img { 
+		& img:hover { 
 			border: 4px solid #aaa;
 			border-radius: 6px; 
 			margin: 1px; 
@@ -367,11 +367,6 @@ div#shortcut-explanation td.empty {
 			border: 4px solid #f8d450;
 			border-radius: 6px; 
 			margin: 1px; }
-		&.selected:focus img {
-			border: 4px solid darken(#f8d450, 10%);
-			border-radius: 6px; 
-			margin: 1px; 
-		}
 		&.smaller .more_infos {
   			@include transition-property(opacity);
   			@include transition-duration(1s);
