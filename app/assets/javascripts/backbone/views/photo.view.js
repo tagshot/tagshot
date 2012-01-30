@@ -23,7 +23,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		"keydown[return]" : "openDetails",
 		"keydown[left]" : "gotoPrevious",
 		"keydown[right]" : "gotoNext",
-		"keydown[tab]" : "jumpToFooter",
 		"keydown[del]": "delete"
 	},
 
@@ -168,17 +167,12 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		$(this.el).prev().find('img').click();
 	},
 
-	jumpToFooter: function(e) {
-		this.stop(e);
-		$('footer').find('input').focus();
-	},
-
 	needsNoRender: function() {
 		var currentModelHash = this.model.computeHash();
 		if (this.model.hash === currentModelHash) {
 			return true;
 		}
-		console.log("identifier change: " + this.model.hash + " -> " + currentModelHash);
+		//console.log("identifier change: " + this.model.hash + " -> " + currentModelHash);
 		this.model.hash = currentModelHash;
 		return false;
 	}

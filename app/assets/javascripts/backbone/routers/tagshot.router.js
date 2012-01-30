@@ -21,7 +21,7 @@ Tagshot.Router = Backbone.Router.extend({
 
 	home: function(foo) {
 
-		var numberOfImagesToFetchAtStart = 10;
+		var numberOfImagesToFetchAtStart = 20;
 		this.fetchModels(numberOfImagesToFetchAtStart);
 		this.buildGalleryView();
 	},
@@ -56,7 +56,7 @@ Tagshot.Router = Backbone.Router.extend({
 
 
 	/*******************
-	 * Not used routes
+	 * Not (yet) used routes
 	 *******************/
 
 	page: function(page) {
