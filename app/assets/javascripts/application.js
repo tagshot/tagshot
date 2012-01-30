@@ -41,11 +41,12 @@ $(function() {
 					// TODO: Find OR and AND Expressions
 				]
 			/* and make it auto-focus on page-load */
-			}).textboxFocusOnStart({
+			})
+			/*.textboxFocusOnStart({
 				text: 'Just start searching…',
 				cssClassWhenEmpty: 'search-start',
 				doFocus: true
-			});
+			});*/
 
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
@@ -83,6 +84,14 @@ $(function() {
 			$("#show-options").click(function() {
 				$("#options-container").slideToggle(300);
 				$(this).toggleClass("open");
+			});
+
+			// jump from search to gallery with tab
+			$("#tag-box").bind('keydown', 'tab', function(e){
+				console.log(123);
+				e.stopPropagation();
+				$('backbone-gallery-view image-view image-frame:first img').click();
+				return true;
 			});
 
 			$("#thumbnail-size-slider").slider({

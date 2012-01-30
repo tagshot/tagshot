@@ -13,7 +13,12 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		"click" : "deselectAll",
 		"click #more" : "loadMoreImages",
 		"keydown[ctrl+a]" : "selectAll",
-		"keydown[meta+a]" : "selectAll"
+		"keydown[meta+a]" : "selectAll",
+
+		"keydown[tab]" : "jumpToFooter",
+
+		"keydown[alt+left]" : "footerLeft",
+		"keydown[alt+right]" : "footerRight"
 	},
 
 	initialize: function(options) {
@@ -29,14 +34,18 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		$(document).bind('scroll',this.scrolling);
 		$(document).bind('resize',this.scrolling);
-		$(document).bind('keydown',function(evt){
-			self.el.trigger('keydown',evt.data);
+		$(document).bind('keydown','ctrl+a',function(evt){
+			self.selectAll(evt);
 		});
+		$(document).bind('keydown','meta+a',function(evt){
+			self.selectAll(evt);
+		});
+
 
 		//subviews
 		this.subviews = [];
 	},
-
+	
 	delegateEventsToSubViews: function() {
 		//rebinds events of subviews, in this case the photo views
 		_.each(this.subviews, function(view) {
@@ -75,7 +84,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var footer = $('footer');
 		if (this.collection.selection().length > 0) {
 			footer.stop(true,true).slideDown(400);
-			footer.find('input').val('').focus();
 		} else {
 			window.setTimeout(function(){
 				if (self.collection.selection().length == 0) {
@@ -150,5 +158,23 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		if(e) {
 			this.stop(e);
 		}
-	}
+	},
+
+	jumpToFooter: function(e) {
+		console.log("jump to footer");
+		this.stop(e);
+		$('footer').find('input').focus();
+	},
+
+
+	footerLeft: function(e) {
+		console.log("footer left");
+		this.jumpToFooter(e);
+		$('footer').trigger("keydown","left");
+	},
+
+	footerRight: function(e) {
+		console.log("footer right");
+		this.jumpToFooter(e);
+	},
 });

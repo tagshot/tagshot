@@ -4,6 +4,10 @@ Tagshot.helpers = {};
 Tagshot.helpers.resizeImages = function () {
 	var value  = $("#thumbnail-size-slider").slider("value");
 
+    if (value%10 == 0) {
+        $(document).scroll();
+    }
+
 	$("#backbone-gallery-view div.image-frame").css(
 		'height',value).css(
 		'width',function(){
@@ -11,7 +15,7 @@ Tagshot.helpers.resizeImages = function () {
 		}
 	);
 
-	if (value <= 120) {
+	if (value <= 150) {
 		$("#backbone-gallery-view div.image-frame").addClass("smaller");
 	}
 	else {
