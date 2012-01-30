@@ -5,10 +5,11 @@
 //=require starMe
 //=require jquery.inlineedit
 
-Tagshot.Views.DetailListView = Backbone.View.extend({
+Tagshot.Views.DetailListView = Tagshot.AbstractPhotoView.extend({
 	tagName:  "div",
 	className: "detail",
 	id: "backbone-detail-view",
+	templateSelector: '#detail-template',
 
 	events: {
 		"click footer" : "stop",
@@ -17,8 +18,6 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 
 	initialize: function(options) {
 		_.bindAll(this);
-
-		//this.model.bind('change', this.render, this);
 	},
 
 	render: function(model) {
@@ -29,28 +28,15 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		if (this.model) {
 			var tags = {tags: this.model.get('tags')};
 
-			$(this.el).html(Mustache.to_html($('#detail-template').html(), this));
-			
-			this.makePropertiesInlineEdit();
+			this.fillTemplate(this.templateSelector);
 			this.setStars();
+			this.bindInputListener();
 
 		} else {
-			$(this.el).html("Image not found");
+			this.renderNotfound();
 		}
 
 		return this;
-	},
-
-	rating: function(stars) {
-		this.model.save({'properties' : {'rating' : stars}});
-	},
-
-	saveProp: function(key, value) {
-		if (value != "") {
-			var props = this.model.get('properties');
-			props[key] = value;
-			this.model.save({'properties': props});
-		}
 	},
 
 	metaHTML: function() {
@@ -66,22 +52,6 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		};
 	},
 
-	makePropertiesInlineEdit: function() {
-		var self = this;
-
-		$('.prop dd:not(.rating)').inlineEdit({
-			hover: 'hoverEdit',
-			buttons: '<button class="cancel">cancel</button>',
-			placeholder: '',
-			saveOnBlur: false,
-			save: function( event, hash ) {
-				self.saveProp($(this).attr('class'), hash.value);
-			},
-			cancelOnBlur: false,
-			saveOnBlur: true
-		});
-	},
-
 	setStars: function() {
 		// copy'n pasted from photo.view.js FIXME
 		var stars = this.model.get('properties').rating;
@@ -91,6 +61,31 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 		});
 	},
 
+	bindInputListener: function() {
+		this.bindSave('.prop dd input');
+		this.bindSave('.prop dd textarea');
+		this.setFocusIfEmpty('.prop dd input:first');
+	},
+
+	bindSave: function(selector) {
+		var self = this;
+		$(selector).blur(function() {
+			var key = $(this).attr('data-key');
+			self.saveProperty(key, $(this).val());
+		});
+	},
+
+	saveProperty: function(key, value) {
+		var props = this.model.get('properties');
+		props[key] = value;
+		this.model.save({'properties': props});
+	},
+
+	setFocusIfEmpty: function(selector) {
+		if ($(selector).val() === '') {
+			$(selector).focus();
+		}
+	},
 
 	updateTags: function(e) {
 		var tags = $("#tag-box").val().split(" ")
@@ -100,5 +95,9 @@ Tagshot.Views.DetailListView = Backbone.View.extend({
 	stop: function(e) {
 		//avoid event propagation
 		e.stopPropagation();
+	},
+
+	renderNotfound: function() {
+		$(this.el).html("Image not found");
 	}
 });

@@ -10,7 +10,7 @@ module Tagshot
       file_num = 0
       files.each do |file|
         file_num += 1
-        puts "Sync #{file_num} of #{files.length}: #{File.basename(file)} ... "
+        puts "Sync #{file_num} of #{files.length}: #{File.basename(file).from_fs_encoding} ... "
         sync file
       end
     end
@@ -20,14 +20,14 @@ module Tagshot
       file_num = 0
       files.each do |file|
         file_num += 1
-        puts "Read #{file_num} of #{files.length}: #{File.basename(file)} ... "
+        puts "Read #{file_num} of #{files.length}: #{File.basename(file).from_fs_encoding} ... "
         read file
       end
     end
     
   private # -------------------------------------------------------------------
     def files
-      @files ||= Dir[File.join(@source.path, '**', '*')].select{|f| File.file?(f)}
+      @files ||= Dir[File.join(@source.path.to_fs_encoding, '**', '*')].select{|f| File.file?(f)}
       @files
     end
   

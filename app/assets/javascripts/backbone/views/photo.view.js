@@ -11,9 +11,10 @@
 
 //= require backbone-eventdata
 
-Tagshot.Views.PhotoView = Backbone.View.extend({
+Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	tagName:  "li",
 	className: "image-view",
+	templateSelector: '#image-template',
 	events: {
 		//"click .star-me" : "click",
 		"click img" : "click",
@@ -23,8 +24,9 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		"keydown[left]" : "gotoPrevious",
 		"keydown[right]" : "gotoNext",
 		"keydown[tab]" : "gotoNext",
-		"keydown[del]": "delete",
+		"keydown[del]": "delete"
 	},
+
 
 	initialize : function() {
 		_.bindAll(this);
@@ -44,7 +46,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		if (this.needsNoRender()) {
 			return this;
 		}
-		this.fillTemplate();
+		this.fillTemplate(this.templateSelector);
 		this.setStars();
 
 		Tagshot.helpers.resizeImages();
@@ -52,10 +54,6 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		//delegate events means rebinding the events
 		this.delegateEvents();
 		return this;
-	},
-
-	rating: function(stars) {
-		this.model.save({'properties' : {'rating' : stars}});
 	},
 
 	tagChange: function () {
@@ -113,7 +111,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		var that = this;
 		//this.model.destroy();
 
-		//this.remove();	// works only for one element, not for all selected
+		//this.remove();	// works only for one element, not for all selected ones
 
 		_.each(selected, function(elem){
 				elem.destroy({
@@ -156,18 +154,6 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 
 	gotoPrevious: function() {
 		$(this.el).prev().find('.image-frame').focus();
-	},
-
-	fillTemplate: function() {
-		$(this.el).html(Mustache.to_html($('#image-template').html(), this));
-	},
-
-	setStars: function() {
-		var stars = this.model.get('properties').rating;
-		$(this.el).find(".star-me").starMe({
-			'starCount': stars,
-			'ratingFunc': this.rating
-		});
 	},
 
 	needsNoRender: function() {

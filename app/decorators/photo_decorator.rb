@@ -4,7 +4,7 @@ class PhotoDecorator < ApplicationDecorator
   def as_json(opts = {})
     {
       :id => model.id,
-      :thumb => h.thumb_url(model, :format => model.extname),
+      :thumb => h.thumb_url(model, :format => model.extname.downcase),
       :image => h.photo_url(model, :format => model.extname),
       :tags => model.tags.names,
       :properties => model.data.as_json

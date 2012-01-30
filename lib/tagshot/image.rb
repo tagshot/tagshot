@@ -3,8 +3,8 @@ module Tagshot
     attr_reader :file
     
     def initialize(file)
-      @file = File.new(file) unless file.is_a?(File)
-      @image = Exiv2::ImageFactory.open @file.path
+      @file = file.is_a?(File) ? file.path : file
+      @image = Exiv2::ImageFactory.open @file
       @image.read_metadata
     end
     

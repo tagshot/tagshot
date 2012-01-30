@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-require 'base/file'
+require 'base/string'
 require 'tagshot/image'
 require 'tagshot/syncronizer'
 require 'tagshot/image_syncronizer'
@@ -29,9 +29,10 @@ module Tagshot
     end
 
     Dir.new(path).each do |entry|
+      entry = entry.from_fs_encoding
       next if entry =~ /\.\.?/
       nextpath = File.join(path, entry)
-      next unless FileTest.directory? nextpath
+      next unless FileTest.directory? nextpath.to_fs_encoding
       index!(nextpath, level+1)
     end
   end
