@@ -23,7 +23,7 @@ Tagshot.Views.PhotoView = Backbone.View.extend({
 		"keydown[left]" : "gotoPrevious",
 		"keydown[right]" : "gotoNext",
 		"keydown[tab]" : "gotoNext",
-		"keydown[del]": "delete",
+		"keydown[del]": "delete"
 	},
 
 	initialize : function() {
