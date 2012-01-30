@@ -23,7 +23,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		"keydown[return]" : "openDetails",
 		"keydown[left]" : "gotoPrevious",
 		"keydown[right]" : "gotoNext",
-		"keydown[tab]" : "gotoNext",
+		"keydown[tab]" : "jumpToFooter",
 		"keydown[del]": "delete"
 	},
 
@@ -38,7 +38,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		this.model.bind('destroy', this._remove, this);
 		this.model.bind('select', this.select, this);
 		this.model.bind('deselect', this.deselect, this);
-		this.quickViewVisible = false;
+		quickViewVisible = false;
 	},
 
 	render: function () {
@@ -76,24 +76,30 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	openDetails : function(e) {
-		Tagshot.router.navigate("details/" + this.model.get("id"), true);
+		if (!quickViewVisible) {
+			Tagshot.router.navigate("details/" + this.model.get("id"), true);
+		}
 	},
 
-	quickview: function(e){
+	quickview: function(e, override) {
+		override || (override = false);
 		this.stop(e);
 
-		if (this.quickViewVisible) {
+		if (!override && quickViewVisible) {
 			$.fancybox.close();
-			this.quickViewVisible = false;
 		} else {
-			this.quickViewVisible = true;
+			$.fancybox.hideActivity();
 			$.fancybox({
 				'orig' : $(this.el).find('img'),
 				'href' : $(this.el).find('img').attr('src'),
-				'padding' : 0,
-				'speedIn' :	200,
+				'padding' :		0,
+				'speedIn' :		200,
 				'speedOut' :	200,
-				'title' : this.model.get('tags'),
+				'changeSpeed':	0,
+				'changeFade':	0,
+				'onStart': function(){quickViewVisible = true},
+				'onClosed': function(){quickViewVisible = false},
+				'title' :		this.model.get('tags'),
 				'transitionIn' : 'elastic',
 				'transitionOut' : 'elastic'
 			}); 
@@ -125,6 +131,12 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	click: function(e) {
 		this.stop(e);
 		$(this.el).find('.image-frame').focus();
+		
+		// show this image in quickview in case quickview is visible
+		if (quickViewVisible) {
+			this.quickview(e, true);
+		}
+		
 		if (e.shiftKey) {
 			// shift -> from..to select
 			var self = this;
@@ -149,11 +161,16 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 
 	gotoNext: function(e) {
 		this.stop(e);
-		$(this.el).next().find('.image-frame').focus();
+		$(this.el).next().find('img').click();
 	},
 
 	gotoPrevious: function() {
-		$(this.el).prev().find('.image-frame').focus();
+		$(this.el).prev().find('img').click();
+	},
+
+	jumpToFooter: function(e) {
+		this.stop(e);
+		$('footer').find('input').focus();
 	},
 
 	needsNoRender: function() {
