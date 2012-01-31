@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
-  
+  layout 'base'
+
   def new
     redirect_to photos_url if User.current.logged?
   end
