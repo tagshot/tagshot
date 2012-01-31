@@ -130,6 +130,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	click: function(e) {
 		this.stop(e);
 		$(this.el).find('.image-frame').focus();
+		Tagshot.views.gallery.setActive();
 		
 		// show this image in quickview in case quickview is visible
 		if (quickViewVisible) {

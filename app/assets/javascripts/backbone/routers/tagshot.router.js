@@ -106,6 +106,8 @@ Tagshot.Router = Backbone.Router.extend({
 		$('#options-container').hide();
 		$('#show-options').show();
 
+		$('#backbone-gallery-view').addClass('active');
+
 		this.setFocusToTagBar();
 	},
 

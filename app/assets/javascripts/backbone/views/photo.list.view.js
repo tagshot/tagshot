@@ -164,9 +164,17 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		console.log("jump to footer");
 		this.stop(e);
 		$('footer').find('input').focus();
+		this.setInActive();
 		return false;
 	},
 
+	setActive: function() {
+		$('#backbone-gallery-view').addClass('active');
+	},
+
+	setInActive: function() {
+		$('#backbone-gallery-view').removeClass('active');
+	},
 
 	footerLeft: function(e) {
 		console.log("footer left");
