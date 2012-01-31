@@ -42,11 +42,11 @@ $(function() {
 				]
 			/* and make it auto-focus on page-load */
 			})
-			/*.textboxFocusOnStart({
+			.textboxFocusOnStart({
 				text: 'Just start searching…',
 				cssClassWhenEmpty: 'search-start',
 				doFocus: true
-			});*/
+			});
 
 			$("#tag-box").tagAutocomplete({
 				autocompleteList: data,
@@ -94,6 +94,7 @@ $(function() {
 				return true;
 			});
 
+
 			$("#thumbnail-size-slider").slider({
 				orientation: "horizontal",
 				range: "min", 
@@ -104,6 +105,8 @@ $(function() {
 				change: Tagshot.helpers.resizeImages
 			});
 
+
+			// initialize Tagshot-stuff (Backbone)
 			Tagshot.init();
 		},
 	});

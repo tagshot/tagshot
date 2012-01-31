@@ -217,8 +217,8 @@
 							.css('width', this.width + 'px');
 					}
 				},
-				doTagMovement: function (firstOrLast, prevOrNext) {
-					if (!event.shiftKey) return;
+				doTagMovement: function (firstOrLast, prevOrNext, modifierKeyPressed) {
+					if (!modifierKeyPressed) return;
 					if (!p.removeTagOnNextBackspace) {
 						if (getCaretPosition(p.input) === 0 && p.$input.val().length === 0) {
 							firstOrLast.addClass(settings.tagRemoveClass);
@@ -318,12 +318,12 @@
 					case keyCodes.LEFT:
 						var last = p.$tagList.children('li').last().prev();
 						var prev = p.$tagList.children('.' + settings.tagRemoveClass).prev('.tag');
-						p.doTagMovement(last, prev);
+						p.doTagMovement(last, prev, event.shiftKey);
 						break;
 					case keyCodes.RIGHT:
 						var first = p.$tagList.children('li').first();
 						var next = p.$tagList.children('.' + settings.tagRemoveClass).next('.tag');
-						p.doTagMovement(first, next);
+						p.doTagMovement(first, next, event.shiftKey);
 						break;
 					case keyCodes.DOWN:
 						var index = p.autocompletionEntriesList.indexOf(p.selectedEntry);

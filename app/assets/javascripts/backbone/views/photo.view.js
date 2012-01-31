@@ -16,17 +16,24 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	className: "image-view",
 	templateSelector: '#image-template',
 	events: {
-		//"click .star-me" : "click",
 		"click img" : "click",
 		"dblclick img" : "openDetails",
 		"keydown[space]" : "quickview",
 		"keydown[return]" : "openDetails",
 		"keydown[left]" : "gotoPrevious",
 		"keydown[right]" : "gotoNext",
-		"keydown[del]": "delete"
+		"keydown[del]": "delete",
+		"focusin": "photoFocused"
 	},
 
-
+	photoFocused: function (event) {
+		if (Tagshot.collections.photoList.selection().length === 0) {
+			this.model.select();
+		}
+		else {
+			window.scrollTo(0, 0);
+		}
+	},
 	initialize : function() {
 		_.bindAll(this);
 
@@ -50,7 +57,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 
 		Tagshot.helpers.resizeImages();
 
-		//delegate events means rebinding the events
+		// delegate events means rebinding the events
 		this.delegateEvents();
 		return this;
 	},
