@@ -94,6 +94,7 @@ $(function() {
 				return true;
 			});
 
+
 			$("#thumbnail-size-slider").slider({
 				orientation: "horizontal",
 				range: "min", 
@@ -104,6 +105,8 @@ $(function() {
 				change: Tagshot.helpers.resizeImages
 			});
 
+
+			// initialize Tagshot-stuff (Backbone)
 			Tagshot.init();
 		},
 	});

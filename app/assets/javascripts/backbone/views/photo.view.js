@@ -23,10 +23,13 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		"keydown[return]" : "openDetails",
 		"keydown[left]" : "gotoPrevious",
 		"keydown[right]" : "gotoNext",
-		"keydown[del]": "delete"
+		"keydown[del]": "delete",
+		"focusin": "photoFocused"
 	},
 
-
+	photoFocused: function () {
+	      this.model.select();
+	},
 	initialize : function() {
 		_.bindAll(this);
 
