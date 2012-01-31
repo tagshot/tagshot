@@ -15,10 +15,10 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		"keydown[ctrl+a]" : "selectAll",
 		"keydown[meta+a]" : "selectAll",
 
-		//"keydown[tab]" : "jumpToFooter",
+		"keydown[tab]" : "jumpToFooter",
 
-		"keydown[alt+left]" : "footerLeft",
-		"keydown[alt+right]" : "footerRight"
+		"keydown[shift+left]" : "footerLeft",
+		"keydown[shift+right]" : "footerRight"
 	},
 
 	initialize: function(options) {
@@ -164,17 +164,18 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		console.log("jump to footer");
 		this.stop(e);
 		$('footer').find('input').focus();
+		return false;
 	},
 
 
 	footerLeft: function(e) {
 		console.log("footer left");
-		this.jumpToFooter(e);
-		$('footer').trigger("keydown","left");
+		//this.jumpToFooter(e);
+		//$('footer').trigger("keydown","shift+left");
 	},
 
 	footerRight: function(e) {
 		console.log("footer right");
-		this.jumpToFooter(e);
+		//this.jumpToFooter(e);
 	},
 });
