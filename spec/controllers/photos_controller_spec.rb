@@ -240,6 +240,11 @@ describe PhotosController do
           get :show, :format => 'jpg', :id => @photo.id
           response.status.should == 200
         end
+
+        it 'should respond to correct upcased file extension' do
+          get :show, :format => 'JPG', :id => @photo.id
+          response.status.should == 200
+        end
         
         it 'should not respond to incorrect file extension' do
           get :show, :format => 'html', :id => @photo.id
@@ -250,6 +255,34 @@ describe PhotosController do
           get :show, :format => 'jpg', :id => @photo.id
           response.body.length.should == File.size(@photo.file)
         end
+        
+        it 'should respond with correct image file (2)' do
+          get :show, :format => 'JPG', :id => @photo.id
+          response.body.length.should == File.size(@photo.file)
+        end
+      end
+    end
+  end
+  
+  describe "GET thumb" do
+    let(:photo) { Factory(:photo) }
+    
+    it 'should require authentication' do
+      get :index
+      response.status.should == 302
+    end
+
+    context 'with authenticated user' do
+      before(:each) { set_current_user Factory(:user) }
+
+      it 'should respond with OK' do
+        put :update, :format => 'jpg', :id => photo.id
+        response.status.should == 200
+      end
+
+      it 'should respond with OK (2)' do
+        put :update, :format => 'JPG', :id => photo.id
+        response.status.should == 200
       end
     end
   end

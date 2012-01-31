@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   def require_authentication
     unless User.current.logged?
       flash[:error] = 'Authentication required.'
-      redirect_to new_session_url
+      redirect_to (url_for new_session_url).gsub('http://', Rails.env == 'production' ?  'https://' : 'http://')
       false
     end
   end
