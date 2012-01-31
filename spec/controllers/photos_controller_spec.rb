@@ -240,6 +240,11 @@ describe PhotosController do
           get :show, :format => 'jpg', :id => @photo.id
           response.status.should == 200
         end
+
+        it 'should respond to correct upcased file extension' do
+          get :show, :format => 'JPG', :id => @photo.id
+          response.status.should == 200
+        end
         
         it 'should not respond to incorrect file extension' do
           get :show, :format => 'html', :id => @photo.id
@@ -248,6 +253,11 @@ describe PhotosController do
         
         it 'should respond with correct image file' do
           get :show, :format => 'jpg', :id => @photo.id
+          response.body.length.should == File.size(@photo.file)
+        end
+        
+        it 'should respond with correct image file (2)' do
+          get :show, :format => 'JPG', :id => @photo.id
           response.body.length.should == File.size(@photo.file)
         end
       end
