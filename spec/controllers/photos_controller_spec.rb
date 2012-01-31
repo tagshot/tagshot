@@ -264,6 +264,29 @@ describe PhotosController do
     end
   end
   
+  describe "GET thumb" do
+    let(:photo) { Factory(:photo) }
+    
+    it 'should require authentication' do
+      get :index
+      response.status.should == 302
+    end
+
+    context 'with authenticated user' do
+      before(:each) { set_current_user Factory(:user) }
+
+      it 'should respond with OK' do
+        put :update, :format => 'jpg', :id => photo.id
+        response.status.should == 200
+      end
+
+      it 'should respond with OK (2)' do
+        put :update, :format => 'JPG', :id => photo.id
+        response.status.should == 200
+      end
+    end
+  end
+  
   describe 'PUT update' do
     context 'as JSON' do
       let(:photo) { Factory(:photo_with_tags) }
