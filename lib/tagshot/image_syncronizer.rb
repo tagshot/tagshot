@@ -38,7 +38,7 @@ module Tagshot
             end
           else
            # puts "  Add property #{key} => #{value}"
-            Property.create photo: @photo, name: key, value: value
+            Property.create photo: @photo, name: key, value: value[0..254]
           end
         end
 
