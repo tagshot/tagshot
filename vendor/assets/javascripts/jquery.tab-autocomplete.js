@@ -158,12 +158,14 @@
 					settings.onTagAdded(this.tags.slice(0), newTag);
 				},
 				removeTag: function () {
-					p.$tagList.children('.' + settings.tagRemoveClass).remove();
+					var markedTag = p.$tagList.children('.' + settings.tagRemoveClass);
+					var removedTagText = markedTag.text();
+					markedTag.remove();
 					this.updateTags();
 					p.removeTagOnNextBackspace = false;
 					p.updateAutocompletionListPosition();
 					p.input.focus();
-					settings.onTagRemoved(this.tags.slice(0));
+					settings.onTagRemoved(this.tags.slice(0), removedTagText);
 				},
 				updateTags: function () {
 					var updatedTags = [];
