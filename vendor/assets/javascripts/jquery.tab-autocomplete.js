@@ -362,10 +362,11 @@
 						return;
 					}
 
+					var lowerCasedTags = p.tags.map(function (el) { return el.toLowerCase(); } );
 					// filter list
 					filteredList = $(this).data('tagAutocompletion').list.filter(function (el) {
-						// true, when something was found (search returns index of first occurrence)
-						return el[0].search(regex) >= 0;
+						// true, when something was found (search returns index of first occurrence) and tag is not already in current tags
+						return el[0].search(regex) >= 0 && lowerCasedTags.indexOf(el[0]) === -1;
 					});
 
 					// sort by priority
