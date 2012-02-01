@@ -95,19 +95,19 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 
 	download: function(e) {
 		stop(e);
-		// TODO validate and extend
-
 		var res = $('#download-res', this.el).val();
-		var scaled = $('input[name=download-scaled]', this.el).val();
+		var scaled = $('input[name=download-scaled][checked=checked]', this.el).val();
 		var x = res.split("×")[0];
 		var y = res.split("×")[1];
 
-		// build url
-		var url = "/photos/"+this.model.id+"/download/"+x+"/"+y+"/scale/1_"+x+"x"+y+scaled+".jpg";
+		if (res != "") {
+			// build url
+			var url = "/photos/"+this.model.id+"/download/"+x+"/"+y+"/"+scaled+"/"+this.model.id+"_"+x+"x"+y+".jpg";
 
-		window.open(url);
+			window.open(url);
 
-		//console.log(res, scaled, x, y, url);
+			//console.log(res, scaled, x, y, url);
+		}
 
 		return false;
 	},
