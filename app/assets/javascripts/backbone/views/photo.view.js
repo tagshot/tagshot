@@ -30,9 +30,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		if (Tagshot.collections.photoList.selection().length === 0) {
 			this.model.select();
 		}
-		else {
-			window.scrollTo(0, 0);
-		}
 	},
 	initialize : function() {
 		_.bindAll(this);
