@@ -24,7 +24,8 @@ class PhotosController < ApplicationController
   def show
     @photo = Photo.find(params[:id])
 
-    if @photo.extname.to_s.downcase == params[:format].downcase
+    if @photo.extname.to_s.downcase == params[:format].to_s.downcase and
+        @photo.extname.to_s.present?
       send_file @photo.file
     else
       respond_to do |format|
