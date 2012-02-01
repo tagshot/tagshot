@@ -1,5 +1,4 @@
 <div id="login">
-  <h1>Tagshot.</h1>
   <form action="<%= session_path %>" method="POST">
     <% if flash[:error] %>
       <p><%= flash[:error] %></p>
@@ -12,11 +11,11 @@
     <input class="submit" type="submit" value="Login" />
     <br class="clear" />
   </form>
-  <p id="info">
-  	<% if defined?(RUBY_VERSION) or defined?(VERSION) %>
-      <%= [defined?(RUBY_ENGINE) ? RUBY_ENGINE.capitalize : 'Ruby', defined?(RUBY_VERSION) ? RUBY_VERSION : VERSION].join(' ') + ' | ' %>
-      <% end %>
-      <%= "Rails #{Rails.version} | #{Rails.env.capitalize} | " %>
-      <%= "Tagshot #{Tagshot.version}" %>
-  </p>
 </div>
+<p id="info">
+  <% if defined?(RUBY_VERSION) or defined?(VERSION) %>
+    <%= [defined?(RUBY_ENGINE) ? RUBY_ENGINE.capitalize : 'Ruby', defined?(RUBY_VERSION) ? RUBY_VERSION : VERSION].join(' ') + ' | ' %>
+    <% end %>
+    <%= "Rails #{Rails.version} | #{Rails.env.capitalize} | " %>
+    <%= "Tagshot #{Tagshot.version}" %>
+</p>

@@ -1,16 +1,14 @@
 
 #login {
-	margin: 40px auto 0 auto;
 	width: 400px;
-	padding: 10px;
+	margin: 40px auto 0 auto;
+	border: 4px solid #f8d450;
+	border-radius: 6px;
+	padding: 1px;
 
 	form {
 		background: #fff;
-		border: 1px solid #ccc;
-		border-radius: 12px;
-		box-shadow: 0 0 4px #fff;
 		padding: 10px 20px;
-		margin: 0 0 5px 0;
 		text-align: right;
 
 		p { padding: 5px; color: red; text-align: center; }
@@ -35,9 +33,17 @@
 		text-align: center;
 	}
 
-	#info { 
+	& ~ #info {
+		width: 400px;
 		text-align: center;
-		font-size: 0.6em;
-		color: #aaa;
+		display: block;
+		background-color: rgba(0,0,0,0.4);
+		border-radius: 5px;
+		color: #999;
+		padding: 3px 5px 4px 5px;
+		margin: 5px auto 0 auto;
+		overflow: hidden;
+		font-family: Verdana, Arial;
+		font-size: 10px;
 	}
 }
