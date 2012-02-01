@@ -2,7 +2,7 @@ module Tagshot
   module VERSION
     MAJOR = 0
     MINOR = 1
-    PATCH = nil
+    PATCH = 3
     BUILD = nil
     LEVEL = nil
     
