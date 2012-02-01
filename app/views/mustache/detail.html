@@ -3,33 +3,73 @@
 	<img src="{{model.attributes.image}}" alt="{{model.attributes.caption}}" />
 </div>
 <div class="propbox">
-		<h2>Image Properties</h2>
-			<dl class="prop">
-				<dt>Rating</dt>
-				<dd class="rating"></dd>
+	<h2>Image Properties</h2>
+	<dl class="prop">
+		<dt>Rating</dt>
+		<dd class="rating"></dd>
 
-				<dt>Caption</dt>
-				<dd class="caption">
-				<input data-key="caption" tabindex="0"
-					value='{{model.attributes.properties.caption}}'/>
-				</dd>
+		<dt>Caption</dt>
+		<dd class="caption">
+		<input data-key="caption" tabindex="0"
+		value='{{model.attributes.properties.caption}}'/>
+		</dd>
 
-				<dt>Description</dt>
-				<dd class="description">
-				<textarea data-key="description">
-					{{model.attributes.properties.description}}</textarea>
-				</dd>
+		<dt>Description</dt>
+		<dd class="description">
+		<textarea data-key="description">
+			{{model.attributes.properties.description}}</textarea>
+		</dd>
 
-				<dt>Location</dt>
-				<dd class="location">
-				<input data-key="location"
-					value="{{model.attributes.properties.location}}"/>
-				</dd>
-			</dl>
+		<dt>Location</dt>
+		<dd class="location">
+		<input data-key="location"
+		value="{{model.attributes.properties.location}}"/>
+		</dd>
+	</dl>
 
-		<h2>Image Metadata</h2>
-		<dl class="meta">
-				{{#metaHTML}}{{/metaHTML}}
-		</dl>
+	<h2>Image Metadata</h2>
+	<dl class="meta">
+		{{#metaHTML}}{{/metaHTML}}
+	</dl>
+
+	<h2>Download</h2>
+	<form id="download-form" action="#" id="download">
+		<fieldset>
+			<ol class="download">
+				<li>
+				<label for="download-res">Resoution:</label>
+				<select name="download-res" id="download-res">
+					<option selected="" value="">Select a size...</option>
+					<option value="400×300">QSVGA (400×300)</option>
+					<option value="640×480">VGA (640×480)</option>
+					<option value="800×600">SVGA (800×600)</option>
+					<option value="1024×768">XGA (1024×768)</option>
+					<option value="1600×1200">2 MP (1600×1200)</option>
+					<option value="2272×1704">4 MP (2272×1704)</option>
+					<option value="2816×2112">6 MP (2816×2112)</option>
+					<option value="3264×2448">8 MP (3264×2448)</option>
+					<option value="3648×2736">10 MP (3648×2736)</option>
+					<option value="4096×3072">12 MP (4096×3072)</option>
+					<option value="4480×3360">15 MP (4480×3360)</option>
+					<option value="5120×3840">20 MP (5120×3840)</option>
+					<option value="7216×5412">40 MP (7216×5412)</option>
+					<option value="9600×7200">70 MP (9600×7200)</option>
+				</select>
+				</li>
+				<li>
+				<label for="resokeep">Scale, Crop or Stretch: </em>
+				<input type="radio" value="_scaled" name="download-scaled" checked="checked" /> Scale
+				<input type="radio" value="_crop" name="download-scaled" /> Crop
+				<input type="radio" value="" name="download-scaled" /> Strech
+			</label> 
+			</li>
+			<li>
+			<input type="submit" value="download" id="download-button" />
+			</li>
+		</ol>
+	</fieldset>
+</form>
+
+
 </div>
 </section>

@@ -33,7 +33,7 @@ window.Tagshot = {
 		
 		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
 		Tagshot.views.gallery = new Tagshot.Views.PhotoListView({ 'collection': Tagshot.collections.photoList });
-		Tagshot.views.detail = new Tagshot.Views.DetailListView({ 'model': undefined });
+		Tagshot.views.detail = new Tagshot.Views.DetailView({ 'model': undefined });
 		Tagshot.views.ajaxError = new Tagshot.Views.AjaxError();
 
 		$("#backbone-main-view").append(Tagshot.views.gallery.el);

@@ -5,7 +5,7 @@
 //=require starMe
 //=require jquery.inlineedit
 
-Tagshot.Views.DetailListView = Tagshot.AbstractPhotoView.extend({
+Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 	tagName:  "div",
 	className: "detail",
 	id: "backbone-detail-view",
@@ -13,7 +13,8 @@ Tagshot.Views.DetailListView = Tagshot.AbstractPhotoView.extend({
 
 	events: {
 		"click footer" : "stop",
-		"change footer #tag-box": "updateTags"
+		"change footer #tag-box": "updateTags",
+		"submit #download-form": "download"
 	},
 
 	initialize: function(options) {
@@ -90,6 +91,25 @@ Tagshot.Views.DetailListView = Tagshot.AbstractPhotoView.extend({
 	updateTags: function(e) {
 		var tags = $("#tag-box").val().split(" ")
 		this.model.save({'tags': tags});
+	},
+
+	download: function(e) {
+		stop(e);
+		// TODO validate and extend
+
+		var res = $('#download-res', this.el).val();
+		var scaled = $('input[name=download-scaled]', this.el).val();
+		var x = res.split("×")[0];
+		var y = res.split("×")[1];
+
+		// build url
+		var url = "/photos/"+this.model.id+"/download/"+x+"/"+y+"/scale/1_"+x+"x"+y+scaled+".jpg";
+
+		window.open(url);
+
+		//console.log(res, scaled, x, y, url);
+
+		return false;
 	},
 
 	stop: function(e) {
