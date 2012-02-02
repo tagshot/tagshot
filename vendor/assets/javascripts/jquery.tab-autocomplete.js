@@ -153,14 +153,14 @@
 							return;
 						// if we have no selected entry, and this is allowed, just take textbox-value
 						if (this.selectedEntry === null && settings.autoSelect === false) {
-							tempEntry = this.$input.val();
-							that.data('tagAutocompletion-list').list.forEach(function (el) {
-								if (el[0] === tempEntry) {
-									thatAddTag.selectedEntry = el[2];
-									return false;
-								}
-							});
+							this.selectedEntry = this.$input.val();
 						}
+						that.data('tagAutocompletion-list').list.forEach(function (el) {
+							if (el[2] === thatAddTag.selectedEntry) {
+								thatAddTag.selectedEntry = el[2];
+								return false;
+							}
+						});
 						if (this.selectedEntry === '' || this.tags.indexOf(this.selectedEntry) !== -1)
 							return;
 						newTag = this.selectedEntry;
