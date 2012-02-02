@@ -17,8 +17,8 @@ describe PhotoDecorator do
       @json[:properties].should be_a(Hash)
     end
 
-    it 'should contain photos caption' do
-      @json[:properties].should == @photo.photo_data.as_json
+    it 'should contain readonly properties (meta) hash' do
+      @json[:meta].should be_a(Hash)
     end
 
     it 'should contain an array with tags' do
