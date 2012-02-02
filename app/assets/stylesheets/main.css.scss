@@ -600,3 +600,29 @@ div#trash-container {
 .rating {
 	cursor: pointer;
 }
+
+
+#download-form {
+	&ol {
+		list-style: none; 
+		padding-left: 5px;
+		&li {
+			margin-bottom: 12px;
+			font-size: 0.75em;
+			color: #888;
+			&input[type="radio"] {
+				margin-right: 6px;
+			}
+			&label {
+				display: block;
+				margin-bottom: 3px;
+			}
+			&input[type="submit"] {
+				position: relative;
+				margin-left: 20px;
+				width: 100px;
+				height: 25px;
+			}
+		}
+	}
+}
