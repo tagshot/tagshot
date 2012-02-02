@@ -38,6 +38,12 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	search: function(query) {
+		
+		if (query === "") {
+			this.navigate("/", true);
+			return;
+		}
+
 		/*
 		var tags = query.split('+');
 		Tagshot.collections.photoList.search(query);

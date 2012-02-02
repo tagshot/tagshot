@@ -363,7 +363,7 @@ div#thumbnail-size-slider {
 		&.selected img, &.selected img:hover {
 			@include transition-property(border-color);
 			@include transition-duration(0.3s);
-			border: 4px solid #aaa;
+			border: 4px solid #DECC8E;
 			border-radius: 6px; 
 		margin: 1px; }
 		&.smaller .more_infos {
