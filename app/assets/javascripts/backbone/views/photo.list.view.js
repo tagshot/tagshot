@@ -58,7 +58,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var signature = $.param({
 			query: this.collection.currentSearchQuery,
 			length: this.collection.length
-        });
+		});
 
 		if (this.collection.length > 1 && this.signature === signature) return this;
 
@@ -128,6 +128,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 			return prev + "<li class='tag'>" + tag + '<a></a></li>';
 		}, "");
 		$("footer .textbox").prepend(list);
+		Tagshot.tagBox.tagAutocomplete('updateTags');
 	},
 
 	stop: function(e) {  

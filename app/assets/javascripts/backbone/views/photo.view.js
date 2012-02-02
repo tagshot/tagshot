@@ -1,4 +1,4 @@
-/* This view displays the information defined in poto.js.
+/* This view displays the information defined in photo.js.
  *
  * It is responsible for setting up plugins that manipulate the DOM,
  * do the selection magic and add fancy effects.
@@ -29,9 +29,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	photoFocused: function (event) {
 		if (Tagshot.collections.photoList.selection().length === 0) {
 			this.model.select();
-		}
-		else {
-			window.scrollTo(0, 0);
 		}
 	},
 	initialize : function() {

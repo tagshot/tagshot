@@ -28,9 +28,11 @@ $(function() {
 
 	$.ajax("/tags", {
 		success: function (data) {
+			Tagshot.tagList = data;
 			/* apply autocompletion to <input> */
-			$("#search-box").tagAutocomplete({
-				autocompleteList: data,
+			Tagshot.searchBox = $("#search-box");
+			Tagshot.searchBox.tagAutocomplete({
+				autocompleteList: Tagshot.tagList,
 				onTagAdded: Tagshot.search,
 				onTagRemoved: Tagshot.search,
 				postProcessors: [
@@ -48,8 +50,9 @@ $(function() {
 				doFocus: true
 			});
 
-			$("#tag-box").tagAutocomplete({
-				autocompleteList: data,
+			Tagshot.tagBox = $("#tag-box")
+			Tagshot.tagBox.tagAutocomplete({
+				autocompleteList: Tagshot.tagList,
 				autocompleteListPosition: 'above',
 				onTagAdded: Tagshot.addTag,
 				onTagRemoved: Tagshot.removeTag

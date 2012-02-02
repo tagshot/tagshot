@@ -9,7 +9,7 @@ Tagshot::Application.routes.draw do
           :width => /\d+/,
           :height => /\d+/,
           :crop => /crop|scale/,
-          :name => /\d+(_\d+(x\d+)?)?(_cropped|_scaled)?(_[A-z0-9-]+)?/
+          :name => /[A-z0-9]+[A-z0-9\-_]*/
         }
   resources :tags, :only => [:index]
   resource :session, :only => [:new, :create, :destroy]

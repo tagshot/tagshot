@@ -41,8 +41,6 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	metaHTML: function() {
-		return "";
-		//TODO nutzen
 		return function(text, render) {
 			var str = '';
 			var metadata = this.model.get("meta");

@@ -38,9 +38,11 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	search: function(query) {
+		/*
 		var tags = query.split('+');
 		Tagshot.collections.photoList.search(query);
 		var currentTags = [];
+		$("#search-container .textbox li.tag").remove();
 		$("#search-container .textbox li.tag").each(function() {
 			currentTags.push($(this).text());
 		});
@@ -50,7 +52,9 @@ Tagshot.Router = Backbone.Router.extend({
 				$("#search-container .textbox li:last").before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
 			}
 		}
+		*/
 
+		Tagshot.collections.photoList.search(query);
 		$("#gallery").show();
 		$("#detail").hide();
 	},
