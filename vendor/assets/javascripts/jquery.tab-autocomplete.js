@@ -144,15 +144,23 @@
 						this.minIndex = this.autoSelect === true ? 0 : -1;
 					},
 					addTag: function () {
-						var that = this,
-						newTag = '';
+						var newTag = '',
+						thatAddTag = this,
+						tempEntry = '';
 						this.updateTags();
 						// if only tags are accepted and no entry is selected, abort
 						if (this.selectedEntry === null && settings.autoSelect)
 							return;
 						// if we have no selected entry, and this is allowed, just take textbox-value
-						if (this.selectedEntry === null && settings.autoSelect === false)
-							this.selectedEntry = this.$input.val();
+						if (this.selectedEntry === null && settings.autoSelect === false) {
+							tempEntry = this.$input.val();
+							that.data('tagAutocompletion-list').list.forEach(function (el) {
+								if (el[0] === tempEntry) {
+									thatAddTag.selectedEntry = el[2];
+									return false;
+								}
+							});
+						}
 						if (this.selectedEntry === '' || this.tags.indexOf(this.selectedEntry) !== -1)
 							return;
 						newTag = this.selectedEntry;
