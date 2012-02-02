@@ -85,7 +85,7 @@ module Tagshot
 
       def update_meta_properties!(attrs)
         properties = self.class.meta_property_names(readonly: false)
-        update_attributes! attrs.select{|key, value| properties.includes? key}
+        update_attributes! attrs.select{|key, value| properties.include? key}
       end
 
       private
