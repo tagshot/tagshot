@@ -29,7 +29,6 @@ module Tagshot
 
       private
       def meta_property_name_match(value, options)
-        puts value.inspect, options.inspect
         return false if options[:readonly] and not value[:options][:readonly]
         return false if not options[:readonly] and value[:options][:readonly]
         return true
@@ -82,6 +81,11 @@ module Tagshot
         Hash[self.class.meta_property_names(options).map do |name|
           [name.to_sym, send(name.to_sym)]
         end]
+      end
+
+      def update_meta_properties!(attrs)
+        properties = self.class.meta_property_names(readonly: false)
+        update_attributes! attrs.select{|key, value| properties.includes? key}
       end
 
       private
