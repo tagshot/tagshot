@@ -199,11 +199,12 @@
 							}
 						}
 					},
-					displayAutocompletionList:  function () {
+					displayAutocompletionList:  function (currentSearch) {
 						var that = this;
 						// display all entries in autocompletion list
 						this.$autocompletionList.html(this.autocompletionEntriesList.reduce(function (prev, current) {
 							var selected = current === that.selectedEntry ? ' class="autocomplete-selected"' : '';
+							current = '<strong>' + current.substr(0, currentSearch.length) + '</strong>' + current.substr(currentSearch.length);
 							return prev + '<li' + selected + '>' + current + '</li>';
 						}, ''));
 						this.$autocompletionList.children('li').click(function () {
@@ -308,6 +309,7 @@
 
 				// now add keyboard monitoring for <input>-element
 				p.$input.keydown(function (event) {
+					var text = this.value.toLowerCase();
 					p.$autocompletionList.show(0);
 					switch (event.keyCode) {
 						case keyCodes.BACKSPACE:
@@ -349,14 +351,14 @@
 							var index = p.autocompletionEntriesList.indexOf(p.selectedEntry);
 							p.selectedEntry = p.autocompletionEntriesList[Math.min(index + 1, p.autocompletionEntriesList.length - 1)];
 							p.$autocompletionList.children('li').removeClass('selected');
-							p.displayAutocompletionList();
+							p.displayAutocompletionList(text);
 							event.preventDefault();
 							break;
 						case keyCodes.UP:
 							var index = p.autocompletionEntriesList.indexOf(p.selectedEntry);
 							p.selectedEntry = p.autocompletionEntriesList[Math.max(index - 1, p.minIndex)];
 							p.$autocompletionList.children('li').removeClass('selected');
-							p.displayAutocompletionList();
+							p.displayAutocompletionList(text);
 							event.preventDefault();
 							break;
 						default:
@@ -413,7 +415,7 @@
 					// if no entries are left, stop processing
 					if (filteredList.length === 0) {
 						p.selectedEntry = null;
-						p.displayAutocompletionList();
+						p.displayAutocompletionList(text);
 						return;
 					}
 					// if there is no previous entry or the previous entry is not in the list anymore, use first
@@ -421,7 +423,7 @@
 						if (settings.autoSelect)
 							p.selectedEntry = filteredList[0];
 					}
-					p.displayAutocompletionList();
+					p.displayAutocompletionList(text);
 					p.updateAutocompletionListPosition();
 				}).focus(function () {
 					p.$autocompletionList.show(0);
