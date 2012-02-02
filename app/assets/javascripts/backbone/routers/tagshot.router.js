@@ -44,21 +44,20 @@ Tagshot.Router = Backbone.Router.extend({
 			return;
 		}
 
-		/*
-		var tags = query.split('+');
-		Tagshot.collections.photoList.search(query);
-		var currentTags = [];
-		$("#search-container .textbox li.tag").remove();
-		$("#search-container .textbox li.tag").each(function() {
-			currentTags.push($(this).text());
-		});
+		if ($("#search-container .textbox li.tag").length === 0) {
+				var tags = query.split('+');
+				var currentTags = [];
+				$("#search-container .textbox li.tag").remove();
+				$("#search-container .textbox li.tag").each(function() {
+					currentTags.push($(this).text());
+				});
 
-		for (var i = 0; i < tags.length; i++) {
-			if (currentTags.indexOf(tags[i]) === -1 && tags[i] !== '') {
-				$("#search-container .textbox li:last").before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
-			}
+				for (var i = 0; i < tags.length; i++) {
+					if (currentTags.indexOf(tags[i]) === -1 && tags[i] !== '') {
+						$("#search-container .textbox li:last").before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
+					}
+				}
 		}
-		*/
 
 		Tagshot.collections.photoList.search(query);
 		$("#gallery").show();
