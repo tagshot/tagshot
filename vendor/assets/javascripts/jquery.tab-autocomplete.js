@@ -104,16 +104,16 @@
 				lowercase.push([entry.toLowerCase(), settings.autocompleteList[entry], entry]);
 			}
 			// not the best place for this, refactor
-			lowercase.push(['*1', 1, '★☆☆☆☆']);
-			lowercase.push(['*2', 1, '★★☆☆☆']);
-			lowercase.push(['*3', 1, '★★★☆☆']);
-			lowercase.push(['*4', 1, '★★★★☆']);
-			lowercase.push(['*5', 1, '★★★★★']);
-			lowercase.push(['=*1', 1, '=★☆☆☆☆']);
-			lowercase.push(['=*2', 1, '=★★☆☆☆']);
-			lowercase.push(['=*3', 1, '=★★★☆☆']);
-			lowercase.push(['=*4', 1, '=★★★★☆']);
-			lowercase.push(['=*5', 1, '=★★★★★']);
+			lowercase.push(['1*', 1, '★☆☆☆☆']);
+			lowercase.push(['2*', 1, '★★☆☆☆']);
+			lowercase.push(['3*', 1, '★★★☆☆']);
+			lowercase.push(['4*', 1, '★★★★☆']);
+			lowercase.push(['5*', 1, '★★★★★']);
+			lowercase.push(['=1*', 1, '=★☆☆☆☆']);
+			lowercase.push(['=2*', 1, '=★★☆☆☆']);
+			lowercase.push(['=3*', 1, '=★★★☆☆']);
+			lowercase.push(['=4*', 1, '=★★★★☆']);
+			lowercase.push(['=5*', 1, '=★★★★★']);
 			this.data('tagAutocompletion-list', { list: lowercase });
 
 			this.each(function () {
