@@ -4,6 +4,7 @@ Tagshot.addTag = function (tagList, newTag) {
 		var tags = model.get("tags").slice(0);
 		tags.push(newTag);
 		Tagshot.searchBox.tagAutocomplete('addTag', newTag);
+		Tagshot.tagBox.tagAutocomplete('addTag', newTag);
 		// use slice(0) to get a copy of tagList
 		model.set({'tags': tags.slice(0)});
 	});

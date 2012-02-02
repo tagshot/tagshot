@@ -55,6 +55,7 @@
 		init: function (options) {
 			 // will hold a lowercased-version of settings.autocompleteList
 			 var lowercase,
+			     that = this,
 			// standard settings
 			    settings = {
 				// list of possible autocompletions
@@ -113,7 +114,7 @@
 			lowercase.push(['=*3', 1, '=★★★☆☆']);
 			lowercase.push(['=*4', 1, '=★★★★☆']);
 			lowercase.push(['=*5', 1, '=★★★★★']);
-			this.data('tagAutocompletion', { list: lowercase });
+			this.data('tagAutocompletion-list', { list: lowercase });
 
 			this.each(function () {
 				// javascript note: this now refers to the input dom element
@@ -159,10 +160,7 @@
 						// apply postprocessing as specified by parameters
 						this.doPostProcessing(this.selectedEntry);
 						this.$input.val('').parent().before('<li class="tag"><span>' + this.selectedEntry + '</span><a></a></li>');
-						this.$tagList.find('li a').last().click(function () {
-							$(this).parent().addClass(settings.tagRemoveClass);
-							that.removeTag();
-						});
+						this.$tagList.find('li a').last().click(p.removeClickedTag);
 						this.selectedEntry = null;
 						this.autocompletionEntriesList = [];
 						this.displayAutocompletionList();
@@ -180,9 +178,16 @@
 						p.input.focus();
 						settings.onTagRemoved(this.tags.slice(0), removedTagText);
 					},
+					removeClickedTag: function () {
+						$(this).parent().addClass(settings.tagRemoveClass);
+						p.removeTag();
+					},
 					updateTags: function () {
 						var updatedTags = [];
-						this.$tagList.find('li.tag').each(function() { updatedTags.push($(this).text()) });
+						this.$tagList.find('li.tag').each(function() {
+							updatedTags.push($(this).text());
+							$(this).children('a').unbind('click').click(p.removeClickedTag);
+						});
 						this.tags = updatedTags;
 					},
 					doPostProcessing: function (entry) {
@@ -249,6 +254,8 @@
 						}
 					}
 				};
+
+				that.data('tagAutocompletion-plugin', { plugin: p });
 
 				p.init();
 
@@ -375,7 +382,7 @@
 
 					var lowerCasedTags = p.tags.map(function (el) { return el.toLowerCase(); } );
 					// filter list
-					filteredList = $(this).data('tagAutocompletion').list.filter(function (el) {
+					filteredList = $(this).data('tagAutocompletion-list').list.filter(function (el) {
 						// true, when something was found (search returns index of first occurrence) and tag is not already in current tags
 						return el[0].search(regex) >= 0 && lowerCasedTags.indexOf(el[0]) === -1;
 					});
@@ -429,9 +436,13 @@
 			return this;
 		},
 		addTag: function (newTag) {
-			var lowercase = this.data('tagAutocompletion').list;
+			var lowercase = this.data('tagAutocompletion-list').list;
 			lowercase.push([newTag.toLowerCase(newTag), 1, newTag]);
 			this.data('tagAutcompletion', { 'list': lowercase });
+		},
+		updateTags: function () {
+			var plugin = this.data('tagAutocompletion-plugin').plugin;
+			plugin.updateTags();
 		}
 	};
 
