@@ -439,8 +439,11 @@
 		},
 		addTag: function (newTag) {
 			var lowercase = this.data('tagAutocompletion-list').list;
-			lowercase.push([newTag.toLowerCase(newTag), 1, newTag]);
-			this.data('tagAutcompletion', { 'list': lowercase });
+			var realNames = lowercase.map(function (el) { return el[2]; });
+			if (realNames.indexOf(newTag) === -1) {
+				lowercase.push([newTag.toLowerCase(newTag), 1, newTag]);
+				this.data('tagAutcompletion', { 'list': lowercase });
+			}
 		},
 		updateTags: function () {
 			var plugin = this.data('tagAutocompletion-plugin').plugin;
