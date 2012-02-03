@@ -153,6 +153,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		} else {
 			// deselect all but current
 			LastSelected = this.model;
+			console.log(this.model);
 			this.model.collection.deselectAll({'exclude':this.model});
 			this.model.select();
 		}
