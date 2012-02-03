@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
   end
   
   def render_401(options={})
-    render_error({:status => :unauthorized}.merge(options))
+    render_error({:status => 401}.merge(options))
     return true
   end
   
