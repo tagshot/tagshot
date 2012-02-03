@@ -18,5 +18,8 @@ Tagshot.search = function (tagList) {
 	searchString = tagList.join("+");
 
 	// navigate to search and the rest will be done by the backbone fairy
-	Tagshot.router.navigate('search/'+searchString, true);
+	if (searchString === '')
+		Tagshot.router.navigate('', true);
+	else
+		Tagshot.router.navigate('search/' + searchString, true);
 }
