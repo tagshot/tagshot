@@ -87,7 +87,7 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 			this.fetch({
 				add: false, //not appending
 				data: {
-					limit: 20,
+					limit: Tagshot.configuration.numberOfImagesToFetchAtStart,
 					q: searchString
 				}
 			});

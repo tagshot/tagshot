@@ -140,17 +140,18 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	scrolling: function(){
 		// do infinite scrolling
 		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
-		if (pixelsFromWindowBottom < 200 && $(this.el).is(':visible')) {
-			var maxNumberOfImagesBeforeNoAutomaticFetch = 200;
-			if (this.collection.length < maxNumberOfImagesBeforeNoAutomaticFetch){
+		var pixels = Tagshot.configuration.pixelsFromBottonToTriggerLoad;
+		if (pixelsFromWindowBottom < pixels && $(this.el).is(':visible')) {
+			var max = Tagshot.configuration.maxNumberOfImagesBeforeNoAutomaticFetch;
+			if (this.collection.length < max) {
 				this.loadMoreImages();
 			}
 		}
 	},
 
 	loadMoreImages: function(e) {
-		var imagesToFetch = 10;
-		this.collection.appendingFetch(imagesToFetch);
+		var add = Tagshot.configuration.numberOfImagesToFetchAtAppend;
+		this.collection.appendingFetch(add);
 
 		if (this.collection.reachedEnd) {
 			$('#more').attr('disabled','disabled');
