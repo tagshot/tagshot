@@ -89,7 +89,7 @@ describe PhotosController do
             json = JSON(response.body)
             json.length.should == 1
             json.each do |photo|
-              photo['properties']['date'].should < '2012-01-02'
+              photo['meta']['date'].should < '2012-01-02'
             end
           end
 
@@ -102,7 +102,7 @@ describe PhotosController do
             json = JSON(response.body)
             json.length.should == 2
             json.each do |photo|
-              photo['properties']['date'].should > '2012-01-01'
+              photo['meta']['date'].should > '2012-01-01'
             end
           end
 
@@ -115,7 +115,7 @@ describe PhotosController do
             json = JSON(response.body)
             json.length.should > 0
             json.each do |photo|
-              photo['properties']['date'].should < '2012-01-01'
+              photo['meta']['date'].should < '2012-01-01'
             end
           end
 
@@ -129,7 +129,7 @@ describe PhotosController do
             json = JSON(response.body)
             json.length.should > 0
             json.each do |photo|
-              photo['properties']['date'].should > '2012-01-01'
+              photo['meta']['date'].should > '2012-01-01'
             end
           end
 

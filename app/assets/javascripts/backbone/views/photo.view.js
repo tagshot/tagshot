@@ -1,4 +1,4 @@
-/* This view displays the information defined in poto.js.
+/* This view displays the information defined in photo.js.
  *
  * It is responsible for setting up plugins that manipulate the DOM,
  * do the selection magic and add fancy effects.
@@ -16,17 +16,21 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	className: "image-view",
 	templateSelector: '#image-template',
 	events: {
-		//"click .star-me" : "click",
 		"click img" : "click",
 		"dblclick img" : "openDetails",
 		"keydown[space]" : "quickview",
 		"keydown[return]" : "openDetails",
 		"keydown[left]" : "gotoPrevious",
 		"keydown[right]" : "gotoNext",
-		"keydown[del]": "delete"
+		"keydown[del]": "delete",
+		"focusin": "photoFocused"
 	},
 
-
+	photoFocused: function (event) {
+		if (Tagshot.collections.photoList.selection().length === 0) {
+			this.model.select();
+		}
+	},
 	initialize : function() {
 		_.bindAll(this);
 
@@ -50,7 +54,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 
 		Tagshot.helpers.resizeImages();
 
-		//delegate events means rebinding the events
+		// delegate events means rebinding the events
 		this.delegateEvents();
 		return this;
 	},
@@ -130,6 +134,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	click: function(e) {
 		this.stop(e);
 		$(this.el).find('.image-frame').focus();
+		Tagshot.views.gallery.setActive();
 		
 		// show this image in quickview in case quickview is visible
 		if (quickViewVisible) {
@@ -148,6 +153,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		} else {
 			// deselect all but current
 			LastSelected = this.model;
+			console.log(this.model);
 			this.model.collection.deselectAll({'exclude':this.model});
 			this.model.select();
 		}

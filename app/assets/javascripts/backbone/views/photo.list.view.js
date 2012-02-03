@@ -15,10 +15,10 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		"keydown[ctrl+a]" : "selectAll",
 		"keydown[meta+a]" : "selectAll",
 
-		//"keydown[tab]" : "jumpToFooter",
+		"keydown[tab]" : "jumpToFooter",
 
-		"keydown[alt+left]" : "footerLeft",
-		"keydown[alt+right]" : "footerRight"
+		"keydown[shift+left]" : "footerLeft",
+		"keydown[shift+right]" : "footerRight"
 	},
 
 	initialize: function(options) {
@@ -58,7 +58,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var signature = $.param({
 			query: this.collection.currentSearchQuery,
 			length: this.collection.length
-        });
+		});
 
 		if (this.collection.length > 1 && this.signature === signature) return this;
 
@@ -128,6 +128,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 			return prev + "<li class='tag'>" + tag + '<a></a></li>';
 		}, "");
 		$("footer .textbox").prepend(list);
+		Tagshot.tagBox.tagAutocomplete('updateTags');
 	},
 
 	stop: function(e) {  
@@ -139,17 +140,20 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	scrolling: function(){
 		// do infinite scrolling
 		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
-		if (pixelsFromWindowBottom < 200 && $(this.el).is(':visible')) {
-			var maxNumberOfImagesBeforeNoAutomaticFetch = 200;
-			if (this.collection.length < maxNumberOfImagesBeforeNoAutomaticFetch){
+		var pixels = Tagshot.configuration.pixelsFromBottonToTriggerLoad;
+		var alreadyLoadedImages = $('.image-view').length >= Tagshot.configuration.numberOfImagesToFetchAtStart;
+		if (pixelsFromWindowBottom < pixels && alreadyLoadedImages && $(this.el).is(':visible')) {
+			var max = Tagshot.configuration.maxNumberOfImagesBeforeNoAutomaticFetch;
+			if (this.collection.length < max) {
+				console.log("infinite scrolling", pixels, pixelsFromWindowBottom, alreadyLoadedImages);
 				this.loadMoreImages();
 			}
 		}
 	},
 
 	loadMoreImages: function(e) {
-		var imagesToFetch = 10;
-		this.collection.appendingFetch(imagesToFetch);
+		var add = Tagshot.configuration.numberOfImagesToFetchAtAppend;
+		this.collection.appendingFetch(add);
 
 		if (this.collection.reachedEnd) {
 			$('#more').attr('disabled','disabled');
@@ -164,17 +168,26 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		console.log("jump to footer");
 		this.stop(e);
 		$('footer').find('input').focus();
+		this.setInActive();
+		return false;
 	},
 
+	setActive: function() {
+		$('#backbone-gallery-view').addClass('active');
+	},
+
+	setInActive: function() {
+		$('#backbone-gallery-view').removeClass('active');
+	},
 
 	footerLeft: function(e) {
 		console.log("footer left");
-		this.jumpToFooter(e);
-		$('footer').trigger("keydown","left");
+		//this.jumpToFooter(e);
+		//$('footer').trigger("keydown","shift+left");
 	},
 
 	footerRight: function(e) {
 		console.log("footer right");
-		this.jumpToFooter(e);
+		//this.jumpToFooter(e);
 	},
 });

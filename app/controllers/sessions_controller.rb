@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
-  
+  layout 'base'
+
   def new
     redirect_to photos_url if User.current.logged?
   end
@@ -11,7 +12,7 @@ class SessionsController < ApplicationController
       redirect_to root_url
     else
       flash[:error] = 'Authentication failed.'
-      redirect_to new_session_url(:login => params[:login]).gsub('http://', Rails.env == 'production' ?  'https://' : 'http://')
+      redirect_to new_session_url(:login => params[:login])
     end
   end
   

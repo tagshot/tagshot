@@ -28,9 +28,11 @@ $(function() {
 
 	$.ajax("/tags", {
 		success: function (data) {
+			Tagshot.tagList = data;
 			/* apply autocompletion to <input> */
-			$("#search-box").tagAutocomplete({
-				autocompleteList: data,
+			Tagshot.searchBox = $("#search-box");
+			Tagshot.searchBox.tagAutocomplete({
+				autocompleteList: Tagshot.tagList,
 				onTagAdded: Tagshot.search,
 				onTagRemoved: Tagshot.search,
 				postProcessors: [
@@ -42,14 +44,15 @@ $(function() {
 				]
 			/* and make it auto-focus on page-load */
 			})
-			/*.textboxFocusOnStart({
+			.textboxFocusOnStart({
 				text: 'Just start searching…',
 				cssClassWhenEmpty: 'search-start',
 				doFocus: true
-			});*/
+			});
 
-			$("#tag-box").tagAutocomplete({
-				autocompleteList: data,
+			Tagshot.tagBox = $("#tag-box");
+			Tagshot.tagBox.tagAutocomplete({
+				autocompleteList: Tagshot.tagList,
 				autocompleteListPosition: 'above',
 				onTagAdded: Tagshot.addTag,
 				onTagRemoved: Tagshot.removeTag
@@ -94,6 +97,7 @@ $(function() {
 				return true;
 			});
 
+
 			$("#thumbnail-size-slider").slider({
 				orientation: "horizontal",
 				range: "min", 
@@ -104,6 +108,8 @@ $(function() {
 				change: Tagshot.helpers.resizeImages
 			});
 
+
+			// initialize Tagshot-stuff (Backbone)
 			Tagshot.init();
 		},
 	});

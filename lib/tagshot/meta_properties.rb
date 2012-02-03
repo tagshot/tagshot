@@ -9,10 +9,9 @@ module Tagshot
         before_save :save_meta_properties
         after_initialize :setup_meta_defaults
 
-        options = attrs.extract_options!
         meta_properties[name.to_sym] = {
-          properties: attrs,
-          options: options
+          options: attrs.extract_options!,
+          properties: attrs
         }
       end
 
@@ -22,8 +21,17 @@ module Tagshot
         @meta_properties ||= {}
       end
 
-      def meta_property_names
-        @meta_properties.keys
+      def meta_property_names(options)
+        meta_properties.select do |key, value|
+          meta_property_name_match value, options
+        end.keys
+      end
+
+      private
+      def meta_property_name_match(value, options)
+        return false if options[:readonly] and not value[:options][:readonly]
+        return false if not options[:readonly] and value[:options][:readonly]
+        return true
       end
     end
     
@@ -67,6 +75,17 @@ module Tagshot
           value = self.send name
           send :"#{name}=", attrs[:options][:default] unless value
         end
+      end
+
+      def meta_properties(options = {})
+        Hash[self.class.meta_property_names(options).map do |name|
+          [name.to_sym, send(name.to_sym)]
+        end]
+      end
+
+      def update_meta_properties!(attrs)
+        properties = self.class.meta_property_names(readonly: false)
+        update_attributes! attrs.select{|key, value| properties.include? key}
       end
 
       private

@@ -20,17 +20,20 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	home: function(foo) {
+		console.log("home");
 
-		var numberOfImagesToFetchAtStart = 20;
-
-		this.fetchModels(numberOfImagesToFetchAtStart);
+		var number = Tagshot.configuration.numberOfImagesToFetchAtStart;
+		this.fetchModels(number);
 		this.buildGalleryView();
 	},
 
 	details: function(id) {
+		console.log("detail");
+
 		var model = Tagshot.collections.photoList.get({"id":id});
 
 		if (model === undefined) {
+			console.log("model not loaded yet");
 			return this.fetchUnloadedModel(id);
 		}
 
@@ -38,21 +41,29 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	search: function(query) {
-		var tags = query.split('+');
-		Tagshot.collections.photoList.search(query);
-		var currentTags = [];
-		$("#search-container .textbox li.tag").each(function() {
-			currentTags.push($(this).text());
-		});
-
-		for (var i = 0; i < tags.length; i++) {
-			if (currentTags.indexOf(tags[i]) === -1 && tags[i] !== '') {
-				$("#search-container .textbox li:last").before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
-			}
+		
+		if (query === "") {
+			this.navigate("/", true);
+			return;
 		}
 
-		$("#gallery").show();
-		$("#detail").hide();
+		if ($("#search-container .textbox li.tag").length === 0) {
+				var tags = query.split('+');
+				var currentTags = [];
+				$("#search-container .textbox li.tag").remove();
+				$("#search-container .textbox li.tag").each(function() {
+					currentTags.push($(this).text());
+				});
+
+				for (var i = 0; i < tags.length; i++) {
+					if (currentTags.indexOf(tags[i]) === -1 && tags[i] !== '') {
+						$("#search-container .textbox li:last").before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
+					}
+				}
+		}
+
+		Tagshot.collections.photoList.search(query);
+		this.buildGalleryView();
 	},
 
 
@@ -106,6 +117,8 @@ Tagshot.Router = Backbone.Router.extend({
 		$('#options-container').hide();
 		$('#show-options').show();
 
+		$('#backbone-gallery-view').addClass('active');
+
 		this.setFocusToTagBar();
 	},
 
@@ -120,7 +133,11 @@ Tagshot.Router = Backbone.Router.extend({
 			Tagshot.collections.photoList.reset();
 		}
 
-		if (Tagshot.collections.photoList.length < numberOfImagesToFetchAtStart) {
+		/*
+		 * there is a problem with initial loading if there are less images in the database than 2
+		 * this is why we need the magic number. we'll try to fix that in the future
+		 */
+		if (Tagshot.collections.photoList.length < 2) {
 			// if start or resetted
 			Tagshot.collections.photoList.fetch({
 				data: {limit: numberOfImagesToFetchAtStart},
