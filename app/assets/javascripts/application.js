@@ -50,7 +50,7 @@ $(function() {
 				doFocus: true
 			});
 
-			Tagshot.tagBox = $("#tag-box")
+			Tagshot.tagBox = $("#tag-box");
 			Tagshot.tagBox.tagAutocomplete({
 				autocompleteList: Tagshot.tagList,
 				autocompleteListPosition: 'above',
