@@ -12,10 +12,15 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	currentSearchQuery: "",
 	
 	initialize: function() {
+		var self = this;
 		_.bindAll(this);
 		this.bind('selectNext', this.selectNext);
 		this.bind('selectPrevious', this.selectPrevious);
 		this.bind('changeSelection', this.changeSelection);
+		this.bind('reset', function() {
+			self.currentSearchQuery = 0;
+			self.reachedEnd = false;
+		}, this);
 	},
 
 	changeSelection: function (model, rangeSelect, toggleSelect) {
@@ -113,20 +118,6 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		return photo.order();
 	},
 
-	search: function(searchString) {
-		console.log("search for "+searchString);
-		if (this.currentSearchQuery != searchString || searchString === "") {
-			this.currentSearchQuery = searchString;
-			this.fetch({
-				add: false, //not appending
-				data: {
-					limit: Tagshot.configuration.numberOfImagesToFetchAtStart,
-					q: searchString
-				}
-			});
-		}
-	},
-
 	/***************
 	* Helpers
 	****************/
@@ -137,5 +128,12 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 
 	setFetchMutex: function() {
 			this.fetching = true;
+	},
+
+	computeHash: function() {
+		return $.param({
+			query: this.currentSearchQuery,
+			length: this.length
+		})
 	}
 });
