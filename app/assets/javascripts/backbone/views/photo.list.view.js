@@ -141,9 +141,11 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		// do infinite scrolling
 		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
 		var pixels = Tagshot.configuration.pixelsFromBottonToTriggerLoad;
-		if (pixelsFromWindowBottom < pixels && $(this.el).is(':visible')) {
+		var alreadyLoadedImages = $('.image-view').length >= Tagshot.configuration.numberOfImagesToFetchAtStart;
+		if (pixelsFromWindowBottom < pixels && alreadyLoadedImages && $(this.el).is(':visible')) {
 			var max = Tagshot.configuration.maxNumberOfImagesBeforeNoAutomaticFetch;
 			if (this.collection.length < max) {
+				console.log("infinite scrolling", pixels, pixelsFromWindowBottom, alreadyLoadedImages);
 				this.loadMoreImages();
 			}
 		}
