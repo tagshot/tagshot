@@ -20,8 +20,8 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		"dblclick img" : "openDetails",
 		"keydown[space]" : "quickview",
 		"keydown[return]" : "openDetails",
-		"keydown[left]" : "gotoPrevious",
-		"keydown[right]" : "gotoNext",
+		"keydown[left]" : "selectPrevious",
+		"keydown[right]" : "selectNext",
 		"keydown[del]": "delete",
 		"focusin": "photoFocused"
 	},
@@ -41,7 +41,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		this.model.bind('destroy', this._remove, this);
 		this.model.bind('select', this.select, this);
 		this.model.bind('deselect', this.deselect, this);
-		quickViewVisible = false;
+		this.quickViewVisible = false;
 	},
 
 	render: function () {
@@ -79,16 +79,18 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	openDetails : function(e) {
-		if (!quickViewVisible) {
+		alert("go");
+		if (!this.quickViewVisible) {
 			Tagshot.router.navigate("details/" + this.model.get("id"), true);
 		}
 	},
 
 	quickview: function(e, override) {
+		var that = this;
 		override || (override = false);
 		this.stop(e);
 
-		if (!override && quickViewVisible) {
+		if (!override && this.quickViewVisible) {
 			$.fancybox.close();
 		} else {
 			$.fancybox.hideActivity();
@@ -100,8 +102,8 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 				'speedOut' :	200,
 				'changeSpeed':	0,
 				'changeFade':	0,
-				'onStart': function(){quickViewVisible = true},
-				'onClosed': function(){quickViewVisible = false},
+				'onStart': function (){that.quickViewVisible = true},
+				'onClosed': function (){that.quickViewVisible = false},
 				'title' :		this.model.get('tags'),
 				'transitionIn' : 'elastic',
 				'transitionOut' : 'elastic'
@@ -131,45 +133,32 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		});
 	},
 
-	click: function(e) {
+	click: function (e) {
 		this.stop(e);
 		$(this.el).find('.image-frame').focus();
 		Tagshot.views.gallery.setActive();
 		
 		// show this image in quickview in case quickview is visible
-		if (quickViewVisible) {
+		if (this.quickViewVisible) {
 			this.quickview(e, true);
 		}
-		
-		if (e.shiftKey) {
-			// shift -> from..to select
-			var self = this;
-			this.model.collection.selectFromTo(LastSelected, this.model);
-		} else if (e.ctrlKey || e.metaKey) {
-			// ctrl toggle this selection
-			var self = this;
-			LastSelected = this.model;
-			this.model.toggleSelect();
-		} else {
-			// deselect all but current
-			LastSelected = this.model;
-			this.model.collection.deselectAll({'exclude':this.model});
-			this.model.select();
-		}
+
+		this.model.trigger('changeSelection', this.model, e.shiftKey, e.ctrlKey || e.metaKey);
 	},
 
-	stop: function(e) {  
+	stop: function (e) {  
 		//avoid propagation to underlying view(s)
 		e.stopPropagation();
 	},
 
-	gotoNext: function(e) {
+	selectNext: function (e) {
 		this.stop(e);
-		$(this.el).next().find('img').click();
+		this.model.trigger('selectNext');
 	},
 
-	gotoPrevious: function() {
-		$(this.el).prev().find('img').click();
+	selectPrevious: function (e) {
+		this.stop(e);
+		this.model.trigger('selectPrevious');
 	},
 
 	needsNoRender: function() {
