@@ -37,7 +37,7 @@ $(function() {
 				onTagRemoved: Tagshot.search,
 				postProcessors: [
 					{
-						matches: tagFind.starExpression,
+						matches: tagFind.starExpression,		// EDIT here
 						transform: tagReplace.starExpression
 					}
 					// TODO: Find OR and AND Expressions
