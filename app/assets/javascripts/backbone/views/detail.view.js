@@ -94,7 +94,7 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 	download: function(e) {
 		stop(e);
 		var res = $('#download-res', this.el).val();
-		var scaled = $('input[name=download-scaled][checked=checked]', this.el).val();
+		var scaled = $('input[name=download-scaled]:checked', this.el).val();
 		var x = res.split("×")[0];
 		var y = res.split("×")[1];
 
