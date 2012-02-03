@@ -54,12 +54,14 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 
 	reset: function(e) {
+		console.log("reset view");
 		this.subviews = [];
-		this.render(e);
+		this.render(true);
 	},
 
-	render: function() {
-		if (this.needsNoRender()) {
+	render: function(override) {
+		if (this.needsNoRender() && !override) {
+			console.log("no rerender");
 			return this;
 		}
 

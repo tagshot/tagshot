@@ -85,9 +85,11 @@ Tagshot.Router = Backbone.Router.extend({
 
 		if (photolist.currentSearchQuery != query || query === "") {
 			console.log("do search");
+			photolist.reset();
+
 			photolist.currentSearchQuery = query;
 			photolist.fetch({
-				add: false, //not appending
+				add: true, //not appending
 				data: {
 					limit: Tagshot.configuration.numberOfImagesToFetchAtStart,
 					q: query
@@ -157,19 +159,13 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	fetchModels: function(number, callback) {
-		/*
-		 * there is a problem with initial loading if there are less images in the database than 2
-		 * this is why we need the magic number. we'll try to fix that in the future
-		 */
-		//if (Tagshot.collections.photoList.length < 2) {
-			// if start or resetted
-			console.log('fetch');
-			Tagshot.collections.photoList.fetch({
-				data: {limit: number},
-				add: true,
-				success: callback
-			});
-		//}
+		// if start or resetted
+		console.log('fetch');
+		Tagshot.collections.photoList.fetch({
+			data: {limit: number},
+			add: true,
+			success: callback
+		});
 	}
 
 });
