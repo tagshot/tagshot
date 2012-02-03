@@ -27,6 +27,13 @@ window.Tagshot = {
 	views: {},
 	router: undefined,
 
+	//configuration
+	configuration: {
+		numberOfImagesToFetchAtStart: 80,
+		numberOfImagesToFetchAtAppend: 40,
+		maxNumberOfImagesBeforeNoAutomaticFetch: Number.MAX_NUMBER
+	},
+
 	// Setup the app
 	init: function() {
 		Tagshot.router = new Tagshot.Router();

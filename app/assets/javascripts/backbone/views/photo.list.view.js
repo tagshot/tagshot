@@ -149,8 +149,8 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 
 	loadMoreImages: function(e) {
-		var imagesToFetch = 10;
-		this.collection.appendingFetch(imagesToFetch);
+		var add = Tagshot.configuration.numberOfImagesToFetchAtAppend;
+		this.collection.appendingFetch(add);
 
 		if (this.collection.reachedEnd) {
 			$('#more').attr('disabled','disabled');
