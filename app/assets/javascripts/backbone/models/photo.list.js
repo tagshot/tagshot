@@ -14,16 +14,48 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	initialize: function() {
 		var self = this;
 		_.bindAll(this);
+		this.bind('selectNext', this.selectNext);
+		this.bind('selectPrevious', this.selectPrevious);
+		this.bind('changeSelection', this.changeSelection);
 		this.bind('reset', function() {
 			self.currentSearchQuery = 0;
 			self.reachedEnd = false;
 		}, this);
 	},
 
+	changeSelection: function (model, rangeSelect, toggleSelect) {
+		if (rangeSelect) {
+			// shift -> from..to select
+			var firstSelected = _.first(this.selection());
+			this.selectFromTo(firstSelected, model);
+		} else if (toggleSelect) {
+			// ctrl toggle this selection
+			model.toggleSelect();
+		} else {
+			// deselect all but current
+			this.deselectAll({'exclude':model});
+			model.select();
+		}
+	},
+
+	selectNext: function () {
+		var last = _.last(this.selection());
+		this.deselectAll();
+		this.at((this.indexOf(last) + 1) % this.length).select();
+	},
+	selectPrevious: function () {
+		var first = _.first(this.selection());
+		this.deselectAll();
+		var index = this.indexOf(first);
+		if (index === 0) index = this.length;
+		index -= 1;
+		this.at(index).select();
+	},
+
 	selection: function() {
-	// returs the current selection
+		// returns the current selection
 		return this.filter(function(photo){
-			return photo.selected 
+			return photo.selected;
 		});
 	},
 
