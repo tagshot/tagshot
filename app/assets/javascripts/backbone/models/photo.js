@@ -4,12 +4,12 @@
  * One can add tags to all or delete all the selected photos.
  */
 
-
 Tagshot.Models.Photo = Backbone.Model.extend({
 	collection: Tagshot.Collections.PhotoList,
 	paramRoot: "photo",
 
 	initialize: function() {
+		_.bindAll(this);
 	},
 
 	order: function() {

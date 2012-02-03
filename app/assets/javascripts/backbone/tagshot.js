@@ -29,7 +29,7 @@ window.Tagshot = {
 
 	//configuration
 	configuration: {
-		numberOfImagesToFetchAtStart: 80,
+		numberOfImagesToFetchAtStart: 30,
 		numberOfImagesToFetchAtAppend: 50,
 		maxNumberOfImagesBeforeNoAutomaticFetch: Number.MAX_VALUE,
 		pixelsFromBottonToTriggerLoad: 200
@@ -54,7 +54,7 @@ window.Tagshot = {
 
 		//navigation with title
 		$('#title').click(function(){
-			Tagshot.router.navigate('',true);
+			Tagshot.router.navigate('reset', { trigger: true });
 			return false;
 		});
 
