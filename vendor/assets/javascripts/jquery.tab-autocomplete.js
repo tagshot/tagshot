@@ -143,6 +143,17 @@
 						// if there is no autoselection, no entry can be selected (indicated by -1)
 						this.minIndex = this.autoSelect === true ? 0 : -1;
 					},
+					correctTag: function (tag) {
+						var thatCorrectTags = this,
+						    correctedTag = tag;
+						that.data('tagAutocompletion-list').list.forEach(function (el) {
+							if (el[2] === tag) {
+								correctedTag = el[0];
+								return false;
+							}
+						});
+						return correctedTag;
+					},
 					addTag: function () {
 						var newTag = '',
 						thatAddTag = this,
@@ -155,14 +166,9 @@
 						if (this.selectedEntry === null && settings.autoSelect === false) {
 							this.selectedEntry = this.$input.val();
 						}
-						that.data('tagAutocompletion-list').list.forEach(function (el) {
-							if (el[2] === thatAddTag.selectedEntry) {
-								thatAddTag.selectedEntry = el[2];
-								return false;
-							}
-						});
 						if (this.selectedEntry === '' || this.tags.indexOf(this.selectedEntry) !== -1)
 							return;
+						this.selectedEntry = this.correctTag(this.selectedEntry);
 						newTag = this.selectedEntry;
 						this.tags.push(this.selectedEntry);
 						// apply postprocessing as specified by parameters
@@ -191,9 +197,10 @@
 						p.removeTag();
 					},
 					updateTags: function () {
-						var updatedTags = [];
+						var updatedTags = [],
+						    thatUpdateTags = this;
 						this.$tagList.find('li.tag').each(function() {
-							updatedTags.push($(this).text());
+							updatedTags.push(thatUpdateTags.correctTag($(this).text()));
 							$(this).children('a').unbind('click').click(p.removeClickedTag);
 						});
 						this.tags = updatedTags;

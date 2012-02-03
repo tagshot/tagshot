@@ -10,6 +10,21 @@
 // no whitespace allowed!
 
 
+
+var Tagshot.converter = (function() {
+		/*
+		 * url: stars:3
+		 * display: ★★★★★
+		 * textinput: 3*
+		 */
+		var regexTextInputToDisplay = /^(<|<=|=|>|>=)?([0-9])\*$/;
+		var urlToTextInput = /^$/;
+		return {
+			searchBoxToDisplay: function (text) {
+				return text.match(regexSearchToDisplay) !== null;
+			},
+		};
+})();
 tagFind = {};
 
 tagFind.starExpression = function (text) {
