@@ -20,6 +20,7 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	home: function(foo) {
+		console.log("home");
 
 		var number = Tagshot.configuration.numberOfImagesToFetchAtStart;
 		this.fetchModels(number);
@@ -27,9 +28,12 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	details: function(id) {
+		console.log("detail");
+
 		var model = Tagshot.collections.photoList.get({"id":id});
 
 		if (model === undefined) {
+			console.log("model not loaded yet");
 			return this.fetchUnloadedModel(id);
 		}
 
@@ -58,8 +62,7 @@ Tagshot.Router = Backbone.Router.extend({
 		}
 
 		Tagshot.collections.photoList.search(query);
-		$("#gallery").show();
-		$("#detail").hide();
+		this.buildGalleryView();
 	},
 
 
@@ -129,7 +132,11 @@ Tagshot.Router = Backbone.Router.extend({
 			Tagshot.collections.photoList.reset();
 		}
 
-		if (Tagshot.collections.photoList.length < numberOfImagesToFetchAtStart) {
+		/*
+		 * there is a problem with initial loading if there are less images in the database than 2
+		 * this is why we need the magic number. we'll try to fix that in the future
+		 */
+		if (Tagshot.collections.photoList.length < 2) {
 			// if start or resetted
 			Tagshot.collections.photoList.fetch({
 				data: {limit: numberOfImagesToFetchAtStart},
