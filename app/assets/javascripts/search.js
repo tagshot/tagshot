@@ -3,7 +3,8 @@ Tagshot.search = function (tagList) {
 	// consult https://student.hpi.uni-potsdam.de/redmine/projects/tagshot/wiki/JSON-API#Search-for-photos
 	var searchString,
 	    match;
-       
+      
+       // frontend to backend argument matching	
 
 	for (var i = 0, l = tagList.length; i < l; i++) {
 		match = tagList[i].match(/^(<|<=|=|>|>=)?([0-9])\*$/);
