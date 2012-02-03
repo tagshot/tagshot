@@ -23,17 +23,24 @@ Tagshot.Router = Backbone.Router.extend({
 	home: function(foo) {
 		console.log("home");
 
-		var number = Tagshot.configuration.numberOfImagesToFetchAtStart;
-		this.fetchModels(number);
+		if (Tagshot.collections.photoList.length == 1) {
+			// We come from the detail view
+			this.reset();
+		} else if(Tagshot.collections.photoList.length === 0) {
+			//started
+			this.fetchModels(Tagshot.configuration.numberOfImagesToFetchAtStart);
+		}
+
 		this.buildGalleryView();
 	},
 
 	// shows the gallery view but does a reset first
 	reset: function() {
+		var self = this;
+
 		console.log("reset collection");
 		Tagshot.collections.photoList.reset();
-		
-		this.navigate("", { replace: true, trigger: false });
+		this.fetchModels(Tagshot.configuration.numberOfImagesToFetchAtStart, function() { self.navigate("", {'trigger': false});});
 	},
 
 	details: function(id) {
@@ -50,10 +57,14 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	search: function(query) {
+		console.log("search for: "+query);
+
 		if (query === "") {
-			this.navigate("reset");
+			this.reset();
 			return;
 		}
+
+		this.buildGalleryView();
 
 		if ($("#search-container .textbox li.tag").length === 0) {
 				var tags = query.split('+');
@@ -70,8 +81,19 @@ Tagshot.Router = Backbone.Router.extend({
 				}
 		}
 
-		Tagshot.collections.photoList.search(query);
-		this.buildGalleryView();
+		var photolist = Tagshot.collections.photoList;
+
+		if (photolist.currentSearchQuery != query || query === "") {
+			console.log("do search");
+			photolist.currentSearchQuery = query;
+			photolist.fetch({
+				add: false, //not appending
+				data: {
+					limit: Tagshot.configuration.numberOfImagesToFetchAtStart,
+					q: query
+				}
+			});
+		}
 	},
 
 
@@ -134,22 +156,18 @@ Tagshot.Router = Backbone.Router.extend({
 		$('#search-container .textbox li.tag').remove().parent().find("input").focus();
 	},
 
-	fetchModels: function(numberOfImagesToFetchAtStart) {
-		if (Tagshot.collections.photoList.length == 1) {
-			// We come from the detail view
-			console.log("reset collection");
-			Tagshot.collections.photoList.reset();
-		}
-
+	fetchModels: function(number, callback) {
 		/*
 		 * there is a problem with initial loading if there are less images in the database than 2
 		 * this is why we need the magic number. we'll try to fix that in the future
 		 */
 		//if (Tagshot.collections.photoList.length < 2) {
 			// if start or resetted
+			console.log('fetch');
 			Tagshot.collections.photoList.fetch({
-				data: {limit: numberOfImagesToFetchAtStart},
-				add: false
+				data: {limit: number},
+				add: true,
+				success: callback
 			});
 		//}
 	}
