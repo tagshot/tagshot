@@ -11,7 +11,7 @@
 
 
 
-var Tagshot.converter = (function() {
+Tagshot.converter = (function () {
 		/*
 		 * url: stars:3
 		 * display: ★★★★★
@@ -24,7 +24,8 @@ var Tagshot.converter = (function() {
 				return text.match(regexSearchToDisplay) !== null;
 			},
 		};
-})();
+}());
+
 tagFind = {};
 
 tagFind.starExpression = function (text) {
