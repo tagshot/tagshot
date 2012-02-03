@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   def require_authentication
     unless User.current.logged?
       flash[:error] = 'Authentication required.'
-      if params[:format].downcase == 'html'
+      if params[:format].nil? or params[:format].to_s.downcase == 'html'
         redirect_to new_session_url
       else
         render_401
