@@ -12,6 +12,7 @@ Tagshot.Router = Backbone.Router.extend({
 
 	routes: {
 		"":							"home",
+		"reset":					"reset",
 		"search/:query":			"search",	//search/hasso
 		"p/:page":					"page",
 		"search/:query/:page":		"searchpage",
@@ -25,6 +26,14 @@ Tagshot.Router = Backbone.Router.extend({
 		var number = Tagshot.configuration.numberOfImagesToFetchAtStart;
 		this.fetchModels(number);
 		this.buildGalleryView();
+	},
+
+	// shows the gallery view but does a reset first
+	reset: function() {
+		console.log("reset collection");
+		Tagshot.collections.photoList.reset();
+		
+		this.navigate("", { replace: true, trigger: false });
 	},
 
 	details: function(id) {
@@ -42,7 +51,7 @@ Tagshot.Router = Backbone.Router.extend({
 
 	search: function(query) {
 		if (query === "") {
-			this.navigate("", { replace: true, trigger: false });
+			this.navigate("reset");
 			return;
 		}
 
@@ -136,13 +145,13 @@ Tagshot.Router = Backbone.Router.extend({
 		 * there is a problem with initial loading if there are less images in the database than 2
 		 * this is why we need the magic number. we'll try to fix that in the future
 		 */
-		if (Tagshot.collections.photoList.length < 2) {
+		//if (Tagshot.collections.photoList.length < 2) {
 			// if start or resetted
 			Tagshot.collections.photoList.fetch({
 				data: {limit: numberOfImagesToFetchAtStart},
 				add: false
 			});
-		}
+		//}
 	}
 
 });

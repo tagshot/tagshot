@@ -145,7 +145,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		if (pixelsFromWindowBottom < pixels && alreadyLoadedImages && $(this.el).is(':visible')) {
 			var max = Tagshot.configuration.maxNumberOfImagesBeforeNoAutomaticFetch;
 			if (this.collection.length < max) {
-				console.log("infinite scrolling", pixels, pixelsFromWindowBottom, alreadyLoadedImages);
 				this.loadMoreImages();
 			}
 		}
