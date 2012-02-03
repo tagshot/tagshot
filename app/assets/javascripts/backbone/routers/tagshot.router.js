@@ -41,9 +41,8 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	search: function(query) {
-		
 		if (query === "") {
-			this.navigate("/", true);
+			this.navigate("", { replace: true, trigger: false });
 			return;
 		}
 
