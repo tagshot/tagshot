@@ -27,7 +27,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		this.collection.bind('select', this.showFooterIfNeccessary, this);
 		this.collection.bind('deselect', this.showFooterIfNeccessary, this);
-		this.collection.bind('reset', this.render, this);
+		this.collection.bind('reset', this.reset, this);
 		this.collection.bind('add', this.append, this);
 
 		_.extend(this.el,Backbone.Events);
@@ -53,18 +53,17 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		})
 	},
 
-	render: function() {
-		// TODO refactor it in photo.list.js, why not use changed/hasChanged/changedAttributes?
-		var signature = $.param({
-			query: this.collection.currentSearchQuery,
-			length: this.collection.length
-		});
+	reset: function(e) {
+		console.log("reset view");
+		this.subviews = [];
+		this.render(true);
+	},
 
-		if (this.collection.length > 1 && this.signature === signature) return this;
-
-		console.log("signature change: " + this.signature + " -> " + signature);
-
-		this.signature = signature;
+	render: function(override) {
+		if (this.needsNoRender() && !override) {
+			console.log("no rerender");
+			return this;
+		}
 
 		console.log("render gallery");
 		
@@ -97,6 +96,8 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var sv = this.subviews;
 
 		if (photo.id in sv) {
+			console.log("not again!!!, show the view just once");
+			return;
 			console.log("remove:", sv[photo.id]);
 			sv[photo.id].remove();
 		}
@@ -140,17 +141,19 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	scrolling: function(){
 		// do infinite scrolling
 		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
-		if (pixelsFromWindowBottom < 200 && $(this.el).is(':visible')) {
-			var maxNumberOfImagesBeforeNoAutomaticFetch = 200;
-			if (this.collection.length < maxNumberOfImagesBeforeNoAutomaticFetch){
+		var pixels = Tagshot.configuration.pixelsFromBottonToTriggerLoad;
+		var alreadyLoadedImages = $('.image-view').length >= Tagshot.configuration.numberOfImagesToFetchAtStart;
+		if (pixelsFromWindowBottom < pixels && alreadyLoadedImages && $(this.el).is(':visible')) {
+			var max = Tagshot.configuration.maxNumberOfImagesBeforeNoAutomaticFetch;
+			if (this.collection.length < max) {
 				this.loadMoreImages();
 			}
 		}
 	},
 
 	loadMoreImages: function(e) {
-		var imagesToFetch = 10;
-		this.collection.appendingFetch(imagesToFetch);
+		var add = Tagshot.configuration.numberOfImagesToFetchAtAppend;
+		this.collection.appendingFetch(add);
 
 		if (this.collection.reachedEnd) {
 			$('#more').attr('disabled','disabled');
@@ -187,4 +190,14 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		console.log("footer right");
 		//this.jumpToFooter(e);
 	},
+
+	needsNoRender: function() {
+		var currentModelHash = this.collection.computeHash();
+		if (this.collection.hash === currentModelHash) {
+			return true;
+		}
+		console.log("gallery hash change: " + this.collection.hash + " -> " + currentModelHash);
+		this.collection.hash = currentModelHash;
+		return false;
+	}
 });
