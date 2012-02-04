@@ -37,39 +37,37 @@ Tagshot.converter = (function () {
 
 			inputToQuery: function(textList) {
 				var self = this;
-				var input = _.map(textList, function(token) {
+				return _.map(textList, function(token) {
 					if (self.isRatingInput(token)) {
 						return self.buildStarQueryToken(token);
 					}
 					return token;
 				}).join('+');
-				return input;
 			},
 
 			queryToInput: function(url) {
 				var self = this;
-				var input = _.map(self.findTokensInURL(url), function(token) {
+				return _.map(self.findTokensInURL(url), function(token) {
 					return self.inputToStars(self.URLstarsToInput(token));
 				});
-				return input;
 			},
 
 			inputToStars: function (text) {
+				var self = this;
 				var match = text.match(RATINGINPUT);
 				if (match === null) {
 					return text;
 				}
 				var starNumber = match[2];
 				var prefix = match[1];
-				return this.buildStarString(this.prefixToUnicode(prefix), starNumber);
+				return this.buildStarString(self.prefixToUnicode(prefix), starNumber);
 			},
 
 			findTokensInURL: function(url) {
 				// returns ['stars:<3', 'Tag1']
-				var dings =  _.flatten(_.map(url.split(','), function(token) {
+				return _.flatten(_.map(url.split(','), function(token) {
 					return token.split('+');
 				}));
-				return dings;
 			},
 
 			URLstarsToInput: function(text) {
