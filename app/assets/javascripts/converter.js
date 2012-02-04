@@ -13,9 +13,9 @@
  * no whitespace allowed!
  */ 
 
-/**************************************/
-/* Regexes that match querystring/URL */
-/*************************************
+/*********************************************/
+/* Querystrings/URL that will be transformed */
+/*********************************************
  * foo+bar to ['foo', 'bar']
  * stars:3 to ['★★★☆☆']
  * foo,bar+stars:<=3 to ['foo', 'bar', '≤★★★☆☆']
@@ -29,7 +29,7 @@ Tagshot.converter = (function () {
 		 */
 
 		// BEWARE: Number of stars is a digit, not [0-5]
-		var TEXTINPUT = /^(<|<=|=|>|>=)?([0-9])\*$/;
+		var RATINGINPUT = /^(<|<=|=|>|>=)?([0-9])\*$/;
 		var RATING_QUERY_TOKEN = /^stars:(<|<=|=|>|>=)?[0-9]$/
 		var URL_STAR_TOKEN = /^stars:(<|<=|=|>|>=)?([0-9])$/;
 
@@ -37,25 +37,25 @@ Tagshot.converter = (function () {
 
 			inputToQuery: function(textList) {
 				var self = this;
-				var input = _.map(this.textList, function(token) {
-					if (self.isRatingQuery(token)) {
+				var input = _.map(textList, function(token) {
+					if (self.isRatingInput(token)) {
 						return self.buildStarQueryToken(token);
 					}
 					return token;
-				}).toString();
+				}).join('+');
 				return input;
 			},
 
 			queryToInput: function(url) {
 				var self = this;
-				var input = _.map(this.findTokensInURL(url), function(token) {
+				var input = _.map(self.findTokensInURL(url), function(token) {
 					return self.inputToStars(self.URLstarsToInput(token));
 				});
 				return input;
 			},
 
 			inputToStars: function (text) {
-				var match = text.match(TEXTINPUT);
+				var match = text.match(RATINGINPUT);
 				if (match === null) {
 					return text;
 				}
@@ -79,7 +79,7 @@ Tagshot.converter = (function () {
 					return text // it is no star token like stars:<3
 				}
 				var starToken = match[0];
-				return starToken.substr(6); // 'stars:'.length === 6
+				return starToken.substr(6)+'*'; // 'stars:'.length === 6
 			},
 
 
@@ -88,11 +88,11 @@ Tagshot.converter = (function () {
 /*****************************/
 
 			isRatingInput: function (token) {
-				return token.match(TEXTINPUT) !== null;
+				return token.match(RATINGINPUT) !== null;
 			},
 
 			isRatingQuery: function(token) {
-				return token.match(RATING_QUERY_TOKEN);
+				return token.match(RATING_QUERY_TOKEN) !== null;
 			},
 
 			buildStarQueryToken: function(token) {
@@ -101,6 +101,7 @@ Tagshot.converter = (function () {
 			},
 
 			prefixToUnicode: function(prefix) {
+				// unicodifies '<=' and '>=' and trims '='
 				switch(prefix) {
 					case '<=':
 						return '≤';

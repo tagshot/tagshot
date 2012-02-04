@@ -8,6 +8,15 @@ $(document).ready(function() {
  * Tests for unicodification of stars
  *************************************/
 
+	test("prefixToUnicode unicodifies >= and <=, removes = and the rest falls through", function() {
+		equals(converter.prefixToUnicode('<='), '≤');
+		equals(converter.prefixToUnicode('>='), '≥');
+		equals(converter.prefixToUnicode('='), '');
+		equals(converter.prefixToUnicode(''), '');
+		equals(converter.prefixToUnicode(' '), ' ');
+	});
+
+
 	test("buildStarString builds maximum 5 white stars", function() {
 		var min = converter.buildStarString('', 5);
 		var max = converter.buildStarString('', 0);
@@ -48,18 +57,29 @@ $(document).ready(function() {
 /**********************************************
  * Tests for user's text input and search/URL
  **********************************************/
-	test("findTokensInURL splits 'tag1+stars:<3+tag2' into ['tag1', 'stars:<3', 'tag2']", function() {
-		equals(converter.findTokensInURL('tag1+stars:<3+tag2'), ['tag1', 'stars:<3', 'tag2']);
+	test("URLstarsToInput strips 'stars:' prefix and adds '*', other strings fall through", function() {
+		equals(converter.URLstarsToInput('stars:<=3'), '<=3*');
+		equals(converter.URLstarsToInput('Tag1'), 'Tag1');
 	});
 
+	test("findTokensInURL splits 'tag1+stars:<3+tag2' into ['tag1', 'stars:<3', 'tag2']", function() {
+		// in JS ['a', 'b'] !== ['a', 'b']
+		var tokens = converter.findTokensInURL('tag1+stars:<3+tag2');
+		var expected = ['tag1', 'stars:<3', 'tag2'];
+		equals(Tagshot.helpers.equalArrays(tokens, expected), true, 'all list elements should be equal');
+	});
 
-	test("Search input ['<3*' 'Tag1'] builds a search query 'stars:<3+Tag1'", function() {
+	test("isRatingQuery recognizes 'stars:<3' but not 'star:foo'", function() {
+		equals(converter.isRatingQuery('stars:<3'), true);
+		equals(converter.isRatingQuery('stars:foo'), false);
+	});
+
+	test("Search input ['<3*', 'Tag1'] builds a search query 'stars:<3+Tag1'", function() {
 		equals(converter.inputToQuery(['<3*', 'Tag1']), 'stars:<3+Tag1');
 	});
 
 	test("queryToInput builds from URL 'stars:<3+Tag1+Tag2' a unicodified tag list ['<★★★☆☆', 'foo', 'bar']", function() {
-			equals(converter.queryToInput('stars:<3+Tag1+Tag2'),
-				['<★★★☆☆', 'foo', 'bar']);
+			equals(Tagshot.helpers.equalArrays(converter.queryToInput('stars:<3+Tag1+Tag2'), ['<★★★☆☆', 'Tag1', 'Tag2']), true);
 	});
 
 });

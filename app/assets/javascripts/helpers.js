@@ -35,3 +35,10 @@ Tagshot.helpers.addGlobalAjaxIndicator = function () {
 		indicator.delay(500).fadeOut(100);
 	});
 }
+
+Tagshot.helpers.equalArrays = function(arr1, arr2) {
+		return _.any(_.map(arr1, function(elem, i) {
+			return elem === arr2[i];
+		}));
+	};
+
