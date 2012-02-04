@@ -78,12 +78,6 @@ class PhotosController < ApplicationController
         width = params[:width].to_i if params[:width]
       end
 
-      if width.to_i == 0 and height.to_i == 0 or
-          width.to_i > 2048 or height.to_i > 2048
-        head 406
-        return
-      end
-
       image =  Magick::Image.read(@photo.file).first
       if params[:crop] == 'crop'
         image.crop_resized!(width, height, Magick::CenterGravity)

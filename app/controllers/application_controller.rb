@@ -25,7 +25,11 @@ class ApplicationController < ActionController::Base
   def require_authentication
     unless User.current.logged?
       flash[:error] = 'Authentication required.'
-      redirect_to new_session_url
+      if params[:format].nil? or params[:format].to_s.downcase == 'html'
+        redirect_to new_session_url
+      else
+        render_401
+      end
       false
     end
   end
@@ -49,7 +53,7 @@ class ApplicationController < ActionController::Base
   end
   
   def render_401(options={})
-    render_error({:status => :unauthorized}.merge(options))
+    render_error({:status => 401}.merge(options))
     return true
   end
   
