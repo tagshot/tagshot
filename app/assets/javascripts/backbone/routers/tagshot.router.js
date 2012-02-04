@@ -11,17 +11,18 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	routes: {
-		"":							"home",
 		"reset":					"reset",
+		"details/:id":				"details",
+		"*path/details/:id":		"subdetails",
 		"search/:query":			"search",	//search/hasso
+		"*path/search/:query":		"subsearch",	//search/hasso
 		"p/:page":					"page",
 		"search/:query/:page":		"searchpage",
-		"details/:id":				"details",
-		"*foo":						"home"
+		"*path":					"home"
 	},
 
-	home: function(foo) {
-		console.log("home");
+	home: function(path) {
+		console.log(path.split("/"),"home");
 
 		if (Tagshot.collections.photoList.length == 1) {
 			// We come from the detail view
@@ -44,21 +45,29 @@ Tagshot.Router = Backbone.Router.extend({
 		this.buildGalleryView();
 	},
 
-	details: function(id) {
-		console.log("detail");
+	details: function(id){
+		this.subdetails("",id);
+	},
+
+	subdetails: function(path, id) {
+		console.log(path.split("/"),"details of",id);
 
 		var model = Tagshot.collections.photoList.get({"id":id});
 
 		if (model === undefined) {
 			console.log("model not loaded yet");
-			return this.fetchUnloadedModel(id);
+			return this.fetchUnloadedModel(path,id);
 		}
 
 		this.buildDetailsPage(model);
 	},
 
-	search: function(query) {
-		console.log("search for: "+query);
+	search: function(id){
+		this.subsearch("",id);
+	},
+
+	subsearch: function(path, query) {
+		console.log(path.split("/"),"search for: "+query);
 
 		if (query === "") {
 			this.reset();
@@ -116,13 +125,13 @@ Tagshot.Router = Backbone.Router.extend({
 	 * Helpers
 	 *******************/
 
-	fetchUnloadedModel: function(id) {
+	fetchUnloadedModel: function(path,id) {
 		var self = this;
 			Tagshot.collections.photoList.fetch({
 				url:"/photos/"+id,
 				add: true,
 				success: function(){
-					self.details(id);
+					self.subdetails(path,id);
 				}
 			});
 	},
