@@ -27,6 +27,14 @@ window.Tagshot = {
 	views: {},
 	router: undefined,
 
+	//configuration
+	configuration: {
+		numberOfImagesToFetchAtStart: 30,
+		numberOfImagesToFetchAtAppend: 50,
+		maxNumberOfImagesBeforeNoAutomaticFetch: Number.MAX_VALUE,
+		pixelsFromBottonToTriggerLoad: 200
+	},
+
 	// Setup the app
 	init: function() {
 		Tagshot.router = new Tagshot.Router();
@@ -46,7 +54,7 @@ window.Tagshot = {
 
 		//navigation with title
 		$('#title').click(function(){
-			Tagshot.router.navigate('',true);
+			Tagshot.router.navigate('reset', { trigger: true });
 			return false;
 		});
 

@@ -12,6 +12,7 @@ Tagshot.Router = Backbone.Router.extend({
 
 	routes: {
 		"":							"home",
+		"reset":					"reset",
 		"search/:query":			"search",	//search/hasso
 		"p/:page":					"page",
 		"search/:query/:page":		"searchpage",
@@ -20,17 +21,36 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	home: function(foo) {
+		console.log("home");
 
-		var numberOfImagesToFetchAtStart = 20;
+		if (Tagshot.collections.photoList.length == 1) {
+			// We come from the detail view
+			this.reset();
+		} else if(Tagshot.collections.photoList.length === 0) {
+			//started
+			this.fetchModels(Tagshot.configuration.numberOfImagesToFetchAtStart);
+		}
 
-		this.fetchModels(numberOfImagesToFetchAtStart);
+		this.buildGalleryView();
+	},
+
+	// shows the gallery view but does a reset first
+	reset: function() {
+		var self = this;
+
+		console.log("reset collection");
+		Tagshot.collections.photoList.reset();
+		this.fetchModels(Tagshot.configuration.numberOfImagesToFetchAtStart, function() { self.navigate("", {'replace': true ,'trigger': false});});
 		this.buildGalleryView();
 	},
 
 	details: function(id) {
+		console.log("detail");
+
 		var model = Tagshot.collections.photoList.get({"id":id});
 
 		if (model === undefined) {
+			console.log("model not loaded yet");
 			return this.fetchUnloadedModel(id);
 		}
 
@@ -38,11 +58,14 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	search: function(query) {
-		
+		console.log("search for: "+query);
+
 		if (query === "") {
-			this.navigate("/", true);
+			this.reset();
 			return;
 		}
+
+		this.buildGalleryView();
 
 		if ($("#search-container .textbox li.tag").length === 0) {
 				var tags = query.split('+');
@@ -59,9 +82,21 @@ Tagshot.Router = Backbone.Router.extend({
 				}
 		}
 
-		Tagshot.collections.photoList.search(query);
-		$("#gallery").show();
-		$("#detail").hide();
+		var photolist = Tagshot.collections.photoList;
+
+		if (photolist.currentSearchQuery != query || query === "") {
+			console.log("do search");
+			photolist.reset();
+
+			photolist.currentSearchQuery = query;
+			photolist.fetch({
+				add: true, //not appending
+				data: {
+					limit: Tagshot.configuration.numberOfImagesToFetchAtStart,
+					q: query
+				}
+			});
+		}
 	},
 
 
@@ -124,20 +159,14 @@ Tagshot.Router = Backbone.Router.extend({
 		$('#search-container .textbox li.tag').remove().parent().find("input").focus();
 	},
 
-	fetchModels: function(numberOfImagesToFetchAtStart) {
-		if (Tagshot.collections.photoList.length == 1) {
-			// We come from the detail view
-			console.log("reset collection");
-			Tagshot.collections.photoList.reset();
-		}
-
-		if (Tagshot.collections.photoList.length < numberOfImagesToFetchAtStart) {
-			// if start or resetted
-			Tagshot.collections.photoList.fetch({
-				data: {limit: numberOfImagesToFetchAtStart},
-				add: false
-			});
-		}
+	fetchModels: function(number, callback) {
+		// if start or resetted
+		console.log('fetch');
+		Tagshot.collections.photoList.fetch({
+			data: {limit: number},
+			add: true,
+			success: callback
+		});
 	}
 
 });
