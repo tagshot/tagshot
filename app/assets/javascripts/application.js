@@ -22,6 +22,7 @@
 //= require tagsAutocompletion
 //= require search
 //= require jquery.fancybox-1.3.4
+//= require jquery.jstree
 
 $(function() {
 	Tagshot.helpers.addGlobalAjaxIndicator();
