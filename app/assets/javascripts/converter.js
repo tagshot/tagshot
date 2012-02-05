@@ -48,7 +48,7 @@ Tagshot.converter = (function () {
 			queryToInput: function(url) {
 				var self = this;
 				return _.map(self.findTokensInURL(url), function(token) {
-					return self.inputToStars(self.URLstarsToInput(token));
+					return self.inputToStars(self.URLtoInput(token));
 				});
 			},
 
@@ -63,17 +63,11 @@ Tagshot.converter = (function () {
 			},
 
 			findTokensInURL: function(url) {
-				// returns ['stars:<3', 'Tag1']
-				return _.flatten(_.map(url.split(','), function(token) {
-					// the first one => [',', token1] all others: ['+', 'token']
-					var andTags = token.split('+');
-					return _.map(_.range(1, andTags.length), function(i) {
-						return ['+', andTags[i]];
-					});
-				}));
+				// returns ['', 'stars:<3', ['+', 'Tag1'], [',', 'Tag2']]
+				return this.parseAND(this.parseOR(url));
 			},
 
-			URLstarsToInput: function(text) {
+			URLtoInput: function(text) {
 				// simply strips 'stars:' prefix from search url
 				var match = text.match(URL_STAR_TOKEN);
 				if (match === null) {
@@ -87,6 +81,26 @@ Tagshot.converter = (function () {
 /*****************************/
 /* Helper Functions */
 /*****************************/
+			parseOR: function(text) {
+				return _.map(text.split(','), function(t, i) {
+					return _.map(t.split('+'), function(andToken, j) {
+						if (j == 0) {
+							return ['', andToken]
+						}
+						return ['+', andToken]
+					});
+				})
+			},
+
+			parseAND: function(andTokens) {
+				var flattenedAND = _.flatten(andTokens, true); // only single level
+				return _.map(flattenedAND, function(t, i) {
+					if (i === 0 || t[0] !== '') {
+						return t
+					}
+					return [',', t[1]];
+				})
+			},
 
 			isRatingInput: function (token) {
 				return token.match(RATINGINPUT) !== null;
@@ -127,4 +141,5 @@ Tagshot.converter = (function () {
 			}
 		};
 }());
+
 

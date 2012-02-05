@@ -78,15 +78,6 @@ $(document).ready(function() {
 		equals(Tagshot.helpers.equalArrays(tokens, expected), true, 'all list elements should be equal');
 	});
 
-
-
-
-
-	test('equalArrays recognizes nested arrays', function() {
-		equals(Tagshot.helpers.equalArrays([['', 'tag1'], ['+', 'tag2'], [',', 'tag3'], ['+', 'tag4']], [['', 'tag1'], ['+', 'tag2'], [',', 'tag3'], ['+', 'tag4']]), true);
-	});
-
-
 	test("isRatingQuery recognizes 'stars:<3' but not 'star:foo'", function() {
 		equals(converter.isRatingQuery('stars:<3'), true);
 		equals(converter.isRatingQuery('stars:foo'), false);
