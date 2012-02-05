@@ -16,6 +16,8 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		_.bindAll(this);
 		this.bind('selectNext', this.selectNext);
 		this.bind('selectPrevious', this.selectPrevious);
+		this.bind('selectAbove', this.selectAbove);
+		this.bind('selectBelow', this.selectBelow);
 		this.bind('shiftSelectNext', this.shiftSelectNext);
 		this.bind('shiftSelectPrevious', this.shiftSelectPrevious);
 		this.bind('changeSelection', this.changeSelection);
@@ -51,6 +53,18 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		var index = this.indexOf(first);
 		if (index === 0) index = this.length;
 		index -= 1;
+		this.at(index).select();
+	},
+	selectAbove: function (imagesInRow) {
+		var first = _.first(this.selection());
+		var index = Math.max(0, this.indexOf(first) - imagesInRow);
+		this.deselectAll();
+		this.at(index).select();
+	},
+	selectBelow: function (imagesInRow) {
+		var last = _.last(this.selection());
+		var index = Math.min(this.length - 1, this.indexOf(last) + imagesInRow);
+		this.deselectAll();
 		this.at(index).select();
 	},
 	shiftSelectPrevious: function () {
