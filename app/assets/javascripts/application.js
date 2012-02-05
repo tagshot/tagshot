@@ -19,13 +19,13 @@
 //= require backbone/tagshot
 //= require tags
 //= require helpers
-//= require tagsAutocompletion
+//= require converter
 //= require search
 //= require jquery.fancybox-1.3.4
 
 $(function() {
 	Tagshot.helpers.addGlobalAjaxIndicator();
-
+	console.log(Tagshot.converter);
 	$.ajax("/tags", {
 		success: function (data) {
 			Tagshot.tagList = data;
@@ -37,10 +37,9 @@ $(function() {
 				onTagRemoved: Tagshot.search,
 				postProcessors: [
 					{
-						matches: tagFind.starExpression,		// EDIT here
-						transform: tagReplace.starExpression
+						matches: Tagshot.converter.isRatingInput,		// EDIT here
+						transform: Tagshot.converter.inputToStars
 					}
-					// TODO: Find OR and AND Expressions
 				]
 			/* and make it auto-focus on page-load */
 			})

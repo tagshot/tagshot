@@ -57,17 +57,35 @@ $(document).ready(function() {
 /**********************************************
  * Tests for user's text input and search/URL
  **********************************************/
-	test("URLstarsToInput strips 'stars:' prefix and adds '*', other strings fall through", function() {
-		equals(converter.URLstarsToInput('stars:<=3'), '<=3*');
-		equals(converter.URLstarsToInput('Tag1'), 'Tag1');
+	test("URLtoInput strips 'stars:' prefix and adds '*', other strings fall through", function() {
+		equals(converter.URLtoInput('stars:<=3'), '<=3*');
+		equals(converter.URLtoInput('Tag1'), 'Tag1');
 	});
 
-	test("findTokensInURL splits 'tag1+stars:<3+tag2' into ['tag1', 'stars:<3', 'tag2']", function() {
+	test("findTokensInURL splits 'tag1+stars:<3+tag2' into ['','tag1'], ['+', 'stars:<3'], ['+', 'tag2']", function() {
 		// in JS ['a', 'b'] !== ['a', 'b']
 		var tokens = converter.findTokensInURL('tag1+stars:<3+tag2');
-		var expected = ['tag1', 'stars:<3', 'tag2'];
+		var expected = [['','tag1'], ['+', 'stars:<3'], ['+', 'tag2']];
+		console.log("Expected ", expected, 'Got1', tokens);
 		equals(Tagshot.helpers.equalArrays(tokens, expected), true, 'all list elements should be equal');
 	});
+
+		test("findTokensInURL splits 'tag1,tag2' into [['','tag1'], [',', 'tag2']]", function() {
+		// in JS ['a', 'b'] !== ['a', 'b']
+		var tokens = converter.findTokensInURL('tag1,tag2');
+		var expected = [['','tag1'], [',', 'tag2']];
+		console.log("Expected ", expected, 'Got2 ', tokens);
+		equals(Tagshot.helpers.equalArrays(tokens, expected), true, 'all list elements should be equal');
+	});
+
+
+
+
+
+	test('equalArrays recognizes nested arrays', function() {
+		equals(Tagshot.helpers.equalArrays([['', 'tag1'], ['+', 'tag2'], [',', 'tag3'], ['+', 'tag4']], [['', 'tag1'], ['+', 'tag2'], [',', 'tag3'], ['+', 'tag4']]), true);
+	});
+
 
 	test("isRatingQuery recognizes 'stars:<3' but not 'star:foo'", function() {
 		equals(converter.isRatingQuery('stars:<3'), true);

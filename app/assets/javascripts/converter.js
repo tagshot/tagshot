@@ -42,7 +42,7 @@ Tagshot.converter = (function () {
 						return self.buildStarQueryToken(token);
 					}
 					return token;
-				}).join('+');
+				}).join('+');	//toString()
 			},
 
 			queryToInput: function(url) {
@@ -53,20 +53,23 @@ Tagshot.converter = (function () {
 			},
 
 			inputToStars: function (text) {
-				var self = this;
 				var match = text.match(RATINGINPUT);
 				if (match === null) {
 					return text;
 				}
 				var starNumber = match[2];
 				var prefix = match[1];
-				return this.buildStarString(self.prefixToUnicode(prefix), starNumber);
+				return this.buildStarString(this.prefixToUnicode(prefix), starNumber);
 			},
 
 			findTokensInURL: function(url) {
 				// returns ['stars:<3', 'Tag1']
 				return _.flatten(_.map(url.split(','), function(token) {
-					return token.split('+');
+					// the first one => [',', token1] all others: ['+', 'token']
+					var andTags = token.split('+');
+					return _.map(_.range(1, andTags.length), function(i) {
+						return ['+', andTags[i]];
+					});
 				}));
 			},
 

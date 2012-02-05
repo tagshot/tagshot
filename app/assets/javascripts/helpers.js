@@ -37,7 +37,8 @@ Tagshot.helpers.addGlobalAjaxIndicator = function () {
 }
 
 Tagshot.helpers.equalArrays = function(arr1, arr2) {
-		return _.any(_.map(arr1, function(elem, i) {
+		var arr2 = _.flatten(arr2);
+		return _.any(_.map(_.flatten(arr1), function(elem, i) {
 			return elem === arr2[i];
 		}));
 	};
