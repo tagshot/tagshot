@@ -16,6 +16,8 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		_.bindAll(this);
 		this.bind('selectNext', this.selectNext);
 		this.bind('selectPrevious', this.selectPrevious);
+		this.bind('shiftSelectNext', this.shiftSelectNext);
+		this.bind('shiftSelectPrevious', this.shiftSelectPrevious);
 		this.bind('changeSelection', this.changeSelection);
 		this.bind('reset', function() {
 			self.currentSearchQuery = 0;
@@ -50,6 +52,16 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		if (index === 0) index = this.length;
 		index -= 1;
 		this.at(index).select();
+	},
+	shiftSelectPrevious: function () {
+		var first = _.first(this.selection());
+		var index = this.indexOf(first);
+		index -= 1;
+		this.at(index).select();
+	},
+	shiftSelectNext: function () {
+		var last = _.last(this.selection());
+		this.at((this.indexOf(last) + 1) % this.length).select();
 	},
 
 	selection: function() {

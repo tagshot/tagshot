@@ -20,6 +20,8 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		"dblclick img" : "openDetails",
 		"keydown[space]" : "quickview",
 		"keydown[return]" : "openDetails",
+		"keydown[shift+left]": "shiftSelectPrevious",
+		"keydown[shift+right]": "shiftSelectNext",
 		"keydown[left]" : "selectPrevious",
 		"keydown[right]" : "selectNext",
 		"keydown[del]": "delete",
@@ -158,6 +160,14 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	selectPrevious: function (e) {
 		this.stop(e);
 		this.model.trigger('selectPrevious');
+	},
+	shiftSelectNext: function (e) {
+		this.stop(e);
+		this.model.trigger('shiftSelectNext');
+	},
+	shiftSelectPrevious: function (e) {
+		this.stop(e);
+		this.model.trigger('shiftSelectPrevious');
 	},
 
 	needsNoRender: function() {
