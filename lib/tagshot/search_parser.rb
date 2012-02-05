@@ -43,7 +43,7 @@ module Tagshot
     end
 
     def q_stars(string)
-      if string =~ /(>|>=|=|<=|<|)([0-5])/
+      if string =~ /(>|>=|=|<=|<|)([0-9])/
         opt = $1 == '' ? '=' : $1
         return [ "photo_data.rating #{opt} #{$2}" ]
       end
