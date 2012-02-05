@@ -77,7 +77,7 @@ Tagshot.Router = Backbone.Router.extend({
 		this.buildGalleryView();
 
 		if ($("#search-container .textbox li.tag").length === 0) {
-				var tags = query.split('+');
+				var tags = query.split('+');	// FIXME Danger with OR queries!!!
 				var currentTags = [];
 				$("#search-container .textbox li.tag").remove();
 				$("#search-container .textbox li.tag").each(function() {

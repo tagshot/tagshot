@@ -1,26 +1,20 @@
+/* This module implements the high level search functionality.
+ * It glues together the coverter module, to be found in converter.js,
+ * and the routing logic
+ *
+ * The search API is documented in: wiki/JSON-API#Search-for-photos
+ */
+
+
 Tagshot.search = function (tagList) {
-	// TODO add '+' means AND, ',' means OR,
-	// consult https://student.hpi.uni-potsdam.de/redmine/projects/tagshot/wiki/JSON-API#Search-for-photos
-	var searchString,
-	    match;
-      
-       // frontend to backend argument matching	
 
-	for (var i = 0, l = tagList.length; i < l; i++) {
-		match = tagList[i].match(/^(<|<=|=|>|>=)?([0-9])\*$/);
-		if (match !== null) {
-			console.log(match);
-			var sign = match[1] === undefined ? "" : match[1];
-			tagList[i] = "stars:" + sign + match[2];
-		}
+	var searchString = Tagshot.converter.inputToQuery(tagList);
+
+	// navigate to search and the rest will be done by backbone
+	if (searchString === '') {
+		Tagshot.router.navigate('', true);	// empty search is empty
 	}
-
-
-	searchString = tagList.join("+");
-
-	// navigate to search and the rest will be done by the backbone fairy
-	if (searchString === '')
-		Tagshot.router.navigate('', true);
-	else
+	else {
 		Tagshot.router.navigate('search/' + searchString, true);
+	}
 }
