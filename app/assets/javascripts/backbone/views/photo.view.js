@@ -20,8 +20,12 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		"dblclick img" : "openDetails",
 		"keydown[space]" : "quickview",
 		"keydown[return]" : "openDetails",
+		"keydown[shift+left]": "shiftSelectPrevious",
+		"keydown[shift+right]": "shiftSelectNext",
 		"keydown[left]" : "selectPrevious",
 		"keydown[right]" : "selectNext",
+		"keydown[up]" : "selectAbove",
+		"keydown[down]" : "selectBelow",
 		"keydown[del]": "delete",
 		"focusin": "photoFocused"
 	},
@@ -37,7 +41,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		// registering event handlers
 		this.model.bind('change:thumb', this.render, this);
 		this.model.bind('change:tags', this.tagChange, this);
-		// this.model.bind('change:select', this.select, this);
 		this.model.bind('destroy', this._remove, this);
 		this.model.bind('select', this.select, this);
 		this.model.bind('deselect', this.deselect, this);
@@ -154,12 +157,41 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		this.stop(e);
 		this.model.trigger('selectNext');
 	},
-
 	selectPrevious: function (e) {
 		this.stop(e);
 		this.model.trigger('selectPrevious');
 	},
-
+	selectAbove: function (e) {
+		this.stop(e);
+		var imagesInRow = this.countImagesInARow();
+		this.model.trigger('selectAbove', imagesInRow);
+	},
+	selectBelow: function (e) {
+		this.stop(e);
+		var imagesInRow = this.countImagesInARow();
+		this.model.trigger('selectBelow', imagesInRow);
+	},
+	shiftSelectNext: function (e) {
+		this.stop(e);
+		this.model.trigger('shiftSelectNext');
+	},
+	shiftSelectPrevious: function (e) {
+		this.stop(e);
+		this.model.trigger('shiftSelectPrevious');
+	},
+	countImagesInARow: function () {
+		var offset, count = 0;
+		$(".image-view .image").each(function (index, el) {
+			if (offset === undefined) {
+				offset = $(el).offset().top;
+			} else {
+				if (offset !== $(el).offset().top)
+					return false;
+			}
+			count += 1;
+		});
+		return count;
+	},
 	needsNoRender: function() {
 		var currentModelHash = this.model.computeHash();
 		if (this.model.hash === currentModelHash) {
