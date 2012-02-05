@@ -81,10 +81,11 @@ Tagshot.converter = (function () {
 /*****************************/
 /* Helper Functions */
 /*****************************/
-			parseOR: function(text) {
-				return _.map(text.split(','), function(t, i) {
-					return _.map(t.split('+'), function(andToken, j) {
-						if (j == 0) {
+
+			parseOR: function(string) {
+				return _.map(string.split(','), function(t) {
+					return _.map(t.split('+'), function(andToken, i) {
+						if (i == 0) {
 							return ['', andToken]
 						}
 						return ['+', andToken]
@@ -92,9 +93,9 @@ Tagshot.converter = (function () {
 				})
 			},
 
-			parseAND: function(andTokens) {
-				var flattenedAND = _.flatten(andTokens, true); // only single level
-				return _.map(flattenedAND, function(t, i) {
+			parseAND: function(ORtokens) {
+				var flattened = _.flatten(ORtokens, true); // only single level
+				return _.map(flattened, function(t, i) {
 					if (i === 0 || t[0] !== '') {
 						return t
 					}

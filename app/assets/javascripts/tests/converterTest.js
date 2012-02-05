@@ -57,6 +57,18 @@ $(document).ready(function() {
 /**********************************************
  * Tests for user's text input and search/URL
  **********************************************/
+	/*test("parseOR parses 'a,b+c' to [['', 'a'], [',', 'b+c']]", function() {
+		var actual = converter.parseOR('a,b+c');
+		var expected = [['', 'a'], [',', 'b+c']];
+		equals(Tagshot.helpers.equalArrays(actual, expected), true);
+	});
+
+	test("parseAND parses [['', 'a'], [',', 'b+c']] to [['', 'a'], [',', 'b'], ['+', 'c']]", function() {
+		var actual = converter.parseAND([['', 'a'], [',', 'b+c']] );
+		var expected =  [['', 'a'], [',', 'b'], ['+', 'c']];
+		equals(Tagshot.helpers.equalArrays(actual, expected), true);
+	});*/
+
 	test("URLtoInput strips 'stars:' prefix and adds '*', other strings fall through", function() {
 		equals(converter.URLtoInput('stars:<=3'), '<=3*');
 		equals(converter.URLtoInput('Tag1'), 'Tag1');
@@ -77,6 +89,15 @@ $(document).ready(function() {
 		console.log("Expected ", expected, 'Got2 ', tokens);
 		equals(Tagshot.helpers.equalArrays(tokens, expected), true, 'all list elements should be equal');
 	});
+
+		test("findTokensInURL splits 'a,b+c,d' into [['','a'], [',', 'b'], ['+', 'c'], [',', 'd']]", function() {
+		// in JS ['a', 'b'] !== ['a', 'b']
+		var actual = converter.findTokensInURL('a,b+c,d');
+		var expected = [['','a'], [',', 'b'], ['+', 'c'], [',', 'd']];
+		console.log("Expected ", expected, 'Got3 ', actual);
+		equals(Tagshot.helpers.equalArrays(actual, expected), true, 'all list elements should be equal');
+	});
+
 
 	test("isRatingQuery recognizes 'stars:<3' but not 'star:foo'", function() {
 		equals(converter.isRatingQuery('stars:<3'), true);
