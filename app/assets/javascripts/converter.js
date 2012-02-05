@@ -2,6 +2,9 @@
  * It is used to make fancy unicode stars from text input in
  * the search or tags bar, transforms the tags into a query
  * and replaces the URL/Query string to fancy unicode stars back again.
+ *
+ * BEWARE: This module is COMPLETELY OPTIMISTIC about user input.
+ * There is no error handling.
  */
 
 /***********************************************************
@@ -12,14 +15,6 @@
  * <3* and <=3*
  * no whitespace allowed!
  */ 
-
-/*********************************************/
-/* Querystrings/URL that will be transformed */
-/*********************************************
- * foo+bar to ['foo', 'bar']
- * stars:3 to ['★★★☆☆']
- * foo,bar+stars:<=3 to ['foo', 'bar', '≤★★★☆☆']
- */
 
 
 Tagshot.converter = (function () {
@@ -32,17 +27,21 @@ Tagshot.converter = (function () {
 		var RATINGINPUT = /^(<|<=|=|>|>=)?([0-9])\*$/;
 		var RATING_QUERY_TOKEN = /^stars:(<|<=|=|>|>=)?[0-9]$/
 		var URL_STAR_TOKEN = /^stars:(<|<=|=|>|>=)?([0-9])$/;
+		var OR_TOKEN = /^(OR|ODER|;)$/i;	// case insensitive 'or' in English, German or Prolog/Erlang
 
 		return {
 
 			inputToQuery: function(textList) {
 				var self = this;
 				return _.map(textList, function(token) {
+					if (self.isORtoken(token)) {
+						return ',';
+					}
 					if (self.isRatingInput(token)) {
 						return self.buildStarQueryToken(token);
 					}
 					return token;
-				}).join('+');	//toString()
+				}).join('+').replace(/\+,\+/, ',')		// AND is default for search, if OR occured, fix URL from 'a+,+b' to 'a,b'
 			},
 
 			queryToInput: function(url) {
@@ -69,9 +68,13 @@ Tagshot.converter = (function () {
 
 			URLtoInput: function(text) {
 				// simply strips 'stars:' prefix from search url
-				var match = text.match(URL_STAR_TOKEN);
+				var token = text; 
+				if ($.isArray(text)) {
+					token = text[1];
+				}
+				var match = token.match(URL_STAR_TOKEN);
 				if (match === null) {
-					return text // it is no star token like stars:<3
+					return token // it is no star token like stars:<3
 				}
 				var starToken = match[0];
 				return starToken.substr(6)+'*'; // 'stars:'.length === 6
@@ -101,6 +104,10 @@ Tagshot.converter = (function () {
 					}
 					return [',', t[1]];
 				})
+			},
+
+			isORtoken: function(token) {
+				return token.match(OR_TOKEN) !== null;
 			},
 
 			isRatingInput: function (token) {
@@ -142,5 +149,3 @@ Tagshot.converter = (function () {
 			}
 		};
 }());
-
-
