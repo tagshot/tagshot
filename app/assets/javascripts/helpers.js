@@ -58,6 +58,6 @@ Tagshot.helpers.genericMessage = function(message, time, alerted) {
     } else {
         mb.removeClass("alerted");
     }
-    mb.html(message).stop(true, true).fadeIn().delay(time).fadeOut();
+    mb.html(message).stop(true, true).slideDown(200).delay(time).slideUp(100);
 };
 
