@@ -45,6 +45,7 @@ Tagshot.converter = (function () {
 			},
 
 			queryToInput: function(url) {
+				// This unicodifies a url
 				var self = this;
 				return _.map(self.findTokensInURL(url), function(token) {
 					return self.inputToStars(self.URLtoInput(token));
