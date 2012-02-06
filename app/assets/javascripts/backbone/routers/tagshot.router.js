@@ -151,12 +151,6 @@ Tagshot.Router = Backbone.Router.extend({
 		$('#show-options').show();
 
 		$('#backbone-gallery-view').addClass('active');
-
-		this.setFocusToTagBar();
-	},
-
-	setFocusToTagBar: function() {
-		$('#search-container .textbox li.tag').remove().parent().find("input").focus();
 	},
 
 	fetchModels: function(number, callback) {
