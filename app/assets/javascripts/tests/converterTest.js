@@ -138,4 +138,7 @@ $(document).ready(function() {
 		equals(converter.inputToQuery(['a', 'b', 'OR', 'a', 'c']), 'a+b,a+c');
 	});
 
+	test("inputToQuery does not balance OR queries, it builds the query 'a+,' from ['a', 'OR']", function() {
+		equals(converter.inputToQuery(['a', 'OR']), 'a+,');
+	});
 });
