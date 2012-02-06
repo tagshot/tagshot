@@ -122,9 +122,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	delete: function() {
 		var selected = this.model.collection.selection();
 		var that = this;
-		//this.model.destroy();
-
-		//this.remove();	// works only for one element, not for all selected ones
 
 		_.each(selected, function(elem){
 				elem.destroy({
