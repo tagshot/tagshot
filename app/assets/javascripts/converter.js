@@ -58,7 +58,8 @@ Tagshot.converter = (function () {
 				}
 				var starNumber = match[2];
 				var prefix = match[1];
-				return this.buildStarString(this.prefixToUnicode(prefix), starNumber);
+				var starString = Tagshot.converter.buildStarString(Tagshot.converter.prefixToUnicode(prefix), starNumber);
+				return starString;	// return of function invocations and this.buildStarString() does not work, WTFJS!
 			},
 
 			findTokensInURL: function(url) {

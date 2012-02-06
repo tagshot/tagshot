@@ -41,7 +41,12 @@ Tagshot.Router = Backbone.Router.extend({
 
 		console.log("reset collection");
 		Tagshot.collections.photoList.reset();
-		this.fetchModels(Tagshot.configuration.numberOfImagesToFetchAtStart, function() { self.navigate("", {'replace': true ,'trigger': false});});
+		this.fetchModels(Tagshot.configuration.numberOfImagesToFetchAtStart, function() {
+			self.navigate("", {
+				'replace': true ,
+				'trigger': false
+			});
+		});
 		this.buildGalleryView();
 	},
 
