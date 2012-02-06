@@ -68,13 +68,13 @@ $(function() {
 				// so we need to save, how many photos have been saved so far
 				var savedPhotos = 0;
 				setTimeout(function () {
-					selection.forEach(function (model, index) {
+					_.each(selection,function (model, index) {
 						model.save(undefined,{
 							success: function() {
 								savedPhotos += 1;
 								// check if all photos have been saved
 								if (savedPhotos === selection.length) {
-									$("#tags-saved").stop(true, true).fadeIn().delay(200).fadeOut();
+									Tagshot.helpers.message("Tags saved", 400);
 									Tagshot.localVersionDirty = false;
 								}
 							}

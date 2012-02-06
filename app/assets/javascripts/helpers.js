@@ -41,5 +41,23 @@ Tagshot.helpers.equalArrays = function(arr1, arr2) {
 		return _.any(_.map(_.flatten(arr1), function(elem, i) {
 			return elem === arr2[i];
 		}));
-	};
+};
+
+Tagshot.helpers.message = function(message, time) {
+    Tagshot.helpers.genericMessage(message,time,false);
+};
+
+Tagshot.helpers.error = function(error, time) {
+    Tagshot.helpers.genericMessage(error,time,true);
+};
+
+Tagshot.helpers.genericMessage = function(message, time, alerted) {
+    var mb = $("#message-board");
+    if (alerted) {
+        mb.addClass("alerted");
+    } else {
+        mb.removeClass("alerted");
+    }
+    mb.html(message).stop(true, true).fadeIn().delay(time).fadeOut();
+};
 

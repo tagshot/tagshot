@@ -2,9 +2,9 @@ Tagshot.Views.AjaxError = Backbone.View.extend({
 		initialize: function() {
 			$(document).ajaxError(function(e, xhr, options){
 				if(xhr.status==0){
-					console.log('You are offline!!\n Please Check Your Network.');
+					Tagshot.helpers.error('You seem to be offline!!\n Please Check Your Network.', 3000);
 				} else if(xhr.status==404){
-					console.error('Requested URL not found.');
+					Tagshot.helpers.error('Requested URL not found.', 5000);
 				} else if(xhr.status==500){
 					console.error('Internal Server Error.');
 				} else if(e=='parsererror'){
