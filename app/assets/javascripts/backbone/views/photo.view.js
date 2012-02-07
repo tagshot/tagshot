@@ -39,11 +39,11 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		_.bindAll(this);
 
 		// registering event handlers
-		this.model.bind('change:thumb', this.render, this);
-		this.model.bind('change:tags', this.tagChange, this);
-		this.model.bind('destroy', this._remove, this);
-		this.model.bind('select', this.select, this);
-		this.model.bind('deselect', this.deselect, this);
+		this.model.bind('change:thumb', this.render);
+		this.model.bind('change:tags', this.tagChange);
+		this.model.bind('destroy', this._remove);
+		this.model.bind('select', this.select);
+		this.model.bind('deselect', this.deselect);
 	},
 
 	render: function () {
@@ -87,7 +87,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 
 	quickview: function(e) {
 		this.stop(e);
-		this.trigger('quickview', $(this.el).find('img'), this.model);
+		this.trigger('quickview', this);
 		return false;
 	},
 	

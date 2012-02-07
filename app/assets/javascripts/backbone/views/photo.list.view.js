@@ -25,7 +25,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var self  = this;
 		_.bindAll(this);
 
-		this.collection.bind('select', this.showFooterIfNeccessary);
+		this.collection.bind('select', this.select);
 		this.collection.bind('deselect', this.showFooterIfNeccessary);
 		this.collection.bind('reset', this.reset);
 		this.collection.bind('add', this.append);
@@ -49,10 +49,16 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.subviews = [];
 	},
 
-	rescroll: function () {
-		var selectedViews = this.subviews.filter(function (el) {
+	// helper functions to return all selected
+	getSelectedViews: function () {
+		return this.subviews.filter(function (el) {
 			return el.model.selected;
 		});
+
+	},
+
+	rescroll: function () {
+		var selectedViews = this.getSelectedViews();
 		var photoView = selectedViews[0];
 		var top = $(photoView.el).find(".image").offset().top;
 		window.scrollTo(0, top - 50);
@@ -90,6 +96,14 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		return this;
 	},
 
+	select: function () {
+		this.showFooterIfNeccessary();
+		if (this.quickViewVisible) {
+			var selectedViews = this.getSelectedViews();
+			this.quickview(selectedViews[0]);
+		}
+	},
+
 	showFooterIfNeccessary: function() {
 		var self = this;
 		var footer = $('footer');
@@ -120,8 +134,10 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		Tagshot.helpers.resizeImages();
 	},
 
-	quickview: function (viewElement, model) {
-		var that = this;
+	quickview: function (photoView) {
+		var that = this,
+		    viewElement = $(this.photoView).find('img'),
+		    model = photoView.model;
 
 		if (this.quickViewVisible) {
 			$.fancybox.close();

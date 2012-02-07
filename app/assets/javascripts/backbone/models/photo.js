@@ -33,7 +33,7 @@ Tagshot.Models.Photo = Backbone.Model.extend({
 	select: function() {
 		if (!this.selected) {
 			this.selected = true;
-			this.trigger("select");
+			this.trigger("select", this);
 		}
 	},
 
