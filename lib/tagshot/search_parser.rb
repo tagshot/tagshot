@@ -57,5 +57,12 @@ module Tagshot
       end
       raise 'no valid year query'
     end
+
+    def q_source(string)
+      if string =~ /[0-9]+(\|[0-9]+)*/
+        return [ "photos.source_id in (#{string.gsub('|',',')})" ]
+      end
+      raise 'no valid source query'
+    end
   end
 end
