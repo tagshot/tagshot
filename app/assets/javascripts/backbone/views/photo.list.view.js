@@ -31,6 +31,8 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.collection.bind('add', this.append);
 		this.collection.bind('rescroll', this.rescroll);
 
+		this.isQuickviewVisible = true;
+
 		_.extend(this.el, Backbone.Events);
 
 		$(document).bind('scroll',this.scrolling);
@@ -103,22 +105,23 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 
 	append: function(photo) {
-		var sv = this.subviews;
-
-		if (photo.id in sv) {
-			console.log("not again!!!, show the view just once");
+		if (photo.id in this.subviews) {
+			console.error("View is already in subviews, cannot be added again.");
 			return;
-			console.log("remove:", sv[photo.id]);
-			sv[photo.id].remove();
 		}
 
-		var view = new Tagshot.Views.PhotoView({model: photo});
-		view.bind('selectionChanged', this.selectionChanged, this);
-		sv[view.model.id] = view;
-		// insert images before the clearfix thingy
+		var view = new Tagshot.Views.PhotoView( { model: photo } );
+		view.bind('selectionChanged', this.selectionChanged);
+		view.bind('quickview', this.quickview);
+		this.subviews[view.model.id] = view;
+		// insert images before the clearfix
 		$(this.el).find("#fix-gallery").before(view.render().el);
 
 		Tagshot.helpers.resizeImages();
+	},
+
+	quickview: function () {
+		alert("yeah!");
 	},
 
 	selectAll: function(){

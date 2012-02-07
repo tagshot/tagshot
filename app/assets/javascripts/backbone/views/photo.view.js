@@ -44,7 +44,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		this.model.bind('destroy', this._remove, this);
 		this.model.bind('select', this.select, this);
 		this.model.bind('deselect', this.deselect, this);
-		this.quickViewVisible = false;
 	},
 
 	render: function () {
@@ -88,10 +87,11 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		}
 	},
 
-	quickview: function(e, override) {
+	quickview: function(e) {
 		var that = this;
-		override || (override = false);
 		this.stop(e);
+
+		this.trigger('quickview');
 
 		if (!override && this.quickViewVisible) {
 			$.fancybox.close();
@@ -139,11 +139,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		$(this.el).find('.image-frame').focus();
 		Tagshot.views.gallery.setActive();
 		
-		// show this image in quickview in case quickview is visible
-		if (this.quickViewVisible) {
-			this.quickview(e, true);
-		}
-
 		this.model.trigger('changeSelection', this.model, e.shiftKey, e.ctrlKey || e.metaKey);
 	},
 
