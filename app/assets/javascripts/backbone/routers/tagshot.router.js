@@ -75,11 +75,6 @@ Tagshot.Router = Backbone.Router.extend({
 	subsearch: function(path, query) {
 		console.log(path.split("/"),"search for: "+query);
 
-		if (query === "") {
-			this.reset();
-			return;
-		}
-
 		this.buildGalleryView();
 		this.fillTagbarWithSearchedTags(query);
 

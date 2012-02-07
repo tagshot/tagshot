@@ -11,8 +11,8 @@ Tagshot.search = function (tagList) {
 	var searchString = Tagshot.converter.inputToQuery(tagList);
 
 	// navigate to search and the rest will be done by backbone
-	if (searchString === '') {
-		Tagshot.router.navigate('', true);	// empty search is empty
+	if (searchString === "") {
+		Tagshot.router.navigate('reset', true);	// empty search is empty
 	}
 	else {
 		Tagshot.router.navigate('search/' + searchString, true);
