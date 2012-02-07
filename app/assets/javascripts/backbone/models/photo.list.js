@@ -60,12 +60,14 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		var index = Math.max(0, this.indexOf(first) - imagesInRow);
 		this.deselectAll();
 		this.at(index).select();
+		this.trigger('rescroll');
 	},
 	selectBelow: function (imagesInRow) {
 		var last = _.last(this.selection());
 		var index = Math.min(this.length - 1, this.indexOf(last) + imagesInRow);
 		this.deselectAll();
 		this.at(index).select();
+		this.trigger('rescroll');
 	},
 	shiftSelectPrevious: function () {
 		var first = _.first(this.selection());

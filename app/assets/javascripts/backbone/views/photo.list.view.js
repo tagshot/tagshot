@@ -25,12 +25,13 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var self  = this;
 		_.bindAll(this);
 
-		this.collection.bind('select', this.showFooterIfNeccessary, this);
-		this.collection.bind('deselect', this.showFooterIfNeccessary, this);
-		this.collection.bind('reset', this.reset, this);
-		this.collection.bind('add', this.append, this);
+		this.collection.bind('select', this.showFooterIfNeccessary);
+		this.collection.bind('deselect', this.showFooterIfNeccessary);
+		this.collection.bind('reset', this.reset);
+		this.collection.bind('add', this.append);
+		this.collection.bind('rescroll', this.rescroll);
 
-		_.extend(this.el,Backbone.Events);
+		_.extend(this.el, Backbone.Events);
 
 		$(document).bind('scroll',this.scrolling);
 		$(document).bind('resize',this.scrolling);
@@ -44,6 +45,15 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		//subviews
 		this.subviews = [];
+	},
+
+	rescroll: function () {
+		var selectedViews = this.subviews.filter(function (el) {
+			return el.model.selected;
+		});
+		var photoView = selectedViews[0];
+		var top = $(photoView.el).find(".image").offset().top;
+		window.scrollTo(0, top - 50);
 	},
 	
 	delegateEventsToSubViews: function() {
