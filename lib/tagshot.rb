@@ -51,6 +51,14 @@ module Tagshot
     end
   end
 
+  def self.create_thumbs!
+    Photo.all.each do |photo|
+      if !photo.thumb.cached?
+        photo.thumb.create!
+      end
+    end
+  end
+
   def self.version
     Tagshot::VERSION.to_s
   end
