@@ -5,6 +5,7 @@ require 'tagshot/image'
 require 'tagshot/meta_properties'
 require 'tagshot/search_parser'
 require 'tagshot/sync_job'
+require 'tagshot/syncronizer'
 require 'tagshot/tag_helper'
 require 'tagshot/version'
 
