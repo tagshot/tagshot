@@ -1,57 +1,60 @@
-Tagshot.helpers = {};
+Array.prototype.equals = function (arr) {
+    if (this.length != arr.length) return false;
+    return this.reduce(function (acc, el, i) {
+        if (_.isArray(el)) return acc && el.equals(arr[i]);
+        return acc && el === arr[i];
+    }, true)};
 
-// Resizes the images when the slider value changed.
-Tagshot.helpers.resizeImages = function () {
-	var value  = $("#thumbnail-size-slider").slider("value");
 
-    if (value%10 == 0) {
-        $(document).scroll();
-    }
+Tagshot.helpers = (function(){
 
-	$("#backbone-gallery-view div.image-frame").css(
-		'height',value).css(
-		'width',function(){
-			return value*1.5;
+	var resizeImages = function () {
+		var value  = $("#thumbnail-size-slider").slider("value");
+
+			if (value%10 == 0) {
+					$(document).scroll();
+			}
+
+		$("#backbone-gallery-view div.image-frame").css(
+			'height',value).css(
+			'width',function(){
+				return value*1.5;
+			}
+		);
+
+		if (value <= 150) {
+			$("#backbone-gallery-view div.image-frame").addClass("smaller");
 		}
-	);
+		else {
+			$("#backbone-gallery-view div.image-frame").removeClass("smaller");
+		}
+	};
 
-	if (value <= 150) {
-		$("#backbone-gallery-view div.image-frame").addClass("smaller");
-	}
-	else {
-		$("#backbone-gallery-view div.image-frame").removeClass("smaller");
-	}
-}
+	// Show loading image whenever an AJAX request is sent and hide whenever an request returns.
+	var addGlobalAjaxIndicator = function () {
+		var indicator = $('#loading-image');
 
-// Show loading image whenever an AJAX request is sent and hide whenever an request returns.
-Tagshot.helpers.addGlobalAjaxIndicator = function () {
-	var indicator = $('#loading-image');
+		$("body").ajaxSend(function() {
+			indicator.stop(true,true).fadeIn(50);
+		});
 
-	$("body").ajaxSend(function() {
-		indicator.stop(true,true).fadeIn(50);
-	});
+		$("body").ajaxStop(function() {
+			indicator.delay(500).fadeOut(100);
+		});
+	};
 
-	$("body").ajaxStop(function() {
-		indicator.delay(500).fadeOut(100);
-	});
-}
 
-Tagshot.helpers.equalArrays = function(arr1, arr2) {
-		var arr2 = _.flatten(arr2);
-		return _.any(_.map(_.flatten(arr1), function(elem, i) {
-			return elem === arr2[i];
-		}));
-};
-
-Tagshot.helpers.message = function(message, time) {
+	var message = function(message, time) {
     Tagshot.helpers.genericMessage(message,time,false);
-};
+	};
 
-Tagshot.helpers.error = function(error, time) {
+
+	var error = function(error, time) {
     Tagshot.helpers.genericMessage(error,time,true);
-};
+	};
 
-Tagshot.helpers.genericMessage = function(message, time, alerted) {
+
+	var genericMessage = function(message, time, alerted) {
     var mb = $("#message-board");
     if (alerted) {
         mb.addClass("alerted");
@@ -59,5 +62,14 @@ Tagshot.helpers.genericMessage = function(message, time, alerted) {
         mb.removeClass("alerted");
     }
     mb.html(message).stop(true, true).slideDown(200).delay(time).slideUp(100);
-};
+	};
 
+
+	return {
+		resizeImages : resizeImages,
+		addGlobalAjaxIndicator: addGlobalAjaxIndicator,
+		message: message,
+		error: error,
+		genericMessage: genericMessage
+	};
+})();
