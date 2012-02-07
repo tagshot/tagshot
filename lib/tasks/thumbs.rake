@@ -3,7 +3,7 @@ namespace :tagshot do
     # Create thumbnail if no exists
     task :create => :environment do
       Photo.all.each do |photo|
-        photo.thumb.delay.create
+        photo.thumb.create delayed: true
       end
     end
 

@@ -34,8 +34,9 @@ class Thumb
     exist? ? File.mtime(path) : Time.utc
   end
 
-  def create
-    create! unless cached?
+  def create(options = {})
+    return self if cached?
+    options[:delayed] ? self.delay.create! : self.create!
   end
 
   def create!

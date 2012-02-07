@@ -7,6 +7,7 @@ class Source < ActiveRecord::Base
   def photo_by_file(file)
     photo   = photos.find_by_file file
     photo ||= photos.create :file => file, :size => File.size(file)
+    photo.thumb.create delayed: true
     photo
   end
 
