@@ -132,7 +132,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	selectionChanged: function(e) {
 		$("footer .tag").remove();
 		var selection = this.collection.selection();
-		var attributes = _.pluck(selection,"attributes");
+		var attributes = _.pluck(selection, "attributes");
 		var tags = _.pluck(attributes, "tags");
 		var intersect = _.intersection.apply(_, tags);
 		var list = _.reduce(intersect, function (prev, tag) {
