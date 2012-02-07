@@ -197,7 +197,7 @@ describe PhotosController do
             JSON(response.body).length.should == length
           end
 
-	  it 'should return only photos of the given source' do
+	        it 'should return only photos of the given source' do
             source1 = Factory(:source)
             source2 = Factory(:source)
             source3 = Factory(:source)
@@ -209,9 +209,9 @@ describe PhotosController do
 
             get :index, :format => :json, :q => "source:#{source1.id}|#{source2.id}|#{source4.id}"
 
-            puts JSON(response.body).map { |p| p['id'] }.should == [1,2,4]
+            JSON(response.body).map { |p| p['id'] }.should == [1,2,4]
           end
-       end
+        end
       end
     end
   end
