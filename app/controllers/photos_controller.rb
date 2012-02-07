@@ -59,7 +59,7 @@ class PhotosController < ApplicationController
     @photo.thumb.create! if params[:force] == 'true'
 
     if params[:format].downcase == 'jpg'
-      send_file @photo.thumb.file.path, :disposition => 'inline'
+      send_file @photo.thumb.file.path, disposition: 'inline', type: 'image/jpeg'
     end
   end
 
@@ -91,7 +91,7 @@ class PhotosController < ApplicationController
         end
       end
       
-      send_data image.to_blob, :disposition => 'inline', :type => 'image/jpg'
+      send_data image.to_blob, disposition: 'attachment', type: 'image/jpeg'
     end
   end
 
