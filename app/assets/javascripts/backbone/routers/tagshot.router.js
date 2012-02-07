@@ -24,12 +24,13 @@ Tagshot.Router = Backbone.Router.extend({
 	home: function(path) {
 		console.log(path.split("/"),"home");
 
-		if (Tagshot.collections.photoList.length == 1) {
-			// We come from the detail view
-			this.reset();
-		} else if(Tagshot.collections.photoList.length === 0) {
-			//started
+		if(Tagshot.collections.photoList.length === 0) {
+			// started
 			this.fetchModels(Tagshot.configuration.numberOfImagesToFetchAtStart);
+		}
+		else if (Tagshot.collections.photoList.length == 1) {
+			// we come from the detail view
+			this.reset();
 		}
 
 		this.buildGalleryView();
@@ -43,7 +44,7 @@ Tagshot.Router = Backbone.Router.extend({
 		Tagshot.collections.photoList.reset();
 		this.fetchModels(Tagshot.configuration.numberOfImagesToFetchAtStart, function() {
 			self.navigate("", {
-				'replace': true ,
+				'replace': true,
 				'trigger': false
 			});
 		});
@@ -157,7 +158,7 @@ Tagshot.Router = Backbone.Router.extend({
 		// if start or resetted
 		console.log('fetch');
 		Tagshot.collections.photoList.fetch({
-			data: {limit: number},
+			data: { limit: number },
 			add: true,
 			success: callback
 		});
