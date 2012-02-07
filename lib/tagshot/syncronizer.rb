@@ -64,4 +64,10 @@ class Tagshot::Syncronizer
 
     @photo.update_attributes(:last_sync_at => Time.zone.now + 5.seconds)
   end
+
+  def self.readonly
+    Tagshot::Application.config.sync_readonly
+  rescue
+    true
+  end
 end

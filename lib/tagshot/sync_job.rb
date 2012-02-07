@@ -23,11 +23,5 @@ class Tagshot::SyncJob
 
     Tagshot::Syncronizer.new(photo, image).syncronize @options
   end
-
-  def self.readonly
-    Tagshot::Application.config.sync_readonly
-  rescue
-    true
-  end
 end
 
