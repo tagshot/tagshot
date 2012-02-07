@@ -86,9 +86,9 @@ class Thumb
     true
   end
 
-  def purge!
-    Dir[Rails.root, self.cache_path, '*'].each do |dir|
-      FileUtils.remove_dir dir, true if File.directory?(dir)
+  def self.purge!
+    Thumb.each do |thumb|
+      thumb.purge!
     end
   end
 end
