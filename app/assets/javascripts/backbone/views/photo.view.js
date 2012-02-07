@@ -69,6 +69,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 
 	select: function() {
 		$(this.el).children().first().addClass("selected");
+		$(this.el).children('.image-frame').focus();
 		this.trigger("selectionChanged");
 	},
 
@@ -111,6 +112,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 				'transitionOut' : 'elastic'
 			}); 
 		}
+		return false;
 	},
 	
 
