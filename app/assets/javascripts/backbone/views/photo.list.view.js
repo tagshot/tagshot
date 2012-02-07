@@ -100,7 +100,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.showFooterIfNeccessary();
 		if (this.quickViewVisible) {
 			var selectedViews = this.getSelectedViews();
-			this.quickview(selectedViews[0]);
+			this.quickview(selectedViews[0], true);
 		}
 	},
 
@@ -134,12 +134,13 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		Tagshot.helpers.resizeImages();
 	},
 
-	quickview: function (photoView) {
+	quickview: function (photoView, replace) {
 		var that = this,
 		    viewElement = $(this.photoView).find('img'),
 		    model = photoView.model;
+		if (!replace) replace = false;
 
-		if (this.quickViewVisible) {
+		if (!replace && this.quickViewVisible) {
 			$.fancybox.close();
 		} else {
 			$.fancybox.hideActivity();
