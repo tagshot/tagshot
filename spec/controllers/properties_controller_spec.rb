@@ -8,7 +8,7 @@ describe PropertiesController do
 
       it 'should require authentication' do
         get :index, format: :json, photo_id: @photo.id
-        response.status.should == 302
+        response.status.should == 401
       end
 
       context 'with authenticated user' do
