@@ -25,11 +25,13 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var self  = this;
 		_.bindAll(this);
 
-		this.collection.bind('select', this.showFooterIfNeccessary);
+		this.collection.bind('select', this.select);
 		this.collection.bind('deselect', this.showFooterIfNeccessary);
 		this.collection.bind('reset', this.reset);
 		this.collection.bind('add', this.append);
 		this.collection.bind('rescroll', this.rescroll);
+
+		this.quickViewVisible = false;
 
 		_.extend(this.el, Backbone.Events);
 
@@ -47,10 +49,16 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.subviews = [];
 	},
 
-	rescroll: function () {
-		var selectedViews = this.subviews.filter(function (el) {
+	// helper functions to return all selected
+	getSelectedViews: function () {
+		return this.subviews.filter(function (el) {
 			return el.model.selected;
 		});
+
+	},
+
+	rescroll: function () {
+		var selectedViews = this.getSelectedViews();
 		var photoView = selectedViews[0];
 		var top = $(photoView.el).find(".image").offset().top;
 		window.scrollTo(0, top - 50);
@@ -88,6 +96,14 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		return this;
 	},
 
+	select: function () {
+		this.showFooterIfNeccessary();
+		if (this.quickViewVisible) {
+			var selectedViews = this.getSelectedViews();
+			this.quickview(selectedViews[0], true);
+		}
+	},
+
 	showFooterIfNeccessary: function() {
 		var self = this;
 		var footer = $('footer');
@@ -98,27 +114,55 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 				if (self.collection.selection().length == 0) {
 					footer.stop(true, true).slideUp(200);	
 				} 
-			},100);
+			}, 100);
 		}
 	},
 
 	append: function(photo) {
-		var sv = this.subviews;
-
-		if (photo.id in sv) {
-			console.log("not again!!!, show the view just once");
+		if (photo.id in this.subviews) {
+			console.error("View is already in subviews, cannot be added again.");
 			return;
-			console.log("remove:", sv[photo.id]);
-			sv[photo.id].remove();
 		}
 
-		var view = new Tagshot.Views.PhotoView({model: photo});
-		view.bind('selectionChanged', this.selectionChanged, this);
-		sv[view.model.id] = view;
-		// insert images before the clearfix thingy
+		var view = new Tagshot.Views.PhotoView( { model: photo } );
+		view.bind('selectionChanged', this.selectionChanged);
+		view.bind('quickview', this.quickview);
+		this.subviews[view.model.id] = view;
+		// insert images before the clearfix
 		$(this.el).find("#fix-gallery").before(view.render().el);
 
 		Tagshot.helpers.resizeImages();
+	},
+
+	quickview: function (photoView, replace) {
+		var that = this,
+		    viewElement = $(this.photoView).find('img'),
+		    model = photoView.model;
+		if (!replace) replace = false;
+
+		if (!replace && this.quickViewVisible) {
+			$.fancybox.close();
+		} else {
+			$.fancybox.hideActivity();
+			$.fancybox({
+				'orig': viewElement,
+				'href': model.get('image'),
+				'padding': 0,
+				'speedIn': 200,
+				'speedOut': 200,
+				'changeSpeed': 0,
+				'changeFade': 0,
+				'onStart': function () {
+					that.quickViewVisible = true
+				},
+				'onClosed': function () {
+					that.quickViewVisible = false
+				},
+				'title': model.get('tags').join(', '),
+				'transitionIn': 'elastic',
+				'transitionOut': 'elastic'
+			}); 
+		}
 	},
 
 	selectAll: function(){
@@ -132,7 +176,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	selectionChanged: function(e) {
 		$("footer .tag").remove();
 		var selection = this.collection.selection();
-		var attributes = _.pluck(selection,"attributes");
+		var attributes = _.pluck(selection, "attributes");
 		var tags = _.pluck(attributes, "tags");
 		var intersect = _.intersection.apply(_, tags);
 		var list = _.reduce(intersect, function (prev, tag) {

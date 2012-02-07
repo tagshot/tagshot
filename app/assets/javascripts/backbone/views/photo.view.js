@@ -39,12 +39,11 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		_.bindAll(this);
 
 		// registering event handlers
-		this.model.bind('change:thumb', this.render, this);
-		this.model.bind('change:tags', this.tagChange, this);
-		this.model.bind('destroy', this._remove, this);
-		this.model.bind('select', this.select, this);
-		this.model.bind('deselect', this.deselect, this);
-		this.quickViewVisible = false;
+		this.model.bind('change:thumb', this.render);
+		this.model.bind('change:tags', this.tagChange);
+		this.model.bind('destroy', this._remove);
+		this.model.bind('select', this.select);
+		this.model.bind('deselect', this.deselect);
 	},
 
 	render: function () {
@@ -69,6 +68,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 
 	select: function() {
 		$(this.el).children().first().addClass("selected");
+		$(this.el).children('.image-frame').focus();
 		this.trigger("selectionChanged");
 	},
 
@@ -82,35 +82,13 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	openDetails : function(e) {
-		if (!this.quickViewVisible) {
-			Tagshot.router.navigate("details/" + this.model.get("id"), true);
-		}
+		Tagshot.router.navigate("details/" + this.model.get("id"), true);
 	},
 
-	quickview: function(e, override) {
-		var that = this;
-		override || (override = false);
+	quickview: function(e) {
 		this.stop(e);
-
-		if (!override && this.quickViewVisible) {
-			$.fancybox.close();
-		} else {
-			$.fancybox.hideActivity();
-			$.fancybox({
-				'orig' : $(this.el).find('img'),
-				'href' : $(this.el).find('img').attr('src'),
-				'padding' :		0,
-				'speedIn' :		200,
-				'speedOut' :	200,
-				'changeSpeed':	0,
-				'changeFade':	0,
-				'onStart': function (){that.quickViewVisible = true},
-				'onClosed': function (){that.quickViewVisible = false},
-				'title' :		this.model.get('tags'),
-				'transitionIn' : 'elastic',
-				'transitionOut' : 'elastic'
-			}); 
-		}
+		this.trigger('quickview', this);
+		return false;
 	},
 	
 
@@ -137,11 +115,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		$(this.el).find('.image-frame').focus();
 		Tagshot.views.gallery.setActive();
 		
-		// show this image in quickview in case quickview is visible
-		if (this.quickViewVisible) {
-			this.quickview(e, true);
-		}
-
 		this.model.trigger('changeSelection', this.model, e.shiftKey, e.ctrlKey || e.metaKey);
 	},
 
