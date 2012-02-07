@@ -31,7 +31,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.collection.bind('add', this.append);
 		this.collection.bind('rescroll', this.rescroll);
 
-		this.isQuickviewVisible = true;
+		this.quickViewVisible = false;
 
 		_.extend(this.el, Backbone.Events);
 
@@ -100,7 +100,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 				if (self.collection.selection().length == 0) {
 					footer.stop(true, true).slideUp(200);	
 				} 
-			},100);
+			}, 100);
 		}
 	},
 
@@ -120,8 +120,32 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		Tagshot.helpers.resizeImages();
 	},
 
-	quickview: function () {
-		alert("yeah!");
+	quickview: function (viewElement, model) {
+		var that = this;
+
+		if (this.quickViewVisible) {
+			$.fancybox.close();
+		} else {
+			$.fancybox.hideActivity();
+			$.fancybox({
+				'orig': viewElement,
+				'href': model.get('image'),
+				'padding': 0,
+				'speedIn': 200,
+				'speedOut': 200,
+				'changeSpeed': 0,
+				'changeFade': 0,
+				'onStart': function () {
+					that.quickViewVisible = true
+				},
+				'onClosed': function () {
+					that.quickViewVisible = false
+				},
+				'title': model.get('tags').join(', '),
+				'transitionIn': 'elastic',
+				'transitionOut': 'elastic'
+			}); 
+		}
 	},
 
 	selectAll: function(){

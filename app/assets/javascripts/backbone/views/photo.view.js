@@ -82,36 +82,12 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	openDetails : function(e) {
-		if (!this.quickViewVisible) {
-			Tagshot.router.navigate("details/" + this.model.get("id"), true);
-		}
+		Tagshot.router.navigate("details/" + this.model.get("id"), true);
 	},
 
 	quickview: function(e) {
-		var that = this;
 		this.stop(e);
-
-		this.trigger('quickview');
-
-		if (!override && this.quickViewVisible) {
-			$.fancybox.close();
-		} else {
-			$.fancybox.hideActivity();
-			$.fancybox({
-				'orig' : $(this.el).find('img'),
-				'href' : $(this.el).find('img').attr('src'),
-				'padding' :		0,
-				'speedIn' :		200,
-				'speedOut' :	200,
-				'changeSpeed':	0,
-				'changeFade':	0,
-				'onStart': function (){that.quickViewVisible = true},
-				'onClosed': function (){that.quickViewVisible = false},
-				'title' :		this.model.get('tags'),
-				'transitionIn' : 'elastic',
-				'transitionOut' : 'elastic'
-			}); 
-		}
+		this.trigger('quickview', $(this.el).find('img'), this.model);
 		return false;
 	},
 	
