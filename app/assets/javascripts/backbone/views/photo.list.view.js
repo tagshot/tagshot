@@ -130,8 +130,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.subviews[view.model.id] = view;
 		// insert images before the clearfix
 		$(this.el).find("#fix-gallery").before(view.render().el);
-
-		Tagshot.helpers.resizeImages();
 	},
 
 	quickview: function (photoView, replace) {

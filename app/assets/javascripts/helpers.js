@@ -5,22 +5,33 @@ Array.prototype.equals = function (arr) {
         return acc && el === arr[i];
     }, true)};
 
-
 Tagshot.helpers = (function(){
 
 	var resizeImages = function () {
 		var value  = $("#thumbnail-size-slider").slider("value");
 
-			if (value%10 == 0) {
-					$(document).scroll();
-			}
+        // invoke reloading in case of resizing
+		if (value%10 == 0) {
+			$(document).scroll();
+		}
+    
+        cssRule = Tagshot.helpers.resizeCssRule();
 
-		$("#backbone-gallery-view div.image-frame").css(
-			'height',value).css(
-			'width',function(){
-				return value*1.5;
-			}
-		);
+        // use faster class rule if possible 
+        if (cssRule !== undefined) {
+            var width = value*1.5;
+            var height = value;
+
+            cssRule.style.width = width+"px";
+            cssRule.style.height = height+"px";
+        } else {
+            console.log("resize fallback");
+            $("#backbone-gallery-view div.image-frame").css(
+                    'height',value).css(
+                        'width',function(){
+                            return value*1.5;
+                        });
+        }
 
 		if (value <= 150) {
 			$("#backbone-gallery-view div.image-frame").addClass("smaller");
@@ -29,6 +40,23 @@ Tagshot.helpers = (function(){
 			$("#backbone-gallery-view div.image-frame").removeClass("smaller");
 		}
 	};
+
+    var cachedResizeCssRule = undefined;
+
+    var resizeCssRule = function() {
+        if (Tagshot.helpers.cachedResizeCssRule === undefined) {
+            var cssRule = false;
+            var sheet;
+            for (i = 0; i<document.styleSheets.length; i++) {
+                sheet = document.styleSheets[i]
+                cssRule = _.find(sheet.cssRules, function(a){return a.selectorText == "#backbone-gallery-view .image-frame"});
+                if (cssRule != undefined)
+                    break;
+            }
+            Tagshot.helpers.cachedResizeCssRule = cssRule;
+        }
+        return Tagshot.helpers.cachedResizeCssRule;
+    };
 
 	// Show loading image whenever an AJAX request is sent and hide whenever an request returns.
 	var addGlobalAjaxIndicator = function () {
@@ -45,12 +73,12 @@ Tagshot.helpers = (function(){
 
 
 	var message = function(message, time) {
-    Tagshot.helpers.genericMessage(message,time,false);
+        Tagshot.helpers.genericMessage(message,time,false);
 	};
 
 
 	var error = function(error, time) {
-    Tagshot.helpers.genericMessage(error,time,true);
+        Tagshot.helpers.genericMessage(error,time,true);
 	};
 
 
@@ -67,6 +95,8 @@ Tagshot.helpers = (function(){
 
 	return {
 		resizeImages : resizeImages,
+        resizeCssRule : resizeCssRule,
+        cachedResizeCssRule : cachedResizeCssRule,
 		addGlobalAjaxIndicator: addGlobalAjaxIndicator,
 		message: message,
 		error: error,
