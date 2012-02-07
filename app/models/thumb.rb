@@ -34,6 +34,10 @@ class Thumb
     exist? ? File.mtime(path) : Time.utc
   end
 
+  def create
+    create! unless cached?
+  end
+
   def create!
     Rails.logger.info "Create thumb for photo #{photo.id}..."
 
