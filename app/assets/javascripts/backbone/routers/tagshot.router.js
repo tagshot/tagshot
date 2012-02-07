@@ -3,6 +3,7 @@
  *
  * Triggering a route will change the view if necessary.
  */
+//= require snowstorm
 
 Tagshot.Router = Backbone.Router.extend({
 
@@ -74,6 +75,11 @@ Tagshot.Router = Backbone.Router.extend({
 
 	subsearch: function(path, query) {
 		console.log(path.split("/"),"search for: "+query);
+
+		if (_.contains(["snow", "christmas", "schnee", "weihnachten", "winter", "cold", "kalt"],query)) {
+            console.log("let it snow");
+            snowStorm.start();
+        }
 
 		this.buildGalleryView();
 		this.fillTagbarWithSearchedTags(query);
