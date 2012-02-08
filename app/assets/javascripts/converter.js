@@ -24,12 +24,21 @@ Tagshot.converter = (function () {
 		 */
 
 		// BEWARE: Number of stars is a digit, not [0-5]
-		var RATINGINPUT = /^(<|<=|=|>|>=)?([0-9])\*$/;
+		var RATING_INPUT = /^(<|<=|=|>|>=)?([0-9])\*$/;
 		var RATING_QUERY_TOKEN = /^stars:(<|<=|=|>|>=)?[0-9]$/
 		var URL_STAR_TOKEN = /^stars:(<|<=|=|>|>=)?([0-9])$/;
 		var OR_TOKEN = /^(OR|ODER|;)$/i;	// case insensitive 'or' in English, German or Prolog/Erlang
+		var OR_URL_TOKEN = ','	// We separate Tag1 OR Tag2 in the URL with Tag1,Tag2
+		var OR_REPLACER = 'OR';		// OR in URL gets transformed in this input string
+
+
+		// The token format [OPERATOR, TAG] is stupid as hell. FIXME!
 
 		return {
+
+/***********************************
+ * API Functions
+ * *********************************/
 
 			inputToQuery: function(textList) {
 				var self = this;
@@ -47,13 +56,32 @@ Tagshot.converter = (function () {
 			queryToInput: function(url) {
 				// This unicodifies a url
 				var self = this;
-				return _.map(self.findTokensInURL(url), function(token) {
-					return self.inputToStars(self.URLtoInput(token));
+				/*return _.map(self.findTokensInURL(url), function(token) {
+					return self.inputToStars(self.URLtokenToInput(token));
+				});*/
+
+					var temp1 = url.split('+');
+					var tokens = _.flatten(_.map(temp1, function(t){
+							var s = t.split(OR_URL_TOKEN);
+							console.log("s", s);
+							if (s.length == 2) {
+								return [s[0], OR_REPLACER, s[1]]
+							}
+							return s;
+					}));
+
+				/*var input = _.zip(temp, _map(_.range(temp.length), function() {
+					return OR_REPLACER;
+				}));*/
+
+				var inp = _.map(tokens, function(t) {
+					return self.inputToStars(self.stripStarPrefix(t))
 				});
+				return inp;
 			},
 
 			inputToStars: function (text) {
-				var match = text.match(RATINGINPUT);
+				var match = text.match(RATING_INPUT);
 				if (match === null) {
 					return text;
 				}
@@ -63,23 +91,21 @@ Tagshot.converter = (function () {
 				return starString;	// return of function invocations and this.buildStarString() does not work, WTFJS!
 			},
 
+/***********************************
+ * Internal Functions
+ * *********************************/
+
+
 			findTokensInURL: function(url) {
 				// returns ['', 'stars:<3', ['+', 'Tag1'], [',', 'Tag2']]
 				return this.parseAND(this.parseOR(url));
 			},
 
-			URLtoInput: function(text) {
-				// simply strips 'stars:' prefix from search url
-				var token = text; 
-				if ($.isArray(text)) {
-					token = text[1];
+			URLtokenToInput: function(token) {
+				if (_.isArray(token)) {
+					return [this.convertOR(token[0]), this.stripStarPrefix(token[1])];
 				}
-				var match = token.match(URL_STAR_TOKEN);
-				if (match === null) {
-					return token // it is no star token like stars:<3
-				}
-				var starToken = match[0];
-				return starToken.substr(6)+'*'; // 'stars:'.length === 6
+				return this.stripStarPrefix(token);
 			},
 
 
@@ -101,7 +127,7 @@ Tagshot.converter = (function () {
 			parseAND: function(ORtokens) {
 				var flattened = _.flatten(ORtokens, true); // only single level
 				return _.map(flattened, function(t, i) {
-					if (i === 0 || t[0] !== '') {
+					if (i === 0 || t[0] !== '') {	// t[0] == '+' || 'OR'
 						return t
 					}
 					return [',', t[1]];
@@ -109,20 +135,37 @@ Tagshot.converter = (function () {
 			},
 
 			isORtoken: function(token) {
-				return token.match(OR_TOKEN) !== null;
+				return OR_TOKEN.test(token);
 			},
 
 			isRatingInput: function (token) {
-				return token.match(RATINGINPUT) !== null;
+				return RATING_INPUT.test(token);
 			},
 
 			isRatingQuery: function(token) {
-				return token.match(RATING_QUERY_TOKEN) !== null;
+				return RATING_QUERY_TOKEN.test(token);
 			},
 
 			buildStarQueryToken: function(token) {
 				// remove trailing '*'
 				return 'stars:' + token.slice(0, -1)
+			},
+			
+			stripStarPrefix: function(token) {
+				// simply strips 'stars:' prefix from search url
+				var match = token.match(URL_STAR_TOKEN);
+				if (match === null) {
+						return token // it is no star token like stars:<3
+				}
+				var starToken = match[0];
+				return starToken.substr(6)+'*'; // 'stars:'.length === 6
+			},
+
+			convertOR: function(token) {
+				if (token === OR_URL_TOKEN) {
+					return OR_REPLACER;
+				}
+				return token;
 			},
 
 			prefixToUnicode: function(prefix) {

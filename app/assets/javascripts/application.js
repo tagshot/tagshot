@@ -26,7 +26,6 @@
 
 $(function() {
 	Tagshot.helpers.addGlobalAjaxIndicator();
-	console.log(Tagshot.converter);
 	$.ajax("/tags", {
 		success: function (data) {
 			Tagshot.tagList = data;

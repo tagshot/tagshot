@@ -56,9 +56,9 @@ $(document).ready(function() {
 	});
 
 
-/*************************************
- * Tests for Input->URL and URL->Input
- *************************************/
+/**********************************
+ * Tests for Tokenization from URL
+***********************************/
 
 
 	module("Converter.js:: Input->Tokens");
@@ -73,50 +73,52 @@ $(document).ready(function() {
 		equals(converter.isORtoken(','), false);
 	});
 
-	test("parseOR parses 'a,b+c' to [['', 'a'], [',', 'b+c']]", function() {
+	test("parseOR parses 'a,b+c' to [['', 'a'], [',', 'b'], ['+', 'c']]", function() {
 		var actual = converter.parseOR('a,b+c');
-		var expected = [['', 'a'], [',', 'b+c']];
-		ok(Tagshot.helpers.equalArrays(actual, expected));
+		var expected = [['', 'a'], [',', 'b'], ['+', 'c']];
+		console.log("OR returns:", actual);
+		ok(actual.equals(expected));
 	});
 
 	test("parseAND parses [['', 'a'], [',', 'b+c']] to [['', 'a'], [',', 'b'], ['+', 'c']]", function() {
 		var actual = converter.parseAND([['', 'a'], [',', 'b+c']] );
 		var expected =  [['', 'a'], [',', 'b'], ['+', 'c']];
-		ok(Tagshot.helpers.equalArrays(actual, expected));
+		console.log("AND returns:", actual);
+		ok(actual.equals(expected));
 	});
 
 
+/*************************************
+ * Tests for URL->Input
+*************************************/
+
 	module("Converter.js:: URL->Input");
 
-	test("URLtoInput strips 'stars:' prefix and adds '*', other strings fall through", function() {
-		equals(converter.URLtoInput('stars:<=3'), '<=3*');
-		equals(converter.URLtoInput('Tag1'), 'Tag1');
+	test("URLtokenToInput strips 'stars:' prefix and adds '*', other strings fall through", function() {
+		equals(converter.URLtokenToInput('stars:<=3'), '<=3*');
+		equals(converter.URLtokenToInput('Tag1'), 'Tag1');
 	});
 
 	test("findTokensInURL splits 'tag1+stars:<3+tag2' into ['','tag1'], ['+', 'stars:<3'], ['+', 'tag2']", function() {
 		// in JS ['a', 'b'] !== ['a', 'b']
 		var tokens = converter.findTokensInURL('tag1+stars:<3+tag2');
 		var expected = [['','tag1'], ['+', 'stars:<3'], ['+', 'tag2']];
-		console.log("Expected ", expected, 'Got1', tokens);
-		ok(Tagshot.helpers.equalArrays(tokens, expected));
+		ok(tokens.equals(expected));
 	});
 
 		test("findTokensInURL splits 'tag1,tag2' into [['','tag1'], [',', 'tag2']]", function() {
 		// in JS ['a', 'b'] !== ['a', 'b']
 		var tokens = converter.findTokensInURL('tag1,tag2');
 		var expected = [['','tag1'], [',', 'tag2']];
-		console.log("Expected ", expected, 'Got2 ', tokens);
-		ok(Tagshot.helpers.equalArrays(tokens, expected));
+		ok(tokens.equals(expected));
 	});
 
 		test("findTokensInURL splits 'a,b+c,d' into [['','a'], [',', 'b'], ['+', 'c'], [',', 'd']]", function() {
 		// in JS ['a', 'b'] !== ['a', 'b']
 		var actual = converter.findTokensInURL('a,b+c,d');
 		var expected = [['','a'], [',', 'b'], ['+', 'c'], [',', 'd']];
-		console.log("Expected ", expected, 'Got3 ', actual);
-		ok(Tagshot.helpers.equalArrays(actual, expected));
+		ok(actual.equals(expected));
 	});
-
 
 	test("isRatingQuery recognizes 'stars:<3' but not 'star:foo'", function() {
 		equals(converter.isRatingQuery('stars:<3'), true);
@@ -124,9 +126,28 @@ $(document).ready(function() {
 	});
 
 	test("queryToInput builds from URL 'stars:<3+Tag1+Tag2' a unicodified tag list ['<★★★☆☆', 'foo', 'bar']", function() {
-			equals(Tagshot.helpers.equalArrays(converter.queryToInput('stars:<3+Tag1+Tag2'), ['<★★★☆☆', 'Tag1', 'Tag2']), true);
+		var actual = converter.queryToInput('stars:<3+Tag1+Tag2');
+		console.log('Query->Input: T1 ', actual);
+			ok(actual.equals(['<★★★☆☆', 'Tag1', 'Tag2']));
 	});
 
+	test("querytoInput builds ['a', 'b', 'OR', 'c'] from 'a,b+c'", function() {
+		var actual = converter.queryToInput('a+b,c');
+		console.log('Query->Input: T2 ', actual); 
+		ok(['a','b','OR','c'].equals(actual));
+	});
+
+	test("querytoInput builds ['a', 'OR', 'b', 'c'] from 'a,b+c'", function() {
+		var actual = converter.queryToInput('a,b+c');
+		console.log('Query->Input: T2 ', actual); 
+		ok(['a','OR','b', 'c'].equals(actual));
+	});
+
+
+
+/*************************************
+ * Tests for Input->URL
+*************************************/
 
 	module("Converter.js:: Input->Query");
 
@@ -134,11 +155,19 @@ $(document).ready(function() {
 		equals(converter.inputToQuery(['<3*', 'Tag1']), 'stars:<3+Tag1');
 	});
 
+	test("Search input ['Tag1', 'OR', 'Tag2'] builds a search query 'Tag1,Tag2'", function() {
+		equals(converter.inputToQuery(['Tag1', 'OR', 'Tag2']), 'Tag1,Tag2');
+	});
+
 	test("inputToQuery builds a+b,a+c from ['a', 'b', 'OR', 'a', 'c']", function() {
 		equals(converter.inputToQuery(['a', 'b', 'OR', 'a', 'c']), 'a+b,a+c');
 	});
 
-	test("inputToQuery does not balance OR queries, it builds the query 'a+,' from ['a', 'OR']", function() {
+	test("Currently: inputToQuery does not balance OR queries, it builds the query 'a+,' from ['a', 'OR']", function() {
 		equals(converter.inputToQuery(['a', 'OR']), 'a+,');
+	});
+
+		test("Desired: Search input ['Tag1', OR] builds a search query 'Tag1'", function() {
+		equals(converter.inputToQuery(['Tag1']), 'Tag1');
 	});
 });
