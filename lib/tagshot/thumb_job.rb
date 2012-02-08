@@ -5,6 +5,6 @@ class Tagshot::ThumbJob
   end
 
   def perform
-    Photo.find(photo_id).thumb.create
+    Photo.find(@photo_id).thumb.create
   end
 end
