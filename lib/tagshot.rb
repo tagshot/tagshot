@@ -2,12 +2,13 @@
 
 require 'base/string'
 require 'tagshot/image'
-require 'tagshot/syncronizer'
-require 'tagshot/image_syncronizer'
-require 'tagshot/tag_helper'
 require 'tagshot/meta_properties'
-require 'tagshot/version'
 require 'tagshot/search_parser'
+require 'tagshot/sync_job'
+require 'tagshot/syncronizer'
+require 'tagshot/thumb_job'
+require 'tagshot/tag_helper'
+require 'tagshot/version'
 
 module Tagshot
   
@@ -34,20 +35,6 @@ module Tagshot
       nextpath = File.join(path, entry)
       next unless FileTest.directory? nextpath.to_fs_encoding
       index!(nextpath, level+1)
-    end
-  end
-
-  def self.sync_all!
-    Source.all.each do |source|
-      puts "sync source #{source.path}"
-      Tagshot::Syncronizer.new(source).sync!
-    end
-  end
-  
-  def self.read_all!
-    Source.all.each do |source|
-      puts "read source #{source.path}"
-      Tagshot::Syncronizer.new(source).read!
     end
   end
 

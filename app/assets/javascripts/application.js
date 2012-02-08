@@ -19,13 +19,14 @@
 //= require backbone/tagshot
 //= require tags
 //= require helpers
-//= require tagsAutocompletion
+//= require converter
 //= require search
 //= require jquery.fancybox-1.3.4
+//= require jquery.jstree
 
 $(function() {
 	Tagshot.helpers.addGlobalAjaxIndicator();
-
+	console.log(Tagshot.converter);
 	$.ajax("/tags", {
 		success: function (data) {
 			Tagshot.tagList = data;
@@ -37,10 +38,9 @@ $(function() {
 				onTagRemoved: Tagshot.search,
 				postProcessors: [
 					{
-						matches: tagFind.starExpression,
-						transform: tagReplace.starExpression
+						matches: Tagshot.converter.isRatingInput,		// EDIT here
+						transform: Tagshot.converter.inputToStars
 					}
-					// TODO: Find OR and AND Expressions
 				]
 			/* and make it auto-focus on page-load */
 			})
@@ -68,13 +68,13 @@ $(function() {
 				// so we need to save, how many photos have been saved so far
 				var savedPhotos = 0;
 				setTimeout(function () {
-					selection.forEach(function (model, index) {
+					_.each(selection,function (model, index) {
 						model.save(undefined,{
 							success: function() {
 								savedPhotos += 1;
 								// check if all photos have been saved
 								if (savedPhotos === selection.length) {
-									$("#tags-saved").stop(true, true).fadeIn().delay(200).fadeOut();
+									Tagshot.helpers.message("Tags saved", 400);
 									Tagshot.localVersionDirty = false;
 								}
 							}

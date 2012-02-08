@@ -196,6 +196,21 @@ describe PhotosController do
             get :index, :format => :json, :q => 'year:<=2012'
             JSON(response.body).length.should == length
           end
+
+	        it 'should return only photos of the given source' do
+            source1 = Factory(:source)
+            source2 = Factory(:source)
+            source3 = Factory(:source)
+            source4 = Factory(:source)
+            photo1 = Factory(:photo, :source => source1)
+            photo2 = Factory(:photo, :source => source2)
+            photo3 = Factory(:photo, :source => source3)
+            photo4 = Factory(:photo, :file => 'asdfasdf', :source => source1)
+
+            get :index, :format => :json, :q => "source:#{source1.id}|#{source2.id}|#{source4.id}"
+
+            JSON(response.body).map { |p| p['id'] }.should == [1,2,4]
+          end
         end
       end
     end

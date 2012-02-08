@@ -18,6 +18,8 @@ gem 'rails-backbone'
 gem 'exiv2'
 gem 'draper'
 gem 'delayed_job'
+gem 'delayed_job_active_record'
+gem 'daemons'
 gem 'rmagick'
 gem 'timfel-krb5-auth', '~> 0.8'
 

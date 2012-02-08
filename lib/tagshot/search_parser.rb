@@ -43,7 +43,7 @@ module Tagshot
     end
 
     def q_stars(string)
-      if string =~ /(>|>=|=|<=|<|)([0-5])/
+      if string =~ /(>|>=|=|<=|<|)([0-9])/
         opt = $1 == '' ? '=' : $1
         return [ "photo_data.rating #{opt} #{$2}" ]
       end
@@ -56,6 +56,13 @@ module Tagshot
         return [ "sources.year #{opt} #{$2}" ]
       end
       raise 'no valid year query'
+    end
+
+    def q_source(string)
+      if string =~ /[0-9]+(\|[0-9]+)*/
+        return [ "photos.source_id in (#{string.gsub('|',',')})" ]
+      end
+      raise 'no valid source query'
     end
   end
 end

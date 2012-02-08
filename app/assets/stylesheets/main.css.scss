@@ -269,16 +269,20 @@ button#show-options.open:after {
 	content: '▲';
 }
 
-div#tags-saved {
+div#message-board {
 	position: fixed;
-	right: 100px;
-	padding: 6px;
+	left: 50%;
+	padding: 7px 12px;
 	border-bottom-right-radius: 5px;
 	border-bottom-left-radius: 5px;
 	top: 0px;
-	background: green;
 	color: white;
 	display: none;
+	background: green;
+
+	&.alerted {
+		background: red;
+	}
 }
 
 section#options-container {

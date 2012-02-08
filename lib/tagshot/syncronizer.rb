@@ -1,46 +1,73 @@
-module Tagshot
-  class Syncronizer
-    
-    def initialize(source)
-      @source = source
+class Tagshot::Syncronizer
+
+  def initialize(photo, image)
+    @photo   = photo
+    @image   = image
+  end
+
+  def syncronize(options)
+    options.reverse_merge!(write: true, read: true, force: false)
+    # db photo not changed; file changed
+    # or
+    # db and file changed; override db
+    if options[:read]
+      self.read! if @photo.last_sync_at.nil? or @photo.last_sync_at < File.mtime(@photo.file) or options[:force]
     end
-    
-    def sync!
-      return if @source.nil?
-      file_num = 0
-      files.each do |file|
-        file_num += 1
-        puts "Sync #{file_num} of #{files.length}: #{File.basename(file).from_fs_encoding} ... "
-        sync file
+
+    if not self.class.readonly and options[:write]
+      # db photo changed; file not changed
+      self.write! if @photo.last_sync_at < @photo.updated_at or options[:force]
+    end
+  end
+
+  def read!
+    # clean up
+    @photo.transaction do
+      @photo.tags.destroy_all
+      @photo.properties.destroy_all
+
+      @image.each do |key,value|
+        if key == 'Iptc.Application2.Keywords'
+          value = [value] unless value.is_a?(Array)
+          value.uniq.select(&:present?).each do |tag|
+            #puts "  Add iptc tag #{tag.inspect}"
+            @photo.tags << tag
+          end
+        elsif key == 'Xmp.iptc.Keywords'
+          value.strip.split(/\s*,\s*/).uniq.select(&:present?).each do |tag|
+            #puts "  Add xmp tag #{tag.inspect}"
+            @photo.tags << tag
+          end
+        else
+         # puts "  Add property #{key} => #{value}"
+          Property.create photo: @photo, name: key, value: value[0..254]
+        end
       end
+
+      @photo.update_attributes(:last_sync_at => Time.zone.now)
+      @photo.data.load_meta_properties.save
     end
-    
-    def read!
-      return if @source.nil?
-      file_num = 0
-      files.each do |file|
-        file_num += 1
-        puts "Read #{file_num} of #{files.length}: #{File.basename(file).from_fs_encoding} ... "
-        read file
-      end
+  end
+
+  def write!
+    @image['Iptc.Application2.Keywords'] = ""
+
+    tags = @photo.tags.to_a
+    if tags.length > 0
+      puts "  Write tags " + tags.map {|t| t.name }.join(', ').inspect
+      @image['Xmp.iptc.Keywords'] = tags.map{|t|t.name}.join ', '
+      tags.each { |tag| @image.add 'Iptc.Application2.Keywords', tag.name }
+    else
+      @image['Xmp.iptc.Keywords'] = ''
     end
-    
-  private # -------------------------------------------------------------------
-    def files
-      @files ||= Dir[File.join(@source.path.to_fs_encoding, '**', '*')].select{|f| File.file?(f)}
-      @files
-    end
-  
-    def sync(file)
-      ImageSyncronizer.new(@source, Image.new(file)).sync!
-    rescue StandardError => e
-      puts "SYNC ERROR: #{e}"
-    end
-    
-    def read(file)
-      ImageSyncronizer.new(@source, Image.new(file)).read!
-    rescue StandardError => e
-      puts "READ ERROR: #{e}"
-    end
+    @image.save!
+
+    @photo.update_attributes(:last_sync_at => Time.zone.now + 5.seconds)
+  end
+
+  def self.readonly
+    Tagshot::Application.config.sync_readonly
+  rescue
+    true
   end
 end

@@ -11,8 +11,10 @@
 //= require backbone_datalink
 //= require mustache
 //= require backbone/tagshot
+//= require helpers
 
-//= require tagsAutocompletion
+//= require converter
+//= require converter
 
 // Everything in /assets/tests will be included
 //= require_tree .

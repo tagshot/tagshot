@@ -2,17 +2,17 @@ Tagshot.Views.AjaxError = Backbone.View.extend({
 		initialize: function() {
 			$(document).ajaxError(function(e, xhr, options){
 				if(xhr.status==0){
-					console.log('You are offline!!\n Please Check Your Network.');
+					Tagshot.helpers.error('You seem to be offline!!\n Please Check Your Network.', 3000);
 				} else if(xhr.status==404){
-					alert('Requested URL not found.');
+					Tagshot.helpers.error('Requested URL not found.', 5000);
 				} else if(xhr.status==500){
-					alert('Internal Server Error.');
+					console.error('Internal Server Error.');
 				} else if(e=='parsererror'){
-					alert('Error.\nParsing JSON Request failed.');
+					console.error('Error.\nParsing JSON Request failed.');
 				} else if(e=='timeout'){
-					alert('Request Time out.');
+					console.error('Request Time out.');
 				} else {
-					alert('Unknow Error.\n'+xhr.responseText);
+					console.error('Unknow Error.\n'+xhr.responseText);
 				}
 			});
 		},

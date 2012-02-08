@@ -98,10 +98,20 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 		var x = res.split("×")[0];
 		var y = res.split("×")[1];
 
-		if (res != "") {
+		if (res === "orig") {
+			window.open("/photos/"+this.model.id+".jpg");
+		} else {
+
+			// easter egg
+			if (res === "9600×7200"){
+				window.open("http://images.cheezburger.com/completestore/2011/4/11/cf9b5c92-a024-413b-bb8e-2a60c9c2875a.jpg");
+				return false;
+			}
+
 			// build url
 			var url = "/photos/"+this.model.id+"/download/"+x+"/"+y+"/"+scaled+"/"+this.model.id+"_"+x+"x"+y+".jpg";
 
+			console.log("download", url);
 			window.open(url);
 
 			//console.log(res, scaled, x, y, url);

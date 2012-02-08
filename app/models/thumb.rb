@@ -34,6 +34,16 @@ class Thumb
     exist? ? File.mtime(path) : Time.utc
   end
 
+  def create(options = {})
+    return false if cached?
+    if options[:delayed]
+      Delayed::Job.enqueue Tagshot::ThumbJob.new(@photo_id)
+    else
+      create!
+    end
+    return true
+  end
+
   def create!
     Rails.logger.info "Create thumb for photo #{photo.id}..."
 
@@ -86,9 +96,9 @@ class Thumb
     true
   end
 
-  def purge!
-    Dir[Rails.root, self.cache_path, '*'].each do |dir|
-      FileUtils.remove_dir dir, true if File.directory?(dir)
+  def self.purge!
+    Thumb.each do |thumb|
+      thumb.purge!
     end
   end
 end

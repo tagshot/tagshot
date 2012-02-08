@@ -63,5 +63,7 @@ Spork.each_run do
   FactoryGirl.reload
   # need to be "test.host" (!)
   Rails.application.routes.default_url_options[:host] = 'test.host'
+  # recreate in-memory database
+  initialize_in_memory_database if in_memory_database?
 end
 
