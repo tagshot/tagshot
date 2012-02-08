@@ -56,25 +56,7 @@ Tagshot.converter = (function () {
 			queryToInput: function(url) {
 				// This unicodifies a url
 				var self = this;
-				/*return _.map(self.findTokensInURL(url), function(token) {
-					return self.inputToStars(self.URLtokenToInput(token));
-				});*/
-
-					var temp1 = url.split('+');
-					var tokens = _.flatten(_.map(temp1, function(t){
-							var s = t.split(OR_URL_TOKEN);
-							console.log("s", s);
-							if (s.length == 2) {
-								return [s[0], OR_REPLACER, s[1]]
-							}
-							return s;
-					}));
-
-				/*var input = _.zip(temp, _map(_.range(temp.length), function() {
-					return OR_REPLACER;
-				}));*/
-
-				var inp = _.map(tokens, function(t) {
+				var inp = _.map(self.findTokensInURL(url), function(t) {
 					return self.inputToStars(self.stripStarPrefix(t))
 				});
 				return inp;
@@ -97,8 +79,14 @@ Tagshot.converter = (function () {
 
 
 			findTokensInURL: function(url) {
-				// returns ['', 'stars:<3', ['+', 'Tag1'], [',', 'Tag2']]
-				return this.parseAND(this.parseOR(url));
+				var andTokens = url.split('+');
+				return _.flatten(_.map(andTokens, function(t){
+						var s = t.split(OR_URL_TOKEN);	// _.zip me if length >1
+						if (s.length == 2) {
+							return [s[0], OR_REPLACER, s[1]]
+						}
+						return s;
+				}));
 			},
 
 			URLtokenToInput: function(token) {
@@ -112,7 +100,7 @@ Tagshot.converter = (function () {
 /*****************************/
 /* Helper Functions */
 /*****************************/
-
+			// not needed
 			parseOR: function(string) {
 				return _.map(string.split(','), function(t) {
 					return _.map(t.split('+'), function(andToken, i) {
