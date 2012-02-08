@@ -35,8 +35,13 @@ class Thumb
   end
 
   def create(options = {})
-    return self if cached?
-    options[:delayed] ? self.delay.create! : self.create!
+    return false if cached?
+    if options[:delayed]
+      Delayed::Job.enqueue Tagshot::ThumbJob.new(@photo_id)
+    else
+      create!
+    end
+    return true
   end
 
   def create!
