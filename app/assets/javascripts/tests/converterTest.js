@@ -73,31 +73,12 @@ $(document).ready(function() {
 		equals(converter.isORtoken(','), false);
 	});
 
-	test("parseOR parses 'a,b+c' to [['', 'a'], [',', 'b'], ['+', 'c']]", function() {
-		var actual = converter.parseOR('a,b+c');
-		var expected = [['', 'a'], [',', 'b'], ['+', 'c']];
-		console.log("OR returns:", actual);
-		ok(actual.equals(expected));
-	});
-
-	test("parseAND parses [['', 'a'], [',', 'b+c']] to [['', 'a'], [',', 'b'], ['+', 'c']]", function() {
-		var actual = converter.parseAND([['', 'a'], [',', 'b+c']] );
-		var expected =  [['', 'a'], [',', 'b'], ['+', 'c']];
-		console.log("AND returns:", actual);
-		ok(actual.equals(expected));
-	});
-
 
 /*************************************
  * Tests for URL->Input
 *************************************/
 
 	module("Converter.js:: URL->Input");
-
-	test("URLtokenToInput strips 'stars:' prefix and adds '*', other strings fall through", function() {
-		equals(converter.URLtokenToInput('stars:<=3'), '<=3*');
-		equals(converter.URLtokenToInput('Tag1'), 'Tag1');
-	});
 
 	test("findTokensInURL splits 'tag1+stars:<3+tag2' into ['','tag1'], ['+', 'stars:<3'], ['+', 'tag2']", function() {
 		// in JS ['a', 'b'] !== ['a', 'b']
@@ -143,6 +124,18 @@ $(document).ready(function() {
 		ok(['a','OR','b', 'c'].equals(actual));
 	});
 
+	test("querytoInput builds ['a', 'OR', 'b', 'OR', 'c', 'd'] from 'a,b,c+d'", function() {
+		var actual = converter.queryToInput('a,b,c+d');
+		console.log('Query->Input: T2 ', actual); 
+		ok(['a', 'OR', 'b', 'OR', 'c', 'd'].equals(actual));
+	});
+
+	test("querytoInput builds ['a', 'b', 'OR', 'c', 'OR', 'd', 'f'] from 'a,b+c+d,f'", function() {
+		var actual = converter.queryToInput('a,b+c+d,f');
+		console.log('Query->Input: T2 ', actual); 
+		ok(['a', 'b', 'OR', 'c', 'OR', 'd', 'f'].equals(actual));
+	});
+
 
 
 /*************************************
@@ -169,5 +162,6 @@ $(document).ready(function() {
 
 		test("Desired: Search input ['Tag1', OR] builds a search query 'Tag1'", function() {
 		equals(converter.inputToQuery(['Tag1']), 'Tag1');
+		// requires intelligence in tagAutocomplete
 	});
 });

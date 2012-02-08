@@ -79,48 +79,23 @@ Tagshot.converter = (function () {
 
 
 			findTokensInURL: function(url) {
+				// 'a,b+c+d,f' -> ['a', 'b', 'OR', 'c', 'OR', 'd', 'f']
 				var andTokens = url.split('+');
-				return _.flatten(_.map(andTokens, function(t){
-						var s = t.split(OR_URL_TOKEN);	// _.zip me if length >1
-						if (s.length == 2) {
-							return [s[0], OR_REPLACER, s[1]]
-						}
-						return s;
+				var tokens = _.flatten(_.map(andTokens, function(t){
+						var orTokens = t.split(OR_URL_TOKEN);
+						return _.zip(orTokens, _.map(_.range(orTokens.length-1), function(s) {
+							return OR_REPLACER; // -> [a, OR, b, undefined]
+						}));
 				}));
-			},
-
-			URLtokenToInput: function(token) {
-				if (_.isArray(token)) {
-					return [this.convertOR(token[0]), this.stripStarPrefix(token[1])];
-				}
-				return this.stripStarPrefix(token);
+				return _.reject(tokens, function(t) {
+					return t === undefined;
+				});
 			},
 
 
 /*****************************/
 /* Helper Functions */
 /*****************************/
-			// not needed
-			parseOR: function(string) {
-				return _.map(string.split(','), function(t) {
-					return _.map(t.split('+'), function(andToken, i) {
-						if (i == 0) {
-							return ['', andToken]
-						}
-						return ['+', andToken]
-					});
-				})
-			},
-
-			parseAND: function(ORtokens) {
-				var flattened = _.flatten(ORtokens, true); // only single level
-				return _.map(flattened, function(t, i) {
-					if (i === 0 || t[0] !== '') {	// t[0] == '+' || 'OR'
-						return t
-					}
-					return [',', t[1]];
-				})
-			},
 
 			isORtoken: function(token) {
 				return OR_TOKEN.test(token);
