@@ -80,25 +80,11 @@ $(document).ready(function() {
 
 	module("Converter.js:: URL->Input");
 
-	test("findTokensInURL splits 'tag1+stars:<3+tag2' into ['','tag1'], ['+', 'stars:<3'], ['+', 'tag2']", function() {
-		// in JS ['a', 'b'] !== ['a', 'b']
-		var tokens = converter.findTokensInURL('tag1+stars:<3+tag2');
-		var expected = [['','tag1'], ['+', 'stars:<3'], ['+', 'tag2']];
-		ok(tokens.equals(expected));
-	});
-
-		test("findTokensInURL splits 'tag1,tag2' into [['','tag1'], [',', 'tag2']]", function() {
-		// in JS ['a', 'b'] !== ['a', 'b']
-		var tokens = converter.findTokensInURL('tag1,tag2');
-		var expected = [['','tag1'], [',', 'tag2']];
-		ok(tokens.equals(expected));
-	});
-
-		test("findTokensInURL splits 'a,b+c,d' into [['','a'], [',', 'b'], ['+', 'c'], [',', 'd']]", function() {
-		// in JS ['a', 'b'] !== ['a', 'b']
-		var actual = converter.findTokensInURL('a,b+c,d');
-		var expected = [['','a'], [',', 'b'], ['+', 'c'], [',', 'd']];
-		ok(actual.equals(expected));
+	test("findTokensInURL splits 'a,b,stars:<3,d+f'' into ['a','OR','b','OR','stars:<3','OR','d','f']", function() {
+		var actual = converter.findTokensInURL('a,b,stars:<3,d+f');
+		var expected = ['a','OR','b','OR','stars:<3','OR','d','f'];
+		console.log(actual);
+		ok(expected.equals(actual));
 	});
 
 	test("isRatingQuery recognizes 'stars:<3' but not 'star:foo'", function() {
@@ -131,9 +117,9 @@ $(document).ready(function() {
 	});
 
 	test("querytoInput builds ['a', 'b', 'OR', 'c', 'OR', 'd', 'f'] from 'a,b+c+d,f'", function() {
-		var actual = converter.queryToInput('a,b+c+d,f');
+		var actual = converter.queryToInput('a,b+c+d');
 		console.log('Query->Input: T2 ', actual); 
-		ok(['a', 'b', 'OR', 'c', 'OR', 'd', 'f'].equals(actual));
+		ok(['a','OR','b','c','d'].equals(actual));
 	});
 
 
