@@ -26,7 +26,7 @@
 //= require jquery.jstree
 //= require tagshot.ui.userMessages
 //= require tagshot.ui.selectors
-
+//= require tagshot.rotate
 
 $(function () {
 	// initialize Tagshot (Backbone)
