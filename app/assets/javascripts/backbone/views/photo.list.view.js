@@ -53,8 +53,8 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 	},
 
-	// scroll selected image into view
 	rescroll: function () {
+		// scrolls selected image into view
 		var selectedViews = this.getSelectedViews();
 		var photoView = selectedViews[0];
 		var top = $(photoView.el).find(".image").offset().top;
@@ -80,7 +80,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 			return this;
 		}
 		console.log("render gallery");
-		Tagshot.ui.insertRenderButton(this.el);
+		Tagshot.ui.insertLoadMoreButton(this.el);
 		this.collection.each(this.append);
 		return this;
 	},
@@ -114,10 +114,9 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		}
 
 		var view = new Tagshot.Views.PhotoView( { model: photo } );
-		view.bind('selectionChanged', this.selectionChanged);
-		view.bind('quickview', this.quickview);
 		this.subviews[view.model.id] = view;
-		Tagshot.ui.insertPhoto(view);
+		Tagshot.ui.insertPhoto(view, this.el);
+		this.bindEvents(view);
 	},
 
 	quickview: function (photoView, replace) {
@@ -230,5 +229,10 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		console.log("gallery hash change: " + this.collection.hash + " -> " + currentModelHash);
 		this.collection.hash = currentModelHash;
 		return false;
+	},
+
+	bindEvents: function(view) {
+		view.bind('selectionChanged', this.selectionChanged);
+		view.bind('quickview', this.quickview);
 	}
 });

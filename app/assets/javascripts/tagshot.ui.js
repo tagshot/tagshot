@@ -43,7 +43,7 @@ Tagshot.ui = (function () {
 		$(Tagshot.MAIN_VIEW).append(Tagshot.views.detail.el);
 	};
 
-	var insertRenderButton = function(here) {
+	var insertLoadMoreButton = function(here) {
 		$(here).html(
 			"<ul>" +
 			"</ul>" +
@@ -52,8 +52,8 @@ Tagshot.ui = (function () {
 		);
 	};
 
-	var insertPhoto = function(view) {
-		$('ul',this.el).append(view.render().el);
+	var insertPhoto = function(view, here) {
+		$('ul', here).append(view.render().el);
 	};
 
 
