@@ -78,6 +78,7 @@
 				onTagRemoved: function (tagText) {
 					console.log('Tag removed.');
 				},
+				onKeyEvent: function (keyCode) { },
 				postProcessors: []
 			};
 			// merge given options into standard-settings
@@ -208,10 +209,7 @@
 					doPostProcessing: function (entry) {
 						for (var i = 0; i < settings.postProcessors.length; i++) {
 							var postprocessor = settings.postProcessors[i];
-							if (postprocessor.matches(this.selectedEntry)) {
-								this.selectedEntry = postprocessor.transform(this.selectedEntry);
-								break;
-							}
+							this.selectedEntry = postprocessor(this.selectedEntry);
 						}
 					},
 					displayAutocompletionList:  function (currentSearch) {
@@ -324,6 +322,7 @@
 
 				// now add keyboard monitoring for <input>-element
 				p.$input.keydown(function (event) {
+					settings.onKeyEvent(event.keyCode);
 					var text = this.value.toLowerCase();
 					p.$autocompletionList.show(0);
 					switch (event.keyCode) {

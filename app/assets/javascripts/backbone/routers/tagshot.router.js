@@ -1,29 +1,29 @@
 /* This router is the controller and main actor.
  * It's initialized by window.Tagshot.init.
  *
- * Triggering a route will change the view if necessary.
+ * Triggering a route will change the view if neccessary.
  */
 //= require snowstorm
 
 Tagshot.Router = Backbone.Router.extend({
 
-	initialize: function() {
-	_.bindAll(this);
+	initialize: function () {
+		_.bindAll(this);
 	},
 
 	routes: {
-		"reset": "reset",
-		"details/:id": "details",
-		"*path/details/:id": "subdetails",
-		"search/:query": "search",	//search/hasso
-		"*path/search/:query": "subsearch",	//search/hasso
-		"p/:page": "page",
+		"reset":               "reset",
+		"details/:id":         "details",
+		"*path/details/:id":   "subdetails",
+		"search/:query":       "search",
+		"*path/search/:query": "subsearch",
+		"p/:page":             "page",
 		"search/:query/:page": "searchpage",
-		"*path": "home"
+		"*path":               "home"
 	},
 
 	home: function(path) {
-		console.log(path.split("/"),"home");
+		console.log(path.split("/"), "home");
 
 		if (!Tagshot.initialized.gallery) {
 			this.reset();
@@ -48,12 +48,12 @@ Tagshot.Router = Backbone.Router.extend({
 		//this.buildGalleryView();
 	},
 
-	details: function(id){
-		this.subdetails("",id);
+	details: function (id) {
+		this.subdetails(Tagshot.HOME_PATH, id);
 	},
 
-	subdetails: function(path, id) {
-		console.log(path.split("/"),"details of",id);
+	subdetails: function (path, id) {
+		console.log(path.split("/"), "details of", id);
 
 		var model = Tagshot.collections.photoList.get({"id":id});
 
@@ -65,17 +65,17 @@ Tagshot.Router = Backbone.Router.extend({
 		this.buildDetailsPage(model);
 	},
 
-	search: function(id){
-		this.subsearch("",id);
+	search: function (query) {
+		this.subsearch(Tagshot.HOME_PATH, query);
 	},
 
-	subsearch: function(path, query) {
+	subsearch: function (path, query) {
 		console.log(path.split("/"),"search for: "+query);
 
-		if (_.contains(["snow", "christmas", "schnee", "weihnachten", "winter", "cold", "kalt"],query)) {
-            console.log("let it snow");
-            snowStorm.start();
-        }
+		if (_.contains(["snow", "christmas", "schnee", "weihnachten", "winter", "cold", "kalt"], query)) {
+			console.log("let it snow");
+			snowStorm.start();
+		}
 
 		this.buildGalleryView();
 		this.fillTagbarWithSearchedTags(query);
@@ -119,8 +119,8 @@ Tagshot.Router = Backbone.Router.extend({
 			Tagshot.collections.photoList.fetch({
 				url:"/photos/"+id,
 				add: true,
-				success: function(){
-					self.subdetails(path,id);
+				success: function() {
+					self.subdetails(path, id);
 				}
 			});
 	},
