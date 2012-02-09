@@ -23,6 +23,7 @@
 //= require search
 //= require jquery.fancybox-1.3.4
 //= require jquery.jstree
+//= require tagshot.ui.userMessages
 
 $(function() {
 	// initialize Tagshot-stuff (Backbone)
@@ -102,7 +103,7 @@ $(function() {
 								savedPhotos += 1;
 								// check if all photos have been saved
 								if (savedPhotos === selection.length) {
-									Tagshot.helpers.message("Tags saved", 400);
+									Tagshot.ui.userMessages.info("Tags saved", 400);
 									Tagshot.localVersionDirty = false;
 								}
 							}

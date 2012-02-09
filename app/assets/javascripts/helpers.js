@@ -70,35 +70,10 @@ Tagshot.helpers = (function() {
 		});
 	};
 
-
-	var message = function(message, time) {
-		Tagshot.helpers.genericMessage(message,time,false);
-	};
-
-
-	var error = function(error, time) {
-		Tagshot.helpers.genericMessage(error,time,true);
-	};
-
-
-	var genericMessage = function(message, time, alerted) {
-	var mb = $("#message-board");
-	if (alerted) {
-		mb.addClass("alerted");
-	} else {
-		mb.removeClass("alerted");
-	}
-	mb.html(message).stop(true, true).slideDown(200).delay(time).slideUp(100);
-	};
-
-
 	return {
 		resizeImages : resizeImages,
 		resizeCssRule : resizeCssRule,
 		cachedResizeCssRule : cachedResizeCssRule,
-		addGlobalAjaxIndicator: addGlobalAjaxIndicator,
-		message: message,
-		error: error,
-		genericMessage: genericMessage
+		addGlobalAjaxIndicator: addGlobalAjaxIndicator
 	};
 })();
