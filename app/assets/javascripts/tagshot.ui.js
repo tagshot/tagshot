@@ -43,14 +43,18 @@ Tagshot.ui = (function () {
 		$(Tagshot.MAIN_VIEW).append(Tagshot.views.detail.el);
 	};
 
-	var insertRenderButton = function(here) {
+	var insertLoadMoreButton = function(here) {
 		$(here).html(
 			"<ul>" +
 			"</ul>" +
 			"<span id='fix-gallery' class='ui-helper-clearfix'></span>" +
 			"<button id='more'>load more...</button>"
 		);
-	}
+	};
+
+	var insertPhoto = function(view, here) {
+		$('ul', here).append(view.render().el);
+	};
 
 
 	/*********************
@@ -63,7 +67,8 @@ Tagshot.ui = (function () {
 		toggleOptionsContainerOnClick:   toggleOptionsContainerOnClick,
 		insertRenderButton:              insertRenderButton,
 		searchBox:                       $("#search-box"),
-		tagBox:                          $("#tag-box")
+		tagBox:                          $("#tag-box"),
+		insertPhoto:                     insertPhoto
 	};
 })();
 
