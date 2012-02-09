@@ -39,19 +39,9 @@ $(function () {
 	$.ajax("/tags", {
 		success: function (data) {
 			Tagshot.tagList = data;
-			/* apply autocompletion to <input> */
-			Tagshot.ui.selectors.searchBox.tagAutocomplete({
-				autocompleteList: Tagshot.tagList,
-				onTagAdded:       Tagshot.search,
-				onTagRemoved:     Tagshot.search,
-				postProcessors:   [Tagshot.converter.inputToStars]
-			/* and make it auto-focus on page-load */
-			})
-			.textboxFocusOnStart({
-				text:               'Just start searching…',
-				cssClassWhenEmpty:  'search-start',
-				doFocus:            true
-			});
+
+			Tagshot.ui.initializeSearchBoxAutocompletion();
+			Tagshot.ui.setSearchBoxFocusOnPageLoad();
 
 			Tagshot.ui.selectors.tagBox.tagAutocomplete({
 				autocompleteList:          Tagshot.tagList,

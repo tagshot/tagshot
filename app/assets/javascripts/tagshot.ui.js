@@ -1,10 +1,13 @@
-/* This module initializes basic callbacks/event handlers.
+/*
+ * This module initializes basic callbacks/event handlers.
  * In addition it deals with UI code like creating buttons etc.
  */
 
 
 Tagshot.ui = (function () {
-
+	/*
+	 * Initialize basic callbacks/event handlers
+	 */
 	var toggleOptionsContainerOnClick = function () {
 		$("#show-options").click(function () {
 			$("#options-container").slideToggle(300);
@@ -37,6 +40,25 @@ Tagshot.ui = (function () {
 		});
 	};
 
+	var initializeSearchBoxAutocompletion = function () {
+		/* apply autocompletion to <input> */
+
+		Tagshot.ui.selectors.searchBox.tagAutocomplete({
+			autocompleteList: Tagshot.tagList,
+			onTagAdded:       Tagshot.search,
+			onTagRemoved:     Tagshot.search,
+			postProcessors:   [Tagshot.converter.inputToStars]
+		});
+	};
+
+	var setSearchBoxFocusOnPageLoad = function () {
+		Tagshot.ui.selectors.searchBox.textboxFocusOnStart({
+			text:               'Just start searching…',
+			cssClassWhenEmpty:  'search-start',
+			doFocus:            true
+		});
+	};
+
 	var init = function () {
 		toggleOptionsContainerOnClick();
 		initializeSlider();
@@ -64,11 +86,16 @@ Tagshot.ui = (function () {
 	 * API Functions
 	 * *******************/
 	return {
-		init:                            init,
-		jumpFromTagBoxToGalleryWithTab:  jumpFromTagBoxToGalleryWithTab,
-		initializeSlider:                initializeSlider,
-		toggleOptionsContainerOnClick:   toggleOptionsContainerOnClick,
-		insertLoadMoreButton:            insertLoadMoreButton,
-		insertPhoto:                     insertPhoto
+		init:                              init,
+		initializeSearchBoxAutocompletion: initializeSearchBoxAutocompletion,
+		initializeSlider:                  initializeSlider,
+		insertLoadMoreButton:              insertLoadMoreButton,
+		insertPhoto:                       insertPhoto,
+		jumpFromTagBoxToGalleryWithTab:    jumpFromTagBoxToGalleryWithTab,
+		setSearchBoxFocusOnPageLoad:       setSearchBoxFocusOnPageLoad,
+		toggleOptionsContainerOnClick:     toggleOptionsContainerOnClick,
 	};
 })();
+
+
+
