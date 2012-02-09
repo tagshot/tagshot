@@ -29,8 +29,8 @@ window.Tagshot = {
 
 	//configuration
 	configuration: {
-		numberOfImagesToFetchAtStart: 10,
-		numberOfImagesToFetchAtAppend: 50,
+		numberOfImagesToFetchAtStart: 50,
+		numberOfImagesToFetchAtAppend: 60,
 		maxNumberOfImagesBeforeNoAutomaticFetch: Number.MAX_VALUE,
 		pixelsFromBottonToTriggerLoad: 200
 	},
