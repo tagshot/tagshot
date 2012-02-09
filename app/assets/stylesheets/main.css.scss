@@ -295,7 +295,7 @@ section#options-container {
 
 	text-align: left;
 	padding-top: 8px;
-	height: 45px;
+	height: 55px;
 	display: none;
 	position: relative;
 }
@@ -311,10 +311,20 @@ div#thumbnail-size-slider {
 	margin-top: 10px;
 }
 
+.source-select {
+	float: right;
+	margin-right: 30px;
+	select {
+		width: 300px;
+		background: #333;
+		color: white;
+	}
+}
+
 .meta-links {
 	text-align: right;
-	position: absolute;
-	right: 30px;
+	float: right;
+	margin-right: 10px;
 
 	&a {
 		color: #bbb;
