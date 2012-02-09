@@ -25,9 +25,38 @@
 //= require jquery.jstree
 
 $(function() {
+	// initialize Tagshot-stuff (Backbone)
+	Tagshot.init();
+
 	Tagshot.helpers.addGlobalAjaxIndicator();
+
+	$("#show-options").click(function() {
+		$("#options-container").slideToggle(300);
+		$(this).toggleClass("open");
+	});
+
+	// jump from search to gallery with tab
+	$("#tag-box").bind('keydown', 'tab', function(e){
+		e.stopPropagation();
+		$('backbone-gallery-view image-view image-frame:first img').click();
+		return true;
+	});
+
+
+	$("#thumbnail-size-slider").slider({
+		orientation: "horizontal",
+		range: "min", 
+		min: 50,
+		max: 500,
+		value: 200,
+		slide: Tagshot.helpers.resizeImages,
+		change: Tagshot.helpers.resizeImages
+	});
+
+
 	$.ajax("/tags", {
 		success: function (data) {
+
 			Tagshot.tagList = data;
 			/* apply autocompletion to <input> */
 			Tagshot.searchBox = $("#search-box");
@@ -81,35 +110,6 @@ $(function() {
 					});
 				}, 500);
 			});
-
-
-			$("#show-options").click(function() {
-				$("#options-container").slideToggle(300);
-				$(this).toggleClass("open");
-			});
-
-			// jump from search to gallery with tab
-			$("#tag-box").bind('keydown', 'tab', function(e){
-				console.log(123);
-				e.stopPropagation();
-				$('backbone-gallery-view image-view image-frame:first img').click();
-				return true;
-			});
-
-
-			$("#thumbnail-size-slider").slider({
-				orientation: "horizontal",
-				range: "min", 
-				min: 50,
-				max: 500,
-				value: 200,
-				slide: Tagshot.helpers.resizeImages,
-				change: Tagshot.helpers.resizeImages
-			});
-
-
-			// initialize Tagshot-stuff (Backbone)
-			Tagshot.init();
 		},
 	});
 });
