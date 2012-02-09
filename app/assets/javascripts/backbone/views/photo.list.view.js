@@ -14,11 +14,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		"click #more" : "loadMoreImages",
 		"keydown[ctrl+a]" : "selectAll",
 		"keydown[meta+a]" : "selectAll",
-
 		"keydown[tab]" : "jumpToFooter",
-
-		"keydown[shift+left]" : "footerLeft",
-		"keydown[shift+right]" : "footerRight"
 	},
 
 	initialize: function(options) {
@@ -101,7 +97,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		var self = this;
 		var footer = $('footer');
 		if (this.collection.selection().length > 0) {
-			footer.stop(true,true).slideDown(400);
+			footer.stop(true, true).slideDown(400);
 		} else {
 			window.setTimeout(function(){
 				if (self.collection.selection().length == 0) {
@@ -121,8 +117,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		view.bind('selectionChanged', this.selectionChanged);
 		view.bind('quickview', this.quickview);
 		this.subviews[view.model.id] = view;
-		// insert images before the clearfix
-		this.insertPhoto(view);
+		Tagshot.ui.insertPhoto(view);
 	},
 
 	quickview: function (photoView, replace) {
@@ -227,17 +222,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		$('#backbone-gallery-view').removeClass('active');
 	},
 
-	footerLeft: function(e) {
-		console.log("footer left");
-		//this.jumpToFooter(e);
-		//$('footer').trigger("keydown","shift+left");
-	},
-
-	footerRight: function(e) {
-		console.log("footer right");
-		//this.jumpToFooter(e);
-	},
-
 	needsNoRender: function() {
 		var currentModelHash = this.collection.computeHash();
 		if (this.collection.hash === currentModelHash) {
@@ -246,9 +230,5 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		console.log("gallery hash change: " + this.collection.hash + " -> " + currentModelHash);
 		this.collection.hash = currentModelHash;
 		return false;
-	},
-
-	insertPhoto: function(view) {
-		$('ul',this.el).append(view.render().el);
 	}
 });

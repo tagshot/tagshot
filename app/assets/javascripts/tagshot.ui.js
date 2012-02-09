@@ -50,7 +50,11 @@ Tagshot.ui = (function () {
 			"<span id='fix-gallery' class='ui-helper-clearfix'></span>" +
 			"<button id='more'>load more...</button>"
 		);
-	}
+	};
+
+	var insertPhoto = function(view) {
+		$('ul',this.el).append(view.render().el);
+	};
 
 
 	/*********************
@@ -63,7 +67,8 @@ Tagshot.ui = (function () {
 		toggleOptionsContainerOnClick:   toggleOptionsContainerOnClick,
 		insertRenderButton:              insertRenderButton,
 		searchBox:                       $("#search-box"),
-		tagBox:                          $("#tag-box")
+		tagBox:                          $("#tag-box"),
+		insertPhoto:                     insertPhoto
 	};
 })();
 
