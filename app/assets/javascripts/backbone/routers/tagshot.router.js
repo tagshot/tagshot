@@ -11,6 +11,10 @@ Tagshot.Router = Backbone.Router.extend({
 		_.bindAll(this);
 	},
 
+	/*
+	 * Note: The order in which these routes are defined is important
+	 *       Do not change without knowing what to do.
+	 */
 	routes: {
 		"reset":               "reset",
 		"details/:id":         "details",
