@@ -72,6 +72,12 @@ Tagshot.ui = (function () {
 		$('ul', here.el).append(view.render().el);
 	};
 
+    function bindRotateClicks() {
+        var rot = Tagshot.rotate;
+		$('#rotate-image-left').click(rot.rotateLeft);
+		$('#rotate-image-right').click(rot.rotateRight);
+	}
+
 
 	var init = function () {
 		toggleOptionsContainerOnClick();
@@ -79,7 +85,8 @@ Tagshot.ui = (function () {
 		jumpFromTagBoxToGalleryWithTab();
 		navigateHomeOnTagshotLogoClick();
 		Tagshot.ui.selectors.mainView.append(Tagshot.views.gallery.el);
-		$(Tagshot.MAIN_VIEW).append(Tagshot.views.detail.el);
+    	Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
+        bindRotateClicks();
 	};
 
 	/*********************

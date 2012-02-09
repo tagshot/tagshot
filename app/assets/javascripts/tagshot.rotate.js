@@ -2,13 +2,6 @@
  */
 
 Tagshot.rotate = (function () {
-	init();
-
-	function init() {
-		$('#rotate-image-left').click(rotateLeft);
-		$('#rotate-image-right').click(rotateRight);
-	}
-
 	function rotateLeft() {
 		console.log("rotate left");
 		Tagshot.ui.userMessages.info("not yet implemented",2000);
@@ -23,7 +16,6 @@ Tagshot.rotate = (function () {
 	 * API Functions
 	 * *******************/
 	return {
-		init:         init,
 		rotateLeft:   rotateLeft,
 		rotateRight:  rotateRight,
 	};
