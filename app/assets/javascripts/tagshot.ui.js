@@ -27,19 +27,27 @@ Tagshot.ui = (function () {
 			return true;
 		});
 	};
-
+	var navigateHomeOnTagshotLogoClick = function () {
+		$('#title').click(function() {
+			Tagshot.router.navigate('', { trigger: true });
+			return false;
+		});
+	};
 
 	var init = function () {
 		toggleOptionsContainerOnClick();
 		initializeSlider();
 		jumpFromTagBoxToGalleryWithTab();
+		navigateHomeOnTagshotLogoClick();
+		$(Tagshot.MAIN_VIEW).append(Tagshot.views.gallery.el);
+		$(Tagshot.MAIN_VIEW).append(Tagshot.views.detail.el);
 	};
 
 	var insertRenderButton = function(here) {
 		$(here).html(
-			"<ul>"+
-			"<span id='fix-gallery' class='ui-helper-clearfix'></span>"+
-			"</ul>"+
+			"<ul>" +
+			"</ul>" +
+			"<span id='fix-gallery' class='ui-helper-clearfix'></span>" +
 			"<button id='more'>load more...</button>"
 		);
 	}
