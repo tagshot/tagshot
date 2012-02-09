@@ -144,21 +144,21 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		} else {
 			$.fancybox.hideActivity();
 			$.fancybox({
-				'orig': viewElement,
-				'href': model.get('image'),
-				'padding': 0,
-				'speedIn': 200,
-				'speedOut': 200,
+				'orig':        viewElement,
+				'href':        model.get('image'),
+				'padding':     0,
+				'speedIn':     200,
+				'speedOut':    200,
 				'changeSpeed': 0,
-				'changeFade': 0,
-				'onStart': function () {
+				'changeFade':  0,
+				'onStart':     function () {
 					that.quickViewVisible = true
 				},
-				'onClosed': function () {
+				'onClosed':                            function () {
 					that.quickViewVisible = false
 				},
-				'title': model.get('tags').join(', '),
-				'transitionIn': 'elastic',
+				'title':         model.get('tags').join(', '),
+				'transitionIn':  'elastic',
 				'transitionOut': 'elastic'
 			}); 
 		}
