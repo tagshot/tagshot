@@ -35,8 +35,8 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		_.extend(this.el, Backbone.Events);
 
-		$(document).bind('scroll',this.scrolling);
-		$(document).bind('resize',this.scrolling);
+		$(document).bind('scroll',this.infiniteScrolling);
+		$(document).bind('resize',this.infiniteScrolling);
 		$(document).bind('keydown','ctrl+a',function(evt){
 			self.selectAll(evt);
 		});
@@ -57,6 +57,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 	},
 
+	// scroll selected image into view
 	rescroll: function () {
 		var selectedViews = this.getSelectedViews();
 		var photoView = selectedViews[0];
@@ -190,7 +191,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 
 	// scrolling or resizing
-	scrolling: function(){
+	infiniteScrolling: function(){
 		// do infinite scrolling
 		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
 		var pixels = Tagshot.configuration.pixelsFromBottonToTriggerLoad;

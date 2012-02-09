@@ -9,10 +9,10 @@ Tagshot.helpers = (function() {
 	var resizeImages = function () {
 		var value  = $("#thumbnail-size-slider").slider("value");
 
-		// invoke reloading in case of resizing
-		if (value % 10 == 0) {
-			$(document).scroll();
-		}
+		// invoke infinite scrolling in case of resizing
+		//if (value % 10 == 0) {
+			Tagshot.views.gallery.infiniteScrolling();
+		//}
 	
 		cssRule = Tagshot.helpers.resizeCssRule();
 
