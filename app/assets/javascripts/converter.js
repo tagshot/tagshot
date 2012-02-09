@@ -25,14 +25,13 @@ Tagshot.converter = (function () {
 
 	// BEWARE: Number of stars is a digit, not [0-5]
 	var RATING_INPUT       = /^(<|<=|=|>|>=)?([0-9])\*$/;
-	var RATING_QUERY_TOKEN = /^stars:(<|<=|=|>|>=)?[0-9]$/;
-	var URL_STAR_TOKEN     = /^stars:(<|<=|=|>|>=)?([0-9])$/;
+	var URL_RATING_TOKEN     = /^stars:(<|<=|=|>|>=)?([0-9])$/;
 
 	// case insensitive 'or' in English, German or Prolog/Erlang
-	var OR_TOKEN           = /^(OR|ODER|;)$/;
+	var OR_TOKEN           = /^(OR|ODER|;)$/i;
 
 	// We separate Tag1 OR Tag2 in the URL with Tag1,Tag2
-	var OR_URL_TOKEN       = ',;'
+	var OR_URL_TOKEN       = ',';
 
 // OR in URL gets transformed in this input string
 	var OR_REPLACER        = 'OR';
@@ -105,7 +104,7 @@ Tagshot.converter = (function () {
 	};
 
 	function isRatingQuery(token) {
-		return RATING_QUERY_TOKEN.test(token);
+		return URL_RATING_TOKEN.test(token);
 	};
 
 	function buildStarQueryToken(token) {
@@ -115,7 +114,7 @@ Tagshot.converter = (function () {
 	
 	function stripStarPrefix(token) {
 		// simply strips 'stars:' prefix from search url
-		var match = token.match(URL_STAR_TOKEN);
+		var match = token.match(URL_RATING_TOKEN);
 		if (match === null) {
 			return token // it is no star token like stars:<3
 		}
