@@ -22,7 +22,7 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		this.bind('shiftSelectPrevious', this.shiftSelectPrevious);
 		this.bind('changeSelection', this.changeSelection);
 		this.bind('reset', function() {
-			self.currentSearchQuery = 0;
+			self.currentSearchQuery = "";
 			self.reachedEnd = false;
 		}, this);
 	},

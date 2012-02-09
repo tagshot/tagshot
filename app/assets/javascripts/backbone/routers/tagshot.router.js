@@ -25,7 +25,7 @@ Tagshot.Router = Backbone.Router.extend({
 	home: function(path) {
 		console.log(path.split("/"),"home");
 
-		if(Tagshot.initialized.gallery === false) {
+		if (!Tagshot.initialized.gallery) {
 			this.reset();
 		}
 		Tagshot.initialized.gallery = true;
@@ -39,12 +39,8 @@ Tagshot.Router = Backbone.Router.extend({
 
 		console.log("reset collection");
 		Tagshot.collections.photoList.reset();
-		this.fetchModels(Tagshot.configuration.numberOfImagesToFetchAtStart, function() {
-			self.navigate("", {
-				'replace': true,
-				'trigger': false
-			});
-		});
+		this.fetchModels(Tagshot.configuration.numberOfImagesToFetchAtStart);
+
 		//this.buildGalleryView();
 	},
 
@@ -175,5 +171,4 @@ Tagshot.Router = Backbone.Router.extend({
 			}
 		}
 	}
-
 });
