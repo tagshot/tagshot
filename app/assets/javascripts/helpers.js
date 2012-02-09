@@ -13,23 +13,12 @@ Tagshot.helpers = (function() {
 		if (value%10 === 0) {
 			Tagshot.views.gallery.infiniteScrolling();
 		}
-		cssRule = Tagshot.helpers.resizeCssRule();
 
-		// use faster class rule if possible 
-		if (cssRule !== undefined) {
-			var width = value * 1.5;
-			var height = value;
-
-			cssRule.style.width = width + "px";
-			cssRule.style.height = height + "px";
-		} else {
-			console.log("resize fallback");
-			$("#backbone-gallery-view div.image-frame").css(
-					'height',value).css(
-						'width', function (){
-							return value * 1.5;
-						});
-		}
+		var width = value * 1.5;
+		var height = value;
+		_.each($('#backbone-gallery-view .image-frame').get(),function (el) {
+			el.style.width = width + "px", 
+			el.style.height = height + "px"});
 
 		if (value <= 150) {
 			$("#backbone-gallery-view div.image-frame").addClass("smaller");
@@ -37,26 +26,6 @@ Tagshot.helpers = (function() {
 		else {
 			$("#backbone-gallery-view div.image-frame").removeClass("smaller");
 		}
-	};
-
-	var cachedResizeCssRule = undefined;
-
-	var resizeCssRule = function() {
-		if (Tagshot.helpers.cachedResizeCssRule === undefined) {
-			var cssRule = false;
-			var sheet;
-			for (i = 0; i<document.styleSheets.length; i++) {
-				sheet = document.styleSheets[i]
-				try {
-					cssRule = _.find(sheet.cssRules, function(a){return a.selectorText == "#backbone-gallery-view .image-frame"});
-					if (cssRule != undefined)
-						break;
-				} catch (e) {
-				}
-			}
-			Tagshot.helpers.cachedResizeCssRule = cssRule;
-		}
-		return Tagshot.helpers.cachedResizeCssRule;
 	};
 
 	// Show loading image whenever an AJAX request is sent and hide whenever an request returns.
@@ -74,8 +43,6 @@ Tagshot.helpers = (function() {
 
 	return {
 		resizeImages : resizeImages,
-		resizeCssRule : resizeCssRule,
-		cachedResizeCssRule : cachedResizeCssRule,
 		addGlobalAjaxIndicator: addGlobalAjaxIndicator
 	};
 })();
