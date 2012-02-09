@@ -1,3 +1,5 @@
+//=require tagshot.ui
+
 Tagshot.ui.userMessages = (function() {
 
 	var info = function(message, time) {
