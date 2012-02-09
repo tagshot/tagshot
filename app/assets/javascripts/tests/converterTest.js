@@ -11,17 +11,17 @@ $(document).ready(function() {
 	module("Converter.js:: Input->Unicode");
 
 	test("prefixToUnicode unicodifies >= and <=, removes = and the rest falls through", function() {
-		equals(converter.prefixToUnicode('<='), '≤');
-		equals(converter.prefixToUnicode('>='), '≥');
-		equals(converter.prefixToUnicode('='), '');
-		equals(converter.prefixToUnicode(''), '');
-		equals(converter.prefixToUnicode(' '), ' ');
+		equals(converter.test.prefixToUnicode('<='), '≤');
+		equals(converter.test.prefixToUnicode('>='), '≥');
+		equals(converter.test.prefixToUnicode('='), '');
+		equals(converter.test.prefixToUnicode(''), '');
+		equals(converter.test.prefixToUnicode(' '), ' ');
 	});
 
 
 	test("buildStarString builds maximum 5 white stars", function() {
-		var min = converter.buildStarString('', 5);
-		var max = converter.buildStarString('', 0);
+		var min = converter.test.buildStarString('', 5);
+		var max = converter.test.buildStarString('', 0);
 		equal(max, '☆☆☆☆☆', '5 white stars');
 		equal(min, '★★★★★', 'No white but 5 black stars');
 	});
@@ -64,13 +64,13 @@ $(document).ready(function() {
 	module("Converter.js:: Input->Tokens");
 
 	test("Logical OR can be English or German or Prolog style ';'", function() {
-		ok(converter.isORtoken('OR'));
-		ok(converter.isORtoken('Or'));
-		ok(converter.isORtoken('or'));
-		ok(converter.isORtoken('Oder'));
-		ok(converter.isORtoken('oDEr'));
-		ok(converter.isORtoken(';'));
-		equals(converter.isORtoken(','), false);
+		ok(converter.test.isORtoken('OR'));
+		ok(converter.test.isORtoken('Or'));
+		ok(converter.test.isORtoken('or'));
+		ok(converter.test.isORtoken('Oder'));
+		ok(converter.test.isORtoken('oDEr'));
+		ok(converter.test.isORtoken(';'));
+		equals(converter.test.isORtoken(','), false);
 	});
 
 
@@ -81,15 +81,15 @@ $(document).ready(function() {
 	module("Converter.js:: URL->Input");
 
 	test("findTokensInURL splits 'a,b,stars:<3,d+f'' into ['a','OR','b','OR','stars:<3','OR','d','f']", function() {
-		var actual = converter.findTokensInURL('a,b,stars:<3,d+f');
+		var actual = converter.test.findTokensInURL('a,b,stars:<3,d+f');
 		var expected = ['a','OR','b','OR','stars:<3','OR','d','f'];
 		console.log(actual);
 		ok(expected.equals(actual));
 	});
 
 	test("isRatingQuery recognizes 'stars:<3' but not 'star:foo'", function() {
-		equals(converter.isRatingQuery('stars:<3'), true);
-		equals(converter.isRatingQuery('stars:foo'), false);
+		equals(converter.test.isRatingQuery('stars:<3'), true);
+		equals(converter.test.isRatingQuery('stars:foo'), false);
 	});
 
 	test("queryToInput builds from URL 'stars:<3+Tag1+Tag2' a unicodified tag list ['<★★★☆☆', 'foo', 'bar']", function() {
