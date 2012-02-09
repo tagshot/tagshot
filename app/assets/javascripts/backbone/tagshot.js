@@ -35,6 +35,10 @@ window.Tagshot = {
 		pixelsFromBottonToTriggerLoad: 200
 	},
 
+	initialized: {
+		gallery: false
+	},
+
 	// Setup the app
 	init: function() {
 		Tagshot.router = new Tagshot.Router();
@@ -54,7 +58,7 @@ window.Tagshot = {
 
 		//navigation with title
 		$('#title').click(function(){
-			Tagshot.router.navigate('reset', { trigger: true });
+			Tagshot.router.navigate('', { trigger: true });
 			return false;
 		});
 
