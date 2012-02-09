@@ -34,13 +34,27 @@ Tagshot.ui = (function () {
 		jumpFromTagBoxToGalleryWithTab();
 	};
 
+	var insertRenderButton = function(here) {
+		$(here).html(
+			"<ul>"+
+			"<span id='fix-gallery' class='ui-helper-clearfix'></span>"+
+			"</ul>"+
+			"<button id='more'>load more...</button>"
+		);
+	}
+
+
+	/*********************
+	 * API Functions
+	 * *******************/
 	return {
 		init: init,
 		jumpFromTagBoxToGalleryWithTab: jumpFromTagBoxToGalleryWithTab,
 		initializeSlider: initializeSlider,
 		toggleOptionsContainerOnClick: toggleOptionsContainerOnClick,
 		searchBox: $("#search-box"),
-		tagBox: $("#tag-box")
+		tagBox: $("#tag-box"),
+		insertRenderButton: insertRenderButton
 	};
 })();
 
