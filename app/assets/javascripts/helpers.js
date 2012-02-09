@@ -46,9 +46,12 @@ Tagshot.helpers = (function() {
 			var sheet;
 			for (i = 0; i<document.styleSheets.length; i++) {
 				sheet = document.styleSheets[i]
-				cssRule = _.find(sheet.cssRules, function(a){return a.selectorText == "#backbone-gallery-view .image-frame"});
-				if (cssRule != undefined)
-					break;
+                try {
+				    cssRule = _.find(sheet.cssRules, function(a){return a.selectorText == "#backbone-gallery-view .image-frame"});
+				    if (cssRule != undefined)
+				    	break;
+                } catch (e) {
+                }
 			}
 			Tagshot.helpers.cachedResizeCssRule = cssRule;
 		}
