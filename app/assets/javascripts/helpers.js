@@ -10,9 +10,7 @@ Tagshot.helpers = (function() {
 		var value  = $("#thumbnail-size-slider").slider("value");
 
 		// invoke infinite scrolling in case of resizing
-		//if (value % 10 == 0) {
-			Tagshot.views.gallery.infiniteScrolling();
-		//}
+		Tagshot.views.gallery.infiniteScrolling();
 	
 		cssRule = Tagshot.helpers.resizeCssRule();
 
@@ -61,11 +59,11 @@ Tagshot.helpers = (function() {
 	var addGlobalAjaxIndicator = function () {
 		var indicator = $('#loading-image');
 
-		$("body").ajaxSend(function() {
-			indicator.stop(true,true).fadeIn(50);
+		$("body").ajaxSend(function () {
+			indicator.stop(true, true).fadeIn(50);
 		});
 
-		$("body").ajaxStop(function() {
+		$("body").ajaxStop(function () {
 			indicator.delay(500).fadeOut(100);
 		});
 	};

@@ -26,18 +26,18 @@
 //= require tagshot.ui.userMessages
 
 $(function() {
-	// initialize Tagshot-stuff (Backbone)
+	// initialize Tagshot (Backbone)
 	Tagshot.init();
 
 	Tagshot.helpers.addGlobalAjaxIndicator();
 
-	$("#show-options").click(function() {
+	$("#show-options").click(function () {
 		$("#options-container").slideToggle(300);
 		$(this).toggleClass("open");
 	});
 
 	// jump from search to gallery with tab
-	$("#tag-box").bind('keydown', 'tab', function(e){
+	$("#tag-box").bind('keydown', 'tab', function (e){
 		e.stopPropagation();
 		$('backbone-gallery-view image-view image-frame:first img').click();
 		return true;
@@ -89,12 +89,12 @@ $(function() {
 				if (Tagshot.localVersionDirty === false)
 					return;
 
-				// keep selection since we will not have it after the timeout, 
-				// timeout because of race conditions with put and fetch of different models => this is why we use setTimeout
+				// Save selection since we will not have it after the timeout.
+				// Use timeout because of race conditions with put and fetch of different models.
 				var selection = Tagshot.collections.photoList.selection();
 
-				// we only want to show "Tags saved", when all photos in selection have been saved
-				// so we need to save, how many photos have been saved so far
+				// We only want to show "Tags saved", when all photos in selection have been saved.
+				// So we need to save, how many photos have been saved so far.
 				var savedPhotos = 0;
 				setTimeout(function () {
 					_.each(selection,function (model, index) {
