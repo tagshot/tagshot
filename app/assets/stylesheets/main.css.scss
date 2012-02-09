@@ -496,14 +496,27 @@ footer{
 	bottom: 0px;
 }
 
-div#trash-container {
-	width: 45px;
+div#commands-container {
+	width: 80px;
 	height: 33px;
 	float: right;
 	margin-top: 8px;
 	margin-right: 8px;
-	background: transparent image-url("trash-empty.png") no-repeat center center;
 	background-size: 2em;
+	
+	.command {
+		width: 32px;
+		height: 32px;
+		display: inline-block;
+	}
+	.rotate-right {
+		background: transparent image-url("rotate_right.png");
+		background-size: contain;
+	}
+	.rotate-left {
+		background: transparent image-url("rotate_left.png");
+		background-size: contain;
+	}
 }
 
 /***********************************/

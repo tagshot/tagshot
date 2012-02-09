@@ -38,7 +38,7 @@ window.Tagshot = {
 	initialized: {
 		gallery: false
 	},
-	// Basic Setup
+	// basic Setup
 	init: function() {
 		Tagshot.router = new Tagshot.Router();
 		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
