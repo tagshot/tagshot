@@ -7,11 +7,12 @@ Array.prototype.equals = function (arr) {
 
 Tagshot.helpers = (function() {
 	var resizeImages = function () {
-		var value  = $("#thumbnail-size-slider").slider("value");
+		var value = $("#thumbnail-size-slider").slider("value");
 
 		// invoke infinite scrolling in case of resizing
-		Tagshot.views.gallery.infiniteScrolling();
-	
+		if (value%10 === 0) {
+			Tagshot.views.gallery.infiniteScrolling();
+		}
 		cssRule = Tagshot.helpers.resizeCssRule();
 
 		// use faster class rule if possible 
@@ -46,12 +47,12 @@ Tagshot.helpers = (function() {
 			var sheet;
 			for (i = 0; i<document.styleSheets.length; i++) {
 				sheet = document.styleSheets[i]
-                try {
-				    cssRule = _.find(sheet.cssRules, function(a){return a.selectorText == "#backbone-gallery-view .image-frame"});
-				    if (cssRule != undefined)
-				    	break;
-                } catch (e) {
-                }
+				try {
+					cssRule = _.find(sheet.cssRules, function(a){return a.selectorText == "#backbone-gallery-view .image-frame"});
+					if (cssRule != undefined)
+						break;
+				} catch (e) {
+				}
 			}
 			Tagshot.helpers.cachedResizeCssRule = cssRule;
 		}

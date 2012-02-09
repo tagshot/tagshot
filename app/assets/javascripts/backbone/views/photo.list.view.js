@@ -83,17 +83,9 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 			console.log("no rerender");
 			return this;
 		}
-
 		console.log("render gallery");
-		
-		$(this.el).html(
-			"<ul>"+
-			"<span id='fix-gallery' class='ui-helper-clearfix'></span>"+
-			"</ul>"+
-			"<button id='more'>load more...</button>"
-		);
+		Tagshot.ui.insertRenderButton(this.el);
 		this.collection.each(this.append);
-
 		return this;
 	},
 
