@@ -122,7 +122,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		view.bind('quickview', this.quickview);
 		this.subviews[view.model.id] = view;
 		// insert images before the clearfix
-		$(this.el).find("#fix-gallery").before(view.render().el);
+		this.insertPhoto(view);
 	},
 
 	quickview: function (photoView, replace) {
@@ -246,5 +246,9 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		console.log("gallery hash change: " + this.collection.hash + " -> " + currentModelHash);
 		this.collection.hash = currentModelHash;
 		return false;
+	},
+
+	insertPhoto: function(view) {
+		$('ul',this.el).append(view.render().el);
 	}
 });
