@@ -205,12 +205,14 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 
 	loadMoreImages: function(e) {
-		var add = Tagshot.configuration.numberOfImagesToFetchAtAppend;
-		this.collection.appendingFetch(add);
+		var self = this;
 
-		if (this.collection.reachedEnd) {
-			$('#more').attr('disabled','disabled');
-		}
+		var add = Tagshot.configuration.numberOfImagesToFetchAtAppend;
+		this.collection.appendingFetch(add, function () {
+			if (self.collection.reachedEnd) {
+				$('#more').attr('disabled','disabled');
+			}
+		});
 
 		if(e) {
 			this.stop(e);
