@@ -26,7 +26,7 @@
 //= require jquery.jstree
 //= require tagshot.ui.userMessages
 
-$(function() {
+$(function () {
 	// initialize Tagshot (Backbone)
 	Tagshot.init();
 
@@ -34,36 +34,29 @@ $(function() {
 
 	Tagshot.helpers.addGlobalAjaxIndicator();
 
-
-
 	$.ajax("/tags", {
 		success: function (data) {
-
 			Tagshot.tagList = data;
 			/* apply autocompletion to <input> */
 			Tagshot.ui.searchBox.tagAutocomplete({
 				autocompleteList: Tagshot.tagList,
-				onTagAdded: Tagshot.search,
-				onTagRemoved: Tagshot.search,
-				postProcessors: [
-					{
-						matches: Tagshot.converter.isRatingInput,		// EDIT here
-						transform: Tagshot.converter.inputToStars
-					}
-				]
+				onTagAdded:       Tagshot.search,
+				onTagRemoved:     Tagshot.search,
+				postProcessors:   [Tagshot.converter.inputToStars]
 			/* and make it auto-focus on page-load */
 			})
 			.textboxFocusOnStart({
-				text: 'Just start searching…',
-				cssClassWhenEmpty: 'search-start',
-				doFocus: true
+				text:               'Just start searching…',
+				cssClassWhenEmpty:  'search-start',
+				doFocus:            true
 			});
 
 			Tagshot.ui.tagBox.tagAutocomplete({
-				autocompleteList: Tagshot.tagList,
-				autocompleteListPosition: 'above',
-				onTagAdded: Tagshot.addTag,
-				onTagRemoved: Tagshot.removeTag
+				autocompleteList:          Tagshot.tagList,
+				autocompleteListPosition:  'above',
+				onTagAdded:                Tagshot.addTag,
+				onTagRemoved:              Tagshot.removeTag,
+				onKeyEvent:                function () { console.log('test'); }
 			}).blur(function () {
 				if (Tagshot.localVersionDirty === false)
 					return;
@@ -77,7 +70,7 @@ $(function() {
 				var savedPhotos = 0;
 				setTimeout(function () {
 					_.each(selection,function (model, index) {
-						model.save(undefined,{
+						model.save(undefined, {
 							success: function() {
 								savedPhotos += 1;
 								// check if all photos have been saved
