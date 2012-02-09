@@ -1,7 +1,10 @@
+/* This module initializes basic callbacks/event handlers.
+ * In addition it deals with UI code like creating buttons etc.
+ */
+
+
 Tagshot.ui = (function () {
-	/*
-	 * Initialize basic callbacks/event handlers
-	 */
+
 	var toggleOptionsContainerOnClick = function () {
 		$("#show-options").click(function () {
 			$("#options-container").slideToggle(300);
@@ -53,7 +56,7 @@ Tagshot.ui = (function () {
 	};
 
 	var insertPhoto = function(view, here) {
-		$('ul', here).append(view.render().el);
+		$('ul', here.el).append(view.render().el);
 	};
 
 
@@ -65,12 +68,7 @@ Tagshot.ui = (function () {
 		jumpFromTagBoxToGalleryWithTab:  jumpFromTagBoxToGalleryWithTab,
 		initializeSlider:                initializeSlider,
 		toggleOptionsContainerOnClick:   toggleOptionsContainerOnClick,
-		insertRenderButton:              insertRenderButton,
-		searchBox:                       $("#search-box"),
-		tagBox:                          $("#tag-box"),
+		insertLoadMoreButton:            insertLoadMoreButton,
 		insertPhoto:                     insertPhoto
 	};
 })();
-
-
-

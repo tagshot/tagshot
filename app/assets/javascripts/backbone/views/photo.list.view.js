@@ -50,14 +50,12 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		return this.subviews.filter(function (el) {
 			return el.model.selected;
 		});
-
 	},
 
 	rescroll: function () {
-		// scrolls selected image into view
-		var selectedViews = this.getSelectedViews();
-		var photoView = selectedViews[0];
-		var top = $(photoView.el).find(".image").offset().top;
+		// prevents scrolling in out of visible area (browser window)
+		var firstView = Tagshot.ui.selectors.imageForPhotoView(this.getSelectedViews()[0]);
+		var top = firstView.offset().top;
 		window.scrollTo(0, top - 50);
 	},
 	
@@ -115,7 +113,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		var view = new Tagshot.Views.PhotoView( { model: photo } );
 		this.subviews[view.model.id] = view;
-		Tagshot.ui.insertPhoto(view, this.el);
+		Tagshot.ui.insertPhoto(view, this);
 		this.bindEvents(view);
 	},
 
@@ -168,7 +166,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 			return prev + "<li class='tag'>" + tag + '<a></a></li>';
 		}, "");
 		$("footer .textbox").prepend(list);
-		Tagshot.ui.tagBox.tagAutocomplete('updateTags');
+		Tagshot.ui.selectors.tagBox.tagAutocomplete('updateTags');
 	},
 
 	stop: function(e) {  

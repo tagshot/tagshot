@@ -25,6 +25,8 @@
 //= require jquery.fancybox-1.3.4
 //= require jquery.jstree
 //= require tagshot.ui.userMessages
+//= require tagshot.ui.selectors
+
 
 $(function () {
 	// initialize Tagshot (Backbone)
@@ -38,7 +40,7 @@ $(function () {
 		success: function (data) {
 			Tagshot.tagList = data;
 			/* apply autocompletion to <input> */
-			Tagshot.ui.searchBox.tagAutocomplete({
+			Tagshot.ui.selectors.searchBox.tagAutocomplete({
 				autocompleteList: Tagshot.tagList,
 				onTagAdded:       Tagshot.search,
 				onTagRemoved:     Tagshot.search,
@@ -51,7 +53,7 @@ $(function () {
 				doFocus:            true
 			});
 
-			Tagshot.ui.tagBox.tagAutocomplete({
+			Tagshot.ui.selectors.tagBox.tagAutocomplete({
 				autocompleteList:          Tagshot.tagList,
 				autocompleteListPosition:  'above',
 				onTagAdded:                Tagshot.addTag,
