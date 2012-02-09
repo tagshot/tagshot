@@ -25,14 +25,10 @@ Tagshot.Router = Backbone.Router.extend({
 	home: function(path) {
 		console.log(path.split("/"),"home");
 
-		if(Tagshot.collections.photoList.length === 0) {
-			// started
-			this.fetchModels(Tagshot.configuration.numberOfImagesToFetchAtStart);
-		}
-		else if (Tagshot.collections.photoList.length == 1) {
-			// we come from the detail view
+		if (!Tagshot.initialized.gallery) {
 			this.reset();
 		}
+		Tagshot.initialized.gallery = true;
 
 		this.buildGalleryView();
 	},
@@ -49,7 +45,7 @@ Tagshot.Router = Backbone.Router.extend({
 				'trigger': false
 			});
 		});
-		this.buildGalleryView();
+		//this.buildGalleryView();
 	},
 
 	details: function(id){
@@ -156,8 +152,6 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	fetchModels: function(number, callback) {
-		// if start or resetted
-		console.log('fetch');
 		Tagshot.collections.photoList.fetch({
 			data: { limit: number },
 			add: true,
@@ -167,20 +161,18 @@ Tagshot.Router = Backbone.Router.extend({
 
 	fillTagbarWithSearchedTags: function(query) {
 		if ($("#search-container .textbox li.tag").length === 0) {
-		var tags = Tagshot.converter.queryToInput(query);
-		var currentTags = [];
-		$("#search-container .textbox li.tag").remove();
-		$("#search-container .textbox li.tag").each(function() {
-			currentTags.push($(this).text());
-		});
+			var tags = Tagshot.converter.queryToInput(query);
+			var currentTags = [];
+			$("#search-container .textbox li.tag").remove();
+			$("#search-container .textbox li.tag").each(function() {
+				currentTags.push($(this).text());
+			});
 
-		for (var i = 0; i < tags.length; i++) {
-			if (currentTags.indexOf(tags[i]) === -1 && tags[i] !== '') {
-				$("#search-container .textbox li:last").before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
+			for (var i = 0; i < tags.length; i++) {
+				if (currentTags.indexOf(tags[i]) === -1 && tags[i] !== '') {
+					$("#search-container .textbox li:last").before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
+				}
 			}
 		}
 	}
-}
-
-
 });

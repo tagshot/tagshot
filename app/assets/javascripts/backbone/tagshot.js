@@ -29,10 +29,14 @@ window.Tagshot = {
 
 	//configuration
 	configuration: {
-		numberOfImagesToFetchAtStart: 30,
-		numberOfImagesToFetchAtAppend: 50,
+		numberOfImagesToFetchAtStart: 50,
+		numberOfImagesToFetchAtAppend: 60,
 		maxNumberOfImagesBeforeNoAutomaticFetch: Number.MAX_VALUE,
-		pixelsFromBottonToTriggerLoad: 200
+		pixelsFromBottonToTriggerLoad: 400
+	},
+
+	initialized: {
+		gallery: false
 	},
 
 	// Setup the app
@@ -54,7 +58,7 @@ window.Tagshot = {
 
 		//navigation with title
 		$('#title').click(function(){
-			Tagshot.router.navigate('reset', { trigger: true });
+			Tagshot.router.navigate('', { trigger: true });
 			return false;
 		});
 

@@ -22,7 +22,7 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		this.bind('shiftSelectPrevious', this.shiftSelectPrevious);
 		this.bind('changeSelection', this.changeSelection);
 		this.bind('reset', function() {
-			self.currentSearchQuery = 0;
+			self.currentSearchQuery = "";
 			self.reachedEnd = false;
 		}, this);
 	},
@@ -112,7 +112,7 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		});
 	},
 
-	appendingFetch: function(add) {
+	appendingFetch: function(add, callback) {
 		// this function fetches models for infinite scrolling (load more button)
 		// add: how many images to add
 
@@ -122,6 +122,7 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 			var options = {
 				success: this.releaseFetchMutex,
 				error: this.releaseFetchMutex,
+				complete: callback,
 				add: true,	//append models
 				data: {
 					offset: this.length,
