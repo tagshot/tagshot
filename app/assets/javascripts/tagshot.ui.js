@@ -42,7 +42,8 @@ Tagshot.ui = (function () {
 
 	var initializeSearchBoxAutocompletion = function () {
 		/* apply autocompletion to <input> */
-		Tagshot.ui.searchBox.tagAutocomplete({
+
+		Tagshot.ui.selectors.searchBox.tagAutocomplete({
 			autocompleteList: Tagshot.tagList,
 			onTagAdded:       Tagshot.search,
 			onTagRemoved:     Tagshot.search,
@@ -51,7 +52,7 @@ Tagshot.ui = (function () {
 	};
 
 	var setSearchBoxFocusOnPageLoad = function () {
-		Tagshot.ui.searchBox.textboxFocusOnStart({
+		Tagshot.ui.selectors.searchBox.textboxFocusOnStart({
 			text:               'Just start searching…',
 			cssClassWhenEmpty:  'search-start',
 			doFocus:            true
@@ -86,14 +87,13 @@ Tagshot.ui = (function () {
 	 * *******************/
 	return {
 		init:                              init,
-		jumpFromTagBoxToGalleryWithTab:    jumpFromTagBoxToGalleryWithTab,
-		initializeSlider:                  initializeSlider,
-		toggleOptionsContainerOnClick:     toggleOptionsContainerOnClick,
-		insertLoadMoreButton:              insertLoadMoreButton,
 		initializeSearchBoxAutocompletion: initializeSearchBoxAutocompletion,
+		initializeSlider:                  initializeSlider,
+		insertLoadMoreButton:              insertLoadMoreButton,
+		insertPhoto:                       insertPhoto,
+		jumpFromTagBoxToGalleryWithTab:    jumpFromTagBoxToGalleryWithTab,
 		setSearchBoxFocusOnPageLoad:       setSearchBoxFocusOnPageLoad,
-		searchBox:                         $("#search-box"),
-		tagBox:                            $("#tag-box")
+		toggleOptionsContainerOnClick:     toggleOptionsContainerOnClick,
 	};
 })();
 
