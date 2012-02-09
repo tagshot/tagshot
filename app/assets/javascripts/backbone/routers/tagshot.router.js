@@ -12,18 +12,16 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	routes: {
-		"reset":               "reset",
-		"details/:id":         "details",
-		"*path/details/:id":   "subdetails",
-		"search/:query":       "search",
-		"*path/search/:query": "subsearch",
-		"p/:page":             "page",
-		"search/:query/:page": "searchpage",
-		"*path":               "home"
+		"reset":                "reset",
+		"details/:id":          "details",
+		"search/:query":        "search",
+		"p/:page":              "page",
+		"search/:query/:page":  "searchpage",
+		"*foo":					"home"
 	},
 
-	home: function(path) {
-		console.log(path.split("/"), "home");
+	home: function(foo) {
+		console.log("home", foo);
 
 		if (!Tagshot.initialized.gallery) {
 			this.reset();
@@ -49,11 +47,7 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	details: function (id) {
-		this.subdetails(Tagshot.HOME_PATH, id);
-	},
-
-	subdetails: function (path, id) {
-		console.log(path.split("/"), "details of", id);
+		console.log("details of", id);
 
 		var model = Tagshot.collections.photoList.get({"id":id});
 
@@ -66,11 +60,7 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	search: function (query) {
-		this.subsearch(Tagshot.HOME_PATH, query);
-	},
-
-	subsearch: function (path, query) {
-		console.log(path.split("/"),"search for: "+query);
+		console.log("search for: "+query);
 
 		if (_.contains(["snow", "christmas", "schnee", "weihnachten", "winter", "cold", "kalt"], query)) {
 			console.log("let it snow");
