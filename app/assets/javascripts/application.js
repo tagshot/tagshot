@@ -19,6 +19,7 @@
 //= require backbone/tagshot
 //= require tags
 //= require helpers
+//= require tagshot.ui
 //= require converter
 //= require search
 //= require jquery.fancybox-1.3.4
@@ -29,30 +30,10 @@ $(function() {
 	// initialize Tagshot (Backbone)
 	Tagshot.init();
 
+	Tagshot.ui.init();
+
 	Tagshot.helpers.addGlobalAjaxIndicator();
 
-	$("#show-options").click(function () {
-		$("#options-container").slideToggle(300);
-		$(this).toggleClass("open");
-	});
-
-	// jump from search to gallery with tab
-	$("#tag-box").bind('keydown', 'tab', function (e){
-		e.stopPropagation();
-		$('backbone-gallery-view image-view image-frame:first img').click();
-		return true;
-	});
-
-
-	$("#thumbnail-size-slider").slider({
-		orientation: "horizontal",
-		range: "min", 
-		min: 50,
-		max: 500,
-		value: 200,
-		slide: Tagshot.helpers.resizeImages,
-		change: Tagshot.helpers.resizeImages
-	});
 
 
 	$.ajax("/tags", {
