@@ -24,24 +24,21 @@ Tagshot.Models.Photo = Backbone.Model.extend({
 			rating: this.rating
 		})
 	},
-
 	selected: false,
 	defaults: {
 		id: 0
 	},
 
 	select: function() {
-		if (!this.selected) {
-			this.selected = true;
-			this.trigger("select", this);
-		}
+		if (this.selected) return;
+		this.selected = true;
+		this.trigger("select", this);
 	},
 
 	deselect: function() {
-		if (this.selected) {
-			this.selected = false;
-			this.trigger("deselect");
-		}
+		if (!this.selected) return;
+		this.selected = false;
+		this.trigger("deselect");
 	},
 
 	toggleSelect: function() {

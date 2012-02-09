@@ -16,6 +16,7 @@
  */
 
 window.Tagshot = {
+	HOME_PATH: "",
 	// "Classes"
 	Models: {},
 	Collections: {},
