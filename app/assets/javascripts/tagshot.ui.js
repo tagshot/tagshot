@@ -59,15 +59,6 @@ Tagshot.ui = (function () {
 		});
 	};
 
-	var init = function () {
-		toggleOptionsContainerOnClick();
-		initializeSlider();
-		jumpFromTagBoxToGalleryWithTab();
-		navigateHomeOnTagshotLogoClick();
-		$(Tagshot.MAIN_VIEW).append(Tagshot.views.gallery.el);
-		$(Tagshot.MAIN_VIEW).append(Tagshot.views.detail.el);
-	};
-
 	var insertLoadMoreButton = function(here) {
 		$(here).html(
 			"<ul>" +
@@ -81,6 +72,15 @@ Tagshot.ui = (function () {
 		$('ul', here.el).append(view.render().el);
 	};
 
+
+	var init = function () {
+		toggleOptionsContainerOnClick();
+		initializeSlider();
+		jumpFromTagBoxToGalleryWithTab();
+		navigateHomeOnTagshotLogoClick();
+		Tagshot.ui.selectors.mainView.append(Tagshot.views.gallery.el);
+		$(Tagshot.MAIN_VIEW).append(Tagshot.views.detail.el);
+	};
 
 	/*********************
 	 * API Functions
@@ -96,6 +96,3 @@ Tagshot.ui = (function () {
 		toggleOptionsContainerOnClick:     toggleOptionsContainerOnClick,
 	};
 })();
-
-
-

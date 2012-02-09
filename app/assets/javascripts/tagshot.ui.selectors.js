@@ -5,7 +5,7 @@
 
 Tagshot.ui.selectors = (function () {
 
-	var imageForPhotoView = function(view) {
+	var imageForPhotoView = function (view) {
 		return $(view.el).find(".image");
 	};
 
@@ -13,6 +13,7 @@ Tagshot.ui.selectors = (function () {
 	return {
 		searchBox: $("#search-box"),
 		tagBox:    $("#tag-box"),
+		mainView:  $("#backbone-main-view"),
 		imageForPhotoView: imageForPhotoView
 	};
 })();

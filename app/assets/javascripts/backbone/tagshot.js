@@ -18,7 +18,6 @@
 window.Tagshot = {
 	// app constants
 	HOME_PATH:     '',
-	MAIN_VIEW:     '#backbone-main-view',
 	// backbone models 
 	Models:        {},
 	Collections:   {},
