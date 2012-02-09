@@ -41,8 +41,7 @@ $(function() {
 
 			Tagshot.tagList = data;
 			/* apply autocompletion to <input> */
-			Tagshot.searchBox = $("#search-box");
-			Tagshot.searchBox.tagAutocomplete({
+			Tagshot.ui.searchBox.tagAutocomplete({
 				autocompleteList: Tagshot.tagList,
 				onTagAdded: Tagshot.search,
 				onTagRemoved: Tagshot.search,
@@ -60,8 +59,7 @@ $(function() {
 				doFocus: true
 			});
 
-			Tagshot.tagBox = $("#tag-box");
-			Tagshot.tagBox.tagAutocomplete({
+			Tagshot.ui.tagBox.tagAutocomplete({
 				autocompleteList: Tagshot.tagList,
 				autocompleteListPosition: 'above',
 				onTagAdded: Tagshot.addTag,
