@@ -336,9 +336,9 @@ div#thumbnail-size-slider {
 /***********************************/
 
 /***********************************/
-/* backbone-gallery-view */
+/* photo-list-view */
 /***********************************/
-#backbone-gallery-view {
+#photo-list-view {
 	background-color: #676767;
 	text-align: center;
 	padding-bottom: 70px;
@@ -436,7 +436,7 @@ div#thumbnail-size-slider {
 	#more:disabled { display: none };
 }
 
-#backbone-gallery-view.active {
+#photo-list-view.active {
 	.image-frame {
 		& img:hover { 
 			border: 4px solid #bbb;
