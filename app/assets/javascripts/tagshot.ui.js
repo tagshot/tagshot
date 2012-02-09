@@ -34,6 +34,24 @@ Tagshot.ui = (function () {
 		});
 	};
 
+	var initializeSearchBoxAutocompletion = function () {
+		/* apply autocompletion to <input> */
+		Tagshot.ui.searchBox.tagAutocomplete({
+			autocompleteList: Tagshot.tagList,
+			onTagAdded:       Tagshot.search,
+			onTagRemoved:     Tagshot.search,
+			postProcessors:   [Tagshot.converter.inputToStars]
+		});
+	};
+
+	var setSearchBoxFocusOnPageLoad = function () {
+		Tagshot.ui.searchBox.textboxFocusOnStart({
+			text:               'Just start searching…',
+			cssClassWhenEmpty:  'search-start',
+			doFocus:            true
+		});
+	};
+
 	var init = function () {
 		toggleOptionsContainerOnClick();
 		initializeSlider();
@@ -57,13 +75,15 @@ Tagshot.ui = (function () {
 	 * API Functions
 	 * *******************/
 	return {
-		init:                            init,
-		jumpFromTagBoxToGalleryWithTab:  jumpFromTagBoxToGalleryWithTab,
-		initializeSlider:                initializeSlider,
-		toggleOptionsContainerOnClick:   toggleOptionsContainerOnClick,
-		insertRenderButton:              insertRenderButton,
-		searchBox:                       $("#search-box"),
-		tagBox:                          $("#tag-box")
+		init:                              init,
+		jumpFromTagBoxToGalleryWithTab:    jumpFromTagBoxToGalleryWithTab,
+		initializeSlider:                  initializeSlider,
+		toggleOptionsContainerOnClick:     toggleOptionsContainerOnClick,
+		insertRenderButton:                insertRenderButton,
+		initializeSearchBoxAutocompletion: initializeSearchBoxAutocompletion,
+		setSearchBoxFocusOnPageLoad:       setSearchBoxFocusOnPageLoad,
+		searchBox:                         $("#search-box"),
+		tagBox:                            $("#tag-box")
 	};
 })();
 
