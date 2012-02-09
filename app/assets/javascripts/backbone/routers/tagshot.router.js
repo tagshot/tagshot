@@ -28,7 +28,7 @@ Tagshot.Router = Backbone.Router.extend({
 		}
 		Tagshot.initialized.gallery = true;
 
-		this.buildGalleryView();
+		this.showGalleryView();
 	},
 
 	// shows the gallery view but does a reset first
@@ -43,7 +43,7 @@ Tagshot.Router = Backbone.Router.extend({
 				'trigger': false
 			});
 		});
-		//this.buildGalleryView();
+		//this.showGalleryView();
 	},
 
 	details: function (id) {
@@ -53,10 +53,11 @@ Tagshot.Router = Backbone.Router.extend({
 
 		if (model === undefined) {
 			console.log("model not loaded yet");
-			return this.fetchUnloadedModel(path,id);
+			return this.fetchUnloadedModel(id);
 		}
 
-		this.buildDetailsPage(model);
+		Tagshot.views.detail.render(model);
+		this.showDetailsPage(model);
 	},
 
 	search: function (query) {
@@ -67,7 +68,7 @@ Tagshot.Router = Backbone.Router.extend({
 			snowStorm.start();
 		}
 
-		this.buildGalleryView();
+		this.showGalleryView();
 		this.fillTagbarWithSearchedTags(query);
 
 		var photolist = Tagshot.collections.photoList;
@@ -104,19 +105,18 @@ Tagshot.Router = Backbone.Router.extend({
 	 * Helpers
 	 *******************/
 
-	fetchUnloadedModel: function(path,id) {
+	fetchUnloadedModel: function(id) {
 		var self = this;
 			Tagshot.collections.photoList.fetch({
 				url:"/photos/"+id,
 				add: true,
 				success: function() {
-					self.subdetails(path, id);
+					self.details(id);
 				}
 			});
 	},
 
-	buildDetailsPage: function(model) {
-		Tagshot.views.detail.render(model);
+	showDetailsPage: function(model) {
 		$("#backbone-detail-view").show();
 		$("#backbone-gallery-view").hide();
 
@@ -126,12 +126,10 @@ Tagshot.Router = Backbone.Router.extend({
 
 		Tagshot.views.detail.delegateEvents();
 
-		// fix for webkit that can't change 
-		// display of elements that are not in the dom
 		$('footer:first').show();
 	},
 
-	buildGalleryView: function() {
+	showGalleryView: function() {
 		$("#backbone-detail-view").hide();
 		$("#backbone-gallery-view").show();
 		$('#search-container').show();

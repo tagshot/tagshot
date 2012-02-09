@@ -27,6 +27,10 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 		}
 
 		if (this.model) {
+
+			// set model as selected so that we can tag it and so on
+			this.model.select(false);
+
 			var tags = {tags: this.model.get('tags')};
 
 			this.fillTemplate(this.templateSelector);
