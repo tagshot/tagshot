@@ -38,7 +38,9 @@ Tagshot.ui = (function () {
 		init: init,
 		jumpFromTagBoxToGalleryWithTab: jumpFromTagBoxToGalleryWithTab,
 		initializeSlider: initializeSlider,
-		toggleOptionsContainerOnClick: toggleOptionsContainerOnClick
+		toggleOptionsContainerOnClick: toggleOptionsContainerOnClick,
+		searchBox: $("#search-box"),
+		tagBox: $("#tag-box")
 	};
 })();
 
