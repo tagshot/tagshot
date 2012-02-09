@@ -1,3 +1,9 @@
+/*
+ * This module initializes basic callbacks/event handlers.
+ * In addition it deals with UI code like creating buttons etc.
+ */
+
+
 Tagshot.ui = (function () {
 	/*
 	 * Initialize basic callbacks/event handlers
@@ -61,14 +67,18 @@ Tagshot.ui = (function () {
 		$(Tagshot.MAIN_VIEW).append(Tagshot.views.detail.el);
 	};
 
-	var insertRenderButton = function(here) {
+	var insertLoadMoreButton = function(here) {
 		$(here).html(
 			"<ul>" +
 			"</ul>" +
 			"<span id='fix-gallery' class='ui-helper-clearfix'></span>" +
 			"<button id='more'>load more...</button>"
 		);
-	}
+	};
+
+	var insertPhoto = function(view, here) {
+		$('ul', here.el).append(view.render().el);
+	};
 
 
 	/*********************
@@ -79,7 +89,7 @@ Tagshot.ui = (function () {
 		jumpFromTagBoxToGalleryWithTab:    jumpFromTagBoxToGalleryWithTab,
 		initializeSlider:                  initializeSlider,
 		toggleOptionsContainerOnClick:     toggleOptionsContainerOnClick,
-		insertRenderButton:                insertRenderButton,
+		insertLoadMoreButton:              insertLoadMoreButton,
 		initializeSearchBoxAutocompletion: initializeSearchBoxAutocompletion,
 		setSearchBoxFocusOnPageLoad:       setSearchBoxFocusOnPageLoad,
 		searchBox:                         $("#search-box"),

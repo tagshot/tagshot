@@ -13,6 +13,7 @@ Tagshot::Application.routes.draw do
         }
   resources :tags, :only => [:index]
   resource :session, :only => [:new, :create, :destroy]
+  resources :sources, only: [:index]
   get 'session/destroy' => 'sessions#destroy'
 
   root :to => 'photos#index'

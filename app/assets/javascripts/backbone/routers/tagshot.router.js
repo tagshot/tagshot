@@ -16,25 +16,23 @@ Tagshot.Router = Backbone.Router.extend({
 	 *       Do not change without knowing what to do.
 	 */
 	routes: {
-		"reset":               "reset",
-		"details/:id":         "details",
-		"*path/details/:id":   "subdetails",
-		"search/:query":       "search",
-		"*path/search/:query": "subsearch",
-		"p/:page":             "page",
-		"search/:query/:page": "searchpage",
-		"*path":               "home"
+		"reset":                "reset",
+		"details/:id":          "details",
+		"search/:query":        "search",
+		"p/:page":              "page",
+		"search/:query/:page":  "searchpage",
+		"*foo":					"home"
 	},
 
-	home: function(path) {
-		console.log(path.split("/"), "home");
+	home: function(foo) {
+		console.log("home", foo);
 
 		if (!Tagshot.initialized.gallery) {
 			this.reset();
 		}
 		Tagshot.initialized.gallery = true;
 
-		this.buildGalleryView();
+		this.showGalleryView();
 	},
 
 	// shows the gallery view but does a reset first
@@ -49,39 +47,32 @@ Tagshot.Router = Backbone.Router.extend({
 				'trigger': false
 			});
 		});
-		//this.buildGalleryView();
+		//this.showGalleryView();
 	},
 
 	details: function (id) {
-		this.subdetails(Tagshot.HOME_PATH, id);
-	},
-
-	subdetails: function (path, id) {
-		console.log(path.split("/"), "details of", id);
+		console.log("details of", id);
 
 		var model = Tagshot.collections.photoList.get({"id":id});
 
 		if (model === undefined) {
 			console.log("model not loaded yet");
-			return this.fetchUnloadedModel(path,id);
+			return this.fetchUnloadedModel(id);
 		}
 
-		this.buildDetailsPage(model);
+		Tagshot.views.detail.render(model);
+		this.showDetailsPage(model);
 	},
 
 	search: function (query) {
-		this.subsearch(Tagshot.HOME_PATH, query);
-	},
-
-	subsearch: function (path, query) {
-		console.log(path.split("/"),"search for: "+query);
+		console.log("search for: "+query);
 
 		if (_.contains(["snow", "christmas", "schnee", "weihnachten", "winter", "cold", "kalt"], query)) {
 			console.log("let it snow");
 			snowStorm.start();
 		}
 
-		this.buildGalleryView();
+		this.showGalleryView();
 		this.fillTagbarWithSearchedTags(query);
 
 		var photolist = Tagshot.collections.photoList;
@@ -118,19 +109,18 @@ Tagshot.Router = Backbone.Router.extend({
 	 * Helpers
 	 *******************/
 
-	fetchUnloadedModel: function(path,id) {
+	fetchUnloadedModel: function(id) {
 		var self = this;
 			Tagshot.collections.photoList.fetch({
 				url:"/photos/"+id,
 				add: true,
 				success: function() {
-					self.subdetails(path, id);
+					self.details(id);
 				}
 			});
 	},
 
-	buildDetailsPage: function(model) {
-		Tagshot.views.detail.render(model);
+	showDetailsPage: function(model) {
 		$("#backbone-detail-view").show();
 		$("#backbone-gallery-view").hide();
 
@@ -140,12 +130,10 @@ Tagshot.Router = Backbone.Router.extend({
 
 		Tagshot.views.detail.delegateEvents();
 
-		// fix for webkit that can't change 
-		// display of elements that are not in the dom
 		$('footer:first').show();
 	},
 
-	buildGalleryView: function() {
+	showGalleryView: function() {
 		$("#backbone-detail-view").hide();
 		$("#backbone-gallery-view").show();
 		$('#search-container').show();
