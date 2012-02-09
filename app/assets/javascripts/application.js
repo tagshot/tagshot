@@ -19,20 +19,29 @@
 //= require backbone/tagshot
 //= require tags
 //= require helpers
+//= require tagshot.ui
 //= require converter
 //= require search
 //= require jquery.fancybox-1.3.4
 //= require jquery.jstree
+//= require tagshot.ui.userMessages
 
 $(function() {
+	// initialize Tagshot (Backbone)
+	Tagshot.init();
+
+	Tagshot.ui.init();
+
 	Tagshot.helpers.addGlobalAjaxIndicator();
-	console.log(Tagshot.converter);
+
+
+
 	$.ajax("/tags", {
 		success: function (data) {
+
 			Tagshot.tagList = data;
 			/* apply autocompletion to <input> */
-			Tagshot.searchBox = $("#search-box");
-			Tagshot.searchBox.tagAutocomplete({
+			Tagshot.ui.searchBox.tagAutocomplete({
 				autocompleteList: Tagshot.tagList,
 				onTagAdded: Tagshot.search,
 				onTagRemoved: Tagshot.search,
@@ -50,8 +59,7 @@ $(function() {
 				doFocus: true
 			});
 
-			Tagshot.tagBox = $("#tag-box");
-			Tagshot.tagBox.tagAutocomplete({
+			Tagshot.ui.tagBox.tagAutocomplete({
 				autocompleteList: Tagshot.tagList,
 				autocompleteListPosition: 'above',
 				onTagAdded: Tagshot.addTag,
@@ -60,12 +68,12 @@ $(function() {
 				if (Tagshot.localVersionDirty === false)
 					return;
 
-				// keep selection since we will not have it after the timeout, 
-				// timeout because of race conditions with put and fetch of different models => this is why we use setTimeout
+				// Save selection since we will not have it after the timeout.
+				// Use timeout because of race conditions with put and fetch of different models.
 				var selection = Tagshot.collections.photoList.selection();
 
-				// we only want to show "Tags saved", when all photos in selection have been saved
-				// so we need to save, how many photos have been saved so far
+				// We only want to show "Tags saved", when all photos in selection have been saved.
+				// So we need to save, how many photos have been saved so far.
 				var savedPhotos = 0;
 				setTimeout(function () {
 					_.each(selection,function (model, index) {
@@ -74,7 +82,7 @@ $(function() {
 								savedPhotos += 1;
 								// check if all photos have been saved
 								if (savedPhotos === selection.length) {
-									Tagshot.helpers.message("Tags saved", 400);
+									Tagshot.ui.userMessages.info("Tags saved", 400);
 									Tagshot.localVersionDirty = false;
 								}
 							}
@@ -82,35 +90,6 @@ $(function() {
 					});
 				}, 500);
 			});
-
-
-			$("#show-options").click(function() {
-				$("#options-container").slideToggle(300);
-				$(this).toggleClass("open");
-			});
-
-			// jump from search to gallery with tab
-			$("#tag-box").bind('keydown', 'tab', function(e){
-				console.log(123);
-				e.stopPropagation();
-				$('backbone-gallery-view image-view image-frame:first img').click();
-				return true;
-			});
-
-
-			$("#thumbnail-size-slider").slider({
-				orientation: "horizontal",
-				range: "min", 
-				min: 50,
-				max: 500,
-				value: 200,
-				slide: Tagshot.helpers.resizeImages,
-				change: Tagshot.helpers.resizeImages
-			});
-
-
-			// initialize Tagshot-stuff (Backbone)
-			Tagshot.init();
 		},
 	});
 });

@@ -24,12 +24,21 @@ Tagshot.converter = (function () {
 		 */
 
 		// BEWARE: Number of stars is a digit, not [0-5]
-		var RATINGINPUT = /^(<|<=|=|>|>=)?([0-9])\*$/;
+		var RATING_INPUT = /^(<|<=|=|>|>=)?([0-9])\*$/;
 		var RATING_QUERY_TOKEN = /^stars:(<|<=|=|>|>=)?[0-9]$/
 		var URL_STAR_TOKEN = /^stars:(<|<=|=|>|>=)?([0-9])$/;
 		var OR_TOKEN = /^(OR|ODER|;)$/i;	// case insensitive 'or' in English, German or Prolog/Erlang
+		var OR_URL_TOKEN = ','	// We separate Tag1 OR Tag2 in the URL with Tag1,Tag2
+		var OR_REPLACER = 'OR';		// OR in URL gets transformed in this input string
+
+
+		// The token format [OPERATOR, TAG] is stupid as hell. FIXME!
 
 		return {
+
+/***********************************
+ * API Functions
+ * *********************************/
 
 			inputToQuery: function(textList) {
 				var self = this;
@@ -47,13 +56,14 @@ Tagshot.converter = (function () {
 			queryToInput: function(url) {
 				// This unicodifies a url
 				var self = this;
-				return _.map(self.findTokensInURL(url), function(token) {
-					return self.inputToStars(self.URLtoInput(token));
+				var inp = _.map(self.findTokensInURL(url), function(t) {
+					return self.inputToStars(self.stripStarPrefix(t))
 				});
+				return inp;
 			},
 
 			inputToStars: function (text) {
-				var match = text.match(RATINGINPUT);
+				var match = text.match(RATING_INPUT);
 				if (match === null) {
 					return text;
 				}
@@ -63,23 +73,23 @@ Tagshot.converter = (function () {
 				return starString;	// return of function invocations and this.buildStarString() does not work, WTFJS!
 			},
 
-			findTokensInURL: function(url) {
-				// returns ['', 'stars:<3', ['+', 'Tag1'], [',', 'Tag2']]
-				return this.parseAND(this.parseOR(url));
-			},
+/***********************************
+ * Internal Functions
+ * *********************************/
 
-			URLtoInput: function(text) {
-				// simply strips 'stars:' prefix from search url
-				var token = text; 
-				if ($.isArray(text)) {
-					token = text[1];
-				}
-				var match = token.match(URL_STAR_TOKEN);
-				if (match === null) {
-					return token // it is no star token like stars:<3
-				}
-				var starToken = match[0];
-				return starToken.substr(6)+'*'; // 'stars:'.length === 6
+
+			findTokensInURL: function(url) {
+				// 'a,b+c+d,f' -> ['a', 'b', 'OR', 'c', 'OR', 'd', 'f']
+				var andTokens = url.split('+');
+				var tokens = _.flatten(_.map(andTokens, function(t){
+						var orTokens = t.split(OR_URL_TOKEN);
+						return _.zip(orTokens, _.map(_.range(orTokens.length-1), function(s) {
+							return OR_REPLACER; // -> [a, OR, b, undefined]
+						}));
+				}));
+				return _.reject(tokens, function(t) {
+					return t === undefined;
+				});
 			},
 
 
@@ -87,42 +97,38 @@ Tagshot.converter = (function () {
 /* Helper Functions */
 /*****************************/
 
-			parseOR: function(string) {
-				return _.map(string.split(','), function(t) {
-					return _.map(t.split('+'), function(andToken, i) {
-						if (i == 0) {
-							return ['', andToken]
-						}
-						return ['+', andToken]
-					});
-				})
-			},
-
-			parseAND: function(ORtokens) {
-				var flattened = _.flatten(ORtokens, true); // only single level
-				return _.map(flattened, function(t, i) {
-					if (i === 0 || t[0] !== '') {
-						return t
-					}
-					return [',', t[1]];
-				})
-			},
-
 			isORtoken: function(token) {
-				return token.match(OR_TOKEN) !== null;
+				return OR_TOKEN.test(token);
 			},
 
 			isRatingInput: function (token) {
-				return token.match(RATINGINPUT) !== null;
+				return RATING_INPUT.test(token);
 			},
 
 			isRatingQuery: function(token) {
-				return token.match(RATING_QUERY_TOKEN) !== null;
+				return RATING_QUERY_TOKEN.test(token);
 			},
 
 			buildStarQueryToken: function(token) {
 				// remove trailing '*'
 				return 'stars:' + token.slice(0, -1)
+			},
+			
+			stripStarPrefix: function(token) {
+				// simply strips 'stars:' prefix from search url
+				var match = token.match(URL_STAR_TOKEN);
+				if (match === null) {
+						return token // it is no star token like stars:<3
+				}
+				var starToken = match[0];
+				return starToken.substr(6)+'*'; // 'stars:'.length === 6
+			},
+
+			convertOR: function(token) {
+				if (token === OR_URL_TOKEN) {
+					return OR_REPLACER;
+				}
+				return token;
 			},
 
 			prefixToUnicode: function(prefix) {
