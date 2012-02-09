@@ -17,17 +17,17 @@ Tagshot.helpers = (function() {
 
 		// use faster class rule if possible 
 		if (cssRule !== undefined) {
-			var width = value*1.5;
+			var width = value * 1.5;
 			var height = value;
 
-			cssRule.style.width = width+"px";
-			cssRule.style.height = height+"px";
+			cssRule.style.width = width + "px";
+			cssRule.style.height = height + "px";
 		} else {
 			console.log("resize fallback");
 			$("#backbone-gallery-view div.image-frame").css(
 					'height',value).css(
-						'width',function(){
-							return value*1.5;
+						'width', function (){
+							return value * 1.5;
 						});
 		}
 
