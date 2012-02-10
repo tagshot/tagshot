@@ -53,7 +53,7 @@ $(function () {
 				onTagAdded:                Tagshot.addTag,
 				onTagRemoved:              Tagshot.removeTag,
 				onKeyEvent:                function (keyEvent) {
-					Tagshot.ui.keyboardPhotoSelection.selectAction(keyEvent);
+					return Tagshot.ui.keyboardPhotoSelection.selectAction(keyEvent);
 				}
 			}).blur(function () {
 				if (Tagshot.localVersionDirty === false)

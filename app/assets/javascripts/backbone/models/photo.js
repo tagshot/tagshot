@@ -43,6 +43,6 @@ Tagshot.Models.Photo = Backbone.Model.extend({
 	},
 
 	toggleSelect: function() {
-		this.selected? this.deselect() : this.select();	
+		this.selected ? this.deselect() : this.select();	
 	}
 });

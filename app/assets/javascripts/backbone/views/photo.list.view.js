@@ -5,20 +5,20 @@
 
 
 Tagshot.Views.PhotoListView = Backbone.View.extend({
-	tagName:  "div",
-	className: "gallery",
-	id: "backbone-gallery-view",
+	tagName:    "div",
+	className:  "gallery",
+	id:         "backbone-gallery-view",
 
 	events: {
-		"click" : "deselectAll",
-		"click #more" : "loadMoreImages",
-		"keydown[ctrl+a]" : "selectAll",
-		"keydown[meta+a]" : "selectAll",
-		"keydown[tab]" : "jumpToFooter",
+		"click":            "deselectAll",
+		"click #more":      "loadMoreImages",
+		"keydown[ctrl+a]":  "selectAll",
+		"keydown[meta+a]":  "selectAll",
+		"keydown[tab]":     "jumpToFooter",
 	},
 
 	initialize: function(options) {
-		var self  = this;
+		var that  = this;
 		_.bindAll(this);
 
 		this.collection.bind('select', this.select);
@@ -31,21 +31,19 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 		_.extend(this.el, Backbone.Events);
 
-		$(document).bind('scroll',this.infiniteScrolling);
-		$(document).bind('resize',this.infiniteScrolling);
-		$(document).bind('keydown','ctrl+a',function(evt){
-			self.selectAll(evt);
+		$(document).bind('scroll', this.infiniteScrolling);
+		$(document).bind('resize', this.infiniteScrolling);
+		$(document).bind('keydown', 'ctrl+a',function(evt){
+			that.selectAll(evt);
 		});
-		$(document).bind('keydown','meta+a',function(evt){
-			self.selectAll(evt);
+		$(document).bind('keydown', 'meta+a', function (evt){
+			that.selectAll(evt);
 		});
 
-
-		//subviews
 		this.subviews = [];
 	},
 
-	// helper functions to return all selected
+	// helper functions to return all selected views
 	getSelectedViews: function () {
 		return this.subviews.filter(function (el) {
 			return el.model.selected;
@@ -92,13 +90,13 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 
 	showFooterIfNeccessary: function() {
-		var self = this;
+		var that = this;
 		var footer = $('footer');
 		if (this.collection.selection().length > 0) {
 			footer.stop(true, true).slideDown(400);
 		} else {
 			window.setTimeout(function(){
-				if (self.collection.selection().length == 0) {
+				if (that.collection.selection().length == 0) {
 					footer.stop(true, true).slideUp(200);	
 				} 
 			}, 100);
@@ -170,12 +168,11 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 
 	stop: function (e) {  
-		//avoid event propagation
+		if (!e) return;
 		e.stopPropagation();
 	},
 
-	// scrolling or resizing
-	infiniteScrolling: function (){
+	infiniteScrolling: function () {
 		// do infinite scrolling
 		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
 		var pixels = Tagshot.configuration.pixelsFromBottonToTriggerLoad;
@@ -189,18 +186,15 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 
 	loadMoreImages: function (e) {
-		var self = this;
+		var that = this;
 
 		var add = Tagshot.configuration.numberOfImagesToFetchAtAppend;
 		this.collection.appendingFetch(add, function () {
-			if (self.collection.reachedEnd) {
+			if (that.collection.reachedEnd) {
 				$('#more').attr('disabled','disabled');
 			}
 		});
-
-		if(e) {
-			this.stop(e);
-		}
+		this.stop(e);
 	},
 
 	jumpToFooter: function(e) {
@@ -223,5 +217,18 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	bindEvents: function(view) {
 		view.bind('selectionChanged', this.selectionChanged);
 		view.bind('quickview', this.quickview);
+	},
+	countImagesInARow: function () {
+		var offset, count = 0;
+		$(".image-view .image").each(function (index, el) {
+			if (offset === undefined) {
+				offset = $(el).offset().top;
+			} else {
+				if (offset !== $(el).offset().top)
+					return false;
+			}
+			count += 1;
+		});
+		return count;
 	}
 });

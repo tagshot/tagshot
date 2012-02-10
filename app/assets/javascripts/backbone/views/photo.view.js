@@ -5,7 +5,7 @@
  *
  * It also captures user input and saves it into the model.
  *
- * It's HTML template is located in app/views/moustache/image.html
+ * It's HTML template is located in app/views/mustache/image.html
  */
 
 
@@ -35,6 +35,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		if (Tagshot.collections.photoList.selection().length === 0) {
 			this.model.select();
 		}
+
 	},
 	initialize : function() {
 		_.bindAll(this);
@@ -67,10 +68,11 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		$(this.el).find(".tags").html(s);
 	},
 
-	select: function() {
+	select: function () {
 		$(this.el).children().first().addClass("selected");
 		$(this.el).children('.image-frame').focus();
 		this.trigger("selectionChanged");
+		Tagshot.ui.selectors.tagBox.focus();
 	},
 
 	deselect: function() {
@@ -87,7 +89,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	quickview: function(e) {
-		this.stop(e);
 		this.trigger('quickview', this);
 		return false;
 	},
@@ -148,19 +149,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	shiftSelectPrevious: function (e) {
 		this.stop(e);
 		this.model.trigger('shiftSelectPrevious');
-	},
-	countImagesInARow: function () {
-		var offset, count = 0;
-		$(".image-view .image").each(function (index, el) {
-			if (offset === undefined) {
-				offset = $(el).offset().top;
-			} else {
-				if (offset !== $(el).offset().top)
-					return false;
-			}
-			count += 1;
-		});
-		return count;
 	},
 	needsNoRender: function() {
 		var currentModelHash = this.model.computeHash();

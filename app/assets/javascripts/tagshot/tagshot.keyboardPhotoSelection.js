@@ -14,20 +14,57 @@
 //= require tagshot/tagshot.ui
 
 Tagshot.ui.keyboardPhotoSelection = (function () {
-	var photoList;
+	var photoList,
+	keyCodes = {
+		SPACE: 32,
+		LEFT: 37,
+		UP: 38,
+		RIGHT: 39,
+		DOWN: 40
+	};
 
 	function selectAction (keyEvent) {
-		console.log(keyEvent);
+		// Only invoke action, if current text is empty, so we do not want to navigate in the current text
+		if (event.target.value !== '') return;
+		if (keyEvent.shiftKey) {
+			switch (keyEvent.keyCode) {
+				case keyCodes.LEFT:
+					return shiftSelectPrevious();
+				case keyCodes.RIGHT:
+					return shiftSelectNext();
+			}
+		}
+		else {
+			switch (keyEvent.keyCode) {
+				case keyCodes.UP:
+					return selectAbove(Tagshot.views.gallery.countImagesInARow());
+				case keyCodes.DOWN:
+					return selectBelow(Tagshot.views.gallery.countImagesInARow());
+				case keyCodes.LEFT:
+					return selectPrevious();
+				case keyCodes.RIGHT:
+					return selectNext();
+				case keyCodes.SPACE:
+					return raiseQuickview();
+			}
+		}
 	}
 
 	function init (photoListParam) {
 		photoList = photoListParam;
 	}
 
+	function raiseQuickview() {
+		var view = Tagshot.views.gallery.getSelectedViews()[0];
+		view.trigger('quickview', view);
+		return false;
+	}
+
 	function selectNext () {
 		var last = _.last(photoList.selection());
 		photoList.deselectAll();
 		photoList.at((photoList.indexOf(last) + 1) % photoList.length).select();
+		photoList.trigger('rescroll');
 	}
 	
 	function selectPrevious () {
@@ -37,6 +74,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 		if (index === 0) index = photoList.length;
 		index -= 1;
 		photoList.at(index).select();
+		photoList.trigger('rescroll');
 	}
 	function selectAbove (imagesInRow) {
 		var first = _.first(photoList.selection());
