@@ -1,15 +1,16 @@
-/* 
+/*
+ * Sends rotate requests to the backend.
+ * ================================================================================
+ * Currently no implementation since this is not supported by the backend yet.
  */
 
 Tagshot.ui.rotate = (function () {
 	function rotateLeft() {
-		console.log("rotate left");
-		Tagshot.ui.userMessages.info("not yet implemented",2000);
+		Tagshot.ui.userMessages.info("Not yet implemented.", 2000);
 	}
 
 	function rotateRight() {
-		console.log("rotate right");
-		Tagshot.ui.userMessages.info("not yet implemented",2000);
+		Tagshot.ui.userMessages.info("Not yet implemented.", 2000);
 	}
 
 	/*********************
