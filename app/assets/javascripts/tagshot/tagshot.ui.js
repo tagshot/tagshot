@@ -15,7 +15,7 @@ Tagshot.ui = (function () {
 	};
 	var jumpFromTagBoxToGalleryWithTab = function () {
 		// Jump from search to gallery with tab.
-		$("#tag-box").bind('keydown', 'tab', function (e) {
+		Tagshot.ui.selectors.tagBox.bind('keydown', 'tab', function (e) {
 			e.stopPropagation();
 			$('backbone-gallery-view image-view image-frame:first img').click();
 			return true;
@@ -86,13 +86,13 @@ Tagshot.ui = (function () {
 	 * API Functions
 	 * *******************/
 	return {
-		initBeforeBackbone:				   initBeforeBackbone,
-		initAfterBackbone:				   initAfterBackbone,
-		initializeSearchBoxAutocompletion: initializeSearchBoxAutocompletion,
-		insertLoadMoreButton:			   insertLoadMoreButton,
-		insertPhoto:					   insertPhoto,
-		jumpFromTagBoxToGalleryWithTab:    jumpFromTagBoxToGalleryWithTab,
-		setSearchBoxFocusOnPageLoad:	   setSearchBoxFocusOnPageLoad,
-		toggleOptionsContainerOnClick:	   toggleOptionsContainerOnClick
+		initBeforeBackbone:                 initBeforeBackbone,
+		initAfterBackbone:                  initAfterBackbone,
+		initializeSearchBoxAutocompletion:  initializeSearchBoxAutocompletion,
+		insertLoadMoreButton:               insertLoadMoreButton,
+		insertPhoto:                        insertPhoto,
+		jumpFromTagBoxToGalleryWithTab:     jumpFromTagBoxToGalleryWithTab,
+		setSearchBoxFocusOnPageLoad:        setSearchBoxFocusOnPageLoad,
+		toggleOptionsContainerOnClick:      toggleOptionsContainerOnClick
 	};
 })();

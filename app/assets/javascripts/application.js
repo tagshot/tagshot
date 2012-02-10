@@ -36,7 +36,6 @@
 $(function () {
 	Tagshot.ui.initBeforeBackbone();
 
-
 	Tagshot.init();
 
 	Tagshot.ui.initAfterBackbone();
