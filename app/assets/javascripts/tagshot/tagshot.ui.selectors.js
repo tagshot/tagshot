@@ -1,7 +1,7 @@
 /* This module bundles all jQuery selectors for Tagshot.
  *
  */
-//= require tagshot.ui
+//= require tagshot/tagshot.ui
 
 Tagshot.ui.selectors = (function () {
 

@@ -1,4 +1,4 @@
-//=require tagshot.ui
+//=require tagshot/tagshot.ui
 
 Tagshot.ui.userMessages = (function() {
 

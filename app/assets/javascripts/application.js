@@ -17,17 +17,17 @@
 //= require backbone_datalink
 //= require mustache
 //= require backbone/tagshot
-//= require tags
-//= require helpers
-//= require tagshot.ui
-//= require converter
-//= require search
+//= require tagshot/tagshot.tags
+//= require tagshot/tagshot.helpers
+//= require tagshot/tagshot.ui
+//= require tagshot/tagshot.converter
+//= require tagshot/tagshot.search
 //= require jquery.fancybox-1.3.4
 //= require jquery.jstree
-//= require tagshot.ui.userMessages
-//= require tagshot.ui.selectors
-//= require tagshot.rotate
-////= require tagshot.ui.sourceSelect
+//= require tagshot/tagshot.ui.userMessages
+//= require tagshot/tagshot.ui.selectors
+//= require tagshot/tagshot.rotate
+//= require tagshot/tagshot.ui.sourceSelect
 
 $(function () {
 	// initialize Tagshot (Backbone)
