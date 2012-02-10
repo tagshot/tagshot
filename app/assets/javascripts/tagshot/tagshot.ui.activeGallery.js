@@ -12,7 +12,7 @@ Tagshot.ui.activeGallery = (function () {
 		Tagshot.ui.selectors.tagBox.focusin(setActive);
 
 		// tried jQuery.on but does not work 
-		selectors.tagBox.focusin(setActive);
+		Tagshot.ui.selectors.tagBox.focusin(setActive);
 		$('#backbone-gallery-view .image-frame').live('focus',setActive);
 	}
 
