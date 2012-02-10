@@ -27,6 +27,7 @@
 //= require tagshot.ui.userMessages
 //= require tagshot.ui.selectors
 //= require tagshot.rotate
+////= require tagshot.ui.sourceSelect
 
 $(function () {
 	// initialize Tagshot (Backbone)
