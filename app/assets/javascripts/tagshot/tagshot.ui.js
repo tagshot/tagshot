@@ -3,7 +3,6 @@
  * In addition it deals with UI code like creating buttons etc.
  */
 
-
 Tagshot.ui = (function () {
 	/*
 	 * Initialize basic callbacks/event handlers
@@ -85,8 +84,8 @@ Tagshot.ui = (function () {
 		jumpFromTagBoxToGalleryWithTab();
 		navigateHomeOnTagshotLogoClick();
 		Tagshot.ui.selectors.mainView.append(Tagshot.views.gallery.el);
-    	Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
-        bindRotateClicks();
+		Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
+		bindRotateClicks();
 	};
 
 	/*********************

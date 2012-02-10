@@ -30,7 +30,6 @@
 //= require tagshot/tagshot.ui.sourceSelect
 
 $(function () {
-	// initialize Tagshot (Backbone)
 	Tagshot.init();
 
 	Tagshot.ui.init();
@@ -49,7 +48,9 @@ $(function () {
 				autocompleteListPosition:  'above',
 				onTagAdded:                Tagshot.addTag,
 				onTagRemoved:              Tagshot.removeTag,
-				onKeyEvent:                function () { console.log('test'); }
+				onKeyEvent:                function (keyEvent) {
+					Tagshot.ui.keyboardPhotoSelection.selectAction(keyEvent);
+				}
 			}).blur(function () {
 				if (Tagshot.localVersionDirty === false)
 					return;

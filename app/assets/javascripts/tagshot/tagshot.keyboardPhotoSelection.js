@@ -1,8 +1,24 @@
+/*
+ * Allows for using the arrow keys to select photos.
+ * ================================================================================
+ * This module offers methods to select the next, previous, above or below
+ * image based on the current selection.
+ * Moreover, if passed an Event it automatically selects the appropriate
+ * operation to perform.
+ *
+ * Dependencies:
+ *   It needs an Tagshot.Collections.PhotoList to get the current selection and
+ *   select elements. This must be passed in via the init method.
+ */
+
 //= require tagshot/tagshot.ui
 
-Tagshot.ui.keyboardPhotoSelection = (function (photoList) {
-
+Tagshot.ui.keyboardPhotoSelection = (function () {
 	var photoList;
+
+	function selectAction (keyEvent) {
+		console.log(keyEvent);
+	}
 
 	function init (photoListParam) {
 		photoList = photoListParam;
@@ -49,6 +65,7 @@ Tagshot.ui.keyboardPhotoSelection = (function (photoList) {
 
 	return {
 		init: init,
+		selectAction: selectAction,
 		selectNext: selectNext,
 		selectPrevious: selectPrevious,
 		selectAbove: selectAbove,
@@ -56,4 +73,4 @@ Tagshot.ui.keyboardPhotoSelection = (function (photoList) {
 		shiftSelectPrevious: shiftSelectPrevious,
 		shiftSelectNext: shiftSelectNext
 	};
-})(Tagshot.collections.photoList);
+})();

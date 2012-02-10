@@ -6,40 +6,36 @@
 //=require jquery.inlineedit
 
 Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
-	tagName:  "div",
-	className: "detail",
-	id: "backbone-detail-view",
-	templateSelector: '#detail-template',
+	tagName:           "div",
+	className:         "detail",
+	id:                "backbone-detail-view",
+	templateSelector:  '#detail-template',
 
 	events: {
-		"click footer" : "stop",
-		"change footer #tag-box": "updateTags",
-		"submit #download-form": "download"
+		"click footer" :           "stop",
+		"change footer #tag-box":  "updateTags",
+		"submit #download-form":   "download"
 	},
 
 	initialize: function(options) {
 		_.bindAll(this);
 	},
 
-	render: function(model) {
-		if (model) {
-			this.model = model;
+	render: function (model) {
+		if (!model) {
+			this.renderNotFound();
+			return;
 		}
+		this.model = model;
 
-		if (this.model) {
+		// set model as selected so that we can tag it and so on
+		this.model.select(true);
 
-			// set model as selected so that we can tag it and so on
-			this.model.select(true);
+		var tags = {tags: this.model.get('tags')};
 
-			var tags = {tags: this.model.get('tags')};
-
-			this.fillTemplate(this.templateSelector);
-			this.setStars();
-			this.bindInputListener();
-
-		} else {
-			this.renderNotfound();
-		}
+		this.fillTemplate(this.templateSelector);
+		this.setStars();
+		this.bindInputListener();
 
 		return this;
 	},
@@ -126,7 +122,7 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 		e.stopPropagation();
 	},
 
-	renderNotfound: function() {
+	renderNotFound: function() {
 		$(this.el).html("Image not found");
 	}
 });

@@ -1,7 +1,10 @@
-/* This Module transforms all searchable strings
+/*
+ * Convert between User-Input <-> Display <-> URL-parameters
+ * ================================================================================
+ * This Module transforms all searchable strings.
  * It is used to make fancy unicode stars from text input in
  * the search or tags bar, transforms the tags into a query
- * and replaces the URL/Query string to fancy unicode stars back again.
+ * and replaces the URL/query string to fancy unicode stars back again.
  *
  * BEWARE: This module is COMPLETELY OPTIMISTIC about user input.
  * There is no error handling. Every input just falls through
@@ -18,9 +21,10 @@
  */ 
 
 Tagshot.converter = (function () {
-	/* url: stars:3
+	/* 
+	 * url: stars:3
 	 * textinput: <3*
-	 * stars: ★★★☆☆
+	 * display: ★★★☆☆
 	 */
 
 	// BEWARE: Number of stars is a digit, not [0-5]
