@@ -18,8 +18,11 @@ Tagshot.ui = (function () {
 		toggleOptionsContainerOnClick();
 		jumpFromTagBoxToGalleryWithTab();
 		navigateHomeOnTagshotLogoClick();
-		Tagshot.ui.initializeSearchBoxAutocompletion();
-		Tagshot.ui.initializeTagBoxAutocompletion();
+		initializeSearchBoxAutocompletion();
+		// search box focus must be set after initializing search box autocompletion
+		setSearchBoxFocusOnPageLoad();
+		initializeTagBoxAutocompletion();
+		saveTagsOnTagBoxBlur();
 		Tagshot.ui.selectors.mainView.append(Tagshot.views.gallery.el);
 		Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
 		bindRotateClicks();
@@ -27,6 +30,7 @@ Tagshot.ui = (function () {
 		Tagshot.ui.sourceSelect.init();
 		Tagshot.ui.activeGallery.init();
 	}
+	// ========== Autocompletion
 	function initializeSearchBoxAutocompletion() {
 		/* apply autocompletion to <input> */
 		Tagshot.ui.selectors.searchBox.tagAutocomplete({
@@ -36,7 +40,6 @@ Tagshot.ui = (function () {
 			postProcessors:    [Tagshot.converter.inputToStars]
 		});
 	}
-	// ========== Autocompletion
 	function initializeTagBoxAutocompletion() {
 		Tagshot.ui.selectors.tagBox.tagAutocomplete({
 			autocompleteList:          [],
@@ -47,6 +50,10 @@ Tagshot.ui = (function () {
 				return Tagshot.ui.keyboardPhotoSelection.selectAction(keyEvent);
 			}
 		});
+	}
+	function updateAutocompletionList(newList) {
+		Tagshot.ui.selectors.searchBox.tagAutocomplete('updateCompletionList', newList);
+		Tagshot.ui.selectors.tagBox.tagAutocomplete('updateCompletionList', newList);
 	}
 
 	/*
@@ -142,11 +149,8 @@ Tagshot.ui = (function () {
 	return {
 		initAfterBackbone:                  initAfterBackbone,
 		initBeforeBackbone:                 initBeforeBackbone,
-		initializeSearchBoxAutocompletion:  initializeSearchBoxAutocompletion,
-		initializeTagBoxAutocompletion:     initializeTagBoxAutocompletion,
 		insertLoadMoreButton:               insertLoadMoreButton,
 		insertPhoto:                        insertPhoto,
-		saveTagsOnTagBoxBlur:               saveTagsOnTagBoxBlur,
-		setSearchBoxFocusOnPageLoad:        setSearchBoxFocusOnPageLoad,
+		updateAutocompletionList:           updateAutocompletionList
 	};
 })();

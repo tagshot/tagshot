@@ -151,7 +151,6 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	fillTagbarWithSearchedTags: function (query) {
-		setTimeout(function () {
 		var tagLIs = $("#search-container .textbox li.tag");
 		if (tagLIs.length !== 0)
 			return;
@@ -159,6 +158,6 @@ Tagshot.Router = Backbone.Router.extend({
 
 		for (var i = 0; i < tags.length; i += 1) {
 			$("#search-box").parent().before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
-		}}, 2000);
+		};
 	}
 });
