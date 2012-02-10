@@ -1,7 +1,7 @@
 /*
  * Shows the spinning ajax indicator whenever there is an ajax-request.
  * ================================================================================
- * Shows the indicator at the rightmost edge of the search box.
+ * Shows and hides the indicator at the rightmost edge of the search box.
  * 
  */
 
