@@ -36,9 +36,9 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 		else {
 			switch (keyEvent.keyCode) {
 				case keyCodes.UP:
-					selectAbove(); break;
+					selectAbove(Tagshot.views.gallery.countImagesInARow()); break;
 				case keyCodes.DOWN:
-					selectBelow(); break;
+					selectBelow(Tagshot.views.gallery.countImagesInARow()); break;
 				case keyCodes.LEFT:
 					selectPrevious(); break;
 				case keyCodes.RIGHT:
@@ -55,6 +55,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 		var last = _.last(photoList.selection());
 		photoList.deselectAll();
 		photoList.at((photoList.indexOf(last) + 1) % photoList.length).select();
+		photoList.trigger('rescroll');
 	}
 	
 	function selectPrevious () {
@@ -64,6 +65,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 		if (index === 0) index = photoList.length;
 		index -= 1;
 		photoList.at(index).select();
+		photoList.trigger('rescroll');
 	}
 	function selectAbove (imagesInRow) {
 		var first = _.first(photoList.selection());

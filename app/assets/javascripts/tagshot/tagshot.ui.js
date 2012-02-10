@@ -32,18 +32,18 @@ Tagshot.ui = (function () {
 		/* apply autocompletion to <input> */
 
 		Tagshot.ui.selectors.searchBox.tagAutocomplete({
-			autocompleteList: Tagshot.tagList,
-			onTagAdded:		  Tagshot.search,
-			onTagRemoved:	  Tagshot.search,
-			postProcessors:   [Tagshot.converter.inputToStars]
+			autocompleteList:  Tagshot.tagList,
+			onTagAdded:        Tagshot.search,
+			onTagRemoved:      Tagshot.search,
+			postProcessors:    [Tagshot.converter.inputToStars]
 		});
 	};
 
 	var setSearchBoxFocusOnPageLoad = function () {
 		Tagshot.ui.selectors.searchBox.textboxFocusOnStart({
-			text:				'Just start searching…',
-			cssClassWhenEmpty:	'search-start',
-			doFocus:			true
+			text:               'Just start searching…',
+			cssClassWhenEmpty:  'search-start',
+			doFocus:            true
 		});
 	};
 
@@ -86,13 +86,13 @@ Tagshot.ui = (function () {
 	 * API Functions
 	 * *******************/
 	return {
-		initBeforeBackbone:				   initBeforeBackbone,
-		initAfterBackbone:				   initAfterBackbone,
-		initializeSearchBoxAutocompletion: initializeSearchBoxAutocompletion,
-		insertLoadMoreButton:			   insertLoadMoreButton,
-		insertPhoto:					   insertPhoto,
-		jumpFromTagBoxToGalleryWithTab:    jumpFromTagBoxToGalleryWithTab,
-		setSearchBoxFocusOnPageLoad:	   setSearchBoxFocusOnPageLoad,
-		toggleOptionsContainerOnClick:	   toggleOptionsContainerOnClick
+		initBeforeBackbone:                 initBeforeBackbone,
+		initAfterBackbone:                  initAfterBackbone,
+		initializeSearchBoxAutocompletion:  initializeSearchBoxAutocompletion,
+		insertLoadMoreButton:               insertLoadMoreButton,
+		insertPhoto:                        insertPhoto,
+		jumpFromTagBoxToGalleryWithTab:     jumpFromTagBoxToGalleryWithTab,
+		setSearchBoxFocusOnPageLoad:        setSearchBoxFocusOnPageLoad,
+		toggleOptionsContainerOnClick:      toggleOptionsContainerOnClick
 	};
 })();
