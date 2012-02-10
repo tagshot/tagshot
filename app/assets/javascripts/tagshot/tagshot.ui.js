@@ -102,7 +102,7 @@ Tagshot.ui = (function () {
 		// Jump from search to gallery with tab.
 		Tagshot.ui.selectors.tagBox.bind('keydown', 'tab', function (e) {
 			e.stopPropagation();
-			$('backbone-gallery-view image-view image-frame:first img').click();
+			$(Tagshot.ui.selectors.photoListView_firstImg).click();
 			return true;
 		});
 	}

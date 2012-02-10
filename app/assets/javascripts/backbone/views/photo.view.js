@@ -10,7 +10,6 @@
 
 
 //= require backbone-eventdata
-//= require tagshot/tagshot.ui.resize
 
 Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	tagName:          "li",
@@ -56,8 +55,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		this.fillTemplate(this.templateSelector);
 		this.setStars();
 
-		Tagshot.ui.resize.resizeImages();
-
 		// delegate events means rebinding the events
 		this.delegateEvents();
 		return this;
@@ -92,7 +89,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		this.trigger('quickview', this);
 		return false;
 	},
-	
 
 	_remove: function() {
 		//should get called when destroy() was called b.c. of event binding in initialize()
