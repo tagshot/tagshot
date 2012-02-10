@@ -22,7 +22,6 @@ Tagshot.ui.sourceSelect = (function () {
 
 	function setSources(sources) {
 		_.each(sources, function (id){
-			console.log(id)
 			$("option[value="+id+"]",".source-select").attr('selected',"selected");
 		});
 
@@ -36,7 +35,7 @@ Tagshot.ui.sourceSelect = (function () {
 	}
 
 	function apply() {
-		console.log("apply sources");
+		console.log("applying sources");
 		Tagshot.collections.photoList.currentSources = getSources();
 
 		var query = Tagshot.collections.photoList.buildQueryWithSources();

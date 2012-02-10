@@ -87,7 +87,11 @@ Tagshot.Router = Backbone.Router.extend({
 		if (photolist.currentSearchQuery != query || query === "") {
 			console.log("do search");
 
-			photolist.fetchWithQuery(query);
+			// filter sources, we don't need it
+			var conv = Tagshot.converter;
+			var clean_query = conv.inputToQuery(conv.queryToInput(query))
+
+			photolist.fetchWithQuery(clean_query);
 		}
 	},
 
@@ -147,7 +151,7 @@ Tagshot.Router = Backbone.Router.extend({
 		if (tagLIs.length !== 0)
 			return;
 		var tags = Tagshot.converter.queryToInput(query);
-		//var sources = Tagshot.converter.queryToSources(query);
+		var sources = Tagshot.converter.queryToSources(query);
 
 		for (var i = 0; i < tags.length; i += 1) {
 			$("#search-box").parent().before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
