@@ -51,6 +51,42 @@
 		return ctrl.selectionStart;
 	};
 
+
+	var buildCorrectAutocompletionList = function (autocompletionList) {
+		/*
+		 * Create a lowercased version of autocompletionList
+		 * This is needed to be case-insensitive, so typing 'java'
+		 * will also find 'Java'.
+		 * Input:
+		 * {
+		 * 	'JavaScript': 100
+		 * 	'Java': 20
+		 * }
+		 * Output:
+		 * [
+		 * 	['javascript', 100, 'JavaScript'],
+		 * 	['java', 20, 'Java']
+		 * ]
+		 */
+		var lowercase = [];
+		for (var entry in autocompletionList) {
+			if (!autocompletionList.hasOwnProperty(entry)) continue;
+			lowercase.push([entry.toLowerCase(), autocompletionList[entry], entry]);
+		}
+		// not the best place for this, refactor
+		lowercase.push(['1*', 1, '★☆☆☆☆']);
+		lowercase.push(['2*', 1, '★★☆☆☆']);
+		lowercase.push(['3*', 1, '★★★☆☆']);
+		lowercase.push(['4*', 1, '★★★★☆']);
+		lowercase.push(['5*', 1, '★★★★★']);
+		lowercase.push(['=1*', 1, '=★☆☆☆☆']);
+		lowercase.push(['=2*', 1, '=★★☆☆☆']);
+		lowercase.push(['=3*', 1, '=★★★☆☆']);
+		lowercase.push(['=4*', 1, '=★★★★☆']);
+		lowercase.push(['=5*', 1, '=★★★★★']);
+		return lowercase;
+	};
+
 	var methods = {
 		init: function (options) {
 			 // will hold a lowercased-version of settings.autocompleteList
@@ -84,37 +120,7 @@
 			// merge given options into standard-settings
 			$.extend(settings, options);
 
-			/*
-			 * Create a lowercased version of settings.autocompleteList,
-			 * This is needed to be case-insensitive, so typing 'java'
-			 * will also find 'Java'.
-			 * Input:
-			 * {
-			 * 	'JavaScript': 100
-			 * 	'Java': 20
-			 * }
-			 * Output:
-			 * [
-			 * 	['javascript', 100, 'JavaScript'],
-			 * 	['java', 20, 'Java']
-			 * ]
-			 */
-			lowercase = [];
-			for (var entry in settings.autocompleteList) {
-				if (!settings.autocompleteList.hasOwnProperty(entry)) continue;
-				lowercase.push([entry.toLowerCase(), settings.autocompleteList[entry], entry]);
-			}
-			// not the best place for this, refactor
-			lowercase.push(['1*', 1, '★☆☆☆☆']);
-			lowercase.push(['2*', 1, '★★☆☆☆']);
-			lowercase.push(['3*', 1, '★★★☆☆']);
-			lowercase.push(['4*', 1, '★★★★☆']);
-			lowercase.push(['5*', 1, '★★★★★']);
-			lowercase.push(['=1*', 1, '=★☆☆☆☆']);
-			lowercase.push(['=2*', 1, '=★★☆☆☆']);
-			lowercase.push(['=3*', 1, '=★★★☆☆']);
-			lowercase.push(['=4*', 1, '=★★★★☆']);
-			lowercase.push(['=5*', 1, '=★★★★★']);
+			lowercase = buildCorrectAutocompletionList(settings.autocompletionList);
 			this.data('tagAutocompletion-list', { list: lowercase });
 
 			this.each(function () {
@@ -465,16 +471,20 @@
 		updateTags: function () {
 			var plugin = this.data('tagAutocompletion-plugin').plugin;
 			plugin.updateTags();
+		},
+		updateCompletionList: function (newList) {
+			var lowercase = buildCorrectAutocompletionList(newList);
+			this.data('tagAutocompletion-list', { list: lowercase });
 		}
 	};
 
 
 	$.fn.tagAutocomplete = function( method ) {
 		// Method calling logic
-		if ( methods[method] ) {
-			return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
-		} else if ( typeof method === 'object' || ! method ) {
-			return methods.init.apply( this, arguments );
+		if (methods[method]) {
+			return methods[ method ].apply( this, Array.prototype.slice.call(arguments, 1));
+		} else if (typeof method === 'object' || !method) {
+			return methods.init.apply(this, arguments);
 		} else {
 			$.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
 		}    

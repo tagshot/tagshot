@@ -18,6 +18,8 @@ Tagshot.ui = (function () {
 		toggleOptionsContainerOnClick();
 		jumpFromTagBoxToGalleryWithTab();
 		navigateHomeOnTagshotLogoClick();
+		Tagshot.ui.initializeSearchBoxAutocompletion();
+		Tagshot.ui.initializeTagBoxAutocompletion();
 		Tagshot.ui.selectors.mainView.append(Tagshot.views.gallery.el);
 		Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
 		bindRotateClicks();
@@ -28,7 +30,7 @@ Tagshot.ui = (function () {
 	function initializeSearchBoxAutocompletion() {
 		/* apply autocompletion to <input> */
 		Tagshot.ui.selectors.searchBox.tagAutocomplete({
-			autocompleteList:  Tagshot.tagList,
+			autocompleteList:  [],
 			onTagAdded:        Tagshot.search,
 			onTagRemoved:      Tagshot.search,
 			postProcessors:    [Tagshot.converter.inputToStars]
@@ -37,7 +39,7 @@ Tagshot.ui = (function () {
 	// ========== Autocompletion
 	function initializeTagBoxAutocompletion() {
 		Tagshot.ui.selectors.tagBox.tagAutocomplete({
-			autocompleteList:          Tagshot.tagList,
+			autocompleteList:          [],
 			autocompleteListPosition:  'above',
 			onTagAdded:                Tagshot.addTag,
 			onTagRemoved:              Tagshot.removeTag,

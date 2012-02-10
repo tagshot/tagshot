@@ -42,10 +42,10 @@ $(function () {
 		success: function (data) {
 			Tagshot.tagList = data;
 
-			Tagshot.ui.initializeSearchBoxAutocompletion();
+			Tagshot.ui.selectors.searchBox.tagAutocomplete('updateCompletionList', Tagshot.tagList);
+			Tagshot.ui.selectors.tagBox.tagAutocomplete('updateCompletionList', Tagshot.tagList);
 			Tagshot.ui.setSearchBoxFocusOnPageLoad();
 
-			Tagshot.ui.initializeTagBoxAutocompletion();
 			Tagshot.ui.saveTagsOnTagBoxBlur();
 		},
 	});

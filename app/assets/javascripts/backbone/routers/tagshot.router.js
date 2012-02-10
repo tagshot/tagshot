@@ -150,20 +150,15 @@ Tagshot.Router = Backbone.Router.extend({
 		});
 	},
 
-	fillTagbarWithSearchedTags: function(query) {
-		if ($("#search-container .textbox li.tag").length === 0) {
-			var tags = Tagshot.converter.queryToInput(query);
-			var currentTags = [];
-			$("#search-container .textbox li.tag").remove();
-			$("#search-container .textbox li.tag").each(function() {
-				currentTags.push($(this).text());
-			});
+	fillTagbarWithSearchedTags: function (query) {
+		setTimeout(function () {
+		var tagLIs = $("#search-container .textbox li.tag");
+		if (tagLIs.length !== 0)
+			return;
+		var tags = Tagshot.converter.queryToInput(query);
 
-			for (var i = 0; i < tags.length; i++) {
-				if (currentTags.indexOf(tags[i]) === -1 && tags[i] !== '') {
-					$("#search-container .textbox li:last").before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
-				}
-			}
-		}
+		for (var i = 0; i < tags.length; i += 1) {
+			$("#search-box").parent().before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
+		}}, 2000);
 	}
 });
