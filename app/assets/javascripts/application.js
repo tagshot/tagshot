@@ -46,6 +46,7 @@ $(function () {
 			Tagshot.ui.setSearchBoxFocusOnPageLoad();
 
 			Tagshot.ui.initializeTagBoxAutocompletion();
+			Tagshot.ui.saveTagsOnTagBoxBlur();
 		},
 	});
 });
