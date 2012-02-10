@@ -5,16 +5,38 @@
 
 Tagshot.ui.selectors = (function () {
 
-	var imageForPhotoView = function (view) {
+	function init() {
+		return this;
+	}
+
+	function imageForPhotoView(view) {
 		return $(view.el).find(".image");
 	};
 
+	function findRating(view) {
+		return $(view.el).find(".rating");
+	}
+
+
+	var photoListView_imgFrame = $("#photo-list-view div.image-frame");
+	var photoListView_firstImg = photoListView_imgFrame.first('img');
+
 
 	return {
-		searchBox: $("#search-box"),
-		tagBox:    $("#tag-box"),
-		mainView:  $("#backbone-main-view"),
-		imageForPhotoView: imageForPhotoView
+		mainView:                $("#backbone-main-view"),
+		searchBox:               $("#search-box"),
+		tagBox:                  $("#tag-box"),
+		footer:                  $('footer'),
+		footerTextbox:           $("footer .textbox"),
+		tagsInFooter:            $("footer .tag"),
+		imageView:               $('.image-view'),
+		more:                    $('#more'),
+		photoListView:           $('#photo-list-view'),
+		photoListView_imgFrame:  photoListView_imgFrame,
+		photoListView_firstImg:  photoListView_firstImg,
+		imageForPhotoView:       imageForPhotoView,
+		findRating:              findRating,
+		init:                    init
 	};
 })();
 

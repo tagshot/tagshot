@@ -6,15 +6,15 @@
 //=require jquery.inlineedit
 
 Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
-	tagName:           "div",
-	className:         "detail",
-	id:                "backbone-detail-view",
-	templateSelector:  '#detail-template',
+	tagName:  "div",
+	className: "detail",
+	id: "backbone-detail-view",
+	templateSelector: '#detail-template',
 
 	events: {
-		"click footer" :           "stop",
-		"change footer #tag-box":  "updateTags",
-		"submit #download-form":   "download"
+		"click footer" :          "stop",
+		"change #tag-box":        "updateTags",
+		"submit #download-form":  "download"
 	},
 
 	initialize: function(options) {
@@ -51,15 +51,6 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 		};
 	},
 
-	setStars: function() {
-		// copy'n pasted from photo.view.js FIXME
-		var stars = this.model.get('properties').rating;
-		$(this.el).find(".rating").starMe({
-			'starCount': stars,
-			'ratingFunc': this.rating
-		});
-	},
-
 	bindInputListener: function() {
 		this.bindSave('.prop dd input');
 		this.bindSave('.prop dd textarea');
@@ -87,7 +78,7 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	updateTags: function(e) {
-		var tags = $("#tag-box").val().split(" ")
+		var tags = Tagshot.ui.selectors.tagBox.val().split(" ")
 		this.model.save({'tags': tags});
 	},
 

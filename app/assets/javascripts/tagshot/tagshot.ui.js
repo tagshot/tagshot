@@ -17,7 +17,7 @@ Tagshot.ui = (function () {
 	}
 	function jumpFromTagBoxToGalleryWithTab() {
 		// Jump from search to gallery with tab.
-		$("#tag-box").bind('keydown', 'tab', function (e) {
+		Tagshot.ui.selectors.tagBox.bind('keydown', 'tab', function (e) {
 			e.stopPropagation();
 			$('backbone-gallery-view image-view image-frame:first img').click();
 			return true;
