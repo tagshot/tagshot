@@ -71,6 +71,7 @@ Tagshot.ui = (function () {
 
 	function insertPhoto(view, here) {
 		$('ul', here.el).append(view.render().el);
+		Tagshot.ui.resize.resizeImages();
 	}
 
 	function saveTagsOnTagBoxBlur() {
