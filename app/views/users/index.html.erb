@@ -1,0 +1,39 @@
+<%= link_to '< Administration', admin_path %>
+<%= render partial: 'common/notifications' %>
+<div class="table">
+	<%= form_tag users_path do %>
+		<table>
+			<thead>
+				<tr>
+					<th class="small" >ID</th>
+					<th>Login</th>
+					<th class="small">Admin</th>
+					<th class="small">Löschen</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% for user in @users %>
+				<tr>
+					<td><%= user.id %></td>
+					<td><%= user.login %></td>
+					<td><%= check_box_tag "users[#{user.id}][admin]", 0, true, style: 'display: none' %>
+						<%= check_box_tag "users[#{user.id}][admin]", 1, user.admin? %></td>
+					<td><%= link_to 'Löschen', delete_user_path(user) %></td>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+		<div class="actions">
+			<input type="submit" value="Save" />
+		</div>
+	<% end %>
+	<div class="footer">
+		<%= form_tag users_path do %>
+			<label for="user_login">Add User:</label>
+			<%= text_field_tag "user[login]" %>
+			<label for="user_admin">Admin:</label>
+			<%= check_box_tag "user[admin]", false %>
+			<input type="submit" value="Add" />
+		<% end %>
+	</div>
+</div>

@@ -1,4 +1,5 @@
 class AdminController < ApplicationController
+  layout 'base'
   before_filter :require_authentication, :require_admin
 
   def require_admin
@@ -11,9 +12,5 @@ class AdminController < ApplicationController
       end
       false
     end
-  end
-
-  def index
-
   end
 end

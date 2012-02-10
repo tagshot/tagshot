@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120129210559) do
+ActiveRecord::Schema.define(:version => 20120210151329) do
 
   create_table "auth_sources", :force => true do |t|
     t.string   "type"
@@ -79,6 +79,9 @@ ActiveRecord::Schema.define(:version => 20120129210559) do
     t.string  "value"
   end
 
+  add_index "properties", ["name"], :name => "index_properties_on_name"
+  add_index "properties", ["photo_id", "name"], :name => "index_properties_on_photo_id_and_name"
+
   create_table "sources", :force => true do |t|
     t.string   "path"
     t.string   "name"
@@ -101,6 +104,7 @@ ActiveRecord::Schema.define(:version => 20120129210559) do
     t.string   "type"
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
+    t.boolean  "oa",             :default => false
   end
 
 end

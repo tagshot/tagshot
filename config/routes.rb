@@ -14,6 +14,8 @@ Tagshot::Application.routes.draw do
   resources :tags, :only => [:index]
   resource :session, :only => [:new, :create, :destroy]
   resources :sources, only: [:index]
+  resources :users, only: [:index, :create, :destroy]
+  get 'users/:id/delete' => 'users#delete', as: :delete_user
   get 'admin' => 'admin#index'
   get 'session/destroy' => 'sessions#destroy'
 
