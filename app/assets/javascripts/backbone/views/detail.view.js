@@ -87,7 +87,7 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	updateTags: function(e) {
-		var tags = Tagshot.ui.selectors.tagBox.val().split(" ")
+		var tags = $(Tagshot.ui.selectors.tagBox).val().split(" ")
 		this.model.save({'tags': tags});
 	},
 

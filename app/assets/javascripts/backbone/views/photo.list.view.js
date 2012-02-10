@@ -167,7 +167,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 			return prev + "<li class='tag'>" + tag + '<a></a></li>';
 		}, "");
 		$("footer .textbox").prepend(list);
-		Tagshot.ui.selectors.tagBox.tagAutocomplete('updateTags');
+		$(Tagshot.ui.selectors.tagBox).tagAutocomplete('updateTags');
 	},
 
 	stop: function (e) {  

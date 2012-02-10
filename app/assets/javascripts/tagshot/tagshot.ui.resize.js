@@ -34,8 +34,6 @@ Tagshot.ui.resize = (function() {
 		var height = value;
 		var imgFrame = $(Tagshot.ui.selectors.photoListView_imgFrame);
 
-		console.log(imgFrame);
-
 		_.each(imgFrame.get(),function (el) {
 			el.style.width = width + "px", 
 			el.style.height = height + "px"});

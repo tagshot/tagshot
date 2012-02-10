@@ -1,3 +1,5 @@
+//= require/tagshot.ui.selectors
+
 /*
  * Initialize basic ui callbacks and event handlers.
  * ================================================================================
@@ -18,8 +20,8 @@ Tagshot.ui = (function () {
 		toggleOptionsContainerOnClick();
 		jumpFromTagBoxToGalleryWithTab();
 		navigateHomeOnTagshotLogoClick();
-		Tagshot.ui.selectors.mainView.append(Tagshot.views.gallery.el);
-		Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
+		$(Tagshot.ui.selectors.mainView).append(Tagshot.views.gallery.el);
+		$(Tagshot.ui.selectors.mainView).append(Tagshot.views.detail.el);
 		bindRotateClicks();
 
 		Tagshot.ui.sourceSelect.init();
@@ -27,7 +29,7 @@ Tagshot.ui = (function () {
 	}
 	function initializeSearchBoxAutocompletion() {
 		/* apply autocompletion to <input> */
-		Tagshot.ui.selectors.searchBox.tagAutocomplete({
+		$(Tagshot.ui.selectors.searchBox).tagAutocomplete({
 			autocompleteList:  Tagshot.tagList,
 			onTagAdded:        Tagshot.search,
 			onTagRemoved:      Tagshot.search,
@@ -36,7 +38,7 @@ Tagshot.ui = (function () {
 	}
 	// ========== Autocompletion
 	function initializeTagBoxAutocompletion() {
-		Tagshot.ui.selectors.tagBox.tagAutocomplete({
+		$(Tagshot.ui.selectors.tagBox).tagAutocomplete({
 			autocompleteList:          Tagshot.tagList,
 			autocompleteListPosition:  'above',
 			onTagAdded:                Tagshot.addTag,
@@ -68,7 +70,7 @@ Tagshot.ui = (function () {
 	}
 
 	function saveTagsOnTagBoxBlur() {
-		Tagshot.ui.selectors.tagBox.blur(function () {
+		$(Tagshot.ui.selectors.tagBox).blur(function () {
 			if (Tagshot.localVersionDirty === false)
 				return;
 
@@ -101,7 +103,7 @@ Tagshot.ui = (function () {
 	 */
 	function jumpFromTagBoxToGalleryWithTab() {
 		// Jump from search to gallery with tab.
-		Tagshot.ui.selectors.tagBox.bind('keydown', 'tab', function (e) {
+		$(Tagshot.ui.selectors.tagBox).bind('keydown', 'tab', function (e) {
 			e.stopPropagation();
 			$(Tagshot.ui.selectors.photoListView_firstImg).click();
 			return true;
@@ -110,7 +112,7 @@ Tagshot.ui = (function () {
 
 
 	function setSearchBoxFocusOnPageLoad() {
-		Tagshot.ui.selectors.searchBox.textboxFocusOnStart({
+		$(Tagshot.ui.selectors.searchBox).textboxFocusOnStart({
 			text:               'Just start searching…',
 			cssClassWhenEmpty:  'search-start',
 			doFocus:            true

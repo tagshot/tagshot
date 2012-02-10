@@ -21,7 +21,7 @@ Tagshot.Router = Backbone.Router.extend({
 		"search/:query":        "search",
 		"p/:page":              "page",
 		"search/:query/:page":  "searchpage",
-		"*foo":					"home"
+		"*foo":                 "home"
 	},
 
 	home: function(foo) {
@@ -121,7 +121,7 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	showDetailsPage: function(model) {
-		var photoListView = Tagshot.ui.selectors.photoListView;
+		var photoListView = $(Tagshot.ui.selectors.photoListView);
 		photoListView.show();
 		photoListView.hide();
 
@@ -136,11 +136,11 @@ Tagshot.Router = Backbone.Router.extend({
 
 	showGalleryView: function() {
 		var selectors = Tagshot.ui.selectors;
-		$("#backbone-detail-view").hide();
-		selectors.photoListView.show();
+		$(selectors.detailView).hide();
+		$(selectors.photoListView).show();
 		$('#search-container').show();
 		$('#show-options').show();
-		selectors.photoListView.addClass('active');
+		$(selectors.photoListView).addClass('active');
 	},
 
 	fetchModels: function(number, callback) {

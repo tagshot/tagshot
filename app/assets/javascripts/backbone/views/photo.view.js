@@ -66,7 +66,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		$(this.el).children().first().addClass("selected");
 		$(this.el).children('.image-frame').focus();
 		this.trigger("selectionChanged");
-		Tagshot.ui.selectors.tagBox.focus();
+		$(Tagshot.ui.selectors.tagBox).focus();
 	},
 
 	deselect: function() {
