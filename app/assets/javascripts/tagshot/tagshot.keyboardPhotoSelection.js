@@ -35,7 +35,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 					return shiftSelectNext();
 			}
 		}
-		else if (!keyEvent.ctrlKey) {
+		else if (!keyEvent.ctrlKey && !keyEvent.metaKey) {
 			switch (keyEvent.keyCode) {
 				case keyCodes.UP:
 					return selectAbove(Tagshot.views.gallery.countImagesInARow());
