@@ -10,24 +10,24 @@ Tagshot.ui.activeGallery = (function () {
 		selectors.tagBox.focusin(setInActive);
 
 	// tried "on" but does not work 
-		$('#backbone-gallery-view .image-frame').live('focus',setActive);
+		selectors.photoListView_imgFrame.live('focus',setActive);
 	}
 
 	function setActive() {
-		$('#backbone-gallery-view').addClass('active');
+		selectors.photoListView.addClass('active');
 	}
 
 	function setInActive() {
-		$('#backbone-gallery-view').removeClass('active');
+		selectors.photoListView.removeClass('active');
 	}
 
 	/*********************
 	 * API Functions
 	 * *******************/
 	return {
-		init:			init,
-		setActive:		setActive,
-		setInActive:	setInActive
+		init:         init,
+		setActive:    setActive,
+		setInActive:  setInActive
 	};
 })();
 
