@@ -119,7 +119,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 	quickview: function (photoView, replace) {
 		var that = this,
-		    viewElement = $(this.photoView).find('img'),
+		    viewElement = $('img',photoView.el),
 		    model = photoView.model;
 		if (!replace) replace = false;
 
@@ -138,7 +138,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 				'onStart':     function () {
 					that.quickViewVisible = true
 				},
-				'onClosed':                            function () {
+				'onClosed':    function () {
 					that.quickViewVisible = false
 				},
 				'title':         model.get('tags').join(', '),
@@ -207,16 +207,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		console.log("jump to footer");
 		this.stop(e);
 		$('footer').find('input').focus();
-		this.setInActive();
 		return false;
-	},
-
-	setActive: function() {
-		$('#backbone-gallery-view').addClass('active');
-	},
-
-	setInActive: function() {
-		$('#backbone-gallery-view').removeClass('active');
 	},
 
 	needsNoRender: function() {
