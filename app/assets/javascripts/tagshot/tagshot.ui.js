@@ -13,15 +13,15 @@ Tagshot.ui = (function () {
 	// ========== Backbone
 	function initBeforeBackbone() {
 		Tagshot.ui.resize.init();
+		initializeSearchBoxAutocompletion();
+		// search box focus must be set after initializing search box autocompletion
+		setSearchBoxFocusOnPageLoad();
+		initializeTagBoxAutocompletion();
 	}
 	function initAfterBackbone() {
 		toggleOptionsContainerOnClick();
 		jumpFromTagBoxToGalleryWithTab();
 		navigateHomeOnTagshotLogoClick();
-		initializeSearchBoxAutocompletion();
-		// search box focus must be set after initializing search box autocompletion
-		setSearchBoxFocusOnPageLoad();
-		initializeTagBoxAutocompletion();
 		saveTagsOnTagBoxBlur();
 		Tagshot.ui.selectors.mainView.append(Tagshot.views.gallery.el);
 		Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
