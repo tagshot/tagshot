@@ -8,7 +8,8 @@
  * It is the model for photo.list.view.js and has functions for 
  * getting the selection and moving the selection.
  *
- *
+ * The collection is ordered by id. If you want to have another order, you have 
+ * to adjust the order function in Tagshot.Models.Photo.
  */
 
 //= require tagshot/tagshot.keyboardPhotoSelection
