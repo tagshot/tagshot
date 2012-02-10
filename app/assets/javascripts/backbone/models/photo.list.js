@@ -6,7 +6,8 @@
  * The data that is fetched from the backend is stored in attributes.
  *
  * It is the model for photo.list.view.js and has functions for 
- * getting the selection and moving the selection.
+ * getting the selection and moving the selection. These functions are mostly 
+ * called from the Tagshot.Views.PhotoListView.
  *
  * The collection is ordered by id. If you want to have another order, you have 
  * to adjust the order function in Tagshot.Models.Photo.
