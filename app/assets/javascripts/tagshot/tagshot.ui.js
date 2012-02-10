@@ -19,6 +19,7 @@ Tagshot.ui = (function () {
 		// search box focus must be set after initializing search box autocompletion
 		setSearchBoxFocusOnPageLoad();
 		initializeTagBoxAutocompletion();
+		Tagshot.ui.sourceSelect.init();
 	}
 	function initAfterBackbone() {
 		toggleOptionsContainerOnClick();
@@ -29,7 +30,6 @@ Tagshot.ui = (function () {
 		$(Tagshot.ui.selectors.mainView).append(Tagshot.views.detail.el);
 		bindRotateClicks();
 
-		Tagshot.ui.sourceSelect.init();
 		Tagshot.ui.activeGallery.init();
 	}
 	// ========== Autocompletion
@@ -71,7 +71,7 @@ Tagshot.ui = (function () {
 	function navigateHomeOnTagshotLogoClick() {
 		$('#title').click(function() {
 			var sources = Tagshot.collections.photoList.buildSourcesQuery();
-			if (sources === "") {
+			if (sources === "source") {
 				Tagshot.router.navigate('', { trigger: true });
 			} else {
 				Tagshot.router.navigate('search/'+sources, { trigger: true });

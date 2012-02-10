@@ -15,6 +15,7 @@ Tagshot.ui.sourceSelect = (function () {
 			var data = {'sources': json};
 			var selectElement = Mustache.to_html($("#sources-template").html(), data);
 			$(".source-select").html(selectElement);
+			setSources(Tagshot.collections.photoList.currentSources);
 
 			$('#go-sources').click(apply);
 		});	
@@ -50,7 +51,8 @@ Tagshot.ui.sourceSelect = (function () {
 	 * *******************/
 	return {
 		init:        init,
-		setSources:  setSources
+		setSources:  setSources,
+		apply:       apply
 	};
 })();
 

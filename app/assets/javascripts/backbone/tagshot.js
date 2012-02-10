@@ -34,7 +34,7 @@ window.Tagshot = {
 		numberOfImagesToFetchAtStart:             50,
 		numberOfImagesToFetchAtAppend:            60,
 		maxNumberOfImagesBeforeNoAutomaticFetch:  Number.MAX_VALUE,
-		pixelsFromBottonToTriggerLoad:            400
+		pixelsFromBottonToTriggerLoad:            450
 	},
 	initialized: {
 		gallery: false

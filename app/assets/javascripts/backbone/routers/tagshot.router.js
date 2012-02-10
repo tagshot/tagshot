@@ -4,6 +4,7 @@
  * Triggering a route will change the view if neccessary.
  */
 //= require snowstorm
+//= require tagshot/tagshot.ui.sourceSelect
 
 Tagshot.Router = Backbone.Router.extend({
 
@@ -132,6 +133,8 @@ Tagshot.Router = Backbone.Router.extend({
 		//$('#options-container').hide();
 		$('#show-options').hide();
 
+		$('#backbone-detail-view').show();
+
 		Tagshot.views.detail.delegateEvents();
 
 		$('footer:first').show();
@@ -152,6 +155,12 @@ Tagshot.Router = Backbone.Router.extend({
 			return;
 		var tags = Tagshot.converter.queryToInput(query);
 		var sources = Tagshot.converter.queryToSources(query);
+		Tagshot.collections.photoList.currentSources = sources;
+
+		console.log(sources);
+		if (sources !== []) {
+			Tagshot.ui.sourceSelect.setSources(sources);
+		}
 
 		for (var i = 0; i < tags.length; i += 1) {
 			$("#search-box").parent().before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
