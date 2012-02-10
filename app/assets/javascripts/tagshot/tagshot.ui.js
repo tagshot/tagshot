@@ -1,35 +1,29 @@
-/*
- * Initialize basic ui callbacks and event handlers.
+/* * Initialize basic ui callbacks and event handlers.
  * ================================================================================
- * This module initializes basic callbacks/event handlers.
+ * This module initializes basic callbacks/event handlers using jQuery.
  * In addition it deals with UI code like creating buttons etc.
+ * The method names are speaking, and the implementation is straightforward.
  */
 
 Tagshot.ui = (function () {
 	/*
-	 * Initialize basic callbacks/event handlers
+	 * Initialization
 	 */
-	function toggleOptionsContainerOnClick() {
-		$("#show-options").click(function () {
-			$("#options-container").slideToggle(300);
-			$(this).toggleClass("open");
-		});
+	// ========== Backbone
+	function initBeforeBackbone() {
+		Tagshot.ui.resize.init();
 	}
-	function jumpFromTagBoxToGalleryWithTab() {
-		// Jump from search to gallery with tab.
-		Tagshot.ui.selectors.tagBox.bind('keydown', 'tab', function (e) {
-			e.stopPropagation();
-			$('backbone-gallery-view image-view image-frame:first img').click();
-			return true;
-		});
-	}
-	function navigateHomeOnTagshotLogoClick() {
-		$('#title').click(function() {
-			Tagshot.router.navigate('', { trigger: true });
-			return false;
-		});
-	}
+	function initAfterBackbone() {
+		toggleOptionsContainerOnClick();
+		jumpFromTagBoxToGalleryWithTab();
+		navigateHomeOnTagshotLogoClick();
+		Tagshot.ui.selectors.mainView.append(Tagshot.views.gallery.el);
+		Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
+		bindRotateClicks();
 
+		Tagshot.sourceSelect.init();
+		Tagshot.ui.activeGallery.init();
+	}
 	function initializeSearchBoxAutocompletion() {
 		/* apply autocompletion to <input> */
 		Tagshot.ui.selectors.searchBox.tagAutocomplete({
@@ -39,7 +33,7 @@ Tagshot.ui = (function () {
 			postProcessors:    [Tagshot.converter.inputToStars]
 		});
 	}
-
+	// ========== Autocompletion
 	function initializeTagBoxAutocompletion() {
 		Tagshot.ui.selectors.tagBox.tagAutocomplete({
 			autocompleteList:          Tagshot.tagList,
@@ -52,25 +46,24 @@ Tagshot.ui = (function () {
 		});
 	}
 
-	function setSearchBoxFocusOnPageLoad() {
-		Tagshot.ui.selectors.searchBox.textboxFocusOnStart({
-			text:               'Just start searching…',
-			cssClassWhenEmpty:  'search-start',
-			doFocus:            true
+	/*
+	 * Callbacks
+	 */
+	function toggleOptionsContainerOnClick() {
+		$("#show-options").click(function () {
+			$("#options-container").slideToggle(300);
+			$(this).toggleClass("open");
 		});
 	}
-
-	function insertLoadMoreButton(here) {
-		$(here).html(
-			"<ul>" +
-			"</ul>" +
-			"<span id='fix-gallery' class='ui-helper-clearfix'></span>" +
-			"<button id='more'>load more...</button>"
-		);
+	function navigateHomeOnTagshotLogoClick() {
+		$('#title').click(function() {
+			Tagshot.router.navigate('', { trigger: true });
+			return false;
+		});
 	}
-
-	function insertPhoto(view, here) {
-		$('ul', here.el).append(view.render().el);
+	function bindRotateClicks() {
+		$('#rotate-image-left').click(Tagshot.ui.rotate.rotateLeft);
+		$('#rotate-image-right').click(Tagshot.ui.rotate.rotateRight);
 	}
 
 	function saveTagsOnTagBoxBlur() {
@@ -102,26 +95,41 @@ Tagshot.ui = (function () {
 		});
 	}
 
-	function bindRotateClicks() {
-		var rot = Tagshot.rotate;
-		$('#rotate-image-left').click(rot.rotateLeft);
-		$('#rotate-image-right').click(rot.rotateRight);
+	/*
+	 * Bind IO-Events (focus and keyevents)
+	 */
+	function jumpFromTagBoxToGalleryWithTab() {
+		// Jump from search to gallery with tab.
+		Tagshot.ui.selectors.tagBox.bind('keydown', 'tab', function (e) {
+			e.stopPropagation();
+			$('backbone-gallery-view image-view image-frame:first img').click();
+			return true;
+		});
 	}
 
-	function initBeforeBackbone() {
-		Tagshot.ui.resize.init();
+
+	function setSearchBoxFocusOnPageLoad() {
+		Tagshot.ui.selectors.searchBox.textboxFocusOnStart({
+			text:               'Just start searching…',
+			cssClassWhenEmpty:  'search-start',
+			doFocus:            true
+		});
 	}
 
-	function initAfterBackbone() {
-		toggleOptionsContainerOnClick();
-		jumpFromTagBoxToGalleryWithTab();
-		navigateHomeOnTagshotLogoClick();
-		Tagshot.ui.selectors.mainView.append(Tagshot.views.gallery.el);
-		Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
-		bindRotateClicks();
 
-		Tagshot.sourceSelect.init();
-		Tagshot.ui.activeGallery.init();
+	/*
+	 * General dom manipulation helpers
+	 */
+	function insertLoadMoreButton(here) {
+		$(here).html(
+			"<ul>" +
+			"</ul>" +
+			"<span id='fix-gallery' class='ui-helper-clearfix'></span>" +
+			"<button id='more'>load more...</button>"
+		);
+	}
+	function insertPhoto(view, here) {
+		$('ul', here.el).append(view.render().el);
 	}
 
 	/*********************
@@ -134,6 +142,7 @@ Tagshot.ui = (function () {
 		initializeTagBoxAutocompletion:     initializeTagBoxAutocompletion,
 		insertLoadMoreButton:               insertLoadMoreButton,
 		insertPhoto:                        insertPhoto,
+		saveTagsOnTagBoxBlur:               saveTagsOnTagBoxBlur,
 		setSearchBoxFocusOnPageLoad:        setSearchBoxFocusOnPageLoad,
 	};
 })();
