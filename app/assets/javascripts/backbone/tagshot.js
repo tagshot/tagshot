@@ -52,6 +52,8 @@ window.Tagshot = {
 		// saves whether the currently local version has already been saved to the server
 		Tagshot.localVersionDirty = false;
 
+		// indicate active and inactive state depending on focus
+		Tagshot.ui.activeGallery.init();
 
 	}
 };

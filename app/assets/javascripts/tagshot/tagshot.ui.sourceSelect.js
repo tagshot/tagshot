@@ -1,7 +1,7 @@
 /* 
  */
 
-Tagshot.sourceselect = (function () {
+Tagshot.sourceSelect = (function () {
 	init();
 
 	function init() {
