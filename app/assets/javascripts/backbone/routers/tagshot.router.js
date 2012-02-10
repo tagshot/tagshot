@@ -47,6 +47,7 @@ Tagshot.Router = Backbone.Router.extend({
 		console.log("reset collection");
 		Tagshot.collections.photoList.reset();
 		Tagshot.collections.photoList.currentSearchQuery = "";
+		$(Tagshot.ui.selectors.tagsInSearch).remove()
 		Tagshot.collections.photoList.fetchStart(function() {
 			self.navigate("", {
 				'replace': true,
