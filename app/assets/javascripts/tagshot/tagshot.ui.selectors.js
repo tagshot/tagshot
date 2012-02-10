@@ -1,10 +1,15 @@
-/* This module bundles all jQuery selectors for Tagshot.
+/*
+ * Main access station for all jQuery-selectors
+ * ================================================================================
+ * To avoid cluttering view logic code with html/selektor strings, this module
+ * bundles all jQuery-selectors for Tagshot.
+ * Access in other code through Tagshot.ui.selectors.[property], where [property]
+ * is one of the properties defined below.
  *
  */
 //= require tagshot/tagshot.ui
 
 Tagshot.ui.selectors = (function () {
-
 	function init() {
 		return this;
 	}
