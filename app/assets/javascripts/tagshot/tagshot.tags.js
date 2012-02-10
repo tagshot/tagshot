@@ -1,3 +1,16 @@
+/*
+ * Adding and removing tags from the current 
+ * ================================================================================
+ * This module offers methods to select the next, previous, above or below
+ * image based on the current selection.
+ * Moreover, if passed an Event it automatically selects the appropriate
+ * operation to perform.
+ *
+ * Dependencies:
+ *   It needs an Tagshot.Collections.PhotoList to get the current selection and
+ *   select elements. This must be passed in via the init method.
+ */
+
 Tagshot.addTag = function (tagList, newTag) {
 	Tagshot.localVersionDirty = true;
 	Tagshot.collections.photoList.selection().forEach(function (model) {

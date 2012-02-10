@@ -25,7 +25,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 
 	function selectAction (keyEvent) {
 		// Only invoke action, if current text is empty, so we do not want to navigate in the current text
-		if (event.target.value !== '') return;
+		if (keyEvent.target.value !== '') return;
 		if (keyEvent.shiftKey) {
 			switch (keyEvent.keyCode) {
 				case keyCodes.LEFT:
@@ -65,6 +65,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 		photoList.deselectAll();
 		photoList.at((photoList.indexOf(last) + 1) % photoList.length).select();
 		photoList.trigger('rescroll');
+		return false;
 	}
 	
 	function selectPrevious () {
@@ -75,6 +76,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 		index -= 1;
 		photoList.at(index).select();
 		photoList.trigger('rescroll');
+		return false;
 	}
 	function selectAbove (imagesInRow) {
 		var first = _.first(photoList.selection());
@@ -82,6 +84,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 		photoList.deselectAll();
 		photoList.at(index).select();
 		photoList.trigger('rescroll');
+		return false;
 	}
 	function selectBelow (imagesInRow) {
 		var last = _.last(photoList.selection());
@@ -89,6 +92,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 		photoList.deselectAll();
 		photoList.at(index).select();
 		photoList.trigger('rescroll');
+		return false;
 	}
 	function shiftSelectPrevious () {
 		var first = _.first(photoList.selection());

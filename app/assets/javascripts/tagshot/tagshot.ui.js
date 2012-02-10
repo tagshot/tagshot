@@ -1,76 +1,19 @@
-/*
- * This module initializes basic callbacks/event handlers.
+/* * Initialize basic ui callbacks and event handlers.
+ * ================================================================================
+ * This module initializes basic callbacks/event handlers using jQuery.
  * In addition it deals with UI code like creating buttons etc.
+ * The method names are speaking, and the implementation is straightforward.
  */
 
 Tagshot.ui = (function () {
 	/*
-	 * Initialize basic callbacks/event handlers
+	 * Initialization
 	 */
-	var toggleOptionsContainerOnClick = function () {
-		$("#show-options").click(function () {
-			$("#options-container").slideToggle(300);
-			$(this).toggleClass("open");
-		});
-	};
-	var jumpFromTagBoxToGalleryWithTab = function () {
-		// Jump from search to gallery with tab.
-		Tagshot.ui.selectors.tagBox.bind('keydown', 'tab', function (e) {
-			e.stopPropagation();
-			$('backbone-gallery-view image-view image-frame:first img').click();
-			return true;
-		});
-	};
-	var navigateHomeOnTagshotLogoClick = function () {
-		$('#title').click(function() {
-			Tagshot.router.navigate('', { trigger: true });
-			return false;
-		});
-	};
-
-	var initializeSearchBoxAutocompletion = function () {
-		/* apply autocompletion to <input> */
-
-		Tagshot.ui.selectors.searchBox.tagAutocomplete({
-			autocompleteList:  Tagshot.tagList,
-			onTagAdded:        Tagshot.search,
-			onTagRemoved:      Tagshot.search,
-			postProcessors:    [Tagshot.converter.inputToStars]
-		});
-	};
-
-	var setSearchBoxFocusOnPageLoad = function () {
-		Tagshot.ui.selectors.searchBox.textboxFocusOnStart({
-			text:               'Just start searching…',
-			cssClassWhenEmpty:  'search-start',
-			doFocus:            true
-		});
-	};
-
-	var insertLoadMoreButton = function(here) {
-		$(here).html(
-			"<ul>" +
-			"</ul>" +
-			"<span id='fix-gallery' class='ui-helper-clearfix'></span>" +
-			"<button id='more'>load more...</button>"
-		);
-	};
-
-	var insertPhoto = function(view, here) {
-		$('ul', here.el).append(view.render().el);
-	};
-
-	function bindRotateClicks() {
-		var rot = Tagshot.rotate;
-		$('#rotate-image-left').click(rot.rotateLeft);
-		$('#rotate-image-right').click(rot.rotateRight);
-	}
-
-	var initBeforeBackbone = function() {
+	// ========== Backbone
+	function initBeforeBackbone() {
 		Tagshot.ui.resize.init();
 	}
-
-	var initAfterBackbone = function () {
+	function initAfterBackbone() {
 		toggleOptionsContainerOnClick();
 		jumpFromTagBoxToGalleryWithTab();
 		navigateHomeOnTagshotLogoClick();
@@ -80,19 +23,127 @@ Tagshot.ui = (function () {
 
 		Tagshot.sourceSelect.init();
 		Tagshot.ui.activeGallery.init();
-	};
+	}
+	function initializeSearchBoxAutocompletion() {
+		/* apply autocompletion to <input> */
+		Tagshot.ui.selectors.searchBox.tagAutocomplete({
+			autocompleteList:  Tagshot.tagList,
+			onTagAdded:        Tagshot.search,
+			onTagRemoved:      Tagshot.search,
+			postProcessors:    [Tagshot.converter.inputToStars]
+		});
+	}
+	// ========== Autocompletion
+	function initializeTagBoxAutocompletion() {
+		Tagshot.ui.selectors.tagBox.tagAutocomplete({
+			autocompleteList:          Tagshot.tagList,
+			autocompleteListPosition:  'above',
+			onTagAdded:                Tagshot.addTag,
+			onTagRemoved:              Tagshot.removeTag,
+			onKeyEvent:                function (keyEvent) {
+				return Tagshot.ui.keyboardPhotoSelection.selectAction(keyEvent);
+			}
+		});
+	}
+
+	/*
+	 * Callbacks
+	 */
+	function toggleOptionsContainerOnClick() {
+		$("#show-options").click(function () {
+			$("#options-container").slideToggle(300);
+			$(this).toggleClass("open");
+		});
+	}
+	function navigateHomeOnTagshotLogoClick() {
+		$('#title').click(function() {
+			Tagshot.router.navigate('', { trigger: true });
+			return false;
+		});
+	}
+	function bindRotateClicks() {
+		$('#rotate-image-left').click(Tagshot.ui.rotate.rotateLeft);
+		$('#rotate-image-right').click(Tagshot.ui.rotate.rotateRight);
+	}
+
+	function saveTagsOnTagBoxBlur() {
+		Tagshot.ui.selectors.tagBox.blur(function () {
+			if (Tagshot.localVersionDirty === false)
+				return;
+
+			// Save selection since we will not have it after the timeout.
+			// Use timeout because of race conditions with put and fetch of different models.
+			var selection = Tagshot.collections.photoList.selection();
+
+			// We only want to show "Tags saved", when all photos in selection have been saved.
+			// So we need to save, how many photos have been saved so far.
+			var savedPhotos = 0;
+			setTimeout(function () {
+				_.each(selection,function (model, index) {
+					model.save(undefined, {
+						success: function() {
+							savedPhotos += 1;
+							// check if all photos have been saved
+							if (savedPhotos === selection.length) {
+								Tagshot.ui.userMessages.info("Tags saved", 400);
+								Tagshot.localVersionDirty = false;
+							}
+						}
+					});
+				});
+			}, 500);
+		});
+	}
+
+	/*
+	 * Bind IO-Events (focus and keyevents)
+	 */
+	function jumpFromTagBoxToGalleryWithTab() {
+		// Jump from search to gallery with tab.
+		Tagshot.ui.selectors.tagBox.bind('keydown', 'tab', function (e) {
+			e.stopPropagation();
+			$(Tagshot.ui.selectors.photoListView_firstImg).click();
+			return true;
+		});
+	}
+
+
+	function setSearchBoxFocusOnPageLoad() {
+		Tagshot.ui.selectors.searchBox.textboxFocusOnStart({
+			text:               'Just start searching…',
+			cssClassWhenEmpty:  'search-start',
+			doFocus:            true
+		});
+	}
+
+
+	/*
+	 * General dom manipulation helpers
+	 */
+	function insertLoadMoreButton(here) {
+		$(here).html(
+			"<ul>" +
+			"</ul>" +
+			"<span id='fix-gallery' class='ui-helper-clearfix'></span>" +
+			"<button id='more'>load more...</button>"
+		);
+	}
+	function insertPhoto(view, here) {
+		$('ul', here.el).append(view.render().el);
+		Tagshot.ui.resize.resizeImages();
+	}
 
 	/*********************
 	 * API Functions
 	 * *******************/
 	return {
-		initBeforeBackbone:                 initBeforeBackbone,
 		initAfterBackbone:                  initAfterBackbone,
+		initBeforeBackbone:                 initBeforeBackbone,
 		initializeSearchBoxAutocompletion:  initializeSearchBoxAutocompletion,
+		initializeTagBoxAutocompletion:     initializeTagBoxAutocompletion,
 		insertLoadMoreButton:               insertLoadMoreButton,
 		insertPhoto:                        insertPhoto,
-		jumpFromTagBoxToGalleryWithTab:     jumpFromTagBoxToGalleryWithTab,
+		saveTagsOnTagBoxBlur:               saveTagsOnTagBoxBlur,
 		setSearchBoxFocusOnPageLoad:        setSearchBoxFocusOnPageLoad,
-		toggleOptionsContainerOnClick:      toggleOptionsContainerOnClick
 	};
 })();

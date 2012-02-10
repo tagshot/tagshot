@@ -35,9 +35,7 @@
 
 $(function () {
 	Tagshot.ui.initBeforeBackbone();
-
 	Tagshot.init();
-
 	Tagshot.ui.initAfterBackbone();
 
 	$.ajax("/tags", {
@@ -47,40 +45,8 @@ $(function () {
 			Tagshot.ui.initializeSearchBoxAutocompletion();
 			Tagshot.ui.setSearchBoxFocusOnPageLoad();
 
-			Tagshot.ui.selectors.tagBox.tagAutocomplete({
-				autocompleteList:          Tagshot.tagList,
-				autocompleteListPosition:  'above',
-				onTagAdded:                Tagshot.addTag,
-				onTagRemoved:              Tagshot.removeTag,
-				onKeyEvent:                function (keyEvent) {
-					return Tagshot.ui.keyboardPhotoSelection.selectAction(keyEvent);
-				}
-			}).blur(function () {
-				if (Tagshot.localVersionDirty === false)
-					return;
-
-				// Save selection since we will not have it after the timeout.
-				// Use timeout because of race conditions with put and fetch of different models.
-				var selection = Tagshot.collections.photoList.selection();
-
-				// We only want to show "Tags saved", when all photos in selection have been saved.
-				// So we need to save, how many photos have been saved so far.
-				var savedPhotos = 0;
-				setTimeout(function () {
-					_.each(selection,function (model, index) {
-						model.save(undefined, {
-							success: function() {
-								savedPhotos += 1;
-								// check if all photos have been saved
-								if (savedPhotos === selection.length) {
-									Tagshot.ui.userMessages.info("Tags saved", 400);
-									Tagshot.localVersionDirty = false;
-								}
-							}
-						});
-					});
-				}, 500);
-			});
+			Tagshot.ui.initializeTagBoxAutocompletion();
+			Tagshot.ui.saveTagsOnTagBoxBlur();
 		},
 	});
 });
