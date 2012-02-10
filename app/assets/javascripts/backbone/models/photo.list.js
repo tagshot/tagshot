@@ -91,18 +91,22 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		});
 	},
 
+	buildSourcesQuery: function() {
+		source = "source:";
+		_.each(this.currentSources, function(id, key){
+			source += id+"|"
+		});
+		return source.substring(0,source.length-1);
+
+	},
+
 	buildQueryWithSources: function () {
-		var self = this;
 		if (this.currentSources.length > 0) {
-			ids = "";
-			source = "source:";
-			_.each(this.currentSources, function(id, key){
-				ids += id+"|"
-			});
+			var source = this.buildSourcesQuery();
 			if (this.currentSearchQuery !== "") {
 				source = "+"+source;
 			}
-			return this.currentSearchQuery+source+ids.substring(0,ids.length-1);
+			return this.currentSearchQuery+source;
 		} else {
 			return this.currentSearchQuery;
 		}
