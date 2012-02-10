@@ -22,6 +22,7 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	reachedEnd:          false,
 	url:                 "/photos",
 	currentSearchQuery:  "",
+	currentSources:      [],
 	
 	initialize: function() {
 		var that = this;
@@ -90,6 +91,24 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		});
 	},
 
+	buildQueryWithSources: function () {
+		var self = this;
+		if (this.currentSources.lenght > 0) {
+			ids = "";
+			_.each(this.sources, function(id, key){
+				ids += id
+				var reachedEnd = key===self.currentSources.lenght;
+				if (!reachedEnd) {
+					ids += "|";
+				}
+			});
+			return this.currentSearchQuery+"source:"+ids;
+		} else {
+			return this.currentSearchQuery;
+		}
+		
+	},
+
 	appendingFetch: function(add, callback) {
 		// this function fetches models for infinite scrolling (load more button)
 		// add: how many images to add
@@ -105,12 +124,39 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 				data: {
 					offset: this.length,
 					limit: add,
-					q: this.currentSearchQuery
+					q: this.buildQueryWithSources()
 				}
 			}
 
 			this.fetch(options);
 		}
+	},
+
+	fetchWithQuery: function (query) {
+		// fetch models when searching
+		if (query)
+			this.currentSearchQuery = query
+
+		this.fetch({
+			add: true, //not appending
+			data: {
+				limit: Tagshot.configuration.numberOfImagesToFetchAtStart,
+				q: this.buildQueryWithSources()
+			}
+		});
+	},
+
+	fetchStart: function (callback){
+		// fetches models that have to be fetched at startup
+		var number = Tagshot.configuration.numberOfImagesToFetchAtStart;
+		Tagshot.collections.photoList.fetch({
+			data: { 
+				limit: number, 
+				q: this.buildQueryWithSources()
+			},
+			add: true,
+			success: callback
+		});
 	},
 
 	parse : function(resp) {

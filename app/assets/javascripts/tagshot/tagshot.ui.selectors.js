@@ -22,7 +22,6 @@ Tagshot.ui.selectors = (function () {
 		return $(view.el).find(".rating");
 	}
 
-
 	var photoListView_imgFrame = $("#photo-list-view div.image-frame");
 	var photoListView_firstImg = photoListView_imgFrame.first('img');
 

@@ -41,7 +41,7 @@ Tagshot.Router = Backbone.Router.extend({
 
 		console.log("reset collection");
 		Tagshot.collections.photoList.reset();
-		this.fetchModels(Tagshot.configuration.numberOfImagesToFetchAtStart, function() {
+		Tagshot.collections.photoList.fetchStart(function() {
 			self.navigate("", {
 				'replace': true,
 				'trigger': false
@@ -81,14 +81,7 @@ Tagshot.Router = Backbone.Router.extend({
 			console.log("do search");
 			photolist.reset();
 
-			photolist.currentSearchQuery = query;
-			photolist.fetch({
-				add: true, //not appending
-				data: {
-					limit: Tagshot.configuration.numberOfImagesToFetchAtStart,
-					q: query
-				}
-			});
+			photolist.fetchWithQuery(query);
 		}
 	},
 
@@ -142,19 +135,12 @@ Tagshot.Router = Backbone.Router.extend({
 		$('#backbone-gallery-view').addClass('active');
 	},
 
-	fetchModels: function(number, callback) {
-		Tagshot.collections.photoList.fetch({
-			data: { limit: number },
-			add: true,
-			success: callback
-		});
-	},
-
 	fillTagbarWithSearchedTags: function (query) {
 		var tagLIs = $("#search-container .textbox li.tag");
 		if (tagLIs.length !== 0)
 			return;
 		var tags = Tagshot.converter.queryToInput(query);
+		//var sources = Tagshot.converter.queryToSources(query);
 
 		for (var i = 0; i < tags.length; i += 1) {
 			$("#search-box").parent().before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');

@@ -15,14 +15,31 @@ Tagshot.ui.sourceSelect = (function () {
 			var data = {'sources': json};
 			var selectElement = Mustache.to_html($("#sources-template").html(), data);
 			$(".source-select").html(selectElement);
+
+			$('#go-sources').click(apply);
+		});	
+	}
+
+	function setSources(sources) {
+		_.each(sources, function (id){
+			console.log(id)
+			$("option[value="+id+"]",".source-select").attr('selected',"selected");
 		});
+
+		Tagshot.collections.photoList.currentSources = sources;
+	}
+
+	function apply() {
+		console.log("apply sources");
+		Tagshot.collections.photoList.fetchStart();
 	}
 
 	/*********************
 	 * API Functions
 	 * *******************/
 	return {
-		init: init
+		init:        init,
+		setSources:  setSources
 	};
 })();
 
