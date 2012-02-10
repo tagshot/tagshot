@@ -12,17 +12,15 @@
  * 		This plugin is (or will be) thoroughly tested in starMeTest.js
  */
 
-(function( $ ){
-
-  $.fn.starMe = function(options) {
-
+(function ($) {
+	$.fn.starMe = function(options) {
 		var defaults = {
-			starCount: 	0,
-			starMax: 		5,
-			emptyStar:	'☆',
-			fullStar: 	'★',
-			titles : 		['bad', 'poor', 'regular', 'good', 'gorgeous'],	
-			ratingFunc: function(newStarCount) {
+			starCount:   0,
+			starMax:     5,
+			emptyStar:   '☆',
+			fullStar:    '★',
+			titles :     ['bad', 'poor', 'regular', 'good', 'gorgeous'],
+			ratingFunc:  function(newStarCount) {
 				console.log('New star count: ', newStarCount)
 			},
 		};
@@ -31,9 +29,9 @@
 
 		var self = this;
 
-/********************************************
-* High level logic
-*********************************************/
+		/********************************************
+		* High level logic
+		*********************************************/
 
 		return this.each(function() {
 			$(self).html(""); //empty
@@ -43,9 +41,9 @@
 		});
 
 
-/********************************************
-* Insert links with stars on given DOM node
-*********************************************/
+		/********************************************
+		* Insert links with stars on given DOM node
+		*********************************************/
 
 		function buildFullStars() {
 			_.each(_.range(options.starCount), function(i) {
@@ -73,9 +71,9 @@
 		}
 
 
-/***********************************
-* Attaching and handling of events
-************************************/
+		/***********************************
+		* Attaching and handling of events
+		************************************/
 
 		function attachClickHandler() {
 			$(self).children().click(clickFunc);
@@ -86,7 +84,7 @@
 			var newStarCount = options.starMax - $(this).nextAll().length;
 			console.log("Click handler says to callback: newStarCount = ", newStarCount);
 			options.ratingFunc(newStarCount);
-			return false;	// prevent jump to top of the page
+			return false; // prevent jump to top of the page
 		}
 
 		function replaceStars(elem){
@@ -95,4 +93,4 @@
 			elem.nextAll().text(options.emptyStar);
 		}
 	}
-})( jQuery );
+})(jQuery);

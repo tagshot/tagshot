@@ -1,7 +1,10 @@
-/* This Module transforms all searchable strings
+/*
+ * Convert between User-Input <-> Display <-> URL-parameters
+ * ================================================================================
+ * This Module transforms all searchable strings.
  * It is used to make fancy unicode stars from text input in
  * the search or tags bar, transforms the tags into a query
- * and replaces the URL/Query string to fancy unicode stars back again.
+ * and replaces the URL/query string to fancy unicode stars back again.
  *
  * BEWARE: This module is COMPLETELY OPTIMISTIC about user input.
  * There is no error handling. Every input just falls through
@@ -18,9 +21,10 @@
  */ 
 
 Tagshot.converter = (function () {
-	/* url: stars:3
+	/* 
+	 * url: stars:3
 	 * textinput: <3*
-	 * stars: ★★★☆☆
+	 * display: ★★★☆☆
 	 */
 
 	// BEWARE: Number of stars is a digit, not [0-5]
@@ -29,6 +33,9 @@ Tagshot.converter = (function () {
 
 	// case insensitive 'or' in English, German or Prolog/Erlang
 	var OR_TOKEN           = /^(OR|ODER|;)$/i;
+
+	// data sources start with source: folled by numeric id, separated by pipes
+	var SOURCE_TOKEN       = /^.*source:(\d\|)*(\d)$/i;
 
 	// We separate Tag1 OR Tag2 in the URL with Tag1,Tag2
 	var OR_URL_TOKEN       = ',';
@@ -50,13 +57,31 @@ Tagshot.converter = (function () {
 				return buildStarQueryToken(token);
 			}
 			return token;
-		}).join('+').replace(/\+,\+/, ',')		// AND is default for search, if OR occured, fix URL from 'a+,+b' to 'a,b'
+		}).join('+').replace(/\+,\+/, ',');
+		// AND is default for search, if OR occured, fix URL from 'a+,+b' to 'a,b')
 	};
 
 	function queryToInput(url) {
 		// This unicodifies a url
-		return _.map(findTokensInURL(url), function(t) {
-			return inputToStars(stripStarPrefix(t))
+		var tokens = _.map(findTokensInURL(url), function(t) {
+			return inputToStars(stripStarPrefix(t));
+		});
+		return _.reject(tokens, function(t) {
+			return isSourceToken(t);
+		});
+	};
+
+	function queryToSources(url) {
+		if (!isSourceToken(url)) {
+			return [];
+		}
+		var match = url.match(SOURCE_TOKEN);
+		if (match[1] == undefined) {
+			return [parseInt(match[2])];
+		}
+		return _.map(match.splice(1), function(token) {
+			token.replace('|', '');
+			return parseInt(token);
 		});
 	};
 
@@ -94,6 +119,10 @@ Tagshot.converter = (function () {
 /*****************************/
 /* Helper Functions */
 /*****************************/
+
+	function isSourceToken(token) {
+		return SOURCE_TOKEN.test(token);
+	};
 
 	function isORtoken(token) {
 		return OR_TOKEN.test(token);
@@ -156,9 +185,10 @@ Tagshot.converter = (function () {
 
 	return {
 	// Make API functions accessible
-		inputToQuery: inputToQuery,
-		queryToInput: queryToInput,
-		inputToStars: inputToStars,
+		inputToQuery:    inputToQuery,
+		queryToInput:    queryToInput,
+		inputToStars:    inputToStars,
+		queryToSources:  queryToSources,
 
 	// Return private methods to test them
 		test: {

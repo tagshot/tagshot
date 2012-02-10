@@ -294,8 +294,8 @@ section#options-container {
 	border-bottom: 3px solid #333;
 
 	text-align: left;
-	padding-top: 8px;
-	height: 45px;
+	padding-top: 4px;
+	height: 55px;
 	display: none;
 	position: relative;
 }
@@ -311,10 +311,22 @@ div#thumbnail-size-slider {
 	margin-top: 10px;
 }
 
+.source-select {
+	float: right;
+	margin-right: 30px;
+	select {
+		width: 300px;
+		background: #555;
+		color: white;
+		border: 2px solid #222;
+		padding-left: 6px;
+	}
+}
+
 .meta-links {
 	text-align: right;
-	position: absolute;
-	right: 30px;
+	float: right;
+	margin-right: 10px;
 
 	&a {
 		color: #bbb;
@@ -336,9 +348,9 @@ div#thumbnail-size-slider {
 /***********************************/
 
 /***********************************/
-/* backbone-gallery-view */
+/* photo-list-view */
 /***********************************/
-#backbone-gallery-view {
+#photo-list-view {
 	background-color: #676767;
 	text-align: center;
 	padding-bottom: 70px;
@@ -436,7 +448,7 @@ div#thumbnail-size-slider {
 	#more:disabled { display: none };
 }
 
-#backbone-gallery-view.active {
+#photo-list-view.active {
 	.image-frame {
 		& img:hover { 
 			border: 4px solid #bbb;
@@ -496,14 +508,27 @@ footer{
 	bottom: 0px;
 }
 
-div#trash-container {
-	width: 45px;
+div#commands-container {
+	width: 80px;
 	height: 33px;
 	float: right;
 	margin-top: 8px;
 	margin-right: 8px;
-	background: transparent image-url("trash-empty.png") no-repeat center center;
 	background-size: 2em;
+	
+	.command {
+		width: 32px;
+		height: 32px;
+		display: inline-block;
+	}
+	.rotate-right {
+		background: transparent image-url("rotate_right.png");
+		background-size: contain;
+	}
+	.rotate-left {
+		background: transparent image-url("rotate_left.png");
+		background-size: contain;
+	}
 }
 
 /***********************************/

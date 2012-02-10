@@ -1,0 +1,137 @@
+
+@mixin border-radius($radius: 1em) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -khtml-border-radius: $radius;
+  border-radius: $radius $radius $radius $radius;
+}
+
+@mixin box-shadow($size: 0.4em, $color: #000, $x: 0, $y: 0) {
+  -moz-box-shadow: $x $y $size $color;
+  -webkit-box-shadow: $x $y $size $color;
+  -khtml-box-shadow: $x $y $size $color;
+  box-shadow: $x $y $size $color;
+}
+
+@mixin box-sizing($type: content-box) {
+  -moz-box-sizing: $type;
+  -webkit-box-sizing: $type;
+  -khtml-box-sizing: $type;
+  box-sizing: $type;
+}
+
+@mixin background-gradient($color2, $color1) {
+  background-image: linear-gradient(bottom, $color1 0%, $color2 100%);
+  background-image: -o-linear-gradient(bottom, $color1 0%, $color2 100%);
+  background-image: -moz-linear-gradient(bottom, $color1 0%, $color2 100%);
+  background-image: -webkit-linear-gradient(bottom, $color1 0%, $color2 100%);
+  background-image: -ms-linear-gradient(bottom, $color1 0%, $color2 100%);
+  
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0, $color1),
+    color-stop(1, $color2)
+  );
+}
+
+@mixin flash-box {
+  font-weight: normal;
+  color: #333;
+  margin: 1px 0;
+  display: block;
+  background: #eee none no-repeat 5px 3px;
+  padding: 3px 6px 3px 6px;
+  border: 1px solid #777;
+  font-size: 1em;
+  @include border-radius(4px);
+
+  a.close { 
+    float: right; 
+    margin: -5px -5px 0 0; 
+    font-weight: bold;
+    font-size: 1em; 
+    color: #999;
+    
+    &:hover {
+      color: #444;
+      text-decoration: none; 
+    }
+  }
+}
+
+.flash-comment {
+  @include flash-box;
+}
+.flash-alert, .flash-error {
+  @include flash-box;
+  background-color: #FBE3E4; 
+  border-color: #B2020B;
+}
+.flash-notice, .flash-confirmation {
+  @include flash-box;
+  background-color: #daf5e8;
+  border-color: #407f39;
+}
+.flash-warning {
+  @include flash-box;
+  background-color: #fbffc0;
+  border-color: #ada135;
+}
+.flash-information {
+  @include flash-box;
+  background-color: #ccd3ff;
+  border-color: #5f58bc;
+}
+
+#container {
+	padding: 10px;
+	font-size: 12px;
+
+	color: #eee;
+	h2, h3 { margin-bottom: 4px; }
+	h2 { font-size: 14px; border-bottom: 1px dotted #aaa; }
+	h3 { font-size: 12px; font-weight: normal; }
+
+	$frame-color: #999;
+	$border-radius: 2px;
+
+	table { border-collapse: collapse; border-spacing: 0; }
+	.table {
+	  margin: 8px 0 4px 0;
+	  width: 100%;
+	  font-size: 0.9em;
+	  
+	  th {
+	    border-bottom: 1px solid $frame-color;
+	    text-align: center;
+	    text-transform: uppercase;
+	    font-size: 0.8em;
+	    padding: 6px 8px 2px;
+	    &.left { text-align: left; }
+	    &.right { text-align: right; }
+	  }
+
+	  td {
+	    border-bottom: 1px solid $frame-color;
+	    padding: 3px 8px;
+	    a.block { display: block; }
+	  }
+	  td.small, th.small { width: 1%; }
+	}
+	div.table {
+	  border: 1px solid $frame-color;
+	  @include border-radius(4px);
+	  padding: 0 1px;
+	  table { width: 100%; }
+	  thead th, thead td { @include background-gradient(#676767, #777); }
+	  .actions { float: right; padding: 3px;
+	  	input { padding: 1px 40px; }}
+	  div.footer { 
+	    margin: 2px 0 0;
+	    padding: 2px 0px 2px 5px; 
+	    input { margin-top: 4px; }
+	  }
+	}
+}

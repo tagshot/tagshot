@@ -1,39 +1,41 @@
-/* This view displays the information defined in photo.js.
- *
+/* 
+ * This view displays the information defined in photo.js.
+ * ================================================================================ 
  * It is responsible for setting up plugins that manipulate the DOM,
  * do the selection magic and add fancy effects.
  *
- * It also captures user input and saves it into the model.
+ * It also captures user input and saves it to the model.
  *
- * It's HTML template is located in app/views/moustache/image.html
+ * It's HTML template is located in app/views/mustache/image.html
  */
 
 
 //= require backbone-eventdata
 
 Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
-	tagName:  "li",
-	className: "image-view",
+	tagName:          "li",
+	className:        "image-view",
 	templateSelector: '#image-template',
 	events: {
-		"click img" : "click",
-		"dblclick img" : "openDetails",
-		"keydown[space]" : "quickview",
-		"keydown[return]" : "openDetails",
-		"keydown[shift+left]": "shiftSelectPrevious",
+		"click img":            "click",
+		"dblclick img":         "openDetails",
+		"keydown[space]":       "quickview",
+		"keydown[return]":      "openDetails",
+		"keydown[shift+left]":  "shiftSelectPrevious",
 		"keydown[shift+right]": "shiftSelectNext",
-		"keydown[left]" : "selectPrevious",
-		"keydown[right]" : "selectNext",
-		"keydown[up]" : "selectAbove",
-		"keydown[down]" : "selectBelow",
-		"keydown[del]": "delete",
-		"focusin": "photoFocused"
+		"keydown[left]":        "selectPrevious",
+		"keydown[right]":       "selectNext",
+		"keydown[up]":          "selectAbove",
+		"keydown[down]":        "selectBelow",
+		"keydown[del]":         "delete",
+		"focusin":              "photoFocused"
 	},
 
 	photoFocused: function (event) {
 		if (Tagshot.collections.photoList.selection().length === 0) {
 			this.model.select();
 		}
+
 	},
 	initialize : function() {
 		_.bindAll(this);
@@ -47,14 +49,8 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	render: function () {
-		// caching magic
-		if (this.needsNoRender()) {
-			return this;
-		}
 		this.fillTemplate(this.templateSelector);
 		this.setStars();
-
-		Tagshot.helpers.resizeImages();
 
 		// delegate events means rebinding the events
 		this.delegateEvents();
@@ -66,10 +62,11 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		$(this.el).find(".tags").html(s);
 	},
 
-	select: function() {
+	select: function () {
 		$(this.el).children().first().addClass("selected");
 		$(this.el).children('.image-frame').focus();
 		this.trigger("selectionChanged");
+		$(Tagshot.ui.selectors.tagBox).focus();
 	},
 
 	deselect: function() {
@@ -82,15 +79,13 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	openDetails : function(e) {
-		Tagshot.router.navigate("details/" + this.model.get("id"), true);
+		Tagshot.router.navigate("details/" + this.model.get("id"), {trigger: true});
 	},
 
 	quickview: function(e) {
-		this.stop(e);
 		this.trigger('quickview', this);
 		return false;
 	},
-	
 
 	_remove: function() {
 		//should get called when destroy() was called b.c. of event binding in initialize()
@@ -113,14 +108,8 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	click: function (e) {
 		this.stop(e);
 		$(this.el).find('.image-frame').focus();
-		Tagshot.views.gallery.setActive();
 		
 		this.model.trigger('changeSelection', this.model, e.shiftKey, e.ctrlKey || e.metaKey);
-	},
-
-	stop: function (e) {  
-		//avoid propagation to underlying view(s)
-		e.stopPropagation();
 	},
 
 	selectNext: function (e) {
@@ -148,27 +137,5 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	shiftSelectPrevious: function (e) {
 		this.stop(e);
 		this.model.trigger('shiftSelectPrevious');
-	},
-	countImagesInARow: function () {
-		var offset, count = 0;
-		$(".image-view .image").each(function (index, el) {
-			if (offset === undefined) {
-				offset = $(el).offset().top;
-			} else {
-				if (offset !== $(el).offset().top)
-					return false;
-			}
-			count += 1;
-		});
-		return count;
-	},
-	needsNoRender: function() {
-		var currentModelHash = this.model.computeHash();
-		if (this.model.hash === currentModelHash) {
-			return true;
-		}
-		//console.log("identifier change: " + this.model.hash + " -> " + currentModelHash);
-		this.model.hash = currentModelHash;
-		return false;
 	}
 });

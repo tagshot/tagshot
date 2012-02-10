@@ -16,11 +16,13 @@
 				<span>Set tile size: </span>
 				<div id="thumbnail-size-slider"></div>
 			</div>
+			</div>
 			<div class="meta-links">
 				<a href="/session/destroy">logout</a>
 				<a href="/help" target="_blank">help'n shortcuts</a>
 				<a href="/admin">admin</a>
 			</div>
+			<div class="source-select">
 			<br style="clear: both;" />
 		</section>
 	</header>
@@ -28,7 +30,10 @@
 	<section id="backbone-main-view"></section>
 
 	<footer id="tag-footer" class="header-footer">
-		<div id="trash-container"></div>
+		<div id="commands-container">
+			<a href="#" class="command rotate-left" id="rotate-image-left"></a>
+			<a href="#" class="command rotate-right" id="rotate-image-right"></a>
+		</div>
 		<div id="tag-edit-container" class="textbox-container">
 			<input type="text" value="" id="tag-box" class='textbox' tabindex="3">
 		</div>

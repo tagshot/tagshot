@@ -1,6 +1,7 @@
 //= require backbone
 
-/*
+/* This plugin enables a backbone app to regain the scroll position while navigating between views.
+ *
  * reguires the jquery hotkey plugin by jresig
  */
 

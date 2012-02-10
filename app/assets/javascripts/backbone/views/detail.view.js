@@ -1,8 +1,17 @@
 /* 
  * This view is used to display a huge single photo with its tags and metadata.
+ * ================================================================================  
+ * This View works lie the Tagshot.Views.PhotoView. For further details use the 
+ * documentation there. 
+ *
+ * This view is responsible for showing properties and metainformation of the images, 
+ * store changes to the properties to the database and allow the user to download images
+ * in variour resolutions.
+ * 
+ * It's HTML template is located in app/views/mustache/detail.html
  */
 
-//=require starMe
+//=require jquery.starMe
 //=require jquery.inlineedit
 
 Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
@@ -12,30 +21,30 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 	templateSelector: '#detail-template',
 
 	events: {
-		"click footer" : "stop",
-		"change footer #tag-box": "updateTags",
-		"submit #download-form": "download"
+		"click footer" :          "stop",
+		"change #tag-box":        "updateTags",
+		"submit #download-form":  "download"
 	},
 
 	initialize: function(options) {
 		_.bindAll(this);
 	},
 
-	render: function(model) {
-		if (model) {
-			this.model = model;
+	render: function (model) {
+		if (!model) {
+			this.renderNotFound();
+			return;
 		}
+		this.model = model;
 
-		if (this.model) {
-			var tags = {tags: this.model.get('tags')};
+		// set model as selected so that we can tag it and so on
+		this.model.select(true);
 
-			this.fillTemplate(this.templateSelector);
-			this.setStars();
-			this.bindInputListener();
+		var tags = {tags: this.model.get('tags')};
 
-		} else {
-			this.renderNotfound();
-		}
+		this.fillTemplate(this.templateSelector);
+		this.setStars();
+		this.bindInputListener();
 
 		return this;
 	},
@@ -49,15 +58,6 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 			});
 			return str;
 		};
-	},
-
-	setStars: function() {
-		// copy'n pasted from photo.view.js FIXME
-		var stars = this.model.get('properties').rating;
-		$(this.el).find(".rating").starMe({
-			'starCount': stars,
-			'ratingFunc': this.rating
-		});
 	},
 
 	bindInputListener: function() {
@@ -87,7 +87,7 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	updateTags: function(e) {
-		var tags = $("#tag-box").val().split(" ")
+		var tags = $(Tagshot.ui.selectors.tagBox).val().split(" ")
 		this.model.save({'tags': tags});
 	},
 
@@ -113,19 +113,12 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 
 			console.log("download", url);
 			window.open(url);
-
-			//console.log(res, scaled, x, y, url);
 		}
 
 		return false;
 	},
 
-	stop: function(e) {
-		//avoid event propagation
-		e.stopPropagation();
-	},
-
-	renderNotfound: function() {
+	renderNotFound: function() {
 		$(this.el).html("Image not found");
 	}
 });

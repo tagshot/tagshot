@@ -17,79 +17,30 @@
 //= require backbone_datalink
 //= require mustache
 //= require backbone/tagshot
-//= require tags
-//= require helpers
-//= require tagshot.ui
-//= require converter
-//= require search
+//= require tagshot/tagshot.tags
+//= require tagshot/tagshot.helpers
+//= require tagshot/tagshot.ui
+//= require tagshot/tagshot.converter
+//= require tagshot/tagshot.search
 //= require jquery.fancybox-1.3.4
 //= require jquery.jstree
-//= require tagshot.ui.userMessages
 
-$(function() {
-	// initialize Tagshot (Backbone)
+//= require tagshot/tagshot.ui.userMessages
+//= require tagshot/tagshot.ui.selectors
+//= require tagshot/tagshot.ui.rotate
+//= require tagshot/tagshot.ui.sourceSelect
+//= require tagshot/tagshot.ui.activeGallery
+//= require tagshot/tagshot.ui.ajaxIndicator
+//= require tagshot/tagshot.ui.resize
+
+$(function () {
+	Tagshot.ui.initBeforeBackbone();
 	Tagshot.init();
-
-	Tagshot.ui.init();
-
-	Tagshot.helpers.addGlobalAjaxIndicator();
-
-
+	Tagshot.ui.initAfterBackbone();
 
 	$.ajax("/tags", {
 		success: function (data) {
-
-			Tagshot.tagList = data;
-			/* apply autocompletion to <input> */
-			Tagshot.ui.searchBox.tagAutocomplete({
-				autocompleteList: Tagshot.tagList,
-				onTagAdded: Tagshot.search,
-				onTagRemoved: Tagshot.search,
-				postProcessors: [
-					{
-						matches: Tagshot.converter.isRatingInput,		// EDIT here
-						transform: Tagshot.converter.inputToStars
-					}
-				]
-			/* and make it auto-focus on page-load */
-			})
-			.textboxFocusOnStart({
-				text: 'Just start searching…',
-				cssClassWhenEmpty: 'search-start',
-				doFocus: true
-			});
-
-			Tagshot.ui.tagBox.tagAutocomplete({
-				autocompleteList: Tagshot.tagList,
-				autocompleteListPosition: 'above',
-				onTagAdded: Tagshot.addTag,
-				onTagRemoved: Tagshot.removeTag
-			}).blur(function () {
-				if (Tagshot.localVersionDirty === false)
-					return;
-
-				// Save selection since we will not have it after the timeout.
-				// Use timeout because of race conditions with put and fetch of different models.
-				var selection = Tagshot.collections.photoList.selection();
-
-				// We only want to show "Tags saved", when all photos in selection have been saved.
-				// So we need to save, how many photos have been saved so far.
-				var savedPhotos = 0;
-				setTimeout(function () {
-					_.each(selection,function (model, index) {
-						model.save(undefined,{
-							success: function() {
-								savedPhotos += 1;
-								// check if all photos have been saved
-								if (savedPhotos === selection.length) {
-									Tagshot.ui.userMessages.info("Tags saved", 400);
-									Tagshot.localVersionDirty = false;
-								}
-							}
-						});
-					});
-				}, 500);
-			});
-		},
+			Tagshot.ui.updateAutocompletionList(data);
+		}
 	});
 });

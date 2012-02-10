@@ -10,6 +10,10 @@ config/database.yml
 dev_db_name*
 stats
 *.un*
-public/images/LWW/*
+public/images/*
 *.orig
 .bundle\n
+
+
+test_db_name
+tagshot_development

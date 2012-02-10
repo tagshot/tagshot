@@ -1,18 +1,31 @@
 /* This Collection is a list of photo models.
- * It is the model for photo.list.view.js and it's template is app/views/moustache/gallery.html
+ * ================================================================================
+ * This collection consists of many Tagshot.Models.Photo and is 
+ * synchronized with the backend via the backbone functions fetch() and save().
+ *
+ * The data that is fetched from the backend is stored in attributes.
+ *
+ * It is the model for photo.list.view.js and has functions for 
+ * getting the selection and moving the selection. These functions are mostly 
+ * called from the Tagshot.Views.PhotoListView.
+ *
+ * The collection is ordered by id. If you want to have another order, you have 
+ * to adjust the order function in Tagshot.Models.Photo.
  */
 
+//= require tagshot/tagshot.keyboardPhotoSelection
 
 Tagshot.Collections.PhotoList = Backbone.Collection.extend({
-	model: Tagshot.Models.Photo,
-	fetching: false,
+	model:               Tagshot.Models.Photo,
+	fetching:            false,
 	// needed for infinite scrolling
-	reachedEnd: false,
-	url: "/photos",
-	currentSearchQuery: "",
+	reachedEnd:          false,
+	url:                 "/photos",
+	currentSearchQuery:  "",
+	currentSources:      [],
 	
 	initialize: function() {
-		var self = this;
+		var that = this;
 		_.bindAll(this);
 		this.bind('selectNext', this.selectNext);
 		this.bind('selectPrevious', this.selectPrevious);
@@ -21,10 +34,13 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		this.bind('shiftSelectNext', this.shiftSelectNext);
 		this.bind('shiftSelectPrevious', this.shiftSelectPrevious);
 		this.bind('changeSelection', this.changeSelection);
-		this.bind('reset', function() {
-			self.currentSearchQuery = "";
-			self.reachedEnd = false;
+		this.bind('reset', function () {
+			//that.currentSearchQuery = "";
+			that.reachedEnd = false;
 		}, this);
+
+		this.keyboardPhotoSelection = Tagshot.ui.keyboardPhotoSelection;
+		this.keyboardPhotoSelection.init(this);
 	},
 
 	changeSelection: function (model, rangeSelect, toggleSelect) {
@@ -37,59 +53,23 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 			model.toggleSelect();
 		} else {
 			// deselect all but current
-			this.deselectAll({'exclude':model});
+			this.deselectAll( {'exclude': model });
 			model.select();
 		}
 	},
 
-	selectNext: function () {
-		var last = _.last(this.selection());
-		this.deselectAll();
-		this.at((this.indexOf(last) + 1) % this.length).select();
-	},
-	selectPrevious: function () {
-		var first = _.first(this.selection());
-		this.deselectAll();
-		var index = this.indexOf(first);
-		if (index === 0) index = this.length;
-		index -= 1;
-		this.at(index).select();
-	},
-	selectAbove: function (imagesInRow) {
-		var first = _.first(this.selection());
-		var index = Math.max(0, this.indexOf(first) - imagesInRow);
-		this.deselectAll();
-		this.at(index).select();
-		this.trigger('rescroll');
-	},
-	selectBelow: function (imagesInRow) {
-		var last = _.last(this.selection());
-		var index = Math.min(this.length - 1, this.indexOf(last) + imagesInRow);
-		this.deselectAll();
-		this.at(index).select();
-		this.trigger('rescroll');
-	},
-	shiftSelectPrevious: function () {
-		var first = _.first(this.selection());
-		var index = this.indexOf(first);
-		index -= 1;
-		this.at(index).select();
-	},
-	shiftSelectNext: function () {
-		var last = _.last(this.selection());
-		this.at((this.indexOf(last) + 1) % this.length).select();
-	},
+	selectNext:           Tagshot.ui.keyboardPhotoSelection.selectNext,
+	selectPrevious:       Tagshot.ui.keyboardPhotoSelection.selectPrevious,
+	selectAbove:          Tagshot.ui.keyboardPhotoSelection.selectAbove,
+	selectBelow:          Tagshot.ui.keyboardPhotoSelection.selectBelow,
+	shiftSelectPrevious:  Tagshot.ui.keyboardPhotoSelection.shiftSelectPrevious,
+	shiftSelectNext:      Tagshot.ui.keyboardPhotoSelection.shiftSelectNext,
 
 	selection: function() {
 		// returns the current selection
 		return this.filter(function(photo){
 			return photo.selected;
 		});
-	},
-
-	getMainModel: function() {
-		// returns the main model, meaning the one that may be in the detailed view
-		return this.mainModel;
 	},
 
 	selectAll: function() {
@@ -104,12 +84,32 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	},
 
 	selectFromTo: function(from, to) {
-		console.log("select from "+from+" to "+to);
 		_.each(this.models, function(item) {
-			if(between(from.id, to.id, item.id)){
+			if (between(from.id, to.id, item.id)){
 				item.select();
 			}
 		});
+	},
+
+	buildSourcesQuery: function() {
+		source = "source:";
+		_.each(this.currentSources, function(id, key){
+			source += id+"|"
+		});
+		return source.substring(0,source.length-1);
+
+	},
+
+	buildQueryWithSources: function () {
+		if (this.currentSources.length > 0) {
+			var source = this.buildSourcesQuery();
+			if (this.currentSearchQuery !== "") {
+				source = "+"+source;
+			}
+			return this.currentSearchQuery+source;
+		} else {
+			return this.currentSearchQuery;
+		}
 	},
 
 	appendingFetch: function(add, callback) {
@@ -127,12 +127,50 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 				data: {
 					offset: this.length,
 					limit: add,
-					q: this.currentSearchQuery
+					q: this.buildQueryWithSources()
 				}
 			}
 
 			this.fetch(options);
 		}
+	},
+
+	fetchWithQuery: function (query) {
+		// fetch models when searching
+		this.currentSearchQuery = query
+
+		this.fetch({
+			add: false, // not appending 
+			data: {
+				limit: Tagshot.configuration.numberOfImagesToFetchAtStart,
+				q: this.buildQueryWithSources()
+			}
+		});
+	},
+
+	fetchStart: function (callback){
+		// fetches models that have to be fetched at startup
+		var number = Tagshot.configuration.numberOfImagesToFetchAtStart;
+		Tagshot.collections.photoList.fetch({
+			data: {
+				limit: number, 
+				q: this.buildQueryWithSources()
+			},
+			add: true,
+			success: callback
+		});
+	},
+
+	fetchSources: function (){
+		// fetch when changing sources
+		var number = Tagshot.configuration.numberOfImagesToFetchAtStart;
+		Tagshot.collections.photoList.fetch({
+			data: {
+				limit: number,
+				q: this.buildQueryWithSources()
+			},
+			add: false
+		});
 	},
 
 	parse : function(resp) {
@@ -157,12 +195,5 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 
 	setFetchMutex: function() {
 			this.fetching = true;
-	},
-
-	computeHash: function() {
-		return $.param({
-			query: this.currentSearchQuery,
-			length: this.length
-		})
 	}
 });

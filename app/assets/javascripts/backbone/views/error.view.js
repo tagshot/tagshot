@@ -1,4 +1,4 @@
-//= require tagshot.ui.userMessages
+//= require tagshot/tagshot.ui.userMessages
 
 Tagshot.Views.AjaxError = Backbone.View.extend({
 		initialize: function() {

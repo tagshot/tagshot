@@ -16,52 +16,42 @@
  */
 
 window.Tagshot = {
-	// "Classes"
-	Models: {},
-	Collections: {},
-	Routers: {},
-	Views: {},
-	
-	// "Instances"
-	collections: {},
-	views: {},
-	router: undefined,
-
-	//configuration
+	// app constants
+	HOME_PATH:     '',
+	// backbone models 
+	Models:        {},
+	Collections:   {},
+	Routers:       {},
+	Views:         {},
+	// backbone model instances	
+	collections:   {},
+	views:         {},
+	router:        {},
+	// ui
+	//ui: {},
+	// configuration
 	configuration: {
-		numberOfImagesToFetchAtStart: 50,
-		numberOfImagesToFetchAtAppend: 60,
-		maxNumberOfImagesBeforeNoAutomaticFetch: Number.MAX_VALUE,
-		pixelsFromBottonToTriggerLoad: 400
+		numberOfImagesToFetchAtStart:             50,
+		numberOfImagesToFetchAtAppend:            60,
+		maxNumberOfImagesBeforeNoAutomaticFetch:  Number.MAX_VALUE,
+		pixelsFromBottonToTriggerLoad:            450
 	},
-
 	initialized: {
 		gallery: false
 	},
-
-	// Setup the app
+	// basic Setup
 	init: function() {
 		Tagshot.router = new Tagshot.Router();
-		
 		Tagshot.collections.photoList = new Tagshot.Collections.PhotoList();
 		Tagshot.views.gallery = new Tagshot.Views.PhotoListView({ 'collection': Tagshot.collections.photoList });
 		Tagshot.views.detail = new Tagshot.Views.DetailView({ 'model': undefined });
 		Tagshot.views.ajaxError = new Tagshot.Views.AjaxError();
 
-		$("#backbone-main-view").append(Tagshot.views.gallery.el);
-		$("#backbone-main-view").append(Tagshot.views.detail.el);
+		Backbone.history.start( { pushState: true, root: "/" } );
 
 		Tagshot.views.gallery.render();
 
 		// saves whether the currently local version has already been saved to the server
 		Tagshot.localVersionDirty = false;
-
-		//navigation with title
-		$('#title').click(function(){
-			Tagshot.router.navigate('', { trigger: true });
-			return false;
-		});
-
-		var match = Backbone.history.start( { pushState: true, root: "/" } );
 	}
 };
