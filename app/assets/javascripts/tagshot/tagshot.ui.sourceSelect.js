@@ -7,7 +7,6 @@
  * the id will also be added to the url. Because of that we also have to be able to do 
  * it the ther way round. If the user opens a site, the url has to be parsed and the 
  * approriate selection in the ui has to be done. 
- *
  */
 
 Tagshot.ui.sourceSelect = (function () {
