@@ -40,13 +40,7 @@ $(function () {
 
 	$.ajax("/tags", {
 		success: function (data) {
-			Tagshot.tagList = data;
-
-			Tagshot.ui.initializeSearchBoxAutocompletion();
-			Tagshot.ui.setSearchBoxFocusOnPageLoad();
-
-			Tagshot.ui.initializeTagBoxAutocompletion();
-			Tagshot.ui.saveTagsOnTagBoxBlur();
-		},
+			Tagshot.ui.updateAutocompletionList(data);
+		}
 	});
 });

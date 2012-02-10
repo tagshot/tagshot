@@ -1,7 +1,7 @@
 <div id="login">
   <form action="<%= session_path %>" method="POST">
-    <% if flash[:error] %>
-      <p><%= flash[:error] %></p>
+    <% if flash[:alert] %>
+      <p><%= flash[:alert] %></p>
     <% end %>
     <% if flash[:notice] %>
       <p><%= flash[:notice] %></p>
