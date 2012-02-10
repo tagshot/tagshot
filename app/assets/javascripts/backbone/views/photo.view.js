@@ -111,11 +111,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		this.model.trigger('changeSelection', this.model, e.shiftKey, e.ctrlKey || e.metaKey);
 	},
 
-	stop: function (e) {
-		//avoid propagation to underlying view(s)
-		e.stopPropagation();
-	},
-
 	selectNext: function (e) {
 		this.stop(e);
 		this.model.trigger('selectNext');
