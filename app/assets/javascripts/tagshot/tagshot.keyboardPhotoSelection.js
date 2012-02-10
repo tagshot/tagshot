@@ -35,7 +35,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 					return shiftSelectNext();
 			}
 		}
-		else {
+		else if (!keyEvent.ctrlKey) {
 			switch (keyEvent.keyCode) {
 				case keyCodes.UP:
 					return selectAbove(Tagshot.views.gallery.countImagesInARow());
@@ -70,7 +70,6 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 		photoList.deselectAll();
 		photoList.at((photoList.indexOf(last) + 1) % photoList.length).select();
 		photoList.trigger('rescroll');
-		return false;
 	}
 	
 	function selectPrevious () {
@@ -81,7 +80,6 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 		index -= 1;
 		photoList.at(index).select();
 		photoList.trigger('rescroll');
-		return false;
 	}
 	function selectAbove (imagesInRow) {
 		var first = _.first(photoList.selection());
@@ -102,6 +100,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 	function shiftSelectPrevious () {
 		var first = _.first(photoList.selection());
 		var index = photoList.indexOf(first);
+		if (index === 0) index = photoList.length;
 		index -= 1;
 		photoList.at(index).select();
 	}
