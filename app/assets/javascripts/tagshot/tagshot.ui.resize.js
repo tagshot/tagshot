@@ -1,8 +1,5 @@
 
 Tagshot.ui.resize = (function() {
-
-	//var selectors = Tagshot.ui.selectors;
-
 	function init() {
 		$("#thumbnail-size-slider").slider({
 			orientation:  "horizontal",
@@ -25,21 +22,19 @@ Tagshot.ui.resize = (function() {
 
 		var width = value * 1.5;
 		var height = value;
-		var imgFrame = Tagshot.ui.selectors.photoListView_imgFrame;
-
-		_.each(imgFrame.get(),function (el) {
+		_.each($('#backbone-gallery-view .image-frame').get(),function (el) {
 			el.style.width = width + "px", 
 			el.style.height = height + "px"});
 
 		if (value <= 150) {
-			imgFrame.addClass("smaller");
+			$("#backbone-gallery-view div.image-frame").addClass("smaller");
 		} else {
-			imgFrame.removeClass("smaller");
+			$("#backbone-gallery-view div.image-frame").removeClass("smaller");
 		}
 	}
 
 	return {
-		init:          init,
-		resizeImages:  resizeImages
+		init:			init,
+		resizeImages:	resizeImages
 	};
 })();
