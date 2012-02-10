@@ -4,12 +4,22 @@ class User < ActiveRecord::Base
   
   validates_presence_of :login
   validates_uniqueness_of :login
+
+  scope :admins, lambda { where(admin: true) }
+  scope :all, lambda { where("login <> 'anonymous'") }
   
   def logged?; true end
   def admin?; admin end
     
   def authenticate(password)
-    auth_source.authenticate(self, password)
+    if auth_source
+      auth_source.authenticate(self, password)
+    else
+      AuthSource.all.each do |auth|
+        self.auth_source = auth and return true if auth.authenticate(self, password)
+      end
+      false
+    end
   end
   
   # -- class methods
@@ -18,10 +28,10 @@ class User < ActiveRecord::Base
     return user if user and user.authenticate(password)
     
     # create new user record if any auth source accepts authenticate new request
-    AuthSource.all.each do |auth_source|
-      user = auth_source.authenticate_new(login, password)
-      return user if user
-    end
+    # AuthSource.all.each do |auth_source|
+    #   user = auth_source.authenticate_new(login, password)
+    #   return user if user
+    # end
     nil
   end
     
