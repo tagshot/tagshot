@@ -41,6 +41,7 @@ Tagshot.Router = Backbone.Router.extend({
 
 		console.log("reset collection");
 		Tagshot.collections.photoList.reset();
+		Tagshot.collections.photoList.currentSearchQuery = "";
 		Tagshot.collections.photoList.fetchStart(function() {
 			self.navigate("", {
 				'replace': true,
@@ -80,7 +81,7 @@ Tagshot.Router = Backbone.Router.extend({
 		if (photolist.currentSearchQuery != query || query === "") {
 			console.log("do search");
 			photolist.reset();
-
+			
 			photolist.fetchWithQuery(query);
 		}
 	},

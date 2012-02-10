@@ -31,7 +31,11 @@ Tagshot.ui.sourceSelect = (function () {
 
 	function apply() {
 		console.log("apply sources");
-		Tagshot.collections.photoList.fetchStart();
+		var query = Tagshot.collections.photoList.buildQueryWithSources();
+		if (query) {
+			console.log(query);
+			Tagshot.router.navigate("search/"+query);
+		}
 	}
 
 	/*********************

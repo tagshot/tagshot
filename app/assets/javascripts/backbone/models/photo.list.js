@@ -35,7 +35,7 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		this.bind('shiftSelectPrevious', this.shiftSelectPrevious);
 		this.bind('changeSelection', this.changeSelection);
 		this.bind('reset', function () {
-			that.currentSearchQuery = "";
+			//that.currentSearchQuery = "";
 			that.reachedEnd = false;
 		}, this);
 
@@ -93,20 +93,19 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 
 	buildQueryWithSources: function () {
 		var self = this;
-		if (this.currentSources.lenght > 0) {
+		if (this.currentSources.length > 0) {
 			ids = "";
-			_.each(this.sources, function(id, key){
-				ids += id
-				var reachedEnd = key===self.currentSources.lenght;
-				if (!reachedEnd) {
-					ids += "|";
-				}
+			source = "source:";
+			_.each(this.currentSources, function(id, key){
+				ids += id+"|"
 			});
-			return this.currentSearchQuery+"source:"+ids;
+			if (this.currentSearchQuery !== "") {
+				source = "+"+source;
+			}
+			return this.currentSearchQuery+source+ids.substring(0,ids.length-1);
 		} else {
 			return this.currentSearchQuery;
 		}
-		
 	},
 
 	appendingFetch: function(add, callback) {
@@ -134,11 +133,10 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 
 	fetchWithQuery: function (query) {
 		// fetch models when searching
-		if (query)
-			this.currentSearchQuery = query
+		this.currentSearchQuery = query
 
 		this.fetch({
-			add: true, //not appending
+			add: false, // not appending 
 			data: {
 				limit: Tagshot.configuration.numberOfImagesToFetchAtStart,
 				q: this.buildQueryWithSources()
@@ -150,12 +148,24 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		// fetches models that have to be fetched at startup
 		var number = Tagshot.configuration.numberOfImagesToFetchAtStart;
 		Tagshot.collections.photoList.fetch({
-			data: { 
+			data: {
 				limit: number, 
 				q: this.buildQueryWithSources()
 			},
 			add: true,
 			success: callback
+		});
+	},
+
+	fetchSources: function (){
+		// fetch when changing sources
+		var number = Tagshot.configuration.numberOfImagesToFetchAtStart;
+		Tagshot.collections.photoList.fetch({
+			data: {
+				limit: number,
+				q: this.buildQueryWithSources()
+			},
+			add: false
 		});
 	},
 
