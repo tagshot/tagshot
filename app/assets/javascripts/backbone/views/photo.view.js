@@ -1,5 +1,6 @@
-/* This view displays the information defined in photo.js.
- *
+/* 
+ * This view displays the information defined in photo.js.
+ * ================================================================================ 
  * It is responsible for setting up plugins that manipulate the DOM,
  * do the selection magic and add fancy effects.
  *

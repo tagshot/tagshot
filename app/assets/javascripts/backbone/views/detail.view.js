@@ -1,5 +1,14 @@
 /* 
  * This view is used to display a huge single photo with its tags and metadata.
+ * ================================================================================  
+ * This View works lie the Tagshot.Views.PhotoView. For further details use the 
+ * documentation there. 
+ *
+ * This view is responsible for showing properties and metainformation of the images, 
+ * store changes to the properties to the database and allow the user to download images
+ * in variour resolutions.
+ * 
+ * It's HTML template is located in app/views/mustache/detail.html
  */
 
 //=require jquery.starMe
