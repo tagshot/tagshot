@@ -1,4 +1,10 @@
-/* This module bundles all jQuery selectors for Tagshot.
+/*
+ * Main access station for all jQuery-selectors
+ * ================================================================================
+ * To avoid cluttering view logic code with html/selektor strings, this module
+ * bundles all jQuery-selectors for Tagshot.
+ * Access in other code through Tagshot.ui.selectors.[property], where [property]
+ * is one of the properties defined below.
  *
  */
 //= require tagshot/tagshot.ui
@@ -18,10 +24,6 @@ Tagshot.ui.selectors = (function () {
 	}
 
 
-	var photoListView_imgFrame = $("#photo-list-view .image-view .image-frame");
-	var photoListView_firstImg = photoListView_imgFrame.first('img');
-
-
 	return {
 		mainView:                $("#backbone-main-view"),
 		searchBox:               $("#search-box"),
@@ -32,8 +34,8 @@ Tagshot.ui.selectors = (function () {
 		imageView:               $('.image-view'),
 		more:                    $('#more'),
 		photoListView:           $('#photo-list-view'),
-		photoListView_imgFrame:  photoListView_imgFrame,
-		photoListView_firstImg:  photoListView_firstImg,
+		photoListView_imgFrame:  '#photo-list-view .image-view .image-frame',
+		photoListView_firstImg:  '#photo-list-view .image-view .image-frame:first img',
 		imageForPhotoView:       imageForPhotoView,
 		findRating:              findRating,
 		init:                    init

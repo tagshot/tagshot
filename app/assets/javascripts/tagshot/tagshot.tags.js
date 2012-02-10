@@ -1,16 +1,18 @@
 /*
- * Adding and removing tags from the current 
+ * Adding and removing tags from the current selection
  * ================================================================================
- * This module offers methods to select the next, previous, above or below
- * image based on the current selection.
- * Moreover, if passed an Event it automatically selects the appropriate
- * operation to perform.
+ * This module offers to methods to add or rather remove tags on the current
+ * selection.
+ * Adding and removing is append only: When more than one photo is selected
+ *   the tag is added to all of them without deleting the existing ones.
+ * It marks the local version to be dirty, so we know at the next server save
+ * request.
  *
- * Dependencies:
- *   It needs an Tagshot.Collections.PhotoList to get the current selection and
- *   select elements. This must be passed in via the init method.
+ * Note on the use of slice(0):
+ *   We need this throughout the whole module, to get a one level deep copy of the array.
+ *   Else, we have a reference to the same object and we have nasty side-effects, when
+ *   changing that array again later.
  */
-
 Tagshot.addTag = function (tagList, newTag) {
 	Tagshot.localVersionDirty = true;
 	Tagshot.collections.photoList.selection().forEach(function (model) {
@@ -18,7 +20,7 @@ Tagshot.addTag = function (tagList, newTag) {
 		tags.push(newTag);
 		Tagshot.ui.selectors.searchBox.tagAutocomplete('addTag', newTag);
 		Tagshot.ui.selectors.tagBox.tagAutocomplete('addTag', newTag);
-		// use slice(0) to get a copy of tagList
+		// Use slice(0) to get a copy of tagList. Else we will have nasty side-effects.
 		model.set({'tags': tags.slice(0)});
 	});
 };
@@ -28,7 +30,7 @@ Tagshot.removeTag = function (tagList, removedTag) {
 		var tags = model.get("tags").slice(0);
 		var index = tags.indexOf(removedTag);
 		tags.splice(index, 1);
-		// use slice(0) to get a copy of tagList
+		// Use slice(0) to get a copy of tagList. Else we will have nasty side-effects.
 		model.set({'tags': tags });
 	});
 };

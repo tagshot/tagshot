@@ -1,3 +1,11 @@
+//= require/tagshot.ui.selectors
+
+/*
+ * Resizes the images when slider value changes.
+ * ================================================================================
+ * Whenever the slider in the options-container changes, the images must be
+ * resized. This functionality is implemented by this module.
+ */
 
 Tagshot.ui.resize = (function() {
 	function init() {
@@ -13,16 +21,20 @@ Tagshot.ui.resize = (function() {
 	}
 
 	function resizeImages() {
+		// Get slider value;
 		var value = $("#thumbnail-size-slider").slider("value");
 
-		// invoke infinite scrolling in case of resizing
-		if (value%10 === 0) {
+		// Invoke infitive scrolling. But only do photoList every 10th time, for performance reasons.
+		if (value % 10 === 0) {
 			Tagshot.views.gallery.infiniteScrolling();
 		}
 
+		// Maintain aspect ratio: 3 / 2
 		var width = value * 1.5;
 		var height = value;
-		var imgFrame = Tagshot.ui.selectors.photoListView_imgFrame;
+		var imgFrame = $(Tagshot.ui.selectors.photoListView_imgFrame);
+
+		console.log(imgFrame);
 
 		_.each(imgFrame.get(),function (el) {
 			el.style.width = width + "px", 

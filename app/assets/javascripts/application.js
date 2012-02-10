@@ -27,7 +27,7 @@
 
 //= require tagshot/tagshot.ui.userMessages
 //= require tagshot/tagshot.ui.selectors
-//= require tagshot/tagshot.rotate
+//= require tagshot/tagshot.ui.rotate
 //= require tagshot/tagshot.ui.sourceSelect
 //= require tagshot/tagshot.ui.activeGallery
 //= require tagshot/tagshot.ui.ajaxIndicator

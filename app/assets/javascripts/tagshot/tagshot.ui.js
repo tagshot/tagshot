@@ -1,4 +1,5 @@
-/* * Initialize basic ui callbacks and event handlers.
+/*
+ * Initialize basic ui callbacks and event handlers.
  * ================================================================================
  * This module initializes basic callbacks/event handlers using jQuery.
  * In addition it deals with UI code like creating buttons etc.
@@ -21,7 +22,7 @@ Tagshot.ui = (function () {
 		Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
 		bindRotateClicks();
 
-		Tagshot.sourceSelect.init();
+		Tagshot.ui.sourceSelect.init();
 		Tagshot.ui.activeGallery.init();
 	}
 	function initializeSearchBoxAutocompletion() {

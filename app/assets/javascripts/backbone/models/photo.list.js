@@ -1,5 +1,16 @@
 /* This Collection is a list of photo models.
- * It is the model for photo.list.view.js and it's template is app/views/moustache/gallery.html
+ * ================================================================================
+ * This collection consists of many Tagshot.Models.Photo and is 
+ * synchronized with the backend via the backbone functions fetch() and save().
+ *
+ * The data that is fetched from the backend is stored in attributes.
+ *
+ * It is the model for photo.list.view.js and has functions for 
+ * getting the selection and moving the selection. These functions are mostly 
+ * called from the Tagshot.Views.PhotoListView.
+ *
+ * The collection is ordered by id. If you want to have another order, you have 
+ * to adjust the order function in Tagshot.Models.Photo.
  */
 
 //= require tagshot/tagshot.keyboardPhotoSelection
@@ -45,6 +56,7 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 			model.select();
 		}
 	},
+
 	selectNext:           Tagshot.ui.keyboardPhotoSelection.selectNext,
 	selectPrevious:       Tagshot.ui.keyboardPhotoSelection.selectPrevious,
 	selectAbove:          Tagshot.ui.keyboardPhotoSelection.selectAbove,
@@ -57,11 +69,6 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		return this.filter(function(photo){
 			return photo.selected;
 		});
-	},
-
-	getMainModel: function() {
-		// returns the main model, meaning the one that may be in the detailed view
-		return this.mainModel;
 	},
 
 	selectAll: function() {
@@ -128,12 +135,5 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 
 	setFetchMutex: function() {
 			this.fetching = true;
-	},
-
-	computeHash: function() {
-		return $.param({
-			query: this.currentSearchQuery,
-			length: this.length
-		})
 	}
 });
