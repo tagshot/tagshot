@@ -25,7 +25,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 
 	function selectAction (keyEvent) {
 		// Only invoke action, if current text is empty, so we do not want to navigate in the current text
-		if (event.target.value !== '') return;
+		if (keyEvent.target.value !== '') return;
 		if (keyEvent.shiftKey) {
 			switch (keyEvent.keyCode) {
 				case keyCodes.LEFT:
