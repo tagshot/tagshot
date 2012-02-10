@@ -27,6 +27,8 @@ window.Tagshot = {
 	collections:   {},
 	views:         {},
 	router:        {},
+	// ui
+	//ui: {},
 	// configuration
 	configuration: {
 		numberOfImagesToFetchAtStart:             50,
@@ -51,7 +53,5 @@ window.Tagshot = {
 
 		// saves whether the currently local version has already been saved to the server
 		Tagshot.localVersionDirty = false;
-
-
 	}
 };

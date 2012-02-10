@@ -10,6 +10,7 @@
 
 
 //= require backbone-eventdata
+//= require tagshot/tagshot.ui.resize
 
 Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	tagName:          "li",
@@ -54,7 +55,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		this.fillTemplate(this.templateSelector);
 		this.setStars();
 
-		Tagshot.helpers.resizeImages();
+		Tagshot.ui.resize.resizeImages();
 
 		// delegate events means rebinding the events
 		this.delegateEvents();
@@ -117,7 +118,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		this.model.trigger('changeSelection', this.model, e.shiftKey, e.ctrlKey || e.metaKey);
 	},
 
-	stop: function (e) {  
+	stop: function (e) {
 		//avoid propagation to underlying view(s)
 		e.stopPropagation();
 	},

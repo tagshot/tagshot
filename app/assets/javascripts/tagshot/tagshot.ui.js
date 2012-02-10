@@ -13,17 +13,6 @@ Tagshot.ui = (function () {
 			$(this).toggleClass("open");
 		});
 	};
-	var initializeSlider = function () {
-		$("#thumbnail-size-slider").slider({
-			orientation:  "horizontal",
-			range:        "min",
-			min:          50,
-			max:          500,
-			value:        200,
-			slide:        Tagshot.helpers.resizeImages,
-			change:       Tagshot.helpers.resizeImages
-		});
-	};
 	var jumpFromTagBoxToGalleryWithTab = function () {
 		// Jump from search to gallery with tab.
 		$("#tag-box").bind('keydown', 'tab', function (e) {
@@ -44,17 +33,17 @@ Tagshot.ui = (function () {
 
 		Tagshot.ui.selectors.searchBox.tagAutocomplete({
 			autocompleteList: Tagshot.tagList,
-			onTagAdded:       Tagshot.search,
-			onTagRemoved:     Tagshot.search,
+			onTagAdded:		  Tagshot.search,
+			onTagRemoved:	  Tagshot.search,
 			postProcessors:   [Tagshot.converter.inputToStars]
 		});
 	};
 
 	var setSearchBoxFocusOnPageLoad = function () {
 		Tagshot.ui.selectors.searchBox.textboxFocusOnStart({
-			text:               'Just start searching…',
-			cssClassWhenEmpty:  'search-start',
-			doFocus:            true
+			text:				'Just start searching…',
+			cssClassWhenEmpty:	'search-start',
+			doFocus:			true
 		});
 	};
 
@@ -71,34 +60,39 @@ Tagshot.ui = (function () {
 		$('ul', here.el).append(view.render().el);
 	};
 
-    function bindRotateClicks() {
-        var rot = Tagshot.rotate;
+	function bindRotateClicks() {
+		var rot = Tagshot.rotate;
 		$('#rotate-image-left').click(rot.rotateLeft);
 		$('#rotate-image-right').click(rot.rotateRight);
 	}
 
+	var initBeforeBackbone = function() {
+		Tagshot.ui.resize.init();
+	}
 
-	var init = function () {
+	var initAfterBackbone = function () {
 		toggleOptionsContainerOnClick();
-		initializeSlider();
 		jumpFromTagBoxToGalleryWithTab();
 		navigateHomeOnTagshotLogoClick();
 		Tagshot.ui.selectors.mainView.append(Tagshot.views.gallery.el);
 		Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
 		bindRotateClicks();
+
+		Tagshot.sourceSelect.init();
+		Tagshot.ui.activeGallery.init();
 	};
 
 	/*********************
 	 * API Functions
 	 * *******************/
 	return {
-		init:                              init,
+		initBeforeBackbone:				   initBeforeBackbone,
+		initAfterBackbone:				   initAfterBackbone,
 		initializeSearchBoxAutocompletion: initializeSearchBoxAutocompletion,
-		initializeSlider:                  initializeSlider,
-		insertLoadMoreButton:              insertLoadMoreButton,
-		insertPhoto:                       insertPhoto,
+		insertLoadMoreButton:			   insertLoadMoreButton,
+		insertPhoto:					   insertPhoto,
 		jumpFromTagBoxToGalleryWithTab:    jumpFromTagBoxToGalleryWithTab,
-		setSearchBoxFocusOnPageLoad:       setSearchBoxFocusOnPageLoad,
-		toggleOptionsContainerOnClick:     toggleOptionsContainerOnClick,
+		setSearchBoxFocusOnPageLoad:	   setSearchBoxFocusOnPageLoad,
+		toggleOptionsContainerOnClick:	   toggleOptionsContainerOnClick
 	};
 })();

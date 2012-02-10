@@ -28,13 +28,17 @@
 //= require tagshot/tagshot.ui.selectors
 //= require tagshot/tagshot.rotate
 //= require tagshot/tagshot.ui.sourceSelect
+//= require tagshot/tagshot.ui.activeGallery
+//= require tagshot/tagshot.ui.ajaxIndicator
+//= require tagshot/tagshot.ui.resize
 
 $(function () {
+	Tagshot.ui.initBeforeBackbone();
+
+
 	Tagshot.init();
 
-	Tagshot.ui.init();
-
-	Tagshot.helpers.addGlobalAjaxIndicator();
+	Tagshot.ui.initAfterBackbone();
 
 	$.ajax("/tags", {
 		success: function (data) {

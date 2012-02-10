@@ -1,9 +1,7 @@
 /* 
  */
 
-Tagshot.sourceselect = (function () {
-	init();
-
+Tagshot.sourceSelect = (function () {
 	function init() {
 		$.getJSON("/sources.json", function (json){
 			var data = {'sources': json};
