@@ -12,22 +12,22 @@
 //= require backbone-eventdata
 
 Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
-	tagName:  "li",
-	className: "image-view",
+	tagName:          "li",
+	className:        "image-view",
 	templateSelector: '#image-template',
 	events: {
-		"click img" : "click",
-		"dblclick img" : "openDetails",
-		"keydown[space]" : "quickview",
-		"keydown[return]" : "openDetails",
-		"keydown[shift+left]": "shiftSelectPrevious",
+		"click img":            "click",
+		"dblclick img":         "openDetails",
+		"keydown[space]":       "quickview",
+		"keydown[return]":      "openDetails",
+		"keydown[shift+left]":  "shiftSelectPrevious",
 		"keydown[shift+right]": "shiftSelectNext",
-		"keydown[left]" : "selectPrevious",
-		"keydown[right]" : "selectNext",
-		"keydown[up]" : "selectAbove",
-		"keydown[down]" : "selectBelow",
-		"keydown[del]": "delete",
-		"focusin": "photoFocused"
+		"keydown[left]":        "selectPrevious",
+		"keydown[right]":       "selectNext",
+		"keydown[up]":          "selectAbove",
+		"keydown[down]":        "selectBelow",
+		"keydown[del]":         "delete",
+		"focusin":              "photoFocused"
 	},
 
 	photoFocused: function (event) {

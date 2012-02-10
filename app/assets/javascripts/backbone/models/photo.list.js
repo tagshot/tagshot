@@ -2,17 +2,18 @@
  * It is the model for photo.list.view.js and it's template is app/views/moustache/gallery.html
  */
 
+//= require tagshot/tagshot.keyboardPhotoSelection
 
 Tagshot.Collections.PhotoList = Backbone.Collection.extend({
-	model: Tagshot.Models.Photo,
-	fetching: false,
+	model:               Tagshot.Models.Photo,
+	fetching:            false,
 	// needed for infinite scrolling
-	reachedEnd: false,
-	url: "/photos",
-	currentSearchQuery: "",
+	reachedEnd:          false,
+	url:                 "/photos",
+	currentSearchQuery:  "",
 	
 	initialize: function() {
-		var self = this;
+		var that = this;
 		_.bindAll(this);
 		this.bind('selectNext', this.selectNext);
 		this.bind('selectPrevious', this.selectPrevious);
@@ -21,10 +22,13 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		this.bind('shiftSelectNext', this.shiftSelectNext);
 		this.bind('shiftSelectPrevious', this.shiftSelectPrevious);
 		this.bind('changeSelection', this.changeSelection);
-		this.bind('reset', function() {
-			self.currentSearchQuery = "";
-			self.reachedEnd = false;
+		this.bind('reset', function () {
+			that.currentSearchQuery = "";
+			that.reachedEnd = false;
 		}, this);
+
+		this.keyboardPhotoSelection = Tagshot.ui.keyboardPhotoSelection;
+		this.keyboardPhotoSelection.init(this);
 	},
 
 	changeSelection: function (model, rangeSelect, toggleSelect) {
@@ -41,44 +45,12 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 			model.select();
 		}
 	},
-
-	selectNext: function () {
-		var last = _.last(this.selection());
-		this.deselectAll();
-		this.at((this.indexOf(last) + 1) % this.length).select();
-	},
-	selectPrevious: function () {
-		var first = _.first(this.selection());
-		this.deselectAll();
-		var index = this.indexOf(first);
-		if (index === 0) index = this.length;
-		index -= 1;
-		this.at(index).select();
-	},
-	selectAbove: function (imagesInRow) {
-		var first = _.first(this.selection());
-		var index = Math.max(0, this.indexOf(first) - imagesInRow);
-		this.deselectAll();
-		this.at(index).select();
-		this.trigger('rescroll');
-	},
-	selectBelow: function (imagesInRow) {
-		var last = _.last(this.selection());
-		var index = Math.min(this.length - 1, this.indexOf(last) + imagesInRow);
-		this.deselectAll();
-		this.at(index).select();
-		this.trigger('rescroll');
-	},
-	shiftSelectPrevious: function () {
-		var first = _.first(this.selection());
-		var index = this.indexOf(first);
-		index -= 1;
-		this.at(index).select();
-	},
-	shiftSelectNext: function () {
-		var last = _.last(this.selection());
-		this.at((this.indexOf(last) + 1) % this.length).select();
-	},
+	selectNext:           Tagshot.ui.keyboardPhotoSelection.selectNext,
+	selectPrevious:       Tagshot.ui.keyboardPhotoSelection.selectPrevious,
+	selectAbove:          Tagshot.ui.keyboardPhotoSelection.selectAbove,
+	selectBelow:          Tagshot.ui.keyboardPhotoSelection.selectBelow,
+	shiftSelectPrevious:  Tagshot.ui.keyboardPhotoSelection.shiftSelectPrevious,
+	shiftSelectNext:      Tagshot.ui.keyboardPhotoSelection.shiftSelectNext,
 
 	selection: function() {
 		// returns the current selection
@@ -104,9 +76,8 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 	},
 
 	selectFromTo: function(from, to) {
-		console.log("select from "+from+" to "+to);
 		_.each(this.models, function(item) {
-			if(between(from.id, to.id, item.id)){
+			if (between(from.id, to.id, item.id)){
 				item.select();
 			}
 		});

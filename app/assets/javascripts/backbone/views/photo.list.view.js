@@ -156,7 +156,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.collection.deselectAll();
 	},
 
-	selectionChanged: function(e) {
+	selectionChanged: function (e) {
 		$("footer .tag").remove();
 		var selection = this.collection.selection();
 		var attributes = _.pluck(selection, "attributes");
@@ -169,13 +169,13 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		Tagshot.ui.selectors.tagBox.tagAutocomplete('updateTags');
 	},
 
-	stop: function(e) {  
+	stop: function (e) {  
 		//avoid event propagation
 		e.stopPropagation();
 	},
 
 	// scrolling or resizing
-	infiniteScrolling: function(){
+	infiniteScrolling: function (){
 		// do infinite scrolling
 		pixelsFromWindowBottom = 0 + $(document).height() - $(window).scrollTop() - $(window).height();
 		var pixels = Tagshot.configuration.pixelsFromBottonToTriggerLoad;
@@ -188,7 +188,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		}
 	},
 
-	loadMoreImages: function(e) {
+	loadMoreImages: function (e) {
 		var self = this;
 
 		var add = Tagshot.configuration.numberOfImagesToFetchAtAppend;
