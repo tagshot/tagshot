@@ -10,6 +10,7 @@
 //= require tagshot/tagshot.ui
 
 Tagshot.ui.selectors = (function () {
+
 	function init() {
 		return this;
 	}
@@ -22,22 +23,24 @@ Tagshot.ui.selectors = (function () {
 		return $(view.el).find(".rating");
 	}
 
-	var photoListView_imgFrame = $("#photo-list-view div.image-frame");
-	var photoListView_firstImg = photoListView_imgFrame.first('img');
 
+
+	// possible performance imporvement here: 
+	// evaluate jQuery stuff only once $('footer')
 
 	return {
-		mainView:                $("#backbone-main-view"),
-		searchBox:               $("#search-box"),
-		tagBox:                  $("#tag-box"),
-		footer:                  $('footer'),
-		footerTextbox:           $("footer .textbox"),
-		tagsInFooter:            $("footer .tag"),
-		imageView:               $('.image-view'),
-		more:                    $('#more'),
-		photoListView:           $('#photo-list-view'),
-		photoListView_imgFrame:  photoListView_imgFrame,
-		photoListView_firstImg:  photoListView_firstImg,
+		mainView:                '#backbone-main-view',
+		detailView:              '#backbone-detail-view',
+		searchBox:               '#search-box',
+		tagBox:                  '#tag-box',
+		footer:                  'footer',
+		footerTextbox:           "footer .textbox",
+		tagsInFooter:            "footer .tag",
+		imageView:               '.image-view',
+		more:                    '#more',
+		photoListView:           '#photo-list-view',
+		photoListView_imgFrame:  '#photo-list-view .image-view .image-frame',
+		photoListView_firstImg:  '#photo-list-view .image-view .image-frame:   first img',
 		imageForPhotoView:       imageForPhotoView,
 		findRating:              findRating,
 		init:                    init

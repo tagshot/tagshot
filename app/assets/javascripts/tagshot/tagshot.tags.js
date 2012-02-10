@@ -18,8 +18,8 @@ Tagshot.addTag = function (tagList, newTag) {
 	Tagshot.collections.photoList.selection().forEach(function (model) {
 		var tags = model.get("tags").slice(0);
 		tags.push(newTag);
-		Tagshot.ui.selectors.searchBox.tagAutocomplete('addTag', newTag);
-		Tagshot.ui.selectors.tagBox.tagAutocomplete('addTag', newTag);
+		$(Tagshot.ui.selectors.searchBox).tagAutocomplete('addTag', newTag);
+		$(Tagshot.ui.selectors.tagBox).tagAutocomplete('addTag', newTag);
 		// Use slice(0) to get a copy of tagList. Else we will have nasty side-effects.
 		model.set({'tags': tags.slice(0)});
 	});

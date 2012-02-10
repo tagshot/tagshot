@@ -1,3 +1,5 @@
+//= require/tagshot.ui.selectors
+
 /*
  * Resizes the images when slider value changes.
  * ================================================================================
@@ -30,23 +32,21 @@ Tagshot.ui.resize = (function() {
 		// Maintain aspect ratio: 3 / 2
 		var width = value * 1.5;
 		var height = value;
-		_.each($('#backbone-gallery-view .image-frame').get(), function (el) {
-			// Set width and height directly on DOM elements
-			// Note: Why not jQuery? $(el).css("width", "150px");
-			// We had performance issues when resizing loads of images, so we use native javascript support.
+		var imgFrame = $(Tagshot.ui.selectors.photoListView_imgFrame);
+
+		_.each(imgFrame.get(),function (el) {
 			el.style.width = width + "px", 
 			el.style.height = height + "px"});
 
-		// When the image size is lower than 150px the tags and stars-rating will not be displayed any longer.
-		// We need this class to ensure this.
-		if (value <= 150)
-			$("#backbone-gallery-view div.image-frame").addClass("smaller");
-		else
-			$("#backbone-gallery-view div.image-frame").removeClass("smaller");
+				if (value <= 150) {
+			imgFrame.addClass("smaller");
+		} else {
+			imgFrame.removeClass("smaller");
+		}
 	}
 
 	return {
-		init:			init,
-		resizeImages:	resizeImages
+		init:          init,
+		resizeImages:  resizeImages
 	};
 })();

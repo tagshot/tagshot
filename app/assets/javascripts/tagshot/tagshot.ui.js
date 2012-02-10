@@ -1,3 +1,5 @@
+//= require/tagshot.ui.selectors
+
 /*
  * Initialize basic ui callbacks and event handlers.
  * ================================================================================
@@ -23,8 +25,8 @@ Tagshot.ui = (function () {
 		jumpFromTagBoxToGalleryWithTab();
 		navigateHomeOnTagshotLogoClick();
 		saveTagsOnTagBoxBlur();
-		Tagshot.ui.selectors.mainView.append(Tagshot.views.gallery.el);
-		Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
+		$(Tagshot.ui.selectors.mainView).append(Tagshot.views.gallery.el);
+		$(Tagshot.ui.selectors.mainView).append(Tagshot.views.detail.el);
 		bindRotateClicks();
 
 		Tagshot.ui.sourceSelect.init();
@@ -33,16 +35,16 @@ Tagshot.ui = (function () {
 	// ========== Autocompletion
 	function initializeSearchBoxAutocompletion() {
 		/* apply autocompletion to <input> */
-		Tagshot.ui.selectors.searchBox.tagAutocomplete({
-			autocompleteList:  [],
+		$(Tagshot.ui.selectors.searchBox).tagAutocomplete({
+			autocompleteList:  Tagshot.tagList,
 			onTagAdded:        Tagshot.search,
 			onTagRemoved:      Tagshot.search,
 			postProcessors:    [Tagshot.converter.inputToStars]
 		});
 	}
 	function initializeTagBoxAutocompletion() {
-		Tagshot.ui.selectors.tagBox.tagAutocomplete({
-			autocompleteList:          [],
+		$(Tagshot.ui.selectors.tagBox).tagAutocomplete({
+			autocompleteList:          Tagshot.tagList,
 			autocompleteListPosition:  'above',
 			onTagAdded:                Tagshot.addTag,
 			onTagRemoved:              Tagshot.removeTag,
@@ -52,8 +54,9 @@ Tagshot.ui = (function () {
 		});
 	}
 	function updateAutocompletionList(newList) {
-		Tagshot.ui.selectors.searchBox.tagAutocomplete('updateCompletionList', newList);
-		Tagshot.ui.selectors.tagBox.tagAutocomplete('updateCompletionList', newList);
+		var selectors = Tagshot.ui.selectors;
+		$(selectors.searchBox).tagAutocomplete('updateCompletionList', newList);
+		$(selectors.tagBox).tagAutocomplete('updateCompletionList', newList);
 	}
 
 	/*
@@ -77,7 +80,7 @@ Tagshot.ui = (function () {
 	}
 
 	function saveTagsOnTagBoxBlur() {
-		Tagshot.ui.selectors.tagBox.blur(function () {
+		$(Tagshot.ui.selectors.tagBox).blur(function () {
 			if (Tagshot.localVersionDirty === false)
 				return;
 
@@ -110,7 +113,7 @@ Tagshot.ui = (function () {
 	 */
 	function jumpFromTagBoxToGalleryWithTab() {
 		// Jump from search to gallery with tab.
-		Tagshot.ui.selectors.tagBox.bind('keydown', 'tab', function (e) {
+		$(Tagshot.ui.selectors.tagBox).bind('keydown', 'tab', function (e) {
 			e.stopPropagation();
 			$(Tagshot.ui.selectors.photoListView_firstImg).click();
 			return true;
@@ -119,7 +122,7 @@ Tagshot.ui = (function () {
 
 
 	function setSearchBoxFocusOnPageLoad() {
-		Tagshot.ui.selectors.searchBox.textboxFocusOnStart({
+		$(Tagshot.ui.selectors.searchBox).textboxFocusOnStart({
 			text:               'Just start searching…',
 			cssClassWhenEmpty:  'search-start',
 			doFocus:            true

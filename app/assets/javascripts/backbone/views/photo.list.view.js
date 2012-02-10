@@ -12,7 +12,7 @@
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:    "div",
 	className:  "gallery",
-	id:         "backbone-gallery-view",
+	id:         "photo-list-view",
 
 	events: {
 		"click":            "deselectAll",
@@ -167,7 +167,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 			return prev + "<li class='tag'>" + tag + '<a></a></li>';
 		}, "");
 		$("footer .textbox").prepend(list);
-		Tagshot.ui.selectors.tagBox.tagAutocomplete('updateTags');
+		$(Tagshot.ui.selectors.tagBox).tagAutocomplete('updateTags');
 	},
 
 	stop: function (e) {  

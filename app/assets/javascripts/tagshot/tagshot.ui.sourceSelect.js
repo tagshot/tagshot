@@ -29,12 +29,20 @@ Tagshot.ui.sourceSelect = (function () {
 		Tagshot.collections.photoList.currentSources = sources;
 	}
 
+	function getSources() {
+		var sources;
+		sources = $(".source-select select").val();
+		return sources;
+	}
+
 	function apply() {
 		console.log("apply sources");
+		Tagshot.collections.photoList.currentSources = getSources();
+
 		var query = Tagshot.collections.photoList.buildQueryWithSources();
 		if (query) {
 			console.log(query);
-			Tagshot.router.navigate("search/"+query);
+			Tagshot.router.navigate("search/"+query, { trigger: true });
 		}
 	}
 

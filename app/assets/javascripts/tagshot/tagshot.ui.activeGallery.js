@@ -7,21 +7,22 @@
  */
 
 Tagshot.ui.activeGallery = (function () {
-	function init() {
-		$('#search-container').focusin(setInActive);
-		Tagshot.ui.selectors.tagBox.focusin(setActive);
 
-		// tried jQuery.on but does not work 
-		Tagshot.ui.selectors.tagBox.focusin(setActive);
-		$('#backbone-gallery-view .image-frame').live('focus',setActive);
+	function init() {
+		var selectors = Tagshot.ui.selectors;
+		$('#search-container').focusin(setInActive);
+		$(selectors.tagBox).focusin(setActive);
+
+	// tried "on" but does not work 
+		$(selectors.photoListView_imgFrame).live('focus',setActive);
 	}
 
 	function setActive() {
-		$('#backbone-gallery-view').addClass('active');
+		$(Tagshot.ui.selectors.photoListView).addClass('active');
 	}
 
 	function setInActive() {
-		$('#backbone-gallery-view').removeClass('active');
+		$(Tagshot.ui.selectors.photoListView).removeClass('active');
 	}
 
 	/*********************

@@ -3,6 +3,7 @@
  * ================================================================================
  * This module currently only offers on method to check, whether two arrays are
  * equal.
+ * This module is tested in tests/helpersTest.js
  */
 
 /*

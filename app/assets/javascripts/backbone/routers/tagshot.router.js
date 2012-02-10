@@ -21,7 +21,7 @@ Tagshot.Router = Backbone.Router.extend({
 		"search/:query":        "search",
 		"p/:page":              "page",
 		"search/:query/:page":  "searchpage",
-		"*foo":					"home"
+		"*foo":                 "home"
 	},
 
 	home: function(foo) {
@@ -31,6 +31,11 @@ Tagshot.Router = Backbone.Router.extend({
 			this.reset();
 		}
 		Tagshot.initialized.gallery = true;
+
+		var cameFromSearch = Tagshot.collections.photoList.currentSearchQuery !== "";
+		if (cameFromSearch) {
+			this.reset();
+		}
 
 		this.showGalleryView();
 	},
@@ -80,8 +85,7 @@ Tagshot.Router = Backbone.Router.extend({
 
 		if (photolist.currentSearchQuery != query || query === "") {
 			console.log("do search");
-			photolist.reset();
-			
+
 			photolist.fetchWithQuery(query);
 		}
 	},
@@ -115,8 +119,9 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	showDetailsPage: function(model) {
-		$("#backbone-detail-view").show();
-		$("#backbone-gallery-view").hide();
+		var photoListView = $(Tagshot.ui.selectors.photoListView);
+		photoListView.show();
+		photoListView.hide();
 
 		$('#search-container').hide();
 		//$('#options-container').hide();
@@ -128,12 +133,12 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	showGalleryView: function() {
-		$("#backbone-detail-view").hide();
-		$("#backbone-gallery-view").show();
+		var selectors = Tagshot.ui.selectors;
+		$(selectors.detailView).hide();
+		$(selectors.photoListView).show();
 		$('#search-container').show();
 		$('#show-options').show();
-
-		$('#backbone-gallery-view').addClass('active');
+		$(selectors.photoListView).addClass('active');
 	},
 
 	fillTagbarWithSearchedTags: function (query) {
