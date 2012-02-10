@@ -113,7 +113,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	click: function (e) {
 		this.stop(e);
 		$(this.el).find('.image-frame').focus();
-		Tagshot.views.gallery.setActive();
 		
 		this.model.trigger('changeSelection', this.model, e.shiftKey, e.ctrlKey || e.metaKey);
 	},
