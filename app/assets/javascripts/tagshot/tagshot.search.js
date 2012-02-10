@@ -10,7 +10,7 @@
 Tagshot.search = function (tagList) {
 	var searchString = Tagshot.converter.inputToQuery(tagList);
 	if (searchString === "")
-		Tagshot.router.navigate('reset', true);
+		Tagshot.router.navigate('reset', {trigger: true});
 	else
-		Tagshot.router.navigate('search/' + searchString, true);
+		Tagshot.router.navigate('search/' + searchString, {trigger: true});
 }

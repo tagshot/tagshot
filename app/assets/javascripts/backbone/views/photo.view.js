@@ -79,7 +79,7 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	openDetails : function(e) {
-		Tagshot.router.navigate("details/" + this.model.get("id"), true);
+		Tagshot.router.navigate("details/" + this.model.get("id"), {trigger: true});
 	},
 
 	quickview: function(e) {

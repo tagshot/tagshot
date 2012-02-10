@@ -15,14 +15,43 @@ Tagshot.ui.sourceSelect = (function () {
 			var data = {'sources': json};
 			var selectElement = Mustache.to_html($("#sources-template").html(), data);
 			$(".source-select").html(selectElement);
+
+			$('#go-sources').click(apply);
+		});	
+	}
+
+	function setSources(sources) {
+		_.each(sources, function (id){
+			console.log(id)
+			$("option[value="+id+"]",".source-select").attr('selected',"selected");
 		});
+
+		Tagshot.collections.photoList.currentSources = sources;
+	}
+
+	function getSources() {
+		var sources;
+		sources = $(".source-select select").val();
+		return sources;
+	}
+
+	function apply() {
+		console.log("apply sources");
+		Tagshot.collections.photoList.currentSources = getSources();
+
+		var query = Tagshot.collections.photoList.buildQueryWithSources();
+		if (query) {
+			console.log(query);
+			Tagshot.router.navigate("search/"+query, { trigger: true });
+		}
 	}
 
 	/*********************
 	 * API Functions
 	 * *******************/
 	return {
-		init: init
+		init:        init,
+		setSources:  setSources
 	};
 })();
 

@@ -39,6 +39,7 @@ Tagshot.ui.selectors = (function () {
 		imageView:               '.image-view',
 		more:                    '#more',
 		photoListView:           '#photo-list-view',
+		tagsInSearch:            '#search-container ul li.tag',
 		photoListView_imgFrame:  '#photo-list-view .image-view .image-frame',
 		photoListView_firstImg:  '#photo-list-view .image-view .image-frame:   first img',
 		imageForPhotoView:       imageForPhotoView,
