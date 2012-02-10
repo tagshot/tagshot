@@ -125,7 +125,7 @@ Tagshot.Router = Backbone.Router.extend({
 		$("#backbone-gallery-view").hide();
 
 		$('#search-container').hide();
-		$('#options-container').hide();
+		//$('#options-container').hide();
 		$('#show-options').hide();
 
 		Tagshot.views.detail.delegateEvents();
@@ -137,7 +137,6 @@ Tagshot.Router = Backbone.Router.extend({
 		$("#backbone-detail-view").hide();
 		$("#backbone-gallery-view").show();
 		$('#search-container').show();
-		$('#options-container').hide();
 		$('#show-options').show();
 
 		$('#backbone-gallery-view').addClass('active');

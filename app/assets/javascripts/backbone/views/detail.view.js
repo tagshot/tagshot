@@ -109,10 +109,6 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 		return false;
 	},
 
-	stop: function(e) {
-		e.stopPropagation();
-	},
-
 	renderNotFound: function() {
 		$(this.el).html("Image not found");
 	}

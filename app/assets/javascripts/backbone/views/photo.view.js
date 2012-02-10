@@ -3,7 +3,7 @@
  * It is responsible for setting up plugins that manipulate the DOM,
  * do the selection magic and add fancy effects.
  *
- * It also captures user input and saves it into the model.
+ * It also captures user input and saves it to the model.
  *
  * It's HTML template is located in app/views/mustache/image.html
  */
@@ -48,10 +48,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	render: function () {
-		// caching magic
-		if (this.needsNoRender()) {
-			return this;
-		}
 		this.fillTemplate(this.templateSelector);
 		this.setStars();
 
@@ -115,11 +111,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 		this.model.trigger('changeSelection', this.model, e.shiftKey, e.ctrlKey || e.metaKey);
 	},
 
-	stop: function (e) {
-		//avoid propagation to underlying view(s)
-		e.stopPropagation();
-	},
-
 	selectNext: function (e) {
 		this.stop(e);
 		this.model.trigger('selectNext');
@@ -145,14 +136,5 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	shiftSelectPrevious: function (e) {
 		this.stop(e);
 		this.model.trigger('shiftSelectPrevious');
-	},
-	needsNoRender: function() {
-		var currentModelHash = this.model.computeHash();
-		if (this.model.hash === currentModelHash) {
-			return true;
-		}
-		//console.log("identifier change: " + this.model.hash + " -> " + currentModelHash);
-		this.model.hash = currentModelHash;
-		return false;
 	}
 });

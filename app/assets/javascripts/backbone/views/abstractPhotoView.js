@@ -1,6 +1,8 @@
-/* This View bundles the common properties for all photo views
+/* This View bundles the common properties for the details and photo view 
+ * (all views with just one model)
+ * ================================================================================
+ * 
  */
-
 
 Tagshot.AbstractPhotoView = Backbone.View.extend({
 
@@ -18,5 +20,10 @@ Tagshot.AbstractPhotoView = Backbone.View.extend({
 
 	fillTemplate: function(selector) {
 		$(this.el).html(Mustache.to_html($(selector).html(), this));
+	},
+
+	stop: function (e) {
+		//avoid propagation to underlying view(s)
+		e.stopPropagation();
 	}
 });

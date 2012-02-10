@@ -5,15 +5,14 @@
  * This causes some small changes in the user interface, for example the border
  * around images is a little bit lighter.
  */
-/* 
- */
 
 Tagshot.ui.activeGallery = (function () {
 	function init() {
 		$('#search-container').focusin(setInActive);
-		Tagshot.ui.selectors.tagBox.focusin(setInActive);
+		Tagshot.ui.selectors.tagBox.focusin(setActive);
 
 		// tried jQuery.on but does not work 
+		selectors.tagBox.focusin(setActive);
 		$('#backbone-gallery-view .image-frame').live('focus',setActive);
 	}
 

@@ -1,6 +1,12 @@
 /* This model describes a photo
+ * ================================================================================
  * The select/deselect/isSelected stuff helps to select multiple
- * photos for batch processing in the photo.list.view.
+ * photos for batch processing in the photo.list.view. It is not saved 
+ * to the attributes (with backbone's set()/ save()) because we don't want 
+ * it to be send to the backend
+ *
+ * A photo is part of the collection Tagshot.Collections.PhotoList. 
+ *
  * One can add tags to all or delete all the selected photos.
  */
 
@@ -16,14 +22,6 @@ Tagshot.Models.Photo = Backbone.Model.extend({
 		return this.id;
 	},
 
-	computeHash: function() {
-		return $.param({
-			id: this.id,
-			caption: this.caption,
-			tags: this.tags,
-			rating: this.rating
-		})
-	},
 	selected: false,
 	defaults: {
 		id: 0
