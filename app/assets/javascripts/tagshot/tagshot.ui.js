@@ -70,7 +70,12 @@ Tagshot.ui = (function () {
 	}
 	function navigateHomeOnTagshotLogoClick() {
 		$('#title').click(function() {
-			Tagshot.router.navigate('', { trigger: true });
+			var sources = Tagshot.collections.photoList.buildSourcesQuery();
+			if (sources === "") {
+				Tagshot.router.navigate('', { trigger: true });
+			} else {
+				Tagshot.router.navigate('search/'+sources, { trigger: true });
+			}
 			return false;
 		});
 	}

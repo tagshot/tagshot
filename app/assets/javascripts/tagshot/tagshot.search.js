@@ -9,8 +9,16 @@
  */
 Tagshot.search = function (tagList) {
 	var searchString = Tagshot.converter.inputToQuery(tagList);
-	if (searchString === "")
+	if (searchString === "" && Tagshot.collections.photoList.currentSources.length === 0)
 		Tagshot.router.navigate('reset', {trigger: true});
-	else
-		Tagshot.router.navigate('search/' + searchString, {trigger: true});
+	else {
+		// build query with sources but do not save it because 
+		// then we cannot detect chenages
+		var temp = Tagshot.collections.photoList.currentSearchQuery;
+		Tagshot.collections.photoList.currentSearchQuery = searchString;
+		var query = Tagshot.collections.photoList.buildQueryWithSources();
+		Tagshot.collections.photoList.currentSearchQuery = temp;
+
+		Tagshot.router.navigate('search/' + query, {trigger: true});
+	}
 }
