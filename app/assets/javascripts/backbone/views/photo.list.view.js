@@ -7,7 +7,7 @@
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:    "div",
 	className:  "gallery",
-	id:         "backbone-gallery-view",
+	id:         "photo-list-view",
 
 	events: {
 		"click":            "deselectAll",

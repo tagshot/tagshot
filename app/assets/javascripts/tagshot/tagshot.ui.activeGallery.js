@@ -10,15 +10,15 @@ Tagshot.ui.activeGallery = (function () {
 		selectors.tagBox.focusin(setInActive);
 
 	// tried "on" but does not work 
-		$('#backbone-gallery-view .image-frame').live('focus',setActive);
+		selectors.photoListView_imgFrame.live('focus',setActive);
 	}
 
 	function setActive() {
-		$('#backbone-gallery-view').addClass('active');
+		Tagshot.ui.selectors.photoListView.addClass('active');
 	}
 
 	function setInActive() {
-		$('#backbone-gallery-view').removeClass('active');
+		Tagshot.ui.selectors.photoListView.removeClass('active');
 	}
 
 	/*********************

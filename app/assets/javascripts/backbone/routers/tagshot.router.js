@@ -121,8 +121,9 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	showDetailsPage: function(model) {
-		$("#backbone-detail-view").show();
-		$("#backbone-gallery-view").hide();
+		var photoListView = Tagshot.ui.selectors.photoListView;
+		photoListView.show();
+		photoListView.hide();
 
 		$('#search-container').hide();
 		$('#options-container').hide();
@@ -134,13 +135,13 @@ Tagshot.Router = Backbone.Router.extend({
 	},
 
 	showGalleryView: function() {
+		var selectors = Tagshot.ui.selectors;
 		$("#backbone-detail-view").hide();
-		$("#backbone-gallery-view").show();
+		selectors.photoListView.show();
 		$('#search-container').show();
 		$('#options-container').hide();
 		$('#show-options').show();
-
-		$('#backbone-gallery-view').addClass('active');
+		selectors.photoListView.addClass('active');
 	},
 
 	fetchModels: function(number, callback) {
