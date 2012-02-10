@@ -41,7 +41,7 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 			model.toggleSelect();
 		} else {
 			// deselect all but current
-			this.deselectAll({'exclude':model});
+			this.deselectAll( {'exclude': model });
 			model.select();
 		}
 	},
