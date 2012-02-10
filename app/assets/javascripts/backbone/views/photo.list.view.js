@@ -75,11 +75,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		this.render(true);
 	},
 
-	render: function(override) {
-		if (this.needsNoRender() && !override) {
-			console.log("no rerender");
-			return this;
-		}
+	render: function() {
 		console.log("render gallery");
 		Tagshot.ui.insertLoadMoreButton(this.el);
 		this.collection.each(this.append);
@@ -208,16 +204,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		console.log("jump to footer");
 		this.stop(e);
 		$('footer').find('input').focus();
-		return false;
-	},
-
-	needsNoRender: function() {
-		var currentModelHash = this.collection.computeHash();
-		if (this.collection.hash === currentModelHash) {
-			return true;
-		}
-		console.log("gallery hash change: " + this.collection.hash + " -> " + currentModelHash);
-		this.collection.hash = currentModelHash;
 		return false;
 	},
 

@@ -128,12 +128,5 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 
 	setFetchMutex: function() {
 			this.fetching = true;
-	},
-
-	computeHash: function() {
-		return $.param({
-			query: this.currentSearchQuery,
-			length: this.length
-		})
 	}
 });

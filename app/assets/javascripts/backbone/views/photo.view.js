@@ -48,10 +48,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	render: function () {
-		// caching magic
-		if (this.needsNoRender()) {
-			return this;
-		}
 		this.fillTemplate(this.templateSelector);
 		this.setStars();
 
@@ -145,14 +141,5 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	shiftSelectPrevious: function (e) {
 		this.stop(e);
 		this.model.trigger('shiftSelectPrevious');
-	},
-	needsNoRender: function() {
-		var currentModelHash = this.model.computeHash();
-		if (this.model.hash === currentModelHash) {
-			return true;
-		}
-		//console.log("identifier change: " + this.model.hash + " -> " + currentModelHash);
-		this.model.hash = currentModelHash;
-		return false;
 	}
 });
