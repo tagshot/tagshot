@@ -1,15 +1,18 @@
-/* 
- * sets the gallery into an active and inactive state depending on the focus
+/*
+ * Changes the state of the gallery depending on the current focus.
+ * ================================================================================
+ * Sets the gallery into an active and inactive state, depending on the focus.
+ * This causes some small changes in the user interface, for example the border
+ * around images is a little bit lighter.
  */
 
 Tagshot.ui.activeGallery = (function () {
-	var selectors = Tagshot.ui.selectors;
-
 	function init() {
 		$('#search-container').focusin(setInActive);
+		Tagshot.ui.selectors.tagBox.focusin(setActive);
 
+		// tried jQuery.on but does not work 
 		selectors.tagBox.focusin(setActive);
-										// tried "on" but does not work 
 		$('#backbone-gallery-view .image-frame').live('focus',setActive);
 	}
 
@@ -25,9 +28,9 @@ Tagshot.ui.activeGallery = (function () {
 	 * API Functions
 	 * *******************/
 	return {
-		init:			init,
-		setActive:		setActive,
-		setInActive:	setInActive
+		init:         init,
+		setActive:    setActive,
+		setInActive:  setInActive
 	};
 })();
 
