@@ -1,8 +1,13 @@
-/* This view displays the photo gallery.
+/* This view displays the photo gallery. 
+ * ================================================================================ 
+ * It has several Tagshot.Views.PhotoView as subviews 
+ * which are added using the function append and then added to the variable subviews. 
+ *
+ * It is responsible for quickview, appending new images, changing the selection 
+ * if all pictures have to be selected and infinite scrolling
  *
  * The HTML template for this view is app/views/moustache/gallery.html
  */
-
 
 Tagshot.Views.PhotoListView = Backbone.View.extend({
 	tagName:    "div",
@@ -22,7 +27,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		_.bindAll(this);
 
 		this.collection.bind('select', this.select);
-		this.collection.bind('deselect', this.showFooterIfNeccessary);
+		this.collection.bind('deselect', this.showFooterIfNecessary);
 		this.collection.bind('reset', this.reset);
 		this.collection.bind('add', this.append);
 		this.collection.bind('rescroll', this.rescroll);
@@ -82,14 +87,16 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 	},
 
 	select: function () {
-		this.showFooterIfNeccessary();
+		this.showFooterIfNecessary();
 		if (this.quickViewVisible) {
 			var selectedViews = this.getSelectedViews();
 			this.quickview(selectedViews[0], true);
 		}
 	},
 
-	showFooterIfNeccessary: function() {
+	showFooterIfNecessary: function() {
+		// showing the footer is not necessary 
+		// if no pictures are selected
 		var that = this;
 		var footer = $('footer');
 		if (this.collection.selection().length > 0) {

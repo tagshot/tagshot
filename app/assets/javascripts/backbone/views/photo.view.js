@@ -3,7 +3,7 @@
  * It is responsible for setting up plugins that manipulate the DOM,
  * do the selection magic and add fancy effects.
  *
- * It also captures user input and saves it into the model.
+ * It also captures user input and saves it to the model.
  *
  * It's HTML template is located in app/views/mustache/image.html
  */
