@@ -34,6 +34,9 @@ Tagshot.converter = (function () {
 	// case insensitive 'or' in English, German or Prolog/Erlang
 	var OR_TOKEN           = /^(OR|ODER|;)$/i;
 
+	// data sources start with source: folled by numeric id, separated by pipes
+	var SOURCE_TOKEN       = /^source:(\d\|)*(\d)$/i;
+
 	// We separate Tag1 OR Tag2 in the URL with Tag1,Tag2
 	var OR_URL_TOKEN       = ',';
 
@@ -54,14 +57,23 @@ Tagshot.converter = (function () {
 				return buildStarQueryToken(token);
 			}
 			return token;
-		}).join('+').replace(/\+,\+/, ',')		// AND is default for search, if OR occured, fix URL from 'a+,+b' to 'a,b'
+		}).join('+').replace(/\+,\+/, ',');
+		// AND is default for search, if OR occured, fix URL from 'a+,+b' to 'a,b')
 	};
 
 	function queryToInput(url) {
 		// This unicodifies a url
-		return _.map(findTokensInURL(url), function(t) {
-			return inputToStars(stripStarPrefix(t))
+		var tokens = _.map(findTokensInURL(url), function(t) {
+			return inputToStars(stripStarPrefix(t));
+
 		});
+		return _.reject(tokens, function(t) {
+			return isSourceToken(t);
+		});
+	};
+
+	function queryToSources(url) {
+		return url
 	};
 
 	function inputToStars(text) {
@@ -98,6 +110,10 @@ Tagshot.converter = (function () {
 /*****************************/
 /* Helper Functions */
 /*****************************/
+
+	function isSourceToken(token) {
+		return SOURCE_TOKEN.test(token);
+	};
 
 	function isORtoken(token) {
 		return OR_TOKEN.test(token);
@@ -160,9 +176,10 @@ Tagshot.converter = (function () {
 
 	return {
 	// Make API functions accessible
-		inputToQuery: inputToQuery,
-		queryToInput: queryToInput,
-		inputToStars: inputToStars,
+		inputToQuery:    inputToQuery,
+		queryToInput:    queryToInput,
+		inputToStars:    inputToStars,
+		queryToSources:  queryToSources,
 
 	// Return private methods to test them
 		test: {

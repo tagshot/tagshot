@@ -116,12 +116,37 @@ $(document).ready(function() {
 		ok(['a', 'OR', 'b', 'OR', 'c', 'd'].equals(actual));
 	});
 
-	test("querytoInput builds ['a', 'b', 'OR', 'c', 'OR', 'd', 'f'] from 'a,b+c+d,f'", function() {
+	test("querytoInput builds ['a', 'b', 'OR', 'c', 'OR', 'd'] from 'a,b+c+d'", function() {
 		var actual = converter.queryToInput('a,b+c+d');
 		console.log('Query->Input: T2 ', actual); 
 		ok(['a','OR','b','c','d'].equals(actual));
 	});
 
+	test("queryToInput removes source:3 at the end of an url", function() {
+		var actual = converter.queryToInput('a,b+c+source:3');
+		console.log('remove', actual);
+		ok(['a','OR','b','c'].equals(actual));
+	});
+
+	test("queryToInput removes source:id at the beginning of an url", function() {
+		var actual = converter.queryToInput('source:1');
+		console.log('remove empty', actual);
+		var expected = [];
+		ok(expected.equals(actual));
+	});
+
+	test("queryToSources returns all id as an array", function() {
+		var actual = converter.queryToSources("a+b,c+source:3|5");
+		var expected = [3, 5];
+		ok(expected.equals(actual));
+	});
+
+	test("queryToSources returns an empty array if no source was specified in url", function() {
+		var expected = [];
+		var actual = 'a,b+c';
+		ok(expected.equals(converter.queryToSources(actual)));
+	
+	});
 
 
 /*************************************
