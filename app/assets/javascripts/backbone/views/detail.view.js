@@ -2,7 +2,7 @@
  * This view is used to display a huge single photo with its tags and metadata.
  */
 
-//=require starMe
+//=require jquery.starMe
 //=require jquery.inlineedit
 
 Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
@@ -117,15 +117,12 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 
 			console.log("download", url);
 			window.open(url);
-
-			//console.log(res, scaled, x, y, url);
 		}
 
 		return false;
 	},
 
 	stop: function(e) {
-		//avoid event propagation
 		e.stopPropagation();
 	},
 
