@@ -102,6 +102,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 	function shiftSelectPrevious () {
 		var first = _.first(photoList.selection());
 		var index = photoList.indexOf(first);
+		if (index === 0) index = photoList.length;
 		index -= 1;
 		photoList.at(index).select();
 	}
