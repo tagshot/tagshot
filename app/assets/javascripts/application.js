@@ -24,6 +24,7 @@
 //= require tagshot/tagshot.search
 //= require jquery.fancybox-1.3.4
 //= require jquery.jstree
+
 //= require tagshot/tagshot.ui.userMessages
 //= require tagshot/tagshot.ui.selectors
 //= require tagshot/tagshot.rotate
