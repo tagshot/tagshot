@@ -2,8 +2,6 @@
  */
 
 Tagshot.sourceSelect = (function () {
-	init();
-
 	function init() {
 		$.getJSON("/sources.json", function (json){
 			var data = {'sources': json};

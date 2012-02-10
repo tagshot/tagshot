@@ -3,8 +3,6 @@
  */
 
 Tagshot.ui.activeGallery = (function () {
-	init();
-
 	function init() {
 		$('#search-container').focusin(setInActive);
 		$('#tag-box').focusin(setInActive);
