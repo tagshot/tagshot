@@ -35,7 +35,7 @@ Tagshot.converter = (function () {
 	var OR_TOKEN           = /^(OR|ODER|;)$/i;
 
 	// data sources start with source: folled by numeric id, separated by pipes
-	var SOURCE_TOKEN       = /^source:(\d\|)*(\d)$/i;
+	var SOURCE_TOKEN       = /^.*source:(\d\|)*(\d)$/i;
 
 	// We separate Tag1 OR Tag2 in the URL with Tag1,Tag2
 	var OR_URL_TOKEN       = ',';
@@ -65,7 +65,6 @@ Tagshot.converter = (function () {
 		// This unicodifies a url
 		var tokens = _.map(findTokensInURL(url), function(t) {
 			return inputToStars(stripStarPrefix(t));
-
 		});
 		return _.reject(tokens, function(t) {
 			return isSourceToken(t);
@@ -73,7 +72,17 @@ Tagshot.converter = (function () {
 	};
 
 	function queryToSources(url) {
-		return url
+		if (!isSourceToken(url)) {
+			return [];
+		}
+		var match = url.match(SOURCE_TOKEN);
+		if (match[1] == undefined) {
+			return [parseInt(match[2])];
+		}
+		return _.map(match.splice(1), function(token) {
+			token.replace('|', '');
+			return parseInt(token);
+		});
 	};
 
 	function inputToStars(text) {
