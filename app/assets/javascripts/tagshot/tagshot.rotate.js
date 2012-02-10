@@ -1,7 +1,7 @@
 /* 
  */
 
-Tagshot.rotate = (function () {
+Tagshot.ui.rotate = (function () {
 	function rotateLeft() {
 		console.log("rotate left");
 		Tagshot.ui.userMessages.info("not yet implemented",2000);
