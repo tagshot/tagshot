@@ -18,7 +18,7 @@ Tagshot.ui.selectors = (function () {
 	}
 
 
-	var photoListView_imgFrame = $("#photo-list-view div.image-frame");
+	var photoListView_imgFrame = $("#photo-list-view .image-view .image-frame");
 	var photoListView_firstImg = photoListView_imgFrame.first('img');
 
 
