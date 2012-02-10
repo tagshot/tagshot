@@ -16,6 +16,7 @@
 Tagshot.ui.keyboardPhotoSelection = (function () {
 	var photoList,
 	keyCodes = {
+		SPACE: 32,
 		LEFT: 37,
 		UP: 38,
 		RIGHT: 39,
@@ -28,27 +29,35 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 		if (keyEvent.shiftKey) {
 			switch (keyEvent.keyCode) {
 				case keyCodes.LEFT:
-					shiftSelectPrevious(); break;
+					return shiftSelectPrevious();
 				case keyCodes.RIGHT:
-					shiftSelectNext(); break;
+					return shiftSelectNext();
 			}
 		}
 		else {
 			switch (keyEvent.keyCode) {
 				case keyCodes.UP:
-					selectAbove(Tagshot.views.gallery.countImagesInARow()); break;
+					return selectAbove(Tagshot.views.gallery.countImagesInARow());
 				case keyCodes.DOWN:
-					selectBelow(Tagshot.views.gallery.countImagesInARow()); break;
+					return selectBelow(Tagshot.views.gallery.countImagesInARow());
 				case keyCodes.LEFT:
-					selectPrevious(); break;
+					return selectPrevious();
 				case keyCodes.RIGHT:
-					selectNext(); break;
+					return selectNext();
+				case keyCodes.SPACE:
+					return raiseQuickview();
 			}
 		}
 	}
 
 	function init (photoListParam) {
 		photoList = photoListParam;
+	}
+
+	function raiseQuickview() {
+		var view = Tagshot.views.gallery.getSelectedViews()[0];
+		view.trigger('quickview', view);
+		return false;
 	}
 
 	function selectNext () {

@@ -89,7 +89,6 @@ Tagshot.Views.PhotoView = Tagshot.AbstractPhotoView.extend({
 	},
 
 	quickview: function(e) {
-		this.stop(e);
 		this.trigger('quickview', this);
 		return false;
 	},

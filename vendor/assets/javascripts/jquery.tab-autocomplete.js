@@ -322,7 +322,10 @@
 
 				// now add keyboard monitoring for <input>-element
 				p.$input.keydown(function (event) {
-					settings.onKeyEvent(event);
+					if (settings.onKeyEvent(event) === false) {
+						console.log(event);
+						return false;
+					}
 					var text = this.value.toLowerCase();
 					p.$autocompletionList.show(0);
 					switch (event.keyCode) {
