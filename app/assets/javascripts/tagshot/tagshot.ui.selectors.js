@@ -24,9 +24,13 @@ Tagshot.ui.selectors = (function () {
 	}
 
 
+
+	// possible performance imporvement here: 
+	// evaluate jQuery stuff only once $('footer')
+
 	return {
 		mainView:                '#backbone-main-view',
-		detailView: '#backbone-detail-view',
+		detailView:              '#backbone-detail-view',
 		searchBox:               '#search-box',
 		tagBox:                  '#tag-box',
 		footer:                  'footer',
@@ -36,7 +40,7 @@ Tagshot.ui.selectors = (function () {
 		more:                    '#more',
 		photoListView:           '#photo-list-view',
 		photoListView_imgFrame:  '#photo-list-view .image-view .image-frame',
-		photoListView_firstImg:  '#photo-list-view .image-view .image-frame:first img',
+		photoListView_firstImg:  '#photo-list-view .image-view .image-frame:   first img',
 		imageForPhotoView:       imageForPhotoView,
 		findRating:              findRating,
 		init:                    init

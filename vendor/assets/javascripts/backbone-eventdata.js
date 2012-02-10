@@ -1,6 +1,10 @@
 //= require backbone
 
-/*
+/* This plugin allows the develper to attach predefined data to an event
+ * It is a handy way to only trigger a backbone event when a given key was pressed. The key code matching is done by jquery hotkey plugin.
+ *
+ * Further documentation can be found at github.com/domoritz/backbone-eventdata
+ *
  * reguires the jquery hotkey plugin by jresig
  */
 

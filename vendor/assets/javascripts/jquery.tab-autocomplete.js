@@ -329,7 +329,6 @@
 				// now add keyboard monitoring for <input>-element
 				p.$input.keydown(function (event) {
 					if (settings.onKeyEvent(event) === false) {
-						console.log(event);
 						return false;
 					}
 					var text = this.value.toLowerCase();

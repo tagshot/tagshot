@@ -54,8 +54,9 @@ Tagshot.ui = (function () {
 		});
 	}
 	function updateAutocompletionList(newList) {
-		Tagshot.ui.selectors.searchBox.tagAutocomplete('updateCompletionList', newList);
-		Tagshot.ui.selectors.tagBox.tagAutocomplete('updateCompletionList', newList);
+		var selectors = Tagshot.ui.selectors;
+		$(selectors.searchBox).tagAutocomplete('updateCompletionList', newList);
+		$(selectors.tagBox).tagAutocomplete('updateCompletionList', newList);
 	}
 
 	/*
