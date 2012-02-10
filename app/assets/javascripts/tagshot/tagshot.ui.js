@@ -22,7 +22,7 @@ Tagshot.ui = (function () {
 		Tagshot.ui.selectors.mainView.append(Tagshot.views.detail.el);
 		bindRotateClicks();
 
-		Tagshot.sourceSelect.init();
+		Tagshot.ui.sourceSelect.init();
 		Tagshot.ui.activeGallery.init();
 	}
 	function initializeSearchBoxAutocompletion() {
