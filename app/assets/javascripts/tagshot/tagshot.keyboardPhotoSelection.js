@@ -14,10 +14,37 @@
 //= require tagshot/tagshot.ui
 
 Tagshot.ui.keyboardPhotoSelection = (function () {
-	var photoList;
+	var photoList,
+	keyCodes = {
+		LEFT: 37,
+		UP: 38,
+		RIGHT: 39,
+		DOWN: 40
+	};
 
 	function selectAction (keyEvent) {
-		console.log(keyEvent);
+		// Only invoke action, if current text is empty, so we do not want to navigate in the current text
+		if (event.target.value !== '') return;
+		if (keyEvent.shiftKey) {
+			switch (keyEvent.keyCode) {
+				case keyCodes.LEFT:
+					shiftSelectPrevious(); break;
+				case keyCodes.RIGHT:
+					shiftSelectNext(); break;
+			}
+		}
+		else {
+			switch (keyEvent.keyCode) {
+				case keyCodes.UP:
+					selectAbove(); break;
+				case keyCodes.DOWN:
+					selectBelow(); break;
+				case keyCodes.LEFT:
+					selectPrevious(); break;
+				case keyCodes.RIGHT:
+					selectNext(); break;
+			}
+		}
 	}
 
 	function init (photoListParam) {
