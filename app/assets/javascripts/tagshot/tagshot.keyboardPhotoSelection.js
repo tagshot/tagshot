@@ -15,6 +15,7 @@
 
 Tagshot.ui.keyboardPhotoSelection = (function () {
 	var photoList,
+	// JavaScript native key codes
 	keyCodes = {
 		SPACE: 32,
 		LEFT: 37,
@@ -24,7 +25,7 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 	};
 
 	function selectAction (keyEvent) {
-		// Only invoke action, if current text is empty, so we do not want to navigate in the current text
+		// Only invoke action, if current text is empty, as we do not want to navigate in the current text
 		if (keyEvent.target.value !== '') return;
 		if (keyEvent.shiftKey) {
 			switch (keyEvent.keyCode) {
@@ -51,12 +52,16 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 	}
 
 	function init (photoListParam) {
+		// use closure and save given parameter in the current function context
+		// so we can reuse it inside this module
 		photoList = photoListParam;
 	}
 
+	// Shows the quickview (fullscreen preview of the photo when pressing space)
 	function raiseQuickview() {
 		var view = Tagshot.views.gallery.getSelectedViews()[0];
 		view.trigger('quickview', view);
+		// return false to prevent default browser behaviour when pressing space
 		return false;
 	}
 
@@ -106,13 +111,13 @@ Tagshot.ui.keyboardPhotoSelection = (function () {
 	}
 
 	return {
-		init: init,
-		selectAction: selectAction,
-		selectNext: selectNext,
-		selectPrevious: selectPrevious,
-		selectAbove: selectAbove,
-		selectBelow: selectBelow,
-		shiftSelectPrevious: shiftSelectPrevious,
-		shiftSelectNext: shiftSelectNext
+		init:                 init,
+		selectAction:         selectAction,
+		selectNext:           selectNext,
+		selectPrevious:       selectPrevious,
+		selectAbove:          selectAbove,
+		selectBelow:          selectBelow,
+		shiftSelectPrevious:  shiftSelectPrevious,
+		shiftSelectNext:      shiftSelectNext
 	};
 })();

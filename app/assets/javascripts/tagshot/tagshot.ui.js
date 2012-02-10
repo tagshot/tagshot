@@ -1,4 +1,5 @@
-/* * Initialize basic ui callbacks and event handlers.
+/*
+ * Initialize basic ui callbacks and event handlers.
  * ================================================================================
  * This module initializes basic callbacks/event handlers using jQuery.
  * In addition it deals with UI code like creating buttons etc.
