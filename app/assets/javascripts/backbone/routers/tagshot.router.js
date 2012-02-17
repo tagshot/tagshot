@@ -88,9 +88,11 @@ Tagshot.Router = Backbone.Router.extend({
 		if (photolist.currentSearchQuery != query || query === "") {
 			console.log("do search");
 
-			// filter sources, we don't need it
+			// filter sources, we don't need want it to pollute the current query
+			// the query for the backend will be build from the query and the sources
 			var conv = Tagshot.converter;
-			var clean_query = conv.inputToQuery(conv.queryToInput(query))
+			var clean_query = conv.stripSources(query);
+			console.log(clean_query);
 
 			photolist.fetchWithQuery(clean_query);
 		}

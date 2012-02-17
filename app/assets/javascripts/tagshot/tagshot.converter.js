@@ -71,7 +71,7 @@ Tagshot.converter = (function () {
 		});
 	};
 
-	function queryToSources(url) {
+    function queryToSources(url) {
 		if (!isSourceToken(url)) {
 			return [];
 		}
@@ -95,6 +95,11 @@ Tagshot.converter = (function () {
 		var starString = buildStarString(prefixToUnicode(prefix), starNumber);
 		return starString;	// return of function invocations and this.buildStarString() does not work, WTFJS!
 	};
+
+    // removes the source:3|4|... from the query string
+    function stripSources(query) {
+        return query.replace(/(\+)?source\:(\d\|)*\d/,"");  
+    };
 
 
 /***********************************
@@ -189,6 +194,7 @@ Tagshot.converter = (function () {
 		queryToInput:    queryToInput,
 		inputToStars:    inputToStars,
 		queryToSources:  queryToSources,
+        stripSources:    stripSources,
 
 	// Return private methods to test them
 		test: {

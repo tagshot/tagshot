@@ -177,4 +177,30 @@ $(document).ready(function() {
 		equals(converter.inputToQuery(['Tag1']), 'Tag1');
 		// requires intelligence in tagAutocomplete
 	});
+
+
+/*************************************
+ * Tests for query strip
+*************************************/
+
+	module("Converter.js:: strip");
+
+	test("Strip source from 'hpi+source:2|3|4'", function() {
+		equals(converter.stripSources('hpi+source:2|3|4'), 'hpi');
+	});
+
+    test("Strip source from 'hpi+source:2'", function() {
+		equals(converter.stripSources('hpi+source:2'), 'hpi');
+	});
+
+    test("Strip source from 'source:2'", function() {
+		equals(converter.stripSources('source:2|3|4'), '');
+	});
+
+    test("Strip source from 'hpi+hasso+stars:3+source:2|3'", function() {
+		equals(converter.stripSources('hpi+hasso+stars:3+source:2|3'), 'hpi+hasso+stars:3');
+	});
+
+
+
 });
