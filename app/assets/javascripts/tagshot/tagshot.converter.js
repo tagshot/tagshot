@@ -40,8 +40,11 @@ Tagshot.converter = (function () {
 	// We separate Tag1 OR Tag2 in the URL with Tag1,Tag2
 	var OR_URL_TOKEN       = ',';
 
-// OR in URL gets transformed in this input string
+    // OR in URL gets transformed in this input string
 	var OR_REPLACER        = 'OR';
+
+    // matches the sources:1|23|4 in a url
+    var SOURCES_IN_URL     = /(\+)?source\:(\d+\|)*\d+/;
 
 
 /***********************************
@@ -98,7 +101,7 @@ Tagshot.converter = (function () {
 
     // removes the source:3|4|... from the query string
     function stripSources(query) {
-        return query.replace(/(\+)?source\:(\d+\|)*\d+/,"");  
+        return query.replace(SOURCES_IN_URL,"");  
     };
 
 
