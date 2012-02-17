@@ -444,8 +444,14 @@ div#thumbnail-size-slider {
 
 	#more { 
 		margin: 20px;
-	padding: 6px 80px;}
-	#more:disabled { display: none };
+		width: 300px;
+		height: 30px;
+		font-size: 0.8em;
+		
+		&:disabled { 
+			display: none
+		};
+	};
 }
 
 #photo-list-view.active {
