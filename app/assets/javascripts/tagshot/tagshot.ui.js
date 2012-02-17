@@ -138,14 +138,6 @@ Tagshot.ui = (function () {
 	/*
 	 * General dom manipulation helpers
 	 */
-	function insertLoadMoreButton(here) {
-		$(here).html(
-			"<ul>" +
-			"</ul>" +
-			"<span id='fix-gallery' class='ui-helper-clearfix'></span>" +
-			"<button id='more'>load more...</button>"
-		);
-	}
 	function insertPhoto(view, here) {
 		$('ul', here.el).append(view.render().el);
 		Tagshot.ui.resize.resizeImages();
@@ -157,7 +149,6 @@ Tagshot.ui = (function () {
 	return {
 		initAfterBackbone:                  initAfterBackbone,
 		initBeforeBackbone:                 initBeforeBackbone,
-		insertLoadMoreButton:               insertLoadMoreButton,
 		insertPhoto:                        insertPhoto,
 		updateAutocompletionList:           updateAutocompletionList
 	};

@@ -10,9 +10,10 @@
  */
 
 Tagshot.Views.PhotoListView = Backbone.View.extend({
-	tagName:    "div",
-	className:  "gallery",
-	id:         "photo-list-view",
+	tagName:          "div",
+	className:        "gallery",
+	id:               "photo-list-view",
+	templateSelector: '#gallery-template',
 
 	events: {
 		"click":            "deselectAll",
@@ -77,7 +78,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 
 	render: function() {
 		console.log("render gallery");
-		Tagshot.ui.insertLoadMoreButton(this.el);
+		this.fillTemplate(this.templateSelector);
 		this.collection.each(this.append);
 		return this;
 	},
@@ -104,6 +105,10 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 				} 
 			}, 100);
 		}
+	},
+
+	fillTemplate: function(selector) {
+		$(this.el).html(Mustache.to_html($(selector).html(), this));
 	},
 
 	append: function(photo) {

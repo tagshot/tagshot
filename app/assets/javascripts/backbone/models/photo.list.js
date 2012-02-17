@@ -161,7 +161,7 @@ Tagshot.Collections.PhotoList = Backbone.Collection.extend({
 		});
 	},
 
-	fetchSources: function (){
+	fetchSources: function () {
 		// fetch when changing sources
 		var number = Tagshot.configuration.numberOfImagesToFetchAtStart;
 		Tagshot.collections.photoList.fetch({
