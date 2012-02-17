@@ -98,7 +98,7 @@ Tagshot.converter = (function () {
 
     // removes the source:3|4|... from the query string
     function stripSources(query) {
-        return query.replace(/(\+)?source\:(\d\|)*\d/,"");  
+        return query.replace(/(\+)?source\:(\d+\|)*\d+/,"");  
     };
 
 

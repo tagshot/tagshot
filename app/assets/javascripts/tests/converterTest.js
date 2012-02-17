@@ -185,8 +185,8 @@ $(document).ready(function() {
 
 	module("Converter.js:: strip");
 
-	test("Strip source from 'hpi+source:2|3|4'", function() {
-		equals(converter.stripSources('hpi+source:2|3|4'), 'hpi');
+	test("Strip source from 'hpi+source:2|23|4'", function() {
+		equals(converter.stripSources('hpi+source:2|23|4'), 'hpi');
 	});
 
     test("Strip source from 'hpi+source:2'", function() {
@@ -194,7 +194,7 @@ $(document).ready(function() {
 	});
 
     test("Strip source from 'source:2'", function() {
-		equals(converter.stripSources('source:2|3|4'), '');
+		equals(converter.stripSources('source:2'), '');
 	});
 
     test("Strip source from 'hpi+hasso+stars:3+source:2|3'", function() {
