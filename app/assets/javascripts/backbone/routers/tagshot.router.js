@@ -74,11 +74,7 @@ Tagshot.Router = Backbone.Router.extend({
 
 	search: function (query) {
 		console.log("search for: "+query);
-
-		if (_.contains(["snow", "christmas", "schnee", "weihnachten", "winter", "cold", "kalt"], query)) {
-			console.log("let it snow");
-			snowStorm.start();
-		}
+		easterEgg(query);
 
 		this.showGalleryView();
 		this.fillTagbarWithSearchedTags(query);
@@ -167,5 +163,14 @@ Tagshot.Router = Backbone.Router.extend({
 		for (var i = 0; i < tags.length; i += 1) {
 			$("#search-box").parent().before('<li class="tag"><span>' + tags[i] + '</span><a></a></li>');
 		};
+	},
+
+	easterEgg: function(query) {
+		var snowTerms = ["snow","schnee","christmas","weihnachten","winter","cold","kalt"];
+		if (_.contains(snowTerms, query)) {
+			console.log("let it snow");
+			snowStorm.start();
+		}
 	}
+
 });
