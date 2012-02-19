@@ -135,11 +135,11 @@ $(document).ready(function() {
 
 	test("queryToSources returns all id as an array", function() {
 		var actual1 = converter.queryToSources("a+b,c+source:3");
-		var actual2 = converter.queryToSources("a+b,c+source:3|5");
-		var actual3 = converter.queryToSources("a+b,c+source:3|5|7");
+		var actual2 = converter.queryToSources("a+b,c+source:3|52");
+		var actual3 = converter.queryToSources("a+b,c+source:3|52|7");
 		ok([3].equals(actual1));
-		ok([3, 5].equals(actual2));
-		ok([3, 5, 7].equals(actual3));
+		ok([3, 52].equals(actual2));
+		ok([3, 52, 7].equals(actual3));
 
 	});
 

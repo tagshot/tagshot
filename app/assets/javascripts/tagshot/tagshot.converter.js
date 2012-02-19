@@ -34,8 +34,9 @@ Tagshot.converter = (function () {
 	// case insensitive 'or' in English, German or Prolog/Erlang
 	var OR_TOKEN           = /^(OR|ODER|;)$/i;
 
-	// data sources start with source: folled by numeric id, separated by pipes
-	var SOURCE_TOKEN       = /^.*source:(\d\|)*(\d)$/i;
+	// data sources start with source: followed by numeric id, separated by somehing
+	var SOURCE_TOKEN       = /.*source:.*/;
+	var ALL_NUMBERS        = /\d+/g;
 
 	// We separate Tag1 OR Tag2 in the URL with Tag1,Tag2
 	var OR_URL_TOKEN       = ',';
@@ -44,7 +45,7 @@ Tagshot.converter = (function () {
 	var OR_REPLACER        = 'OR';
 
 	// matches the sources:1|23|4 in a url
-	var SOURCES_IN_URL     = /(\+)?source\:(\d+\|)*\d+/;
+	var SOURCES_IN_URL     = /(\+)?source\:.+/g;
 
 
 /***********************************
@@ -75,16 +76,13 @@ Tagshot.converter = (function () {
 	};
 
 	function queryToSources(url) {
+		// returns an array of resource identifiers
 		if (!isSourceToken(url)) {
 			return [];
 		}
-		var match = url.match(SOURCE_TOKEN);
-		if (match[1] == undefined) {
-			return [parseInt(match[2])];
-		}
-		return _.map(match.splice(1), function(token) {
-			token.replace('|', '');
-			return parseInt(token);
+		var sourceToken = url.match(SOURCE_TOKEN)[0];
+		return _.map(sourceToken.match(ALL_NUMBERS), function (number) {
+			return parseInt(number);
 		});
 	};
 
