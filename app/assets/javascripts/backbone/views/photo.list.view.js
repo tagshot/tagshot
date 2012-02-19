@@ -9,7 +9,7 @@
  * The HTML template for this view is app/views/moustache/gallery.html
  */
 
-Tagshot.Views.PhotoListView = Backbone.View.extend({
+Tagshot.Views.PhotoListView = Tagshot.AbstractPhotoView.extend({
 	tagName:          "div",
 	className:        "gallery",
 	id:               "photo-list-view",
@@ -105,10 +105,6 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 				} 
 			}, 100);
 		}
-	},
-
-	fillTemplate: function(selector) {
-		$(this.el).html(Mustache.to_html($(selector).html(), this));
 	},
 
 	append: function(photo) {
@@ -216,6 +212,7 @@ Tagshot.Views.PhotoListView = Backbone.View.extend({
 		view.bind('selectionChanged', this.selectionChanged);
 		view.bind('quickview', this.quickview);
 	},
+
 	countImagesInARow: function () {
 		var offset, count = 0;
 		$(".image-view .image").each(function (index, el) {
