@@ -29,7 +29,7 @@ Tagshot.converter = (function () {
 
 	// BEWARE: Number of stars is a digit, not [0-5]
 	var RATING_INPUT       = /^(<|<=|=|>|>=)?([0-9])\*$/;
-	var URL_RATING_TOKEN     = /^stars:(<|<=|=|>|>=)?([0-9])$/;
+	var URL_RATING_TOKEN   = /^stars:(<|<=|=|>|>=)?([0-9])$/;
 
 	// case insensitive 'or' in English, German or Prolog/Erlang
 	var OR_TOKEN           = /^(OR|ODER|;)$/i;
@@ -40,11 +40,11 @@ Tagshot.converter = (function () {
 	// We separate Tag1 OR Tag2 in the URL with Tag1,Tag2
 	var OR_URL_TOKEN       = ',';
 
-    // OR in URL gets transformed in this input string
+	// OR in URL gets transformed in this input string
 	var OR_REPLACER        = 'OR';
 
-    // matches the sources:1|23|4 in a url
-    var SOURCES_IN_URL     = /(\+)?source\:(\d+\|)*\d+/;
+	// matches the sources:1|23|4 in a url
+	var SOURCES_IN_URL     = /(\+)?source\:(\d+\|)*\d+/;
 
 
 /***********************************
@@ -74,7 +74,7 @@ Tagshot.converter = (function () {
 		});
 	};
 
-    function queryToSources(url) {
+	function queryToSources(url) {
 		if (!isSourceToken(url)) {
 			return [];
 		}
@@ -99,10 +99,10 @@ Tagshot.converter = (function () {
 		return starString;	// return of function invocations and this.buildStarString() does not work, WTFJS!
 	};
 
-    // removes the source:3|4|... from the query string
-    function stripSources(query) {
-        return query.replace(SOURCES_IN_URL,"");  
-    };
+	// removes the source:3|4|... from the query string
+	function stripSources(query) {
+		return query.replace(SOURCES_IN_URL,"");
+	};
 
 
 /***********************************
@@ -197,7 +197,7 @@ Tagshot.converter = (function () {
 		queryToInput:    queryToInput,
 		inputToStars:    inputToStars,
 		queryToSources:  queryToSources,
-        stripSources:    stripSources,
+		stripSources:    stripSources,
 
 	// Return private methods to test them
 		test: {
