@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120210151329) do
+ActiveRecord::Schema.define(:version => 20120209162817) do
 
   create_table "auth_sources", :force => true do |t|
     t.string   "type"
@@ -104,7 +104,6 @@ ActiveRecord::Schema.define(:version => 20120210151329) do
     t.string   "type"
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
-    t.boolean  "oa",             :default => false
   end
 
 end

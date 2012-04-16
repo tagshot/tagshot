@@ -54,7 +54,7 @@ Tagshot.Views.DetailView = Tagshot.AbstractPhotoView.extend({
 			var str = '';
 			var metadata = this.model.get("meta");
 			$.each(metadata, function(key, value) {
-				str += '<dt>' + key + '</dt><dd>' + value + '</dd>';
+				str += '<span class="def-item"><dt>' + key + '</dt><dd>' + value + '</dd></span>';
 			});
 			return str;
 		};

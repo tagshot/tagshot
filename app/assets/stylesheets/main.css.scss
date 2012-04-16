@@ -541,89 +541,94 @@ div#commands-container {
 /* backbone-detail-viewed image view
 /***********************************/
 
-#backbone-detail-view > section {
+#backbone-detail-view
+> section {
 	align: center;
 	position: absolute;
 	top: 60px; bottom: 60px;
 	left: 0; right: 0;
 	padding: 10px 440px 10px 10px;
-}
 
-#backbone-detail-view > section h2 {
-	font-size: 1.1em;
-	padding: 9px 0 6px;
-	font-weight: normal;
-}
+	h2 {
+		font-size: 1.1em;
+		padding: 9px 0 6px;
+		font-weight: normal;
+	}
+	.imagebox {
+		height: 100%;
+		text-align: center;
+		img {
+			max-width: 100%;
+			max-height: 100%;
+			margin: auto;
+			border: 2px solid #333;
+			background: #fff;
+			padding: 1px;
+		}
+	}
 
-#backbone-detail-view > section .imagebox {
-	height: 100%;
-	text-align: center;
-}
+	.propbox {
+		padding: 0 14px;
+		position: absolute;
+		top: 0; bottom: 0;
+		right: 0;
+		width: 400px;
 
-#backbone-detail-view > section .imagebox img {
-	max-width: 100%;
-	max-height: 100%;
-	margin: auto;
-	border: 2px solid #333;
-	background: #fff;
-	padding: 1px;
-}
+		background-color: rgba(0,0,0,0.7);
+		color: #fff;
+		overflow: auto;
+		dl {
+			// padding-left: 90px;
+			margin-bottom: 10px;
+		}
 
-#backbone-detail-view > section .propbox {
-	padding: 0 14px;
-	position: absolute;
-	top: 0; bottom: 0;
-	right: 0;
-	width: 400px;
+		dt {
+			font-size: 0.65em;
+			color: #888;
+			// width: 85px;
+			// float: left;
+			// margin: 2px 0 0 -90px;
+		}
 
-	background-color: rgba(0,0,0,0.7);
-	color: #fff;
-	overflow: auto;
-}
+		dd {
+			padding: 4px 8px;
+			margin: 2px 0 2px 30px;
+			font-size: 0.85em;
+			color: #fff;
+			height: 15px;
+		}
 
-#backbone-detail-view > section .propbox dl {
-	// padding-left: 90px;
-	margin-bottom: 10px;
-}
+		dd input,
+		dd textarea, {
+			background: #333;
+			color: #fff;
+			padding: 4px 8px;
+			margin: -4px 10px 0px 0;
+			font-size: 1em;
+			width: 250px;
+			float: left;
+			border: 0px none;
+		}
 
-#backbone-detail-view > section .propbox dt {
-	font-size: 0.65em;
-	color: #888;
-	// width: 85px;
-	// float: left;
-	// margin: 2px 0 0 -90px;
-}
-
-#backbone-detail-view > section .propbox dd {
-	padding: 4px 8px;
-	margin: 2px 0 2px 30px;
-	font-size: 0.85em;
-	color: #fff;
-	height: 15px;
-}
-
-#backbone-detail-view > section .propbox dd input,
-#backbone-detail-view > section .propbox dd textarea, {
-	background: #333;
-	color: #fff;
-	padding: 4px 8px;
-	margin: -4px 10px 0px 0;
-	font-size: 1em;
-	width: 250px;
-	float: left;
-	border: 0px none;
-}
-
-#backbone-detail-view > section .propbox dd.description,
-#backbone-detail-view > section .propbox dd textarea {
-	height: 60px;
-}
+		dd.description,
+		dd textarea {
+			height: 60px;
+		}
 
 
-#backbone-detail-view > section .propbox dd.hoverEdit {
-	background-color: #333;
-	cursor: text;
-	width: 250px;
+		dd.hoverEdit {
+			background-color: #333;
+			cursor: text;
+			width: 250px;
+		}
+
+		.meta {
+			.def-item {
+				width: 50%;
+				float: left;
+			}
+		}
+	}
 }
 
 .rating > a {
