@@ -1,8 +1,10 @@
-/* This router is the controller and main actor.
+/*
+ * This router is the controller and main actor.
  * It's initialized by window.Tagshot.init.
  *
  * Triggering a route will change the view if neccessary.
  */
+
 //= require snowstorm
 //= require tagshot/tagshot.ui.sourceSelect
 
@@ -74,7 +76,7 @@ Tagshot.Router = Backbone.Router.extend({
 
 	search: function (query) {
 		console.log("search for: "+query);
-		easterEgg(query);
+		this.easterEgg(query);
 
 		this.showGalleryView();
 		this.fillTagbarWithSearchedTags(query);
