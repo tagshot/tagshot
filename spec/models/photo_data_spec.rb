@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe PhotoData do
-  let(:photo) { Factory(:photo) }
+  let(:photo) { FactoryGirl.create(:photo) }
 
   it 'should have meta properties' do
     photo.data.meta_properties.size.should > 0

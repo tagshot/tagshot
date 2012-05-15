@@ -5,7 +5,7 @@ describe PhotoDecorator do
 
   context 'as json' do
     before :all do
-      @photo = Factory(:photo_with_tags)
+      @photo = FactoryGirl.create(:photo_with_tags)
       @json  = PhotoDecorator.decorate(@photo).as_json
     end
 

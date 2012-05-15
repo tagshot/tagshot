@@ -9,7 +9,7 @@ describe SourcesController do
       end
 
       context 'with authenticated user' do
-        before(:each) { set_current_user Factory(:user) }
+        before(:each) { set_current_user FactoryGirl.create(:user) }
 
         it 'should respond with OK' do
           get :index, format: :json
@@ -17,7 +17,7 @@ describe SourcesController do
         end
 
         it 'should respond a list photo sources' do
-      	  3.times { Factory(:source) }
+      	  3.times { FactoryGirl.create(:source) }
           get :index, format: :json
 
           json = JSON(response.body)

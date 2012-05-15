@@ -2,55 +2,55 @@ require 'spec_helper'
 
 describe PhotosController do
   before(:each) { set_current_user User.anonymous }
-  
+
   describe 'GET index' do
     context 'as HTML' do
       it 'should require authentication' do
         get :index
         response.status.should == 302
       end
-      
+
       context 'with authenticated user' do
-        before(:each) { set_current_user Factory(:user) }
-        
+        before(:each) { set_current_user FactoryGirl.create(:user) }
+
         it 'should respond with OK' do
           get :index
           response.status.should == 200
         end
       end
     end
-    
+
     context 'as JSON' do
       it 'should require authentication' do
         get :index
         response.status.should == 302
       end
-      
+
       context 'with authenticated user' do
-        before(:each) { set_current_user Factory(:user) }
-        
+        before(:each) { set_current_user FactoryGirl.create(:user) }
+
         it 'should respond with OK' do
           get :index, :format => :json
           response.status.should == 200
         end
-        
+
         it 'should return list of photos' do
           get :index, :format => :json
           JSON(response.body).should be_an(Array)
         end
-        
+
         it 'should not return more than 100 photos' do
-          150.times { Factory(:photo) }
+          150.times { FactoryGirl.create(:photo) }
           get :index, :format => :json
-          
+
           Photo.all.count.should > 100 # ensure there are more than 100 photos
           JSON(response.body).length.should == 100
         end
         
         context 'with query' do
           it 'should search for photos with all given tags' do
-            Factory(:photo_with_tags)
-            Factory(:photo_with_more_tags)
+            FactoryGirl.create(:photo_with_tags)
+            FactoryGirl.create(:photo_with_more_tags)
 
             get :index, :format => :json, :q => 'a+e'
             JSON(response.body).each do |photo|
@@ -60,17 +60,17 @@ describe PhotosController do
           end
 
           it 'should return the default list for an empty search' do
-            Factory(:photo_with_tags)
-            Factory(:photo_with_more_tags)
+            FactoryGirl.create(:photo_with_tags)
+            FactoryGirl.create(:photo_with_more_tags)
 
             get :index, :format => :json, :q => ''
             JSON(response.body).length.should > 0
           end
 
           it 'should support or queries' do
-            Factory(:photo_with_tags)
-            Factory(:photo_with_f_tags)
-            Factory(:photo_with_g_tags)
+            FactoryGirl.create(:photo_with_tags)
+            FactoryGirl.create(:photo_with_f_tags)
+            FactoryGirl.create(:photo_with_g_tags)
 
             get :index, :format => :json, :q => 'f,g'
             json = JSON(response.body)
@@ -81,9 +81,9 @@ describe PhotosController do
           end
 
           it 'should return a list of photos with a date before' do
-            Factory(:photo).data.update_attributes!(:date => '2012-01-01')
-            Factory(:photo).data.update_attributes!(:date => '2012-01-02')
-            Factory(:photo).data.update_attributes!(:date => '2012-01-03')
+            FactoryGirl.create(:photo).data.update_attributes!(:date => '2012-01-01')
+            FactoryGirl.create(:photo).data.update_attributes!(:date => '2012-01-02')
+            FactoryGirl.create(:photo).data.update_attributes!(:date => '2012-01-03')
 
             get :index, :format => :json, :q => 'date:<2012-01-02'
             json = JSON(response.body)
@@ -94,9 +94,9 @@ describe PhotosController do
           end
 
           it 'should return a list of photos with a date after' do
-            Factory(:photo).data.update_attributes!(:date => '2012-01-01')
-            Factory(:photo).data.update_attributes!(:date => '2012-01-02')
-            Factory(:photo).data.update_attributes!(:date => '2012-01-03')
+            FactoryGirl.create(:photo).data.update_attributes!(:date => '2012-01-01')
+            FactoryGirl.create(:photo).data.update_attributes!(:date => '2012-01-02')
+            FactoryGirl.create(:photo).data.update_attributes!(:date => '2012-01-03')
 
             get :index, :format => :json, :q => 'date:>2012-01-01'
             json = JSON(response.body)
@@ -107,9 +107,9 @@ describe PhotosController do
           end
 
           it 'should return a list of photos with a partial date before' do
-            Factory(:photo).data.update_attributes!(:date => '2011-12-31')
-            Factory(:photo).data.update_attributes!(:date => '2012-01-01')
-            Factory(:photo).data.update_attributes!(:date => '2012-02-03')
+            FactoryGirl.create(:photo).data.update_attributes!(:date => '2011-12-31')
+            FactoryGirl.create(:photo).data.update_attributes!(:date => '2012-01-01')
+            FactoryGirl.create(:photo).data.update_attributes!(:date => '2012-02-03')
 
             get :index, :format => :json, :q => 'date:<2012-01'
             json = JSON(response.body)
@@ -120,10 +120,10 @@ describe PhotosController do
           end
 
           it 'should return a list of photos with a partial date after' do
-            Factory(:photo)
-            Factory(:photo)
-            Factory(:photo)
-            Factory(:photo)
+            FactoryGirl.create(:photo)
+            FactoryGirl.create(:photo)
+            FactoryGirl.create(:photo)
+            FactoryGirl.create(:photo)
 
             get :index, :format => :json, :q => 'date:>2012'
             json = JSON(response.body)
@@ -135,9 +135,9 @@ describe PhotosController do
 
           it 'should return a list of photos with specific stars' do
             Photo.count.should == 0
-            Factory(:photo).data.update_attributes!(:rating => 2)
-            Factory(:photo).data.update_attributes!(:rating => 3)
-            Factory(:photo).data.update_attributes!(:rating => 4)
+            FactoryGirl.create(:photo).data.update_attributes!(:rating => 2)
+            FactoryGirl.create(:photo).data.update_attributes!(:rating => 3)
+            FactoryGirl.create(:photo).data.update_attributes!(:rating => 4)
 
             get :index, :format => :json, :q => 'stars:3'
             json = JSON(response.body)
@@ -148,9 +148,9 @@ describe PhotosController do
           end
 
           it 'should return a list of photos with more or equal stars' do
-            Factory(:photo).data.update_attributes!(:rating => 2)
-            Factory(:photo).data.update_attributes!(:rating => 3)
-            Factory(:photo).data.update_attributes!(:rating => 4)
+            FactoryGirl.create(:photo).data.update_attributes!(:rating => 2)
+            FactoryGirl.create(:photo).data.update_attributes!(:rating => 3)
+            FactoryGirl.create(:photo).data.update_attributes!(:rating => 4)
 
             get :index, :format => :json, :q => 'stars:>3'
             json = JSON(response.body)
@@ -161,14 +161,14 @@ describe PhotosController do
           end
 
           it 'should return nothing for invalid rating ranges' do
-            Factory(:photo)
+            FactoryGirl.create(:photo)
             get :index, :format => :json, :q => 'stars:<3+stars:>3'
             JSON(response.body).length.should == 0
           end
 
           it 'should handle all matching rating range queries' do
-            Factory(:photo).data.update_attributes!(:rating => 2)
-            Factory(:photo).data.update_attributes!(:rating => 5)
+            FactoryGirl.create(:photo).data.update_attributes!(:rating => 2)
+            FactoryGirl.create(:photo).data.update_attributes!(:rating => 5)
             get :index, :format => :json, :q => 'stars:>=0'
             length = JSON(response.body).length
             get :index, :format => :json, :q => 'stars:<=5'
@@ -176,8 +176,8 @@ describe PhotosController do
           end
 
           it 'should return a list with photos from a given year' do
-            Factory(:photo).source.update_attributes!(:year => 2010)
-            Factory(:photo).source.update_attributes!(:year => 2011)
+            FactoryGirl.create(:photo).source.update_attributes!(:year => 2010)
+            FactoryGirl.create(:photo).source.update_attributes!(:year => 2011)
 
             get :index, :format => :json, :q => 'year:2010'
             json = JSON(response.body)
@@ -188,7 +188,7 @@ describe PhotosController do
           end
 
           it 'should correct handle year range queries' do
-            Factory(:photo_with_tags)
+            FactoryGirl.create(:photo_with_tags)
             get :index, :format => :json, :q => 'year:<2011+year:>2011'
             JSON(response.body).length.should == 0
             get :index, :format => :json, :q => 'year:>=2010'
@@ -198,14 +198,14 @@ describe PhotosController do
           end
 
 	        it 'should return only photos of the given source' do
-            source1 = Factory(:source)
-            source2 = Factory(:source)
-            source3 = Factory(:source)
-            source4 = Factory(:source)
-            photo1 = Factory(:photo, :source => source1)
-            photo2 = Factory(:photo, :source => source2)
-            photo3 = Factory(:photo, :source => source3)
-            photo4 = Factory(:photo, :file => 'asdfasdf', :source => source1)
+            source1 = FactoryGirl.create(:source)
+            source2 = FactoryGirl.create(:source)
+            source3 = FactoryGirl.create(:source)
+            source4 = FactoryGirl.create(:source)
+            photo1 = FactoryGirl.create(:photo, :source => source1)
+            photo2 = FactoryGirl.create(:photo, :source => source2)
+            photo3 = FactoryGirl.create(:photo, :source => source3)
+            photo4 = FactoryGirl.create(:photo, :file => 'asdfasdf', :source => source1)
 
             get :index, :format => :json, :q => "source:#{source1.id}|#{source2.id}|#{source4.id}"
 
@@ -215,42 +215,42 @@ describe PhotosController do
       end
     end
   end
-  
+
   describe 'GET show' do
     context 'as JSON' do
-      before(:all) { @photo = Factory(:photo) }
-      
+      before(:all) { @photo = FactoryGirl.create(:photo) }
+
       it 'should require authentication' do
         get :index
         response.status.should == 302
       end
-      
+
       context 'with authenticated user' do
-        before(:each) { set_current_user Factory(:user) }
-        
+        before(:each) { set_current_user FactoryGirl.create(:user) }
+
         it 'should respond with OK' do
           get :show, :format => :json, :id => @photo.id
           response.status.should == 200
         end
-        
+
         it 'should return photo hash constructed by PhotoDecorator' do
           get :show, :format => :json, :id => @photo.id
           response.body.should == PhotoDecorator.decorate(@photo).to_json
         end
       end
     end
-    
+
     context 'as file' do
-      before(:all) { @photo = Factory(:photo) }
-      
+      before(:all) { @photo = FactoryGirl.create(:photo) }
+
       it 'should require authentication' do
         get :index
         response.status.should == 302
       end
-      
+
       context 'with authenticated user' do
-        before(:each) { set_current_user Factory(:user) }
-      
+        before(:each) { set_current_user FactoryGirl.create(:user) }
+
         it 'should respond to correct file extension' do
           get :show, :format => 'jpg', :id => @photo.id
           response.status.should == 200
@@ -260,17 +260,17 @@ describe PhotosController do
           get :show, :format => 'JPG', :id => @photo.id
           response.status.should == 200
         end
-        
+
         it 'should not respond to incorrect file extension' do
           get :show, :format => 'html', :id => @photo.id
           response.status.should == 406
         end
-        
+
         it 'should respond with correct image file' do
           get :show, :format => 'jpg', :id => @photo.id
           response.body.length.should == File.size(@photo.file)
         end
-        
+
         it 'should respond with correct image file (2)' do
           get :show, :format => 'JPG', :id => @photo.id
           response.body.length.should == File.size(@photo.file)
@@ -278,17 +278,17 @@ describe PhotosController do
       end
     end
   end
-  
+
   describe "GET thumb" do
-    let(:photo) { Factory(:photo) }
-    
+    let(:photo) { FactoryGirl.create(:photo) }
+
     it 'should require authentication' do
       get :index
       response.status.should == 302
     end
 
     context 'with authenticated user' do
-      before(:each) { set_current_user Factory(:user) }
+      before(:each) { set_current_user FactoryGirl.create(:user) }
 
       it 'should respond with OK' do
         put :update, :format => 'jpg', :id => photo.id
@@ -301,70 +301,70 @@ describe PhotosController do
       end
     end
   end
-  
+
   describe 'PUT update' do
     context 'as JSON' do
-      let(:photo) { Factory(:photo_with_tags) }
-      
+      let(:photo) { FactoryGirl.create(:photo_with_tags) }
+
       it 'should require authentication' do
         get :index
         response.status.should == 302
       end
-      
+
       context 'with authenticated user' do
-        before(:each) { set_current_user Factory(:user) }
-      
+        before(:each) { set_current_user FactoryGirl.create(:user) }
+
         it 'should respond with OK' do
           put :update, :format => :json, :id => photo.id
           response.status.should == 200
         end
-        
+
         it 'should return photo hash' do
           put :update, :format => :json, :id => photo.id
           response.body.should == PhotoDecorator.decorate(photo).to_json
         end
-        
+
         it 'should do not update photo tags if nil given' do
           tags = photo.tag_names
           put :update, :format => :json, :id => photo.id, :photo => {:tags => nil}
           response.status.should == 200
           photo.tag_names.should == tags
         end
-        
+
         it 'should do not update photo tags if no array given (1)' do
           tags = photo.tag_names
           put :update, :format => :json, :id => photo.id, :photo => {:tags => "abc"}
           response.status.should == 200
           photo.tag_names.should == tags
         end
-        
+
         it 'should do remove all tags if empty array is given' do
           put :update, :format => :json, :id => photo.id, :photo => {:tags => []}
           response.status.should == 200
           photo.tag_names.should == []
         end
-        
+
         it 'should do update photo tags' do
           put :update, :format => :json, :id => photo.id, :photo => {:tags => ['abc', 'cde', 'efg', 'hij']}
           response.status.should == 200
           photo.tag_names.should == ['abc', 'cde', 'efg', 'hij']
         end
-        
+
         it 'should not update properties if nil given' do
           put :update, :format => :json, :id => photo.id, :photo => { :properties => nil }
           response.status.should == 200
-          
+
           photo.photo_data(true).caption.should == 'Caption'
           photo.photo_data(true).rating.should >= 0
           photo.photo_data(true).rating.should <= 5
         end
-        
+
         it 'should update photo properties' do
-          put :update, :format => :json, :id => photo.id, :photo => 
+          put :update, :format => :json, :id => photo.id, :photo =>
               { :properties => {:caption => 'Bla', :description => 'Blub', :rating => 5}}
-              
+
           response.status.should == 200
-          
+
           photo.photo_data(true).caption.should == 'Bla'
           photo.photo_data(true).description.should == 'Blub'
           photo.photo_data(true).rating.should == 5

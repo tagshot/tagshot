@@ -4,7 +4,7 @@ describe PropertiesController do
 
   describe "GET index" do
     context "as JSON" do
-      before(:each) { @photo = Factory(:photo_with_properties) }
+      before(:each) { @photo = FactoryGirl.create(:photo_with_properties) }
 
       it 'should require authentication' do
         get :index, format: :json, photo_id: @photo.id
@@ -12,8 +12,8 @@ describe PropertiesController do
       end
 
       context 'with authenticated user' do
-        before(:each) { set_current_user Factory(:user) }
-        
+        before(:each) { set_current_user FactoryGirl.create(:user) }
+
         it 'should respond with OK' do
           get :index, format: :json, photo_id: @photo.id
           response.status.should == 200
