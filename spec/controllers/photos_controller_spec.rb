@@ -46,7 +46,30 @@ describe PhotosController do
           Photo.all.count.should > 100 # ensure there are more than 100 photos
           JSON(response.body).length.should == 100
         end
-        
+
+        it 'should order photos by date' do
+          FactoryGirl.create(:photo).photo_data.update_attributes date: DateTime.new(2011, 12, 31, 12, 33, 45)
+          FactoryGirl.create(:photo).photo_data.update_attributes date: DateTime.new(2011, 12, 30, 12, 33, 45)
+          FactoryGirl.create(:photo).photo_data.update_attributes date: DateTime.new(2011, 12, 30, 12, 34, 45)
+
+          get :index, :format => :json
+
+          j = JSON(response.body)
+          j.should have(3).items
+          j[0]['meta']['date'].should == "2011-12-31T12:33:45Z"
+          j[1]['meta']['date'].should == "2011-12-30T12:34:45Z"
+          j[2]['meta']['date'].should == "2011-12-30T12:33:45Z"
+        end
+
+        it 'should return photos without photo data' do
+          FactoryGirl.create(:photo).photo_data.update_attributes date: DateTime.new(2011, 12, 31, 12, 33, 45)
+          FactoryGirl.create(:photo).photo_data.destroy.should be_destroyed
+
+          get :index, :format => :json
+
+          JSON(response.body).should have(2).items
+        end
+
         context 'with query' do
           it 'should search for photos with all given tags' do
             FactoryGirl.create(:photo_with_tags)
@@ -209,7 +232,7 @@ describe PhotosController do
 
             get :index, :format => :json, :q => "source:#{source1.id}|#{source2.id}|#{source4.id}"
 
-            JSON(response.body).map { |p| p['id'] }.should == [1,2,4]
+            JSON(response.body).map { |p| p['id'] }.should =~ [1,2,4]
           end
         end
       end

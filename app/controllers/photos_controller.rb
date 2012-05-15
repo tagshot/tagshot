@@ -7,7 +7,9 @@ class PhotosController < ApplicationController
     offset = params[:offset].try(:to_i) || 0
 
     @photos = Photo.limit(limit).offset(offset)
-    
+    @photos = @photos.includes(:photo_data)
+    @photos = @photos.joins().order('photo_data.date DESC')
+
     if params[:q] and params[:q].present?
       @photos = Tagshot::SearchParser.new(@photos, params[:q]).convert
     end
